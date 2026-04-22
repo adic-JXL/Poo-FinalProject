@@ -1,0 +1,131 @@
+[gd_scene format=3 uid="uid://bxcpk2w338lbc"]
+
+[ext_resource type="Script" uid="uid://biy4bsoay4e7b" path="res://Scripts/menu.gd" id="1_2a5i7"]
+[ext_resource type="Texture2D" uid="uid://c43trjfm8288w" path="res://Imagenes/ImagenInicio.png" id="1_xhjix"]
+[ext_resource type="FontFile" uid="uid://b2xtlft3jq2bi" path="res://Fuentes/joystix monospace.otf" id="2_o2l53"]
+[ext_resource type="Texture2D" uid="uid://cisb0iulwy71j" path="res://Imagenes/Button.jpeg" id="3_425bc"]
+[ext_resource type="Texture2D" uid="uid://0xkvnv2du2u6" path="res://Imagenes/Presionado.jpeg" id="4_2a5i7"]
+[ext_resource type="Texture2D" uid="uid://kc1ihmwnluuh" path="res://Imagenes/MouseButton.jpeg" id="4_j7eae"]
+
+[sub_resource type="Theme" id="Theme_425bc"]
+default_font_size = 30
+
+[sub_resource type="FontVariation" id="FontVariation_j7eae"]
+base_font = ExtResource("2_o2l53")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_2a5i7"]
+texture = ExtResource("3_425bc")
+texture_margin_left = 3.0
+texture_margin_top = 3.0
+texture_margin_right = 3.0
+texture_margin_bottom = 3.0
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_j7eae"]
+texture = ExtResource("4_2a5i7")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_2ahv8"]
+texture = ExtResource("4_j7eae")
+texture_margin_left = 3.0
+texture_margin_top = 3.0
+texture_margin_right = 3.0
+texture_margin_bottom = 3.0
+
+[sub_resource type="FontVariation" id="FontVariation_2ahv8"]
+base_font = ExtResource("2_o2l53")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_8shpa"]
+texture = ExtResource("3_425bc")
+texture_margin_left = 3.0
+texture_margin_top = 3.0
+texture_margin_right = 3.0
+texture_margin_bottom = 3.0
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_y57nq"]
+texture = ExtResource("4_2a5i7")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_ik8kc"]
+texture = ExtResource("4_j7eae")
+
+[sub_resource type="FontVariation" id="FontVariation_m10g6"]
+base_font = ExtResource("2_o2l53")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_m10g6"]
+texture = ExtResource("3_425bc")
+texture_margin_left = 3.0
+texture_margin_top = 3.0
+texture_margin_right = 3.0
+texture_margin_bottom = 3.0
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_arsku"]
+texture = ExtResource("4_2a5i7")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_bcw8w"]
+texture = ExtResource("4_j7eae")
+
+[node name="Control" type="Control" unique_id=599419567]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_2a5i7")
+
+[node name="TextureRect" type="TextureRect" parent="." unique_id=1808508146]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_xhjix")
+expand_mode = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=1978639900]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -115.0
+offset_top = -75.0
+offset_right = 155.0
+offset_bottom = 100.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme_425bc")
+theme_override_constants/separation = 16
+
+[node name="Jugar" type="Button" parent="VBoxContainer" unique_id=1334813793]
+layout_mode = 2
+theme_override_fonts/font = SubResource("FontVariation_j7eae")
+theme_override_font_sizes/font_size = 27
+theme_override_styles/normal = SubResource("StyleBoxTexture_2a5i7")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_j7eae")
+theme_override_styles/hover = SubResource("StyleBoxTexture_2ahv8")
+text = "Jugar"
+
+[node name="Opciones" type="Button" parent="VBoxContainer" unique_id=1332993872]
+layout_mode = 2
+theme_override_fonts/font = SubResource("FontVariation_2ahv8")
+theme_override_font_sizes/font_size = 27
+theme_override_styles/normal = SubResource("StyleBoxTexture_8shpa")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_y57nq")
+theme_override_styles/hover = SubResource("StyleBoxTexture_ik8kc")
+text = "Opciones"
+
+[node name="Salir" type="Button" parent="VBoxContainer" unique_id=1061567528]
+layout_mode = 2
+theme_override_fonts/font = SubResource("FontVariation_m10g6")
+theme_override_font_sizes/font_size = 27
+theme_override_styles/normal = SubResource("StyleBoxTexture_m10g6")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_arsku")
+theme_override_styles/hover = SubResource("StyleBoxTexture_bcw8w")
+text = "Salir"
+
+[connection signal="pressed" from="VBoxContainer/Jugar" to="." method="_on_jugar_pressed"]
+[connection signal="pressed" from="VBoxContainer/Jugar" to="." method="_on_button_2_pressed"]
+[connection signal="pressed" from="VBoxContainer/Opciones" to="." method="_on_button_pressed"]
+[connection signal="pressed" from="VBoxContainer/Opciones" to="." method="_on_opciones_pressed"]
+[connection signal="pressed" from="VBoxContainer/Salir" to="." method="_on_salir_pressed"]
