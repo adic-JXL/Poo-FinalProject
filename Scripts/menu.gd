@@ -11,4 +11,4 @@ func _on_jugar_pressed() -> void:
 
 
 func _on_opciones_pressed() -> void:
-	get_tree().change_scene_to_file("res://Escenas/opciones.tscn")
+	MenuOpciones.aparecer()

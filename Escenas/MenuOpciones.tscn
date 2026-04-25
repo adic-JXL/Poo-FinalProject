@@ -1,0 +1,141 @@
+[gd_scene format=3 uid="uid://cwv17dg2n51k1"]
+
+[ext_resource type="Script" uid="uid://cqth3ax1x4v12" path="res://Scripts/menuOpciones.gd" id="1_gqawn"]
+[ext_resource type="Texture2D" uid="uid://31kx1qijn2p4" path="res://Imagenes/MenuOpciones.png" id="2_62exa"]
+[ext_resource type="AudioStream" uid="uid://ccnxnd3dpwbiy" path="res://audios/tuomas_data-game-countdown-62-199828.mp3" id="2_ki4u0"]
+[ext_resource type="FontFile" uid="uid://b2xtlft3jq2bi" path="res://Fuentes/joystix monospace.otf" id="3_62exa"]
+[ext_resource type="Texture2D" uid="uid://cisb0iulwy71j" path="res://Imagenes/Button.jpeg" id="4_0we1s"]
+[ext_resource type="Texture2D" uid="uid://0xkvnv2du2u6" path="res://Imagenes/Presionado.jpeg" id="5_4hwy4"]
+[ext_resource type="Texture2D" uid="uid://kc1ihmwnluuh" path="res://Imagenes/MouseButton.jpeg" id="6_oe7h6"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kq6o1"]
+bg_color = Color(0.6, 0.6, 0.6, 0.1254902)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_pr2lh"]
+texture = ExtResource("4_0we1s")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_ec6e6"]
+texture = ExtResource("5_4hwy4")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_xrsg2"]
+texture = ExtResource("6_oe7h6")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_sch6o"]
+texture = ExtResource("4_0we1s")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_lvfef"]
+texture = ExtResource("5_4hwy4")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_e74oa"]
+texture = ExtResource("6_oe7h6")
+
+[node name="MenuOpciones" type="CanvasLayer" unique_id=513745071]
+script = ExtResource("1_gqawn")
+
+[node name="Control" type="Control" parent="." unique_id=1043812840]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ColorRect" type="ColorRect" parent="Control" unique_id=1632432541]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.20784314, 0.6392157, 0.5803922, 0.07450981)
+
+[node name="CenterContainer" type="CenterContainer" parent="Control" unique_id=553521146]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -550.0
+offset_top = -350.0
+offset_right = 550.0
+offset_bottom = 350.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TextureRect" type="TextureRect" parent="Control/CenterContainer" unique_id=1656043906]
+custom_minimum_size = Vector2(1144.225, 700)
+layout_mode = 2
+texture = ExtResource("2_62exa")
+expand_mode = 1
+
+[node name="PanelContainer" type="PanelContainer" parent="Control/CenterContainer" unique_id=1893666239]
+clip_contents = true
+custom_minimum_size = Vector2(0, 350.705)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_kq6o1")
+
+[node name="Secciones" type="VBoxContainer" parent="Control/CenterContainer/PanelContainer" unique_id=1280386712]
+layout_mode = 2
+theme_override_constants/separation = 31
+
+[node name="Volumen" type="HBoxContainer" parent="Control/CenterContainer/PanelContainer/Secciones" unique_id=83648160]
+layout_mode = 2
+theme_override_constants/separation = 546
+
+[node name="Label" type="Label" parent="Control/CenterContainer/PanelContainer/Secciones/Volumen" unique_id=2039945084]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_62exa")
+text = "volumen"
+
+[node name="HSlider" type="HSlider" parent="Control/CenterContainer/PanelContainer/Secciones/Volumen" unique_id=987032518]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+min_value = -31.0
+max_value = 10.0
+
+[node name="ProbarSonido" type="HBoxContainer" parent="Control/CenterContainer/PanelContainer/Secciones" unique_id=1534959382]
+layout_mode = 2
+theme_override_constants/separation = 467
+
+[node name="Label" type="Label" parent="Control/CenterContainer/PanelContainer/Secciones/ProbarSonido" unique_id=1738415090]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_62exa")
+text = "Probar Sonido"
+
+[node name="Button" type="Button" parent="Control/CenterContainer/PanelContainer/Secciones/ProbarSonido" unique_id=945691623]
+custom_minimum_size = Vector2(99.695, 20)
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 8
+theme_override_styles/normal = SubResource("StyleBoxTexture_pr2lh")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_ec6e6")
+theme_override_styles/hover = SubResource("StyleBoxTexture_xrsg2")
+
+[node name="Dificultad" type="HBoxContainer" parent="Control/CenterContainer/PanelContainer/Secciones" unique_id=215035003]
+layout_mode = 2
+theme_override_constants/separation = 516
+
+[node name="Label" type="Label" parent="Control/CenterContainer/PanelContainer/Secciones/Dificultad" unique_id=743328190]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_62exa")
+text = "Dificultad"
+
+[node name="ButtonCerrar" type="Button" parent="Control/CenterContainer/PanelContainer/Secciones" unique_id=475632225]
+custom_minimum_size = Vector2(100.375, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 10
+theme_override_styles/normal = SubResource("StyleBoxTexture_sch6o")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_lvfef")
+theme_override_styles/hover = SubResource("StyleBoxTexture_e74oa")
+text = "Cerrar"
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="." unique_id=1881665818]
+position = Vector2(544, 22)
+stream = ExtResource("2_ki4u0")
+
+[connection signal="value_changed" from="Control/CenterContainer/PanelContainer/Secciones/Volumen/HSlider" to="." method="_on_h_slider_value_changed"]
+[connection signal="pressed" from="Control/CenterContainer/PanelContainer/Secciones/ProbarSonido/Button" to="." method="_on_button_pressed"]
+[connection signal="pressed" from="Control/CenterContainer/PanelContainer/Secciones/ButtonCerrar" to="." method="_on_button_cerrar_pressed"]
