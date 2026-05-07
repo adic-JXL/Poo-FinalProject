@@ -71,13 +71,13 @@ expand_mode = 1
 
 [node name="PanelContainer" type="PanelContainer" parent="Control/CenterContainer" unique_id=1893666239]
 clip_contents = true
-custom_minimum_size = Vector2(0, 350.705)
+custom_minimum_size = Vector2(0, 350)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_kq6o1")
 
 [node name="Secciones" type="VBoxContainer" parent="Control/CenterContainer/PanelContainer" unique_id=1280386712]
 layout_mode = 2
-theme_override_constants/separation = 31
+theme_override_constants/separation = 30
 
 [node name="Volumen" type="HBoxContainer" parent="Control/CenterContainer/PanelContainer/Secciones" unique_id=83648160]
 layout_mode = 2
@@ -122,11 +122,32 @@ layout_mode = 2
 theme_override_fonts/font = ExtResource("3_62exa")
 text = "Dificultad"
 
+[node name="Resolucion" type="HBoxContainer" parent="Control/CenterContainer/PanelContainer/Secciones" unique_id=88965520]
+layout_mode = 2
+theme_override_constants/separation = 593
+
+[node name="Label" type="Label" parent="Control/CenterContainer/PanelContainer/Secciones/Resolucion" unique_id=326322994]
+layout_mode = 2
+text = "resolucion"
+
+[node name="OptionButton" type="OptionButton" parent="Control/CenterContainer/PanelContainer/Secciones/Resolucion" unique_id=897100865]
+custom_minimum_size = Vector2(20, 0)
+layout_mode = 2
+size_flags_horizontal = 8
+item_count = 3
+popup/item_0/text = "1"
+popup/item_0/id = 0
+popup/item_1/text = "2"
+popup/item_1/id = 1
+popup/item_2/text = "3"
+popup/item_2/id = 2
+
 [node name="ButtonCerrar" type="Button" parent="Control/CenterContainer/PanelContainer/Secciones" unique_id=475632225]
 custom_minimum_size = Vector2(100.375, 0)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 10
+theme_override_font_sizes/font_size = 28
 theme_override_styles/normal = SubResource("StyleBoxTexture_sch6o")
 theme_override_styles/pressed = SubResource("StyleBoxTexture_lvfef")
 theme_override_styles/hover = SubResource("StyleBoxTexture_e74oa")
