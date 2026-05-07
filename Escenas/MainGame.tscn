@@ -1,3 +1,56 @@
-[gd_scene format=3 uid="uid://csdk755hpf7ts"]
+[gd_scene load_steps=3 format=3 uid="uid://csdk755hpf7ts"]
 
-[node name="Node2D" type="Node2D" unique_id=291629533]
+[ext_resource type="Script" path="res://Scripts/game_controller.gd" id="1_0m3na"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_piso"]
+size = Vector2(1280, 64)
+
+[node name="MainGame" type="Node2D"]
+script = ExtResource("1_0m3na")
+
+[node name="Nivel" type="Node2D" parent="."]
+
+[node name="PuntoSpawnJugador" type="Marker2D" parent="Nivel"]
+position = Vector2(180, 520)
+
+[node name="Piso" type="StaticBody2D" parent="Nivel"]
+position = Vector2(640, 680)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Nivel/Piso"]
+shape = SubResource("RectangleShape2D_piso")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer"]
+offset_left = 32.0
+offset_top = 32.0
+offset_right = 540.0
+offset_bottom = 292.0
+
+[node name="PanelContainer" type="PanelContainer" parent="CanvasLayer/MarginContainer"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/MarginContainer/PanelContainer"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="TituloLabel" type="Label" parent="CanvasLayer/MarginContainer/PanelContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "Deep Shadow"
+
+[node name="EstadoLabel" type="Label" parent="CanvasLayer/MarginContainer/PanelContainer/VBoxContainer"]
+layout_mode = 2
+text = "Base tecnica lista para empezar a construir el nivel."
+autowrap_mode = 3
+
+[node name="ControlesLabel" type="Label" parent="CanvasLayer/MarginContainer/PanelContainer/VBoxContainer"]
+layout_mode = 2
+text = "Acciones configuradas: mover_izquierda, mover_derecha, saltar, sprint, interactuar y usar_gafas."
+autowrap_mode = 3
+
+[node name="VolverMenuButton" type="Button" parent="CanvasLayer/MarginContainer/PanelContainer/VBoxContainer"]
+layout_mode = 2
+text = "Volver al menu"
+
+[connection signal="pressed" from="CanvasLayer/MarginContainer/PanelContainer/VBoxContainer/VolverMenuButton" to="." method="_on_volver_menu_pressed"]
