@@ -15,7 +15,7 @@ func _ejecutar_verificacion() -> void:
 	for _i in range(45):
 		await physics_frame
 
-	var jugador: CharacterBody2D = escena_principal.get("jugador")
+	var jugador: CharacterBody2D = escena_principal.get_node_or_null("Jugador")
 	if jugador == null:
 		_registrar_error("No se pudo instanciar el jugador en MainGame.")
 	else:
