@@ -1,0 +1,105 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://Scripts/puzzle_secuencia.gd" id="1_puzzle"]
+
+[node name="PuzzleSecuencia" type="CanvasLayer"]
+layer = 2
+script = ExtResource("1_puzzle")
+
+[node name="Control" type="Control" parent="."]
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Overlay" type="ColorRect" parent="Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.027451, 0.0352941, 0.054902, 0.86)
+
+[node name="CenterContainer" type="CenterContainer" parent="Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="Control/CenterContainer"]
+layout_mode = 2
+custom_minimum_size = Vector2(520, 0)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Control/CenterContainer/PanelContainer"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="TituloLabel" type="Label" parent="Control/CenterContainer/PanelContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 26
+text = "Ritual de la Llave"
+horizontal_alignment = 1
+
+[node name="InstruccionLabel" type="Label" parent="Control/CenterContainer/PanelContainer/VBoxContainer"]
+layout_mode = 2
+text = "Memoriza la secuencia."
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="SecuenciaLabel" type="Label" parent="Control/CenterContainer/PanelContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+text = "Secuencia: --"
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="FeedbackLabel" type="Label" parent="Control/CenterContainer/PanelContainer/VBoxContainer"]
+layout_mode = 2
+text = "Observa con atencion."
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="GridContainer" type="GridContainer" parent="Control/CenterContainer/PanelContainer/VBoxContainer"]
+layout_mode = 2
+columns = 2
+theme_override_constants/h_separation = 12
+theme_override_constants/v_separation = 12
+
+[node name="BotonSol" type="Button" parent="Control/CenterContainer/PanelContainer/VBoxContainer/GridContainer"]
+custom_minimum_size = Vector2(180, 54)
+layout_mode = 2
+text = "SOL"
+
+[node name="BotonLuna" type="Button" parent="Control/CenterContainer/PanelContainer/VBoxContainer/GridContainer"]
+custom_minimum_size = Vector2(180, 54)
+layout_mode = 2
+text = "LUNA"
+
+[node name="BotonOjo" type="Button" parent="Control/CenterContainer/PanelContainer/VBoxContainer/GridContainer"]
+custom_minimum_size = Vector2(180, 54)
+layout_mode = 2
+text = "OJO"
+
+[node name="BotonEco" type="Button" parent="Control/CenterContainer/PanelContainer/VBoxContainer/GridContainer"]
+custom_minimum_size = Vector2(180, 54)
+layout_mode = 2
+text = "ECO"
+
+[node name="BotonesAccion" type="HBoxContainer" parent="Control/CenterContainer/PanelContainer/VBoxContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="BotonCancelar" type="Button" parent="Control/CenterContainer/PanelContainer/VBoxContainer/BotonesAccion"]
+custom_minimum_size = Vector2(160, 42)
+layout_mode = 2
+text = "Volver al mundo"
+
+[node name="TimerMemoria" type="Timer" parent="."]
+wait_time = 2.2
+one_shot = true
