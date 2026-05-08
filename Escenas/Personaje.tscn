@@ -39,4 +39,7 @@ shape = SubResource("RectangleShape2D_jugador")
 scale = Vector2(0.40625, 0.5416667)
 color = Color(0.0509804, 0.87451, 0.752941, 1)
 polygon = PackedVector2Array(-24, -36, 24, -36, 24, -17.058325, 24, 0.48428345, 24, 36, -24, 36)
+<<<<<<< HEAD
 >>>>>>> Manuel
+=======
+>>>>>>> Manu2
