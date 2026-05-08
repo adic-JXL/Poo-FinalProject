@@ -1,6 +1,6 @@
-[gd_scene format=3 uid="uid://cwv17dg2n51k1"]
+[gd_scene format=3 uid="uid://b7o42jmhiyb14"]
 
-[ext_resource type="Script" uid="uid://cqth3ax1x4v12" path="res://Scripts/menuOpciones.gd" id="1_gqawn"]
+[ext_resource type="Script" path="res://Scripts/menuOpciones.gd" id="1_gqawn"]
 [ext_resource type="Texture2D" uid="uid://31kx1qijn2p4" path="res://Imagenes/MenuOpciones.png" id="2_62exa"]
 [ext_resource type="AudioStream" uid="uid://ccnxnd3dpwbiy" path="res://audios/tuomas_data-game-countdown-62-199828.mp3" id="2_ki4u0"]
 [ext_resource type="FontFile" uid="uid://b2xtlft3jq2bi" path="res://Fuentes/joystix monospace.otf" id="3_62exa"]
