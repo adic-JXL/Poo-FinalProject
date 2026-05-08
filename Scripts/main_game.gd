@@ -25,8 +25,8 @@ func _ready() -> void:
 	_posicion_inicial_jugador = jugador.global_position
 	_configurar_camara()
 	_configurar_hud()
-	_configurar_llave()
-	_configurar_puerta()
+	_configurar_interactivo(llave, _on_llave_interaccion_solicitada)
+	_configurar_interactivo(puerta, _on_puerta_interaccion_solicitada)
 	_configurar_puzzle()
 	_restaurar_mensaje_hud()
 
@@ -91,14 +91,9 @@ func _configurar_hud() -> void:
 	hud.actualizar_llave(_llave_obtenida)
 
 
-func _configurar_llave() -> void:
-	llave.interaccion_solicitada.connect(_on_llave_interaccion_solicitada)
-	llave.rango_interaccion_cambiado.connect(_on_rango_interaccion_cambiado)
-
-
-func _configurar_puerta() -> void:
-	puerta.interaccion_solicitada.connect(_on_puerta_interaccion_solicitada)
-	puerta.rango_interaccion_cambiado.connect(_on_rango_interaccion_cambiado)
+func _configurar_interactivo(interactivo: Node, callback: Callable) -> void:
+	interactivo.interaccion_solicitada.connect(callback)
+	interactivo.rango_interaccion_cambiado.connect(_on_rango_interaccion_cambiado)
 
 
 func _configurar_puzzle() -> void:
