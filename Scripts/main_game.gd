@@ -8,7 +8,8 @@ const MENU_SCENE := "res://Escenas/Menu.tscn"
 @onready var tile_map: TileMapLayer = $TileMapLayer
 @onready var camara: Camera2D = $Camera2D
 @onready var puerta: StaticBody2D = $Puerta
-@onready var jugador: Jugador = $Jugador
+@onready var jugador: CharacterBody2D = $Jugador
+@onready var hud: CanvasLayer = $HUD
 
 var _posicion_inicial_jugador: Vector2
 
@@ -16,6 +17,7 @@ var _posicion_inicial_jugador: Vector2
 func _ready() -> void:
 	_posicion_inicial_jugador = jugador.global_position
 	_configurar_camara()
+	_configurar_hud()
 
 
 func _physics_process(_delta: float) -> void:
@@ -36,7 +38,7 @@ func volver_al_menu() -> void:
 	get_tree().change_scene_to_file(MENU_SCENE)
 
 
-func obtener_jugador() -> Jugador:
+func obtener_jugador() -> CharacterBody2D:
 	return jugador
 
 
@@ -47,3 +49,8 @@ func obtener_spawn_jugador() -> Vector2:
 func _configurar_camara() -> void:
 	if camara.has_method("seguir_a"):
 		camara.seguir_a(jugador)
+
+
+func _configurar_hud() -> void:
+	hud.configurar_jugador(jugador)
+	hud.mostrar_mensaje("Sprint implementado. Shift acelera al jugador y consume estamina.")
