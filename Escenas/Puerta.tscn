@@ -1,6 +1,6 @@
-[gd_scene format=3 uid="uid://402jg5xwmkmi"]
+[gd_scene format=3 uid="uid://dkdpa48nrjkq3"]
 
-[ext_resource type="Texture2D" path="res://Imagenes/Puerta.png" id="1_rbeu3"]
+[ext_resource type="Texture2D" uid="uid://bh327tbukvv7h" path="res://Imagenes/Puerta.png" id="1_rbeu3"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_00lnm"]
 radius = 8.068936
