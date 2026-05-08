@@ -6,7 +6,9 @@
 radius = 18.0
 
 [node name="Llave" type="Area2D"]
+collision_layer = 0
 script = ExtResource("1_llave")
+mensaje_interaccion = "Presiona E para investigar la llave."
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_llave")

@@ -1,8 +1,5 @@
-extends CanvasLayer
+extends "res://Scripts/puzzle_base.gd"
 class_name PuzzleSecuencia
-
-signal completado
-signal cancelado
 
 const SIMBOLOS := ["SOL", "LUNA", "OJO", "ECO"]
 
@@ -15,7 +12,6 @@ var _respuesta_actual: Array[int] = []
 var _aceptando_entrada: bool = false
 var _botones: Array[Button] = []
 
-@onready var panel_raiz: Control = $Control
 @onready var instruccion_label: Label = $Control/CenterContainer/PanelContainer/VBoxContainer/InstruccionLabel
 @onready var secuencia_label: Label = $Control/CenterContainer/PanelContainer/VBoxContainer/SecuenciaLabel
 @onready var feedback_label: Label = $Control/CenterContainer/PanelContainer/VBoxContainer/FeedbackLabel
@@ -28,7 +24,7 @@ var _botones: Array[Button] = []
 
 
 func _ready() -> void:
-	panel_raiz.hide()
+	super()
 	_rng.randomize()
 
 	_botones = [boton_sol, boton_luna, boton_ojo, boton_eco]
@@ -42,7 +38,7 @@ func _ready() -> void:
 
 
 func iniciar_puzzle() -> void:
-	panel_raiz.show()
+	super()
 	_preparar_nueva_ronda()
 
 
@@ -50,11 +46,7 @@ func cerrar() -> void:
 	timer_memoria.stop()
 	_aceptando_entrada = false
 	_establecer_botones_habilitados(false)
-	panel_raiz.hide()
-
-
-func esta_visible() -> bool:
-	return panel_raiz.visible
+	super()
 
 
 func obtener_secuencia_actual() -> Array[int]:
@@ -110,7 +102,7 @@ func _procesar_simbolo(indice: int) -> void:
 		_aceptando_entrada = false
 		_establecer_botones_habilitados(false)
 		feedback_label.text = "Puzzle resuelto. La llave ya es tuya."
-		emit_signal("completado")
+		_emitir_completado()
 		return
 
 	secuencia_label.text = _texto_progreso()
@@ -141,7 +133,7 @@ func _on_boton_simbolo_presionado(indice: int) -> void:
 
 func _on_boton_cancelar_pressed() -> void:
 	cerrar()
-	emit_signal("cancelado")
+	_emitir_cancelado()
 
 
 func _on_timer_memoria_timeout() -> void:
