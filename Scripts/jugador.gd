@@ -2,6 +2,9 @@ extends CharacterBody2D
 class_name Jugador
 
 const SistemaEstaminaClass = preload("res://Scripts/sistema_estamina.gd")
+const EstadoNormalClass = preload("res://Scripts/estado_jugador_normal.gd")
+const EstadoSprintClass = preload("res://Scripts/estado_jugador_sprint.gd")
+const EstadoBloqueadoClass = preload("res://Scripts/estado_jugador_bloqueado.gd")
 
 signal estado_cambiado(nuevo_estado: StringName)
 signal vida_cambiada(vida_actual: int)
@@ -24,7 +27,7 @@ signal sprint_cambiado(activo: bool)
 @export var costo_sprint_por_segundo: float = 35.0
 @export var regeneracion_estamina_por_segundo: float = 24.0
 
-var estado_actual: StringName = &"normal"
+var estado_actual: StringName = &"sin_estado"
 var sistema_estamina
 
 var _gravedad: float = 0.0
@@ -32,6 +35,8 @@ var _direccion_actual: float = 1.0
 var _escala_original_x: float = 1.0
 var _sprint_activo: bool = false
 var _controles_habilitados: bool = true
+var _estado_instancia_actual
+var _estados: Dictionary = {}
 
 @onready var visual: Node2D = $Visual
 
@@ -43,31 +48,26 @@ func _ready() -> void:
 
 	sistema_estamina = SistemaEstaminaClass.new(estamina_maxima)
 	sistema_estamina.valor_cambiado.connect(_on_estamina_valor_cambiado)
+	_crear_estados()
+	cambiar_a_estado(&"normal")
 
 	emit_signal("vida_cambiada", vida)
-	emit_signal("estado_cambiado", estado_actual)
 	emit_signal("estamina_cambiada", sistema_estamina.actual, sistema_estamina.maxima)
 	emit_signal("sprint_cambiado", _sprint_activo)
 
 
 func _physics_process(delta: float) -> void:
-	if not _controles_habilitados:
-		velocity = Vector2.ZERO
-		return
-
-	if not is_on_floor():
+	if _controles_habilitados and not is_on_floor():
 		velocity.y += _gravedad * delta
 
 	var direccion := obtener_input()
 	var quiere_sprint := Input.is_action_pressed("sprint")
-	actualizar_movimiento_horizontal(direccion, quiere_sprint, delta)
-
-	if Input.is_action_just_pressed("saltar"):
-		saltar()
+	var quiere_saltar := Input.is_action_just_pressed("saltar")
+	procesar_estado_actual(delta, direccion, quiere_sprint, quiere_saltar)
 
 	move_and_slide()
 
-	if not is_zero_approx(direccion):
+	if _controles_habilitados and not is_zero_approx(direccion):
 		_actualizar_orientacion(direccion)
 
 
@@ -77,23 +77,24 @@ func obtener_input() -> float:
 
 func mover(direccion: float, delta: float) -> void:
 	var multiplicador := multiplicador_sprint if _sprint_activo else 1.0
+	mover_con_multiplicador(direccion, delta, multiplicador)
+
+
+func mover_con_multiplicador(direccion: float, delta: float, multiplicador: float) -> void:
 	var velocidad_objetivo := direccion * velocidad_base * multiplicador
 	var ajuste := aceleracion if not is_zero_approx(direccion) else desaceleracion
 	velocity.x = move_toward(velocity.x, velocidad_objetivo, ajuste * delta)
 
 
 func actualizar_movimiento_horizontal(direccion: float, quiere_sprint: bool, delta: float) -> void:
-	var puede_hacer_sprint: bool = quiere_sprint and not is_zero_approx(direccion) and sistema_estamina.actual > 0.0
+	procesar_estado_actual(delta, direccion, quiere_sprint, false)
 
-	if puede_hacer_sprint:
-		var costo: float = costo_sprint_por_segundo * delta
-		var sprint_este_frame: bool = sistema_estamina.consumir(costo)
-		_establecer_sprint_activo(sprint_este_frame)
-	else:
-		_establecer_sprint_activo(false)
-		sistema_estamina.regenerar(regeneracion_estamina_por_segundo * delta)
 
-	mover(direccion, delta)
+func procesar_estado_actual(delta: float, direccion: float, quiere_sprint: bool, quiere_saltar: bool) -> void:
+	if _estado_instancia_actual == null:
+		return
+
+	_estado_instancia_actual.procesar(delta, direccion, quiere_sprint, quiere_saltar)
 
 
 func saltar() -> void:
@@ -107,22 +108,46 @@ func recibir_danio(cantidad: int) -> void:
 
 
 func cambiar_estado(nuevo_estado: StringName) -> void:
-	if estado_actual == nuevo_estado:
+	cambiar_a_estado(nuevo_estado)
+
+
+func cambiar_a_estado(nuevo_estado: StringName) -> void:
+	if (estado_actual == nuevo_estado and _estado_instancia_actual != null) or not _estados.has(nuevo_estado):
 		return
 
+	if _estado_instancia_actual != null:
+		_estado_instancia_actual.salir()
+
 	estado_actual = nuevo_estado
+	_controles_habilitados = estado_actual != &"bloqueado"
+	_estado_instancia_actual = _estados[estado_actual]
+	_estado_instancia_actual.entrar()
 	emit_signal("estado_cambiado", estado_actual)
 
 
 func establecer_control_habilitado(activo: bool) -> void:
-	_controles_habilitados = activo
+	if activo:
+		cambiar_a_estado(&"normal")
+		return
 
-	if not _controles_habilitados:
-		velocity = Vector2.ZERO
+	cambiar_a_estado(&"bloqueado")
 
 
 func tiene_control_habilitado() -> bool:
 	return _controles_habilitados
+
+
+func puede_activar_sprint(direccion: float) -> bool:
+	return not is_zero_approx(direccion) and sistema_estamina.actual > 0.0 and _controles_habilitados
+
+
+func consumir_estamina_sprint(delta: float) -> bool:
+	var costo: float = costo_sprint_por_segundo * delta
+	return sistema_estamina.consumir(costo)
+
+
+func regenerar_estamina(delta: float) -> void:
+	sistema_estamina.regenerar(regeneracion_estamina_por_segundo * delta)
 
 
 func obtener_estamina_actual() -> float:
@@ -142,16 +167,21 @@ func _actualizar_orientacion(direccion: float) -> void:
 	visual.scale.x = _direccion_actual * _escala_original_x
 
 
-func _establecer_sprint_activo(activo: bool) -> void:
+func establecer_sprint_activo(activo: bool) -> void:
 	if _sprint_activo == activo:
-		if not activo and estado_actual != &"normal":
-			cambiar_estado(&"normal")
 		return
 
 	_sprint_activo = activo
 	emit_signal("sprint_cambiado", _sprint_activo)
-	cambiar_estado(&"sprint" if _sprint_activo else &"normal")
 
 
 func _on_estamina_valor_cambiado(actual: float, maxima: float) -> void:
 	emit_signal("estamina_cambiada", actual, maxima)
+
+
+func _crear_estados() -> void:
+	_estados = {
+		&"normal": EstadoNormalClass.new(self),
+		&"sprint": EstadoSprintClass.new(self),
+		&"bloqueado": EstadoBloqueadoClass.new(self),
+	}

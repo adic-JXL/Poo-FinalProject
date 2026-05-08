@@ -35,11 +35,17 @@ func _ejecutar_verificacion() -> void:
 		if jugador.velocity.x <= jugador.velocidad_base:
 			_registrar_error("El sprint no incremento la velocidad horizontal del jugador.")
 
+		if jugador.estado_actual != &"sprint":
+			_registrar_error("El jugador no entra al estado sprint cuando acelera.")
+
 		var estamina_despues_sprint: float = jugador.obtener_estamina_actual()
 		if estamina_despues_sprint >= estamina_inicial:
 			_registrar_error("El sprint no consumio estamina.")
 
 		jugador.actualizar_movimiento_horizontal(0.0, false, 0.5)
+		if jugador.estado_actual != &"normal":
+			_registrar_error("El jugador no vuelve al estado normal al dejar de correr.")
+
 		if jugador.obtener_estamina_actual() <= estamina_despues_sprint:
 			_registrar_error("La estamina no se regenera cuando el jugador deja de correr.")
 
@@ -63,6 +69,9 @@ func _ejecutar_verificacion() -> void:
 			if jugador.tiene_control_habilitado():
 				_registrar_error("El jugador no se congela mientras el puzzle esta activo.")
 
+			if jugador.estado_actual != &"bloqueado":
+				_registrar_error("El jugador no cambia al estado bloqueado cuando se abre el puzzle.")
+
 			puzzle.resolver_automaticamente_para_prueba()
 			await process_frame
 
@@ -71,6 +80,9 @@ func _ejecutar_verificacion() -> void:
 
 			if escena_principal.esta_puzzle_activo():
 				_registrar_error("El puzzle no se cierra despues de completarse.")
+
+			if jugador.estado_actual != &"normal":
+				_registrar_error("El jugador no regresa al estado normal al cerrar el puzzle.")
 
 			jugador.global_position = puerta.global_position
 			for _k in range(3):
