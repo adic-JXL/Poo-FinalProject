@@ -15,4 +15,4 @@ func _on_jugar_pressed() -> void:
 
 
 func _on_opciones_pressed() -> void:
-	_change_scene(OPTIONS_SCENE)
+	MenuOpciones.aparecer()
