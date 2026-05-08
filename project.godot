@@ -62,6 +62,10 @@ Saltar={
 "deadzone": 0.2,
 "events": []
 }
+<<<<<<<HEADSaltar={
+"deadzone": 0.2,
+"events": []
+}
 
 [physics]
 
