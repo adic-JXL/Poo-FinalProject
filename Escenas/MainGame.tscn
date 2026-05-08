@@ -6,6 +6,8 @@
 [ext_resource type="Script" path="res://Scripts/Seguir-Camara.gd" id="3_ryxee"]
 [ext_resource type="PackedScene" path="res://Escenas/Puerta.tscn" id="5_ryxee"]
 [ext_resource type="PackedScene" path="res://Escenas/HUD.tscn" id="6_hud01"]
+[ext_resource type="PackedScene" path="res://Escenas/Llave.tscn" id="7_llave"]
+[ext_resource type="PackedScene" path="res://Escenas/PuzzleSecuencia.tscn" id="8_puzzle"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_n7y03"]
 
@@ -380,4 +382,9 @@ velocidad_base = 100.0
 fuerza_salto = 300.0
 aceleracion = 1000.0
 
+[node name="Llave" parent="." instance=ExtResource("7_llave")]
+position = Vector2(294, 283)
+
 [node name="HUD" parent="." instance=ExtResource("6_hud01")]
+
+[node name="PuzzleSecuencia" parent="." instance=ExtResource("8_puzzle")]

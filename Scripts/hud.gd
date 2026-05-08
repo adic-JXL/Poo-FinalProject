@@ -7,6 +7,7 @@ class_name HUD
 @onready var estamina_barra: ProgressBar = $Control/MarginContainer/PanelContainer/VBoxContainer/EstaminaBarra
 @onready var estamina_label: Label = $Control/MarginContainer/PanelContainer/VBoxContainer/EstaminaLabel
 @onready var sprint_label: Label = $Control/MarginContainer/PanelContainer/VBoxContainer/SprintLabel
+@onready var llave_label: Label = $Control/MarginContainer/PanelContainer/VBoxContainer/LlaveLabel
 
 
 func configurar_jugador(jugador) -> void:
@@ -41,3 +42,7 @@ func actualizar_estamina(actual: float, maxima: float) -> void:
 
 func actualizar_sprint(activo: bool) -> void:
 	sprint_label.text = "Sprint: %s" % ("activo" if activo else "inactivo")
+
+
+func actualizar_llave(tiene_llave: bool) -> void:
+	llave_label.text = "Llave: %s" % ("obtenida" if tiene_llave else "pendiente")

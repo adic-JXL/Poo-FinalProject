@@ -43,6 +43,45 @@ func _ejecutar_verificacion() -> void:
 		if jugador.obtener_estamina_actual() <= estamina_despues_sprint:
 			_registrar_error("La estamina no se regenera cuando el jugador deja de correr.")
 
+		var llave = escena_principal.get_node_or_null("Llave")
+		var puzzle = escena_principal.get_node_or_null("PuzzleSecuencia")
+		var puerta = escena_principal.get_node_or_null("Puerta")
+
+		if llave == null or puzzle == null or puerta == null:
+			_registrar_error("Faltan nodos del flujo llave-puzzle-puerta en MainGame.")
+		else:
+			jugador.global_position = llave.global_position
+			for _j in range(3):
+				await physics_frame
+
+			llave.interactuar()
+			await process_frame
+
+			if not escena_principal.esta_puzzle_activo():
+				_registrar_error("La llave no activa el puzzle al interactuar.")
+
+			if jugador.tiene_control_habilitado():
+				_registrar_error("El jugador no se congela mientras el puzzle esta activo.")
+
+			puzzle.resolver_automaticamente_para_prueba()
+			await process_frame
+
+			if not escena_principal.tiene_llave():
+				_registrar_error("Completar el puzzle no entrega la llave.")
+
+			if escena_principal.esta_puzzle_activo():
+				_registrar_error("El puzzle no se cierra despues de completarse.")
+
+			jugador.global_position = puerta.global_position
+			for _k in range(3):
+				await physics_frame
+
+			puerta.interactuar()
+			await process_frame
+
+			if not puerta.esta_abierta():
+				_registrar_error("La puerta no se abre despues de obtener la llave.")
+
 	if _errores.is_empty():
 		print("MOVIMIENTO_OK")
 		quit()

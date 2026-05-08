@@ -31,11 +31,13 @@ var _gravedad: float = 0.0
 var _direccion_actual: float = 1.0
 var _escala_original_x: float = 1.0
 var _sprint_activo: bool = false
+var _controles_habilitados: bool = true
 
 @onready var visual: Node2D = $Visual
 
 
 func _ready() -> void:
+	add_to_group("jugador")
 	_gravedad = float(ProjectSettings.get_setting("physics/2d/default_gravity"))
 	_escala_original_x = visual.scale.x
 
@@ -49,6 +51,10 @@ func _ready() -> void:
 
 
 func _physics_process(delta: float) -> void:
+	if not _controles_habilitados:
+		velocity = Vector2.ZERO
+		return
+
 	if not is_on_floor():
 		velocity.y += _gravedad * delta
 
@@ -106,6 +112,17 @@ func cambiar_estado(nuevo_estado: StringName) -> void:
 
 	estado_actual = nuevo_estado
 	emit_signal("estado_cambiado", estado_actual)
+
+
+func establecer_control_habilitado(activo: bool) -> void:
+	_controles_habilitados = activo
+
+	if not _controles_habilitados:
+		velocity = Vector2.ZERO
+
+
+func tiene_control_habilitado() -> bool:
+	return _controles_habilitados
 
 
 func obtener_estamina_actual() -> float:
