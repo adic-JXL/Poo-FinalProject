@@ -1,5 +1,6 @@
 extends Control
 
+const MAIN_GAME_SCENE := "res://Escenas/MainGame.tscn"
 
 
 func _on_salir_pressed() -> void:
@@ -7,7 +8,7 @@ func _on_salir_pressed() -> void:
 
 
 func _on_jugar_pressed() -> void:
-	get_tree().change_scene_to_file("res://Escenas/MainGame.tscn")
+	get_tree().change_scene_to_file(MAIN_GAME_SCENE)
 
 
 func _on_opciones_pressed() -> void:
