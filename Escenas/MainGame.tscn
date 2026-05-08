@@ -1,10 +1,10 @@
 [gd_scene format=4 uid="uid://bvoqnuqchqhtr"]
 
-[ext_resource type="Script" path="res://Scripts/main_game.gd" id="1_h1l5c"]
+[ext_resource type="Script" uid="uid://bsacb23gwj3uf" path="res://Scripts/main_game.gd" id="1_h1l5c"]
 [ext_resource type="Texture2D" uid="uid://3lhomoy1dgxd" path="res://Imagenes/Tileset.png" id="1_n7y03"]
 [ext_resource type="PackedScene" uid="uid://sh8mxgnkcji2" path="res://Escenas/Personaje.tscn" id="2_apeae"]
-[ext_resource type="Script" path="res://Scripts/Seguir-Camara.gd" id="3_ryxee"]
-[ext_resource type="PackedScene" path="res://Escenas/Puerta.tscn" id="5_ryxee"]
+[ext_resource type="Script" uid="uid://btswu5ega1pn8" path="res://Scripts/Seguir-Camara.gd" id="3_ryxee"]
+[ext_resource type="PackedScene" uid="uid://dkdpa48nrjkq3" path="res://Escenas/Puerta.tscn" id="5_ryxee"]
 [ext_resource type="PackedScene" path="res://Escenas/HUD.tscn" id="6_hud01"]
 [ext_resource type="PackedScene" path="res://Escenas/Llave.tscn" id="7_llave"]
 [ext_resource type="PackedScene" path="res://Escenas/PuzzleSecuencia.tscn" id="8_puzzle"]
@@ -382,9 +382,9 @@ velocidad_base = 100.0
 fuerza_salto = 300.0
 aceleracion = 1000.0
 
-[node name="Llave" parent="." instance=ExtResource("7_llave")]
-position = Vector2(294, 283)
+[node name="Llave" parent="." unique_id=183524802 instance=ExtResource("7_llave")]
+position = Vector2(1024, 195)
 
-[node name="HUD" parent="." instance=ExtResource("6_hud01")]
+[node name="HUD" parent="." unique_id=129481986 instance=ExtResource("6_hud01")]
 
-[node name="PuzzleSecuencia" parent="." instance=ExtResource("8_puzzle")]
+[node name="PuzzleSecuencia" parent="." unique_id=1326261426 instance=ExtResource("8_puzzle")]
