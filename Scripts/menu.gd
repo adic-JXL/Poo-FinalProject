@@ -1,7 +1,7 @@
 extends Control
 
 const MAIN_GAME_SCENE := "res://Escenas/MainGame.tscn"
-const OPTIONS_SCENE := "res://Escenas/opciones.tscn"
+const OPTIONS_SCENE := "res://Escenas/MenuOpciones.tscn"
 
 func _change_scene(scene_path: String) -> void:
 	get_tree().change_scene_to_file(scene_path)
