@@ -1,10 +1,10 @@
 [gd_scene format=4 uid="uid://csdk755hpf7ts"]
 
-[ext_resource type="Script" uid="uid://bsacb23gwj3uf" path="res://Scripts/main_game.gd" id="1_h1l5c"]
+[ext_resource type="Script" path="res://Scripts/main_game.gd" id="1_h1l5c"]
 [ext_resource type="Texture2D" uid="uid://3lhomoy1dgxd" path="res://Imagenes/Tileset.png" id="1_n7y03"]
 [ext_resource type="PackedScene" uid="uid://sh8mxgnkcji2" path="res://Escenas/Personaje.tscn" id="2_apeae"]
-[ext_resource type="Script" uid="uid://btswu5ega1pn8" path="res://Scripts/Seguir-Camara.gd" id="3_ryxee"]
-[ext_resource type="PackedScene" uid="uid://dkdpa48nrjkq3" path="res://Escenas/puerta.tscn" id="5_ryxee"]
+[ext_resource type="Script" path="res://Scripts/Seguir-Camara.gd" id="3_ryxee"]
+[ext_resource type="PackedScene" uid="uid://cacyy7u1xsgqk" path="res://Escenas/Puerta.tscn" id="5_ryxee"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_n7y03"]
 
