@@ -10,6 +10,7 @@ signal estado_cambiado(nuevo_estado: StringName)
 signal vida_cambiada(vida_actual: int)
 signal estamina_cambiada(actual: float, maxima: float)
 signal sprint_cambiado(activo: bool)
+signal invulnerabilidad_cambiada(activa: bool)
 
 @export_group("Configuracion")
 @export var nombre: String = "Protagonista"
@@ -27,6 +28,10 @@ signal sprint_cambiado(activo: bool)
 @export var costo_sprint_por_segundo: float = 35.0
 @export var regeneracion_estamina_por_segundo: float = 24.0
 
+@export_group("Combate")
+@export var tiempo_invulnerabilidad: float = 1.0
+@export var frecuencia_parpadeo_danio: float = 18.0
+
 var estado_actual: StringName = &"sin_estado"
 var sistema_estamina
 
@@ -37,6 +42,8 @@ var _sprint_activo: bool = false
 var _controles_habilitados: bool = true
 var _estado_instancia_actual
 var _estados: Dictionary = {}
+var _tiempo_invulnerable_restante: float = 0.0
+var _modulate_visual_original: Color = Color(1, 1, 1, 1)
 
 @onready var visual: Node2D = $Visual
 
@@ -45,6 +52,7 @@ func _ready() -> void:
 	add_to_group("jugador")
 	_gravedad = float(ProjectSettings.get_setting("physics/2d/default_gravity"))
 	_escala_original_x = visual.scale.x
+	_modulate_visual_original = visual.modulate
 
 	sistema_estamina = SistemaEstaminaClass.new(estamina_maxima)
 	sistema_estamina.valor_cambiado.connect(_on_estamina_valor_cambiado)
@@ -57,6 +65,8 @@ func _ready() -> void:
 
 
 func _physics_process(delta: float) -> void:
+	_actualizar_invulnerabilidad(delta)
+
 	if _controles_habilitados and not is_on_floor():
 		velocity.y += _gravedad * delta
 
@@ -102,9 +112,14 @@ func saltar() -> void:
 		velocity.y = -fuerza_salto
 
 
-func recibir_danio(cantidad: int) -> void:
+func recibir_danio(cantidad: int) -> bool:
+	if esta_invulnerable():
+		return false
+
 	vida = max(vida - cantidad, 0)
 	emit_signal("vida_cambiada", vida)
+	_activar_invulnerabilidad()
+	return true
 
 
 func cambiar_estado(nuevo_estado: StringName) -> void:
@@ -137,6 +152,10 @@ func tiene_control_habilitado() -> bool:
 	return _controles_habilitados
 
 
+func esta_invulnerable() -> bool:
+	return _tiempo_invulnerable_restante > 0.0
+
+
 func puede_activar_sprint(direccion: float) -> bool:
 	return not is_zero_approx(direccion) and sistema_estamina.actual > 0.0 and _controles_habilitados
 
@@ -156,6 +175,10 @@ func obtener_estamina_actual() -> float:
 
 func obtener_estamina_maxima() -> float:
 	return sistema_estamina.maxima
+
+
+func obtener_velocidad_base_para_enemigos() -> float:
+	return velocidad_base
 
 
 func esta_haciendo_sprint() -> bool:
@@ -185,3 +208,24 @@ func _crear_estados() -> void:
 		&"sprint": EstadoSprintClass.new(self),
 		&"bloqueado": EstadoBloqueadoClass.new(self),
 	}
+
+
+func _activar_invulnerabilidad() -> void:
+	_tiempo_invulnerable_restante = max(tiempo_invulnerabilidad, 0.0)
+	emit_signal("invulnerabilidad_cambiada", true)
+
+
+func _actualizar_invulnerabilidad(delta: float) -> void:
+	if _tiempo_invulnerable_restante <= 0.0:
+		if visual.modulate != _modulate_visual_original:
+			visual.modulate = _modulate_visual_original
+		return
+
+	_tiempo_invulnerable_restante = max(_tiempo_invulnerable_restante - delta, 0.0)
+	var fase: float = sin((_tiempo_invulnerable_restante * frecuencia_parpadeo_danio) * TAU)
+	var alpha: float = 0.35 if fase > 0.0 else 1.0
+	visual.modulate = Color(_modulate_visual_original.r, _modulate_visual_original.g, _modulate_visual_original.b, alpha)
+
+	if _tiempo_invulnerable_restante == 0.0:
+		visual.modulate = _modulate_visual_original
+		emit_signal("invulnerabilidad_cambiada", false)

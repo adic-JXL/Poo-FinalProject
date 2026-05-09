@@ -9,6 +9,7 @@
 [ext_resource type="PackedScene" path="res://Escenas/Llave.tscn" id="7_llave"]
 [ext_resource type="PackedScene" path="res://Escenas/PuzzleSecuencia.tscn" id="8_puzzle"]
 [ext_resource type="PackedScene" path="res://Escenas/EnemigoPatrulla.tscn" id="9_enemy"]
+[ext_resource type="PackedScene" path="res://Escenas/EnemigoPerseguidor.tscn" id="10_chaser"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_n7y03"]
 
@@ -389,6 +390,13 @@ position = Vector2(1024, 195)
 [node name="EnemigoPatrulla" parent="." unique_id=156437088 instance=ExtResource("9_enemy")]
 position = Vector2(522, 231)
 distancia_patruya = 130.0
+
+[node name="EnemigoPerseguidor" parent="." unique_id=20231495 instance=ExtResource("10_chaser")]
+position = Vector2(856, 291)
+rango_deteccion = 240.0
+angulo_vision_grados = 75.0
+fraccion_velocidad_jugador = 0.5
+direccion_inicial = -1
 
 [node name="HUD" parent="." unique_id=129481986 instance=ExtResource("6_hud01")]
 
