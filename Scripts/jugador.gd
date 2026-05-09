@@ -5,11 +5,14 @@ const SistemaEstaminaClass = preload("res://Scripts/sistema_estamina.gd")
 const EstadoNormalClass = preload("res://Scripts/estado_jugador_normal.gd")
 const EstadoSprintClass = preload("res://Scripts/estado_jugador_sprint.gd")
 const EstadoBloqueadoClass = preload("res://Scripts/estado_jugador_bloqueado.gd")
+const EstadoAturdidoClass = preload("res://Scripts/estado_jugador_aturdido.gd")
 
 signal estado_cambiado(nuevo_estado: StringName)
 signal vida_cambiada(vida_actual: int)
 signal estamina_cambiada(actual: float, maxima: float)
 signal sprint_cambiado(activo: bool)
+signal invulnerabilidad_cambiada(activa: bool)
+signal dano_recibido(cantidad: int, direccion: float)
 
 @export_group("Configuracion")
 @export var nombre: String = "Protagonista"
@@ -27,6 +30,13 @@ signal sprint_cambiado(activo: bool)
 @export var costo_sprint_por_segundo: float = 35.0
 @export var regeneracion_estamina_por_segundo: float = 24.0
 
+@export_group("Combate")
+@export var tiempo_invulnerabilidad: float = 1.0
+@export var frecuencia_parpadeo_danio: float = 18.0
+@export var fuerza_retroceso_x: float = 260.0
+@export var fuerza_retroceso_y: float = 170.0
+@export var duracion_aturdimiento: float = 0.22
+
 var estado_actual: StringName = &"sin_estado"
 var sistema_estamina
 
@@ -37,6 +47,9 @@ var _sprint_activo: bool = false
 var _controles_habilitados: bool = true
 var _estado_instancia_actual
 var _estados: Dictionary = {}
+var _tiempo_invulnerable_restante: float = 0.0
+var _modulate_visual_original: Color = Color(1, 1, 1, 1)
+var _tiempo_aturdimiento_restante: float = 0.0
 
 @onready var visual: Node2D = $Visual
 
@@ -45,6 +58,7 @@ func _ready() -> void:
 	add_to_group("jugador")
 	_gravedad = float(ProjectSettings.get_setting("physics/2d/default_gravity"))
 	_escala_original_x = visual.scale.x
+	_modulate_visual_original = visual.modulate
 
 	sistema_estamina = SistemaEstaminaClass.new(estamina_maxima)
 	sistema_estamina.valor_cambiado.connect(_on_estamina_valor_cambiado)
@@ -57,7 +71,9 @@ func _ready() -> void:
 
 
 func _physics_process(delta: float) -> void:
-	if _controles_habilitados and not is_on_floor():
+	_actualizar_invulnerabilidad(delta)
+
+	if estado_actual != &"bloqueado" and not is_on_floor():
 		velocity.y += _gravedad * delta
 
 	var direccion := obtener_input()
@@ -102,9 +118,16 @@ func saltar() -> void:
 		velocity.y = -fuerza_salto
 
 
-func recibir_danio(cantidad: int) -> void:
+func recibir_danio(cantidad: int, origen_x: float = 0.0) -> bool:
+	if esta_invulnerable():
+		return false
+
 	vida = max(vida - cantidad, 0)
 	emit_signal("vida_cambiada", vida)
+	_activar_invulnerabilidad()
+	_aplicar_retroceso(signf(global_position.x - origen_x))
+	emit_signal("dano_recibido", cantidad, signf(global_position.x - origen_x))
+	return true
 
 
 func cambiar_estado(nuevo_estado: StringName) -> void:
@@ -119,7 +142,7 @@ func cambiar_a_estado(nuevo_estado: StringName) -> void:
 		_estado_instancia_actual.salir()
 
 	estado_actual = nuevo_estado
-	_controles_habilitados = estado_actual != &"bloqueado"
+	_controles_habilitados = estado_actual != &"bloqueado" and estado_actual != &"aturdido"
 	_estado_instancia_actual = _estados[estado_actual]
 	_estado_instancia_actual.entrar()
 	emit_signal("estado_cambiado", estado_actual)
@@ -135,6 +158,14 @@ func establecer_control_habilitado(activo: bool) -> void:
 
 func tiene_control_habilitado() -> bool:
 	return _controles_habilitados
+
+
+func esta_invulnerable() -> bool:
+	return _tiempo_invulnerable_restante > 0.0
+
+
+func esta_aturdido() -> bool:
+	return _tiempo_aturdimiento_restante > 0.0
 
 
 func puede_activar_sprint(direccion: float) -> bool:
@@ -158,8 +189,20 @@ func obtener_estamina_maxima() -> float:
 	return sistema_estamina.maxima
 
 
+func obtener_velocidad_base_para_enemigos() -> float:
+	return velocidad_base
+
+
 func esta_haciendo_sprint() -> bool:
 	return _sprint_activo
+
+
+func procesar_retroceso(delta: float) -> void:
+	_tiempo_aturdimiento_restante = max(_tiempo_aturdimiento_restante - delta, 0.0)
+	velocity.x = move_toward(velocity.x, 0.0, desaceleracion * 0.9 * delta)
+
+	if _tiempo_aturdimiento_restante == 0.0:
+		cambiar_a_estado(&"normal")
 
 
 func _actualizar_orientacion(direccion: float) -> void:
@@ -184,4 +227,37 @@ func _crear_estados() -> void:
 		&"normal": EstadoNormalClass.new(self),
 		&"sprint": EstadoSprintClass.new(self),
 		&"bloqueado": EstadoBloqueadoClass.new(self),
+		&"aturdido": EstadoAturdidoClass.new(self),
 	}
+
+
+func _activar_invulnerabilidad() -> void:
+	_tiempo_invulnerable_restante = max(tiempo_invulnerabilidad, 0.0)
+	emit_signal("invulnerabilidad_cambiada", true)
+
+
+func _actualizar_invulnerabilidad(delta: float) -> void:
+	if _tiempo_invulnerable_restante <= 0.0:
+		if visual.modulate != _modulate_visual_original:
+			visual.modulate = _modulate_visual_original
+		return
+
+	_tiempo_invulnerable_restante = max(_tiempo_invulnerable_restante - delta, 0.0)
+	var fase: float = sin((_tiempo_invulnerable_restante * frecuencia_parpadeo_danio) * TAU)
+	var alpha: float = 0.35 if fase > 0.0 else 1.0
+	visual.modulate = Color(_modulate_visual_original.r, _modulate_visual_original.g, _modulate_visual_original.b, alpha)
+
+	if _tiempo_invulnerable_restante == 0.0:
+		visual.modulate = _modulate_visual_original
+		emit_signal("invulnerabilidad_cambiada", false)
+
+
+func _aplicar_retroceso(direccion: float) -> void:
+	var direccion_empuje := direccion
+	if is_zero_approx(direccion_empuje):
+		direccion_empuje = -_direccion_actual if not is_zero_approx(_direccion_actual) else 1.0
+
+	velocity.x = direccion_empuje * fuerza_retroceso_x
+	velocity.y = -fuerza_retroceso_y
+	_tiempo_aturdimiento_restante = duracion_aturdimiento
+	cambiar_a_estado(&"aturdido")

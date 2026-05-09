@@ -1,0 +1,32 @@
+[gd_scene load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://Scripts/enemigo_flotante_vertical.gd" id="1_enemigo"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_cuerpo"]
+radius = 14.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ataque"]
+radius = 18.0
+
+[node name="EnemigoFlotanteVertical" type="CharacterBody2D"]
+script = ExtResource("1_enemigo")
+collision_mask = 1
+usa_gravedad = false
+velocidad = 62.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_cuerpo")
+
+[node name="Visual" type="Polygon2D" parent="."]
+color = Color(0.611765, 0.996078, 0.564706, 1)
+polygon = PackedVector2Array(0, -20, 16, -8, 12, 10, 0, 20, -12, 10, -16, -8)
+
+[node name="AreaAtaque" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AreaAtaque"]
+shape = SubResource("CircleShape2D_ataque")
+
+[node name="TemporizadorAtaque" type="Timer" parent="."]
+one_shot = true

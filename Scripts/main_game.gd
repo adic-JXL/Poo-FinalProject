@@ -6,6 +6,8 @@ const MENSAJE_PUERTA_CERRADA := "La puerta sigue cerrada. Resuelve el puzzle de 
 const MENSAJE_NIVEL_COMPLETO := "La puerta se abrio. El nivel base ya esta completo."
 
 @export var limite_caida_y: float = 700.0
+@export var escala_tiempo_golpe: float = 0.45
+@export var duracion_golpe_lento: float = 0.1
 
 @onready var tile_map: TileMapLayer = $TileMapLayer
 @onready var camara: Camera2D = $Camera2D
@@ -19,12 +21,16 @@ var _posicion_inicial_jugador: Vector2
 var _llave_obtenida: bool = false
 var _nivel_completado: bool = false
 var _puzzle_activo: bool = false
+var _temporizador_golpe: Timer
 
 
 func _ready() -> void:
+	_preparar_temporizador_golpe()
 	_posicion_inicial_jugador = jugador.global_position
 	_configurar_camara()
 	_configurar_hud()
+	_configurar_jugador()
+	_configurar_enemigos()
 	_configurar_interactivo(llave, _on_llave_interaccion_solicitada)
 	_configurar_interactivo(puerta, _on_puerta_interaccion_solicitada)
 	_configurar_puzzle()
@@ -54,10 +60,12 @@ func _unhandled_input(event: InputEvent) -> void:
 
 
 func reiniciar_nivel() -> void:
+	_restaurar_tiempo_normal()
 	get_tree().reload_current_scene()
 
 
 func volver_al_menu() -> void:
+	_restaurar_tiempo_normal()
 	get_tree().change_scene_to_file(MENU_SCENE)
 
 
@@ -91,6 +99,17 @@ func _configurar_hud() -> void:
 	hud.actualizar_llave(_llave_obtenida)
 
 
+func _configurar_jugador() -> void:
+	jugador.vida_cambiada.connect(_on_jugador_vida_cambiada)
+	jugador.dano_recibido.connect(_on_jugador_dano_recibido)
+
+
+func _configurar_enemigos() -> void:
+	for enemigo in get_tree().get_nodes_in_group("enemigo"):
+		if enemigo.has_signal("jugador_danado"):
+			enemigo.jugador_danado.connect(_on_enemigo_jugador_danado)
+
+
 func _configurar_interactivo(interactivo: Node, callback: Callable) -> void:
 	interactivo.interaccion_solicitada.connect(callback)
 	interactivo.rango_interaccion_cambiado.connect(_on_rango_interaccion_cambiado)
@@ -107,6 +126,7 @@ func _on_llave_interaccion_solicitada() -> void:
 
 	_puzzle_activo = true
 	jugador.establecer_control_habilitado(false)
+	_establecer_enemigos_congelados(true)
 	hud.mostrar_mensaje("La llave te arrastra a un ritual. Resuelve la secuencia para reclamarla.")
 	puzzle.iniciar_puzzle()
 
@@ -125,6 +145,7 @@ func _on_puzzle_cancelado() -> void:
 func _cerrar_puzzle(mensaje: String) -> void:
 	_puzzle_activo = false
 	jugador.establecer_control_habilitado(true)
+	_establecer_enemigos_congelados(false)
 	puzzle.cerrar()
 	hud.mostrar_mensaje(mensaje)
 
@@ -140,6 +161,29 @@ func _on_puerta_interaccion_solicitada() -> void:
 	_nivel_completado = true
 	puerta.abrir()
 	hud.mostrar_mensaje(MENSAJE_NIVEL_COMPLETO)
+
+
+func _on_jugador_vida_cambiada(vida_actual: int) -> void:
+	if vida_actual > 0:
+		return
+
+	hud.mostrar_mensaje("La sombra te vencio. Reiniciando el nivel.")
+	call_deferred("reiniciar_nivel")
+
+
+func _on_enemigo_jugador_danado(_cantidad: int) -> void:
+	if not _puzzle_activo:
+		hud.mostrar_mensaje("Una sombra te alcanzo. Mantente en movimiento.")
+
+
+func _on_jugador_dano_recibido(_cantidad: int, _direccion: float) -> void:
+	_aplicar_golpe_lento()
+
+
+func _establecer_enemigos_congelados(congelados: bool) -> void:
+	for enemigo in get_tree().get_nodes_in_group("enemigo"):
+		if enemigo.has_method("establecer_congelado"):
+			enemigo.establecer_congelado(congelados)
 
 
 func _on_rango_interaccion_cambiado(activo: bool, mensaje: String) -> void:
@@ -163,3 +207,31 @@ func _restaurar_mensaje_hud() -> void:
 		return
 
 	hud.mostrar_mensaje("Explora el nivel, encuentra la llave y presiona E para activar el puzzle.")
+
+
+func _preparar_temporizador_golpe() -> void:
+	_temporizador_golpe = Timer.new()
+	_temporizador_golpe.one_shot = true
+	_temporizador_golpe.ignore_time_scale = true
+	_temporizador_golpe.timeout.connect(_on_temporizador_golpe_timeout)
+	add_child(_temporizador_golpe)
+
+
+func _aplicar_golpe_lento() -> void:
+	if duracion_golpe_lento <= 0.0:
+		return
+
+	Engine.time_scale = min(max(escala_tiempo_golpe, 0.05), 1.0)
+	_temporizador_golpe.start(duracion_golpe_lento)
+
+
+func _on_temporizador_golpe_timeout() -> void:
+	_restaurar_tiempo_normal()
+
+
+func _restaurar_tiempo_normal() -> void:
+	Engine.time_scale = 1.0
+
+
+func _exit_tree() -> void:
+	_restaurar_tiempo_normal()
