@@ -119,6 +119,7 @@ func _on_llave_interaccion_solicitada() -> void:
 
 	_puzzle_activo = true
 	jugador.establecer_control_habilitado(false)
+	_establecer_enemigos_congelados(true)
 	hud.mostrar_mensaje("La llave te arrastra a un ritual. Resuelve la secuencia para reclamarla.")
 	puzzle.iniciar_puzzle()
 
@@ -137,6 +138,7 @@ func _on_puzzle_cancelado() -> void:
 func _cerrar_puzzle(mensaje: String) -> void:
 	_puzzle_activo = false
 	jugador.establecer_control_habilitado(true)
+	_establecer_enemigos_congelados(false)
 	puzzle.cerrar()
 	hud.mostrar_mensaje(mensaje)
 
@@ -165,6 +167,12 @@ func _on_jugador_vida_cambiada(vida_actual: int) -> void:
 func _on_enemigo_jugador_danado(_cantidad: int) -> void:
 	if not _puzzle_activo:
 		hud.mostrar_mensaje("Una sombra te alcanzo. Mantente en movimiento.")
+
+
+func _establecer_enemigos_congelados(congelados: bool) -> void:
+	for enemigo in get_tree().get_nodes_in_group("enemigo"):
+		if enemigo.has_method("establecer_congelado"):
+			enemigo.establecer_congelado(congelados)
 
 
 func _on_rango_interaccion_cambiado(activo: bool, mensaje: String) -> void:

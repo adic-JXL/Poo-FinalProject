@@ -15,6 +15,7 @@ signal vida_cambiada(vida_actual: int)
 
 var _gravedad: float = 0.0
 var _puede_atacar: bool = true
+var _congelado: bool = false
 
 @onready var visual: Node2D = $Visual
 @onready var area_ataque: Area2D = $AreaAtaque
@@ -31,6 +32,10 @@ func _ready() -> void:
 
 
 func _physics_process(delta: float) -> void:
+	if _congelado:
+		velocity = Vector2.ZERO
+		return
+
 	if not is_on_floor():
 		velocity.y += _gravedad * delta
 
@@ -42,6 +47,10 @@ func _physics_process(delta: float) -> void:
 
 func mover_horizontal(direccion: float, delta: float, multiplicador: float = 1.0) -> void:
 	var velocidad_objetivo := direccion * velocidad * multiplicador
+	mover_hacia_velocidad_objetivo(velocidad_objetivo, delta)
+
+
+func mover_hacia_velocidad_objetivo(velocidad_objetivo: float, delta: float) -> void:
 	velocity.x = move_toward(velocity.x, velocidad_objetivo, aceleracion * delta)
 
 
@@ -57,6 +66,17 @@ func recibir_danio(cantidad: int) -> void:
 		queue_free()
 
 
+func establecer_congelado(congelado: bool) -> void:
+	_congelado = congelado
+
+	if _congelado:
+		velocity = Vector2.ZERO
+
+
+func esta_congelado() -> bool:
+	return _congelado
+
+
 func _inicializar_enemigo() -> void:
 	pass
 
@@ -70,7 +90,9 @@ func _puede_danar_objetivo(objetivo: Node) -> bool:
 
 
 func _atacar_objetivo(objetivo: Node) -> void:
-	objetivo.recibir_danio(danio_contacto)
+	if not objetivo.recibir_danio(danio_contacto):
+		return
+
 	_puede_atacar = false
 	temporizador_ataque.start(tiempo_recarga_ataque)
 	emit_signal("jugador_danado", danio_contacto)
