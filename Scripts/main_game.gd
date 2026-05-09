@@ -6,6 +6,8 @@ const MENSAJE_PUERTA_CERRADA := "La puerta sigue cerrada. Resuelve el puzzle de 
 const MENSAJE_NIVEL_COMPLETO := "La puerta se abrio. El nivel base ya esta completo."
 
 @export var limite_caida_y: float = 700.0
+@export var escala_tiempo_golpe: float = 0.45
+@export var duracion_golpe_lento: float = 0.1
 
 @onready var tile_map: TileMapLayer = $TileMapLayer
 @onready var camara: Camera2D = $Camera2D
@@ -19,9 +21,11 @@ var _posicion_inicial_jugador: Vector2
 var _llave_obtenida: bool = false
 var _nivel_completado: bool = false
 var _puzzle_activo: bool = false
+var _temporizador_golpe: Timer
 
 
 func _ready() -> void:
+	_preparar_temporizador_golpe()
 	_posicion_inicial_jugador = jugador.global_position
 	_configurar_camara()
 	_configurar_hud()
@@ -56,10 +60,12 @@ func _unhandled_input(event: InputEvent) -> void:
 
 
 func reiniciar_nivel() -> void:
+	_restaurar_tiempo_normal()
 	get_tree().reload_current_scene()
 
 
 func volver_al_menu() -> void:
+	_restaurar_tiempo_normal()
 	get_tree().change_scene_to_file(MENU_SCENE)
 
 
@@ -95,6 +101,7 @@ func _configurar_hud() -> void:
 
 func _configurar_jugador() -> void:
 	jugador.vida_cambiada.connect(_on_jugador_vida_cambiada)
+	jugador.dano_recibido.connect(_on_jugador_dano_recibido)
 
 
 func _configurar_enemigos() -> void:
@@ -169,6 +176,10 @@ func _on_enemigo_jugador_danado(_cantidad: int) -> void:
 		hud.mostrar_mensaje("Una sombra te alcanzo. Mantente en movimiento.")
 
 
+func _on_jugador_dano_recibido(_cantidad: int, _direccion: float) -> void:
+	_aplicar_golpe_lento()
+
+
 func _establecer_enemigos_congelados(congelados: bool) -> void:
 	for enemigo in get_tree().get_nodes_in_group("enemigo"):
 		if enemigo.has_method("establecer_congelado"):
@@ -196,3 +207,31 @@ func _restaurar_mensaje_hud() -> void:
 		return
 
 	hud.mostrar_mensaje("Explora el nivel, encuentra la llave y presiona E para activar el puzzle.")
+
+
+func _preparar_temporizador_golpe() -> void:
+	_temporizador_golpe = Timer.new()
+	_temporizador_golpe.one_shot = true
+	_temporizador_golpe.ignore_time_scale = true
+	_temporizador_golpe.timeout.connect(_on_temporizador_golpe_timeout)
+	add_child(_temporizador_golpe)
+
+
+func _aplicar_golpe_lento() -> void:
+	if duracion_golpe_lento <= 0.0:
+		return
+
+	Engine.time_scale = min(max(escala_tiempo_golpe, 0.05), 1.0)
+	_temporizador_golpe.start(duracion_golpe_lento)
+
+
+func _on_temporizador_golpe_timeout() -> void:
+	_restaurar_tiempo_normal()
+
+
+func _restaurar_tiempo_normal() -> void:
+	Engine.time_scale = 1.0
+
+
+func _exit_tree() -> void:
+	_restaurar_tiempo_normal()

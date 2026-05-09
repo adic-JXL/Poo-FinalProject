@@ -52,31 +52,58 @@ func _ejecutar_verificacion() -> void:
 
 		var enemigo = escena_principal.get_node_or_null("EnemigoPatrulla")
 		var perseguidor = escena_principal.get_node_or_null("EnemigoPerseguidor")
+		var flotante_horizontal = escena_principal.get_node_or_null("EnemigoFlotanteHorizontal")
+		var flotante_vertical = escena_principal.get_node_or_null("EnemigoFlotanteVertical")
 		var llave = escena_principal.get_node_or_null("Llave")
 		var puzzle = escena_principal.get_node_or_null("PuzzleSecuencia")
 		var puerta = escena_principal.get_node_or_null("Puerta")
 
-		if enemigo == null or perseguidor == null or llave == null or puzzle == null or puerta == null:
+		if enemigo == null or perseguidor == null or flotante_horizontal == null or flotante_vertical == null or llave == null or puzzle == null or puerta == null:
 			_registrar_error("Faltan nodos del flujo principal en MainGame.")
 		else:
 			var posicion_inicial_enemigo_x: float = enemigo.global_position.x
+			var posicion_inicial_flotante_horizontal: Vector2 = flotante_horizontal.global_position
+			var posicion_inicial_flotante_vertical: Vector2 = flotante_vertical.global_position
 			for _m in range(15):
 				await physics_frame
 
 			if absf(enemigo.global_position.x - posicion_inicial_enemigo_x) < 2.0:
 				_registrar_error("El enemigo patrulla no se esta desplazando.")
 
+			if absf(flotante_horizontal.global_position.x - posicion_inicial_flotante_horizontal.x) < 2.0:
+				_registrar_error("El enemigo flotante horizontal no se mueve sobre el eje X.")
+
+			if absf(flotante_horizontal.global_position.y - posicion_inicial_flotante_horizontal.y) > 2.0:
+				_registrar_error("El enemigo flotante horizontal esta desviandose demasiado en Y.")
+
+			if absf(flotante_vertical.global_position.y - posicion_inicial_flotante_vertical.y) < 2.0:
+				_registrar_error("El enemigo flotante vertical no se mueve sobre el eje Y.")
+
+			if absf(flotante_vertical.global_position.x - posicion_inicial_flotante_vertical.x) > 2.0:
+				_registrar_error("El enemigo flotante vertical esta desviandose demasiado en X.")
+
 			var vida_inicial: int = jugador.vida
 			jugador.global_position = enemigo.global_position + Vector2(24, 0)
 			jugador.velocity = Vector2.ZERO
+			var golpe_registrado := false
 			for _n in range(18):
 				await physics_frame
 
-			if jugador.vida >= vida_inicial:
+				if jugador.vida < vida_inicial:
+					golpe_registrado = true
+					break
+
+			if not golpe_registrado:
 				_registrar_error("El enemigo no dano al jugador al entrar en contacto.")
 
 			if not jugador.esta_invulnerable():
 				_registrar_error("El jugador no entra en invulnerabilidad despues de recibir dano.")
+
+			if jugador.estado_actual != &"aturdido":
+				_registrar_error("El jugador no entra al estado aturdido despues del golpe.")
+
+			if Engine.time_scale >= 1.0:
+				_registrar_error("El golpe no reduce temporalmente la velocidad global del juego.")
 
 			var vida_tras_golpe: int = jugador.vida
 			if jugador.recibir_danio(1):
@@ -87,11 +114,17 @@ func _ejecutar_verificacion() -> void:
 
 			jugador.global_position = Vector2(120, 291)
 			jugador.velocity = Vector2.ZERO
-			for _o in range(70):
+			for _o in range(95):
 				await physics_frame
 
 			if jugador.esta_invulnerable():
 				_registrar_error("La invulnerabilidad del jugador no termina despues del tiempo esperado.")
+
+			if jugador.estado_actual != &"normal":
+				_registrar_error("El jugador no vuelve al estado normal despues del aturdimiento.")
+
+			if not is_equal_approx(Engine.time_scale, 1.0):
+				_registrar_error("La velocidad global del juego no vuelve a la normalidad despues del golpe.")
 
 			var desplazamiento_perseguidor_x_inicial: float = perseguidor.global_position.x
 			var direccion_mirada: float = perseguidor.obtener_direccion_mirada()
@@ -106,6 +139,7 @@ func _ejecutar_verificacion() -> void:
 			if absf(perseguidor.global_position.x - desplazamiento_perseguidor_x_inicial) > 3.0:
 				_registrar_error("El perseguidor se desplazo sin detectar al jugador.")
 
+			var posicion_perseguidor_antes_persecucion: float = perseguidor.global_position.x
 			jugador.global_position = perseguidor.global_position + Vector2(direccion_mirada * 150.0, 0.0)
 			jugador.velocity = Vector2.ZERO
 			for _q in range(16):
@@ -114,10 +148,10 @@ func _ejecutar_verificacion() -> void:
 			if not perseguidor.esta_persiguiendo():
 				_registrar_error("El perseguidor no entra en persecucion cuando el jugador esta dentro del campo de vision.")
 
-			if absf(perseguidor.velocity.x) <= 0.0:
-				_registrar_error("El perseguidor no genera movimiento horizontal al perseguir.")
+			if absf(perseguidor.global_position.x - posicion_perseguidor_antes_persecucion) < 2.0:
+				_registrar_error("El perseguidor no avanza hacia el jugador cuando entra en persecucion.")
 
-			if absf(perseguidor.velocity.x) > jugador.velocidad_base * 0.55:
+			if absf(perseguidor.obtener_velocidad_persecucion_actual()) > jugador.velocidad_base * 0.55:
 				_registrar_error("El perseguidor supera el limite esperado de media velocidad del jugador.")
 
 			jugador.global_position = llave.global_position
