@@ -8,6 +8,7 @@
 [ext_resource type="PackedScene" path="res://Escenas/HUD.tscn" id="6_hud01"]
 [ext_resource type="PackedScene" path="res://Escenas/Llave.tscn" id="7_llave"]
 [ext_resource type="PackedScene" path="res://Escenas/PuzzleSecuencia.tscn" id="8_puzzle"]
+[ext_resource type="PackedScene" path="res://Escenas/EnemigoPatrulla.tscn" id="9_enemy"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_n7y03"]
 
@@ -384,6 +385,10 @@ aceleracion = 1000.0
 
 [node name="Llave" parent="." unique_id=183524802 instance=ExtResource("7_llave")]
 position = Vector2(1024, 195)
+
+[node name="EnemigoPatrulla" parent="." unique_id=156437088 instance=ExtResource("9_enemy")]
+position = Vector2(522, 231)
+distancia_patruya = 130.0
 
 [node name="HUD" parent="." unique_id=129481986 instance=ExtResource("6_hud01")]
 
