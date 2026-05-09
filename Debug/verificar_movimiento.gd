@@ -10,6 +10,7 @@ func _initialize() -> void:
 func _ejecutar_verificacion() -> void:
 	var escena_principal: Node = load("res://Escenas/MainGame.tscn").instantiate()
 	root.add_child(escena_principal)
+	escena_principal.limite_caida_y = 5000.0
 
 	await process_frame
 	for _i in range(45):
@@ -49,13 +50,30 @@ func _ejecutar_verificacion() -> void:
 		if jugador.obtener_estamina_actual() <= estamina_despues_sprint:
 			_registrar_error("La estamina no se regenera cuando el jugador deja de correr.")
 
+		var enemigo = escena_principal.get_node_or_null("EnemigoPatrulla")
 		var llave = escena_principal.get_node_or_null("Llave")
 		var puzzle = escena_principal.get_node_or_null("PuzzleSecuencia")
 		var puerta = escena_principal.get_node_or_null("Puerta")
 
-		if llave == null or puzzle == null or puerta == null:
-			_registrar_error("Faltan nodos del flujo llave-puzzle-puerta en MainGame.")
+		if enemigo == null or llave == null or puzzle == null or puerta == null:
+			_registrar_error("Faltan nodos del flujo principal en MainGame.")
 		else:
+			var posicion_inicial_enemigo_x: float = enemigo.global_position.x
+			for _m in range(15):
+				await physics_frame
+
+			if absf(enemigo.global_position.x - posicion_inicial_enemigo_x) < 2.0:
+				_registrar_error("El enemigo patrulla no se esta desplazando.")
+
+			var vida_inicial: int = jugador.vida
+			jugador.global_position = enemigo.global_position + Vector2(24, 0)
+			jugador.velocity = Vector2.ZERO
+			for _n in range(18):
+				await physics_frame
+
+			if jugador.vida >= vida_inicial:
+				_registrar_error("El enemigo no dano al jugador al entrar en contacto.")
+
 			jugador.global_position = llave.global_position
 			for _j in range(3):
 				await physics_frame

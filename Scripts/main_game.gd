@@ -25,6 +25,8 @@ func _ready() -> void:
 	_posicion_inicial_jugador = jugador.global_position
 	_configurar_camara()
 	_configurar_hud()
+	_configurar_jugador()
+	_configurar_enemigos()
 	_configurar_interactivo(llave, _on_llave_interaccion_solicitada)
 	_configurar_interactivo(puerta, _on_puerta_interaccion_solicitada)
 	_configurar_puzzle()
@@ -91,6 +93,16 @@ func _configurar_hud() -> void:
 	hud.actualizar_llave(_llave_obtenida)
 
 
+func _configurar_jugador() -> void:
+	jugador.vida_cambiada.connect(_on_jugador_vida_cambiada)
+
+
+func _configurar_enemigos() -> void:
+	for enemigo in get_tree().get_nodes_in_group("enemigo"):
+		if enemigo.has_signal("jugador_danado"):
+			enemigo.jugador_danado.connect(_on_enemigo_jugador_danado)
+
+
 func _configurar_interactivo(interactivo: Node, callback: Callable) -> void:
 	interactivo.interaccion_solicitada.connect(callback)
 	interactivo.rango_interaccion_cambiado.connect(_on_rango_interaccion_cambiado)
@@ -140,6 +152,19 @@ func _on_puerta_interaccion_solicitada() -> void:
 	_nivel_completado = true
 	puerta.abrir()
 	hud.mostrar_mensaje(MENSAJE_NIVEL_COMPLETO)
+
+
+func _on_jugador_vida_cambiada(vida_actual: int) -> void:
+	if vida_actual > 0:
+		return
+
+	hud.mostrar_mensaje("La sombra te vencio. Reiniciando el nivel.")
+	call_deferred("reiniciar_nivel")
+
+
+func _on_enemigo_jugador_danado(_cantidad: int) -> void:
+	if not _puzzle_activo:
+		hud.mostrar_mensaje("Una sombra te alcanzo. Mantente en movimiento.")
 
 
 func _on_rango_interaccion_cambiado(activo: bool, mensaje: String) -> void:
