@@ -12,6 +12,7 @@ signal vida_cambiada(vida_actual: int)
 @export_group("Movimiento")
 @export var velocidad: float = 70.0
 @export var aceleracion: float = 900.0
+@export var usa_gravedad: bool = true
 
 var _gravedad: float = 0.0
 var _puede_atacar: bool = true
@@ -36,7 +37,7 @@ func _physics_process(delta: float) -> void:
 		velocity = Vector2.ZERO
 		return
 
-	if not is_on_floor():
+	if usa_gravedad and not is_on_floor():
 		velocity.y += _gravedad * delta
 
 	_procesar_comportamiento(delta)
@@ -90,7 +91,7 @@ func _puede_danar_objetivo(objetivo: Node) -> bool:
 
 
 func _atacar_objetivo(objetivo: Node) -> void:
-	if not objetivo.recibir_danio(danio_contacto):
+	if not objetivo.recibir_danio(danio_contacto, global_position.x):
 		return
 
 	_puede_atacar = false
