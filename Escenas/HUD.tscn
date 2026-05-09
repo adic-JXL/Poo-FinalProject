@@ -1,0 +1,76 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://Scripts/hud.gd" id="1_4r81u"]
+
+[node name="HUD" type="CanvasLayer"]
+script = ExtResource("1_4r81u")
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 20.0
+offset_top = 20.0
+offset_right = -760.0
+offset_bottom = -500.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="Control/MarginContainer"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Control/MarginContainer/PanelContainer"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="TituloLabel" type="Label" parent="Control/MarginContainer/PanelContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 28
+text = "Deep Shadow"
+
+[node name="MensajeLabel" type="Label" parent="Control/MarginContainer/PanelContainer/VBoxContainer"]
+layout_mode = 2
+text = "Shift activa sprint y consume estamina."
+autowrap_mode = 3
+
+[node name="VidaLabel" type="Label" parent="Control/MarginContainer/PanelContainer/VBoxContainer"]
+layout_mode = 2
+text = "Vida: --"
+
+[node name="EstadoLabel" type="Label" parent="Control/MarginContainer/PanelContainer/VBoxContainer"]
+layout_mode = 2
+text = "Estado: --"
+
+[node name="EstaminaBarra" type="ProgressBar" parent="Control/MarginContainer/PanelContainer/VBoxContainer"]
+custom_minimum_size = Vector2(280, 18)
+layout_mode = 2
+max_value = 100.0
+value = 100.0
+show_percentage = false
+
+[node name="EstaminaLabel" type="Label" parent="Control/MarginContainer/PanelContainer/VBoxContainer"]
+layout_mode = 2
+text = "Estamina: --"
+
+[node name="SprintLabel" type="Label" parent="Control/MarginContainer/PanelContainer/VBoxContainer"]
+layout_mode = 2
+text = "Sprint: --"
+
+[node name="LlaveLabel" type="Label" parent="Control/MarginContainer/PanelContainer/VBoxContainer"]
+layout_mode = 2
+text = "Llave: --"
+
+[node name="AyudaLabel" type="Label" parent="Control/MarginContainer/PanelContainer/VBoxContainer"]
+layout_mode = 2
+text = "A/D o flechas para mover, espacio para saltar, Shift para sprint, E para interactuar y R para reiniciar."
+autowrap_mode = 3

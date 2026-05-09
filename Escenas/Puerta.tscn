@@ -1,18 +1,31 @@
-[gd_scene format=3 uid="uid://dkdpa48nrjkq3"]
+[gd_scene load_steps=4 format=3 uid="uid://dkdpa48nrjkq3"]
 
 [ext_resource type="Texture2D" uid="uid://bh327tbukvv7h" path="res://Imagenes/Puerta.png" id="1_rbeu3"]
+[ext_resource type="Script" path="res://Scripts/puerta_bloqueada.gd" id="2_puerta"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_00lnm"]
 radius = 8.068936
 height = 35.445454
 
-[node name="StaticBody2D" type="StaticBody2D" unique_id=692291154]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_interaccion"]
+size = Vector2(260, 260)
+
+[node name="PuertaBloqueada" type="Area2D" unique_id=692291154]
+collision_layer = 0
+script = ExtResource("2_puerta")
+mensaje_interaccion = "Presiona E para usar la puerta."
 
 [node name="Puerta" type="Sprite2D" parent="." unique_id=635856484]
 scale = Vector2(0.59250236, 0.5674638)
 texture = ExtResource("1_rbeu3")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1199590636]
+shape = SubResource("RectangleShape2D_interaccion")
+
+[node name="CuerpoSolido" type="StaticBody2D" parent="."]
+collision_layer = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CuerpoSolido"]
 position = Vector2(-9, 32.999996)
 scale = Vector2(9.858725, 7.9104733)
 shape = SubResource("CapsuleShape2D_00lnm")
