@@ -1,0 +1,16 @@
+[gd_scene format=3 uid="uid://epu5x41hq3f0"]
+
+[ext_resource type="Texture2D" uid="uid://3lhomoy1dgxd" path="res://Imagenes/Tileset.png" id="1_2k46e"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_2hgla"]
+size = Vector2(94, 30)
+
+[node name="Plataforma_Gafas" type="AnimatableBody2D" unique_id=1248097605]
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1114938689]
+texture = ExtResource("1_2k46e")
+region_enabled = true
+region_rect = Rect2(32.957817, 97.22655, 94.23448, 29.846962)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Sprite2D" unique_id=280257717]
+shape = SubResource("RectangleShape2D_2hgla")

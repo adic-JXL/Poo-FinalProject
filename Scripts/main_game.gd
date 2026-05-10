@@ -9,13 +9,14 @@ const MENSAJE_NIVEL_COMPLETO := "La puerta se abrio. El nivel base ya esta compl
 @export var escala_tiempo_golpe: float = 0.45
 @export var duracion_golpe_lento: float = 0.1
 
-@onready var tile_map: TileMapLayer = $TileMapLayer
-@onready var camara: Camera2D = $Camera2D
-@onready var puerta = $Puerta
-@onready var jugador: CharacterBody2D = $Jugador
-@onready var hud = $HUD
-@onready var llave = $Llave
-@onready var puzzle = $PuzzleSecuencia
+
+@onready var tile_map: TileMapLayer = $Mapa/TileMapLayer
+@onready var camara: Camera2D = $Player/Camera2D
+@onready var puerta = $Objetos/Puerta
+@onready var jugador: CharacterBody2D = $Player/Jugador
+@onready var hud = $Canvas/HUD
+@onready var llave = $Objetos/Llave
+@onready var puzzle = $Canvas/PuzzleSecuencia
 
 var _posicion_inicial_jugador: Vector2
 var _llave_obtenida: bool = false
