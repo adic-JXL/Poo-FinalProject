@@ -1,5 +1,6 @@
 extends "res://Scripts/interactivo_base.gd"
 class_name PuertaBloqueada
+@onready var animation_player: AnimationPlayer = $AnimationPlayer
 
 
 # En el inspector, arrastra la otra puerta a esta variable
@@ -11,15 +12,15 @@ class_name PuertaBloqueada
 var _abierta: bool = false
 
 @onready var sprite: Sprite2D = $Puerta
-@onready var collision_shape_2d: CollisionShape2D = $CollisionShape2D
-@onready var collision_shape_2d_2: CollisionShape2D = $StaticBody2D/CollisionShape2D
+
+
 
 
 
 
 func _ready() -> void:
 	super()
-	_actualizar_visual()
+	
 
 
 func puede_interactuar() -> bool:
@@ -53,4 +54,4 @@ func esta_abierta() -> bool:
 
 
 func _actualizar_visual() -> void:
-	sprite.modulate = color_abierta if _abierta else color_bloqueada
+	animation_player.play("Abrir_Puerta")
