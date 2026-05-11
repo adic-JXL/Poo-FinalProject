@@ -1,25 +1,66 @@
 [gd_scene format=3 uid="uid://dkdpa48nrjkq3"]
 
-[ext_resource type="Texture2D" uid="uid://bh327tbukvv7h" path="res://Imagenes/Puerta.png" id="1_rbeu3"]
+[ext_resource type="Texture2D" uid="uid://wpdixetypfo2" path="res://Imagenes/Puerta-Cerrada.png" id="2_00lnm"]
 [ext_resource type="Script" uid="uid://dnoqadedpxx1r" path="res://Scripts/puerta_bloqueada.gd" id="2_puerta"]
+[ext_resource type="Texture2D" uid="uid://r7yttkdtjbn8" path="res://Imagenes/Puerta-Abierta.png" id="3_qiwlc"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_00lnm"]
-radius = 71.0
-height = 280.0
+radius = 66.0
+height = 282.0
+
+[sub_resource type="Animation" id="Animation_eamlu"]
+resource_name = "Abrir_Puerta"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Puerta:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [ExtResource("2_00lnm"), ExtResource("3_qiwlc")]
+}
+
+[sub_resource type="Animation" id="Animation_n7mw5"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Puerta:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("2_00lnm")]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_d4fhx"]
+_data = {
+&"Abrir_Puerta": SubResource("Animation_eamlu"),
+&"RESET": SubResource("Animation_n7mw5")
+}
 
 [node name="PuertaBloqueada" type="Area2D" unique_id=692291154]
 script = ExtResource("2_puerta")
 mensaje_interaccion = "Presiona E para usar la puerta."
 
 [node name="Puerta" type="Sprite2D" parent="." unique_id=635856484]
-scale = Vector2(0.59250236, 0.5674638)
-texture = ExtResource("1_rbeu3")
+texture_filter = 1
+scale = Vector2(5.073125, 5.2418656)
+texture = ExtResource("2_00lnm")
 
 [node name="Marker2D" type="Marker2D" parent="." unique_id=416478040]
 position = Vector2(-1, 5)
 
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="." unique_id=1199590636]
-position = Vector2(-10, 34)
+position = Vector2(-1, 5)
 shape = SubResource("CapsuleShape2D_00lnm")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=863376272]
+libraries/ = SubResource("AnimationLibrary_d4fhx")
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]

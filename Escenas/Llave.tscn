@@ -1,18 +1,16 @@
-[gd_scene load_steps=2 format=3]
+[gd_scene format=3 uid="uid://y3yoa2fcfb6n"]
 
-[ext_resource type="Script" path="res://Scripts/llave_interactiva.gd" id="1_llave"]
+[ext_resource type="Script" uid="uid://debhc155w8swb" path="res://Scripts/llave_interactiva.gd" id="1_llave"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_llave"]
 radius = 18.0
 
-[node name="Llave" type="Area2D"]
+[node name="Llave" type="Area2D" unique_id=377218663]
 collision_layer = 0
 script = ExtResource("1_llave")
 mensaje_interaccion = "Presiona E para investigar la llave."
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=4533101]
 shape = SubResource("CircleShape2D_llave")
 
-[node name="Visual" type="Polygon2D" parent="."]
-color = Color(1, 0.85098, 0.14902, 1)
-polygon = PackedVector2Array(-8, -20, 6, -20, 6, -6, 18, -6, 18, 6, 6, 6, 6, 20, -8, 20, -8, 6, -18, 6, -18, -6, -8, -6)
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1734941850]

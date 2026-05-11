@@ -28,7 +28,7 @@ var _temporizador_golpe: Timer
 func _ready() -> void:
 	_preparar_temporizador_golpe()
 	_posicion_inicial_jugador = jugador.global_position
-	_configurar_camara()
+
 	_configurar_hud()
 	_configurar_jugador()
 	_configurar_enemigos()
@@ -90,9 +90,7 @@ func nivel_esta_completado() -> bool:
 	return _nivel_completado
 
 
-func _configurar_camara() -> void:
-	if camara.has_method("seguir_a"):
-		camara.seguir_a(jugador)
+
 
 
 func _configurar_hud() -> void:
