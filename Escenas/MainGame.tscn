@@ -397,18 +397,12 @@ distancia_patruya = 130.0
 position = Vector2(856, 291)
 rango_deteccion = 240.0
 angulo_vision_grados = 75.0
-fraccion_velocidad_jugador = 0.5
-direccion_inicial = -1
 
 [node name="EnemigoFlotanteHorizontal" parent="." unique_id=610204761 instance=ExtResource("11_float_h")]
 position = Vector2(708, 176)
-distancia_flotacion = 88.0
-direccion_inicial = 1
 
 [node name="EnemigoFlotanteVertical" parent="." unique_id=588015693 instance=ExtResource("12_float_v")]
 position = Vector2(944, 142)
-distancia_flotacion = 64.0
-direccion_inicial = -1
 
 [node name="HUD" parent="." unique_id=129481986 instance=ExtResource("6_hud01")]
 
