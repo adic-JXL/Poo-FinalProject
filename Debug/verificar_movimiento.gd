@@ -60,11 +60,12 @@ func _ejecutar_verificacion() -> void:
 		var puerta_destino = escena_principal.get_node_or_null("Objetos/Puerta2")
 		var camara_1 = escena_principal.get_node_or_null("Player/Camara1")
 		var plataforma_gafas = escena_principal.get_node_or_null("Plataformas/PlataformaGafas1")
-		var meta_puzzle_gafas = escena_principal.get_node_or_null("Objetos/MetaPuzzleGafas")
+		var altar_gafas = escena_principal.get_node_or_null("Objetos/AltarGafas")
 		var checkpoint_puzzle_gafas = escena_principal.get_node_or_null("Objetos/CheckpointPuzzleGafas")
 		var meta_plataforma_gafas = escena_principal.get_node_or_null("Plataformas/MetaPlataformaGafas")
+		var puzzle_gafas = escena_principal.get_node_or_null("Canvas/PuzzleGafas")
 
-		if enemigo == null or perseguidor == null or flotante_horizontal == null or flotante_vertical == null or llave == null or puzzle == null or puerta == null or puerta_destino == null or camara_1 == null or plataforma_gafas == null or meta_puzzle_gafas == null or checkpoint_puzzle_gafas == null or meta_plataforma_gafas == null:
+		if enemigo == null or perseguidor == null or flotante_horizontal == null or flotante_vertical == null or llave == null or puzzle == null or puerta == null or puerta_destino == null or camara_1 == null or plataforma_gafas == null or altar_gafas == null or checkpoint_puzzle_gafas == null or meta_plataforma_gafas == null or puzzle_gafas == null:
 			_registrar_error("Faltan nodos del flujo principal en MainGame.")
 		else:
 			var posicion_inicial_enemigo_x: float = enemigo.global_position.x
@@ -171,10 +172,13 @@ func _ejecutar_verificacion() -> void:
 			if enemigo.obtener_multiplicador_velocidad() > 0.971:
 				_registrar_error("Las gafas no reducen la velocidad base de los enemigos.")
 
+			var zoom_con_gafas_x_antes: float = camara_1.zoom.x
+			await create_timer(0.35).timeout
+
 			if not plataforma_gafas.esta_revelada():
 				_registrar_error("Las plataformas ocultas no se revelan con las gafas activas.")
 
-			if camara_1.zoom.x >= escena_principal.zoom_base_mundo.x:
+			if camara_1.zoom.x >= escena_principal.zoom_base_mundo.x or camara_1.zoom.x >= zoom_con_gafas_x_antes:
 				_registrar_error("Las gafas no amplian el rango de vision de la camara principal.")
 
 			jugador.habilidad_gafas.actualizar(10.1)
@@ -191,6 +195,8 @@ func _ejecutar_verificacion() -> void:
 
 			if plataforma_gafas.esta_revelada():
 				_registrar_error("Las plataformas de gafas no vuelven a ocultarse al terminar el efecto.")
+
+			await create_timer(0.35).timeout
 
 			if not is_equal_approx(camara_1.zoom.x, escena_principal.zoom_base_mundo.x):
 				_registrar_error("La camara principal no vuelve a su zoom base al terminar las gafas.")
@@ -263,13 +269,33 @@ func _ejecutar_verificacion() -> void:
 			if checkpoint != null and respawn_checkpoint.distance_to(checkpoint.global_position) > 1.0:
 				_registrar_error("El respawn actual no coincide con el checkpoint esperado despues de la puerta.")
 
-			jugador.global_position = meta_puzzle_gafas.global_position
+			jugador.global_position = altar_gafas.global_position
 			jugador.velocity = Vector2.ZERO
 			for _r in range(3):
 				await physics_frame
 
+			altar_gafas.interactuar()
+			await process_frame
+
+			if escena_principal.esta_puzzle_activo():
+				_registrar_error("El altar de gafas abre el puzzle aun sin tener las gafas activas.")
+
+			if not jugador.activar_gafas():
+				_registrar_error("No se pudieron reactivar las gafas antes del altar final.")
+
+			await create_timer(0.35).timeout
+
+			altar_gafas.interactuar()
+			await process_frame
+
+			if not escena_principal.esta_puzzle_activo():
+				_registrar_error("El altar de gafas no abre su puzzle cuando las gafas estan activas.")
+
+			puzzle_gafas.resolver_automaticamente_para_prueba()
+			await process_frame
+
 			if not escena_principal.puzzle_gafas_esta_superado():
-				_registrar_error("La meta final del puzzle de gafas no se activa al llegar al final del parkour.")
+				_registrar_error("Completar el puzzle de gafas no marca el reto final como superado.")
 
 			var respawn_final: Vector2 = escena_principal.obtener_respawn_actual()
 			if respawn_final.distance_to(checkpoint_puzzle_gafas.global_position) > 1.0:

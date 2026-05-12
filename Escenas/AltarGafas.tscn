@@ -1,0 +1,20 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://Scripts/altar_gafas.gd" id="1_altar"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_altar"]
+radius = 28.0
+
+[node name="AltarGafas" type="Area2D"]
+script = ExtResource("1_altar")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_altar")
+
+[node name="BaseVisual" type="Polygon2D" parent="."]
+color = Color(0.278431, 0.686275, 0.909804, 0.85)
+polygon = PackedVector2Array(-26, 18, 0, -22, 26, 18)
+
+[node name="SimboloVisual" type="Polygon2D" parent="."]
+color = Color(0.376471, 0.792157, 0.968627, 0.95)
+polygon = PackedVector2Array(-14, 0, 0, -12, 14, 0, 0, 12)

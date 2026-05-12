@@ -1,0 +1,104 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://Scripts/puzzle_gafas.gd" id="1_puzzle_gafas"]
+
+[node name="PuzzleGafas" type="CanvasLayer"]
+layer = 3
+script = ExtResource("1_puzzle_gafas")
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Overlay" type="ColorRect" parent="Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.0156863, 0.0392157, 0.0666667, 0.9)
+
+[node name="CenterContainer" type="CenterContainer" parent="Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="Control/CenterContainer"]
+custom_minimum_size = Vector2(560, 0)
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Control/CenterContainer/PanelContainer"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="TituloLabel" type="Label" parent="Control/CenterContainer/PanelContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 26
+text = "Altar de Vision"
+horizontal_alignment = 1
+
+[node name="InstruccionLabel" type="Label" parent="Control/CenterContainer/PanelContainer/VBoxContainer"]
+layout_mode = 2
+text = "Observa los glifos mientras las gafas revelan el patron."
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="PatronLabel" type="Label" parent="Control/CenterContainer/PanelContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 22
+text = "Glifos: --"
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="FeedbackLabel" type="Label" parent="Control/CenterContainer/PanelContainer/VBoxContainer"]
+layout_mode = 2
+text = "Respira y memoriza el patron."
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="GridContainer" type="GridContainer" parent="Control/CenterContainer/PanelContainer/VBoxContainer"]
+layout_mode = 2
+columns = 2
+theme_override_constants/h_separation = 12
+theme_override_constants/v_separation = 12
+
+[node name="BotonA" type="Button" parent="Control/CenterContainer/PanelContainer/VBoxContainer/GridContainer"]
+custom_minimum_size = Vector2(180, 54)
+layout_mode = 2
+text = "[]"
+
+[node name="BotonB" type="Button" parent="Control/CenterContainer/PanelContainer/VBoxContainer/GridContainer"]
+custom_minimum_size = Vector2(180, 54)
+layout_mode = 2
+text = "/\\"
+
+[node name="BotonC" type="Button" parent="Control/CenterContainer/PanelContainer/VBoxContainer/GridContainer"]
+custom_minimum_size = Vector2(180, 54)
+layout_mode = 2
+text = "<>"
+
+[node name="BotonD" type="Button" parent="Control/CenterContainer/PanelContainer/VBoxContainer/GridContainer"]
+custom_minimum_size = Vector2(180, 54)
+layout_mode = 2
+text = "OO"
+
+[node name="BotonesAccion" type="HBoxContainer" parent="Control/CenterContainer/PanelContainer/VBoxContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="BotonCancelar" type="Button" parent="Control/CenterContainer/PanelContainer/VBoxContainer/BotonesAccion"]
+custom_minimum_size = Vector2(180, 42)
+layout_mode = 2
+text = "Cerrar vision"
+
+[node name="TimerRevelacion" type="Timer" parent="."]
+wait_time = 2.8
+one_shot = true
