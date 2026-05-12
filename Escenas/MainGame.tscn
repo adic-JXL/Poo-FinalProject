@@ -17,6 +17,7 @@
 [ext_resource type="Script" path="res://Escenas/camara_2.gd" id="14_1obna"]
 [ext_resource type="PackedScene" path="res://Escenas/MenuPausa.tscn" id="15_pause"]
 [ext_resource type="PackedScene" path="res://Escenas/plataforma_gafas.tscn" id="16_gafas"]
+[ext_resource type="PackedScene" path="res://Escenas/PlataformaSolida.tscn" id="17_solida"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_n7y03"]
 
@@ -368,6 +369,9 @@ size = Vector2(1334, 388)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_b7mqo"]
 size = Vector2(6628, 419)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_meta_gafas"]
+size = Vector2(132, 86)
+
 [node name="Node2D" type="Node2D" unique_id=291629533]
 script = ExtResource("1_h1l5c")
 
@@ -451,6 +455,49 @@ position = Vector2(1730, 214)
 [node name="PlataformaGafas3" parent="Plataformas" instance=ExtResource("16_gafas")]
 position = Vector2(1834, 182)
 
+[node name="PlataformaGafas4" parent="Plataformas" instance=ExtResource("16_gafas")]
+position = Vector2(1938, 150)
+
+[node name="DescansoGafas1" parent="Plataformas" instance=ExtResource("17_solida")]
+position = Vector2(2054, 128)
+scale = Vector2(1.4, 1)
+
+[node name="PlataformaGafas5" parent="Plataformas" instance=ExtResource("16_gafas")]
+position = Vector2(2196, 96)
+
+[node name="PlataformaGafas6" parent="Plataformas" instance=ExtResource("16_gafas")]
+position = Vector2(2308, 64)
+
+[node name="PlataformaGafas7" parent="Plataformas" instance=ExtResource("16_gafas")]
+position = Vector2(2420, 96)
+
+[node name="DescansoGafas2" parent="Plataformas" instance=ExtResource("17_solida")]
+position = Vector2(2552, 116)
+scale = Vector2(1.5, 1)
+
+[node name="PlataformaGafas8" parent="Plataformas" instance=ExtResource("16_gafas")]
+position = Vector2(2692, 84)
+
+[node name="PlataformaGafas9" parent="Plataformas" instance=ExtResource("16_gafas")]
+position = Vector2(2804, 52)
+
+[node name="PlataformaGafas10" parent="Plataformas" instance=ExtResource("16_gafas")]
+position = Vector2(2916, 84)
+
+[node name="DescansoGafas3" parent="Plataformas" instance=ExtResource("17_solida")]
+position = Vector2(3004, 104)
+scale = Vector2(1.35, 1)
+
+[node name="PlataformaGafas11" parent="Plataformas" instance=ExtResource("16_gafas")]
+position = Vector2(3636, 261)
+
+[node name="PlataformaGafas12" parent="Plataformas" instance=ExtResource("16_gafas")]
+position = Vector2(3744, 229)
+
+[node name="MetaPlataformaGafas" parent="Plataformas" instance=ExtResource("17_solida")]
+position = Vector2(3858, 197)
+scale = Vector2(1.8, 1)
+
 [node name="Objetos" type="Node2D" parent="." unique_id=1130510155]
 
 [node name="Puerta" parent="Objetos" unique_id=413627468 instance=ExtResource("5_ryxee")]
@@ -470,6 +517,24 @@ polygon = PackedVector2Array(0, -6, 6, 0, 0, 6, -6, 0)
 
 [node name="Llave" parent="Objetos" unique_id=183524802 instance=ExtResource("7_llave")]
 position = Vector2(1024, 195)
+
+[node name="MetaPuzzleGafas" type="Area2D" parent="Objetos"]
+position = Vector2(3858, 133)
+collision_mask = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Objetos/MetaPuzzleGafas"]
+shape = SubResource("RectangleShape2D_meta_gafas")
+
+[node name="MarcaMeta" type="Polygon2D" parent="Objetos/MetaPuzzleGafas"]
+color = Color(0.996078, 0.85098, 0.282353, 0.95)
+polygon = PackedVector2Array(0, -22, 18, -6, 10, 20, -10, 20, -18, -6)
+
+[node name="CheckpointPuzzleGafas" type="Marker2D" parent="Objetos"]
+position = Vector2(3858, 160)
+
+[node name="PuntoVisible" type="Polygon2D" parent="Objetos/CheckpointPuzzleGafas"]
+color = Color(0.392157, 0.764706, 1, 0.95)
+polygon = PackedVector2Array(0, -6, 6, 0, 0, 6, -6, 0)
 
 [node name="Player" type="Node2D" parent="." unique_id=1906555285]
 
