@@ -10,7 +10,7 @@ signal volver_menu_solicitado
 
 
 func _ready() -> void:
-	process_mode = Node.PROCESS_MODE_WHEN_PAUSED
+	process_mode = Node.PROCESS_MODE_ALWAYS
 	visible = false
 	continuar_boton.pressed.connect(_on_continuar_boton_pressed)
 	$CenterContainer/PanelContainer/MarginContainer/VBoxContainer/Botones/ReiniciarBoton.pressed.connect(_on_reiniciar_boton_pressed)

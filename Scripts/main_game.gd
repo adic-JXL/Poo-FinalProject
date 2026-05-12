@@ -5,6 +5,7 @@ const MENU_SCENE := "res://Escenas/Menu.tscn"
 const MENSAJE_PUERTA_CERRADA := "La puerta sigue cerrada. Resuelve el puzzle de la llave."
 const MENSAJE_NIVEL_COMPLETO := "La puerta se abrio. El nivel base ya esta completo."
 const MENSAJE_CHECKPOINT_ACTIVADO := "Checkpoint activado. Si caes, volveras despues de la puerta."
+const ESCALA_TIEMPO_PAUSA := 0.000001
 
 @export var limite_caida_y: float = 700.0
 @export var escala_tiempo_golpe: float = 0.45
@@ -14,6 +15,7 @@ const MENSAJE_CHECKPOINT_ACTIVADO := "Checkpoint activado. Si caes, volveras des
 @onready var tile_map: TileMapLayer = $Mapa/TileMapLayer
 @onready var puerta = $Objetos/Puerta
 @onready var puerta_salida = $Objetos/Puerta2
+@onready var checkpoint_puerta: Marker2D = $Objetos/CheckpointPuerta
 @onready var jugador: CharacterBody2D = $Player/Jugador
 @onready var hud = $Canvas/HUD
 @onready var menu_pausa = $Canvas/MenuPausa
@@ -27,6 +29,7 @@ var _nivel_completado: bool = false
 var _puzzle_activo: bool = false
 var _checkpoint_activo: bool = false
 var _pausa_activa: bool = false
+var _golpe_lento_activo: bool = false
 var _temporizador_golpe: Timer
 
 
@@ -140,16 +143,22 @@ func abrir_menu_pausa() -> void:
 		return
 
 	_pausa_activa = true
-	get_tree().paused = true
+	jugador.velocity = Vector2.ZERO
+	jugador.establecer_control_habilitado(false)
+	_establecer_enemigos_congelados(true)
+	_actualizar_escala_tiempo()
 	menu_pausa.abrir(_checkpoint_activo, _obtener_descripcion_checkpoint())
 
 
 func cerrar_menu_pausa() -> void:
-	if not _pausa_activa and not get_tree().paused:
+	if not _pausa_activa:
 		return
 
 	_pausa_activa = false
-	get_tree().paused = false
+	if not _puzzle_activo:
+		jugador.establecer_control_habilitado(true)
+	_establecer_enemigos_congelados(_puzzle_activo)
+	_actualizar_escala_tiempo()
 	menu_pausa.cerrar()
 
 
@@ -221,8 +230,9 @@ func _on_puzzle_cancelado() -> void:
 
 func _cerrar_puzzle(mensaje: String) -> void:
 	_puzzle_activo = false
-	jugador.establecer_control_habilitado(true)
-	_establecer_enemigos_congelados(false)
+	if not _pausa_activa:
+		jugador.establecer_control_habilitado(true)
+	_establecer_enemigos_congelados(_pausa_activa)
 	puzzle.cerrar()
 	hud.mostrar_mensaje(mensaje)
 
@@ -232,8 +242,9 @@ func _cerrar_puzzle_si_esta_abierto() -> void:
 		return
 
 	_puzzle_activo = false
-	jugador.establecer_control_habilitado(true)
-	_establecer_enemigos_congelados(false)
+	if not _pausa_activa:
+		jugador.establecer_control_habilitado(true)
+	_establecer_enemigos_congelados(_pausa_activa)
 	puzzle.cerrar()
 
 
@@ -254,7 +265,7 @@ func _on_puerta_teletransporte_realizado(_jugador: Node2D, destino: Node2D) -> v
 	if destino == null or not destino.has_method("obtener_punto_salida"):
 		return
 
-	var nueva_posicion_checkpoint: Vector2 = destino.obtener_punto_salida() + desplazamiento_checkpoint_puerta
+	var nueva_posicion_checkpoint := _obtener_posicion_checkpoint_puerta(destino)
 	_activar_checkpoint(nueva_posicion_checkpoint)
 
 
@@ -337,18 +348,38 @@ func _aplicar_golpe_lento() -> void:
 	if duracion_golpe_lento <= 0.0:
 		return
 
-	Engine.time_scale = min(max(escala_tiempo_golpe, 0.05), 1.0)
+	_golpe_lento_activo = true
+	_actualizar_escala_tiempo()
 	_temporizador_golpe.start(duracion_golpe_lento)
 
 
 func _on_temporizador_golpe_timeout() -> void:
+	_golpe_lento_activo = false
 	_restaurar_tiempo_normal()
 
 
 func _restaurar_tiempo_normal() -> void:
+	_actualizar_escala_tiempo()
+
+
+func _actualizar_escala_tiempo() -> void:
+	if _pausa_activa:
+		Engine.time_scale = ESCALA_TIEMPO_PAUSA
+		return
+
+	if _golpe_lento_activo:
+		Engine.time_scale = min(max(escala_tiempo_golpe, 0.05), 1.0)
+		return
+
 	Engine.time_scale = 1.0
 
 
+func _obtener_posicion_checkpoint_puerta(destino: Node2D) -> Vector2:
+	if checkpoint_puerta != null:
+		return checkpoint_puerta.global_position
+
+	return destino.obtener_punto_salida() + desplazamiento_checkpoint_puerta
+
+
 func _exit_tree() -> void:
-	get_tree().paused = false
 	_restaurar_tiempo_normal()
