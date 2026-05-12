@@ -428,10 +428,9 @@ position = Vector2(3368, 229)
 
 [node name="Objetos" type="Node2D" parent="." unique_id=1130510155]
 
-[node name="Puerta" parent="Objetos" unique_id=413627468 node_paths=PackedStringArray("puerta_destino") instance=ExtResource("5_ryxee")]
+[node name="Puerta" parent="Objetos" unique_id=413627468 instance=ExtResource("5_ryxee")]
 position = Vector2(1240, 292.99997)
 scale = Vector2(0.26893523, 0.26217192)
-puerta_destino = NodePath("../Puerta2")
 
 [node name="Puerta2" parent="Objetos" unique_id=692291154 instance=ExtResource("6_door_tp")]
 position = Vector2(1400, 293)
