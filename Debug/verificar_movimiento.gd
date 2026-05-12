@@ -203,6 +203,7 @@ func _ejecutar_verificacion() -> void:
 				_registrar_error("La puerta abierta no queda lista para teletransportar al jugador.")
 
 			var salida_esperada: Vector2 = puerta_destino.obtener_punto_salida()
+			var checkpoint = escena_principal.get_node_or_null("Objetos/CheckpointPuerta")
 			puerta.teletransportar_jugador(jugador)
 			await process_frame
 
@@ -213,7 +214,7 @@ func _ejecutar_verificacion() -> void:
 				_registrar_error("Cruzar la puerta no activa el checkpoint posterior.")
 
 			var respawn_checkpoint: Vector2 = escena_principal.obtener_respawn_actual()
-			if respawn_checkpoint.distance_to(salida_esperada + escena_principal.desplazamiento_checkpoint_puerta) > 1.0:
+			if checkpoint != null and respawn_checkpoint.distance_to(checkpoint.global_position) > 1.0:
 				_registrar_error("El respawn actual no coincide con el checkpoint esperado despues de la puerta.")
 
 			jugador.global_position = Vector2(1800, 1000)
@@ -237,8 +238,14 @@ func _ejecutar_verificacion() -> void:
 			if not escena_principal.esta_pausa_activa():
 				_registrar_error("El menu de pausa no se activa al abrirlo.")
 
-			if not paused:
-				_registrar_error("El arbol no queda en pausa al abrir el menu provisional.")
+			if Engine.time_scale > 0.00001:
+				_registrar_error("La pausa no reduce la velocidad global del mundo al minimo esperado.")
+
+			if jugador.tiene_control_habilitado():
+				_registrar_error("El jugador sigue con controles habilitados durante la pausa.")
+
+			if not enemigo.esta_congelado():
+				_registrar_error("El enemigo patrulla no queda congelado al abrir la pausa.")
 
 			escena_principal.cerrar_menu_pausa()
 			await process_frame
@@ -246,8 +253,8 @@ func _ejecutar_verificacion() -> void:
 			if escena_principal.esta_pausa_activa():
 				_registrar_error("El menu de pausa no se cierra correctamente.")
 
-			if paused:
-				_registrar_error("El arbol sigue en pausa despues de cerrar el menu provisional.")
+			if not is_equal_approx(Engine.time_scale, 1.0):
+				_registrar_error("La velocidad global no vuelve a la normalidad despues de cerrar la pausa.")
 
 	if _errores.is_empty():
 		print("MOVIMIENTO_OK")

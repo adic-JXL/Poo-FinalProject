@@ -384,7 +384,7 @@ tile_set = SubResource("TileSet_o37df")
 
 [node name="HUD" parent="Canvas" unique_id=129481986 instance=ExtResource("6_hud01")]
 
-[node name="MenuPausa" parent="Canvas" instance=ExtResource("15_pause")]
+[node name="MenuPausa" parent="Canvas" unique_id=1528197418 instance=ExtResource("15_pause")]
 
 [node name="Enemigos" type="Node2D" parent="." unique_id=1191135653]
 
@@ -438,6 +438,13 @@ scale = Vector2(0.26893523, 0.26217192)
 [node name="Puerta2" parent="Objetos" unique_id=692291154 instance=ExtResource("6_door_tp")]
 position = Vector2(1400, 293)
 scale = Vector2(0.26893523, 0.26217192)
+
+[node name="CheckpointPuerta" type="Marker2D" parent="Objetos" unique_id=829114517]
+position = Vector2(1466, 293)
+
+[node name="PuntoVisible" type="Polygon2D" parent="Objetos/CheckpointPuerta" unique_id=127510834]
+color = Color(0.215686, 0.964706, 0.537255, 0.95)
+polygon = PackedVector2Array(0, -6, 6, 0, 0, 6, -6, 0)
 
 [node name="Llave" parent="Objetos" unique_id=183524802 instance=ExtResource("7_llave")]
 position = Vector2(1024, 195)
