@@ -2,6 +2,7 @@ extends CharacterBody2D
 class_name Jugador
 
 const SistemaEstaminaClass = preload("res://Scripts/sistema_estamina.gd")
+const HabilidadGafasClass = preload("res://Scripts/habilidad_gafas.gd")
 const EstadoNormalClass = preload("res://Scripts/estado_jugador_normal.gd")
 const EstadoSprintClass = preload("res://Scripts/estado_jugador_sprint.gd")
 const EstadoBloqueadoClass = preload("res://Scripts/estado_jugador_bloqueado.gd")
@@ -13,6 +14,7 @@ signal estamina_cambiada(actual: float, maxima: float)
 signal sprint_cambiado(activo: bool)
 signal invulnerabilidad_cambiada(activa: bool)
 signal dano_recibido(cantidad: int, direccion: float)
+signal gafas_actualizadas(activa: bool, duracion_restante: float, cooldown_restante: float, cooldown_actual: float, siguiente_cooldown: float)
 
 @export_group("Configuracion")
 @export var nombre: String = "Protagonista"
@@ -37,8 +39,15 @@ signal dano_recibido(cantidad: int, direccion: float)
 @export var fuerza_retroceso_y: float = 170.0
 @export var duracion_aturdimiento: float = 0.22
 
+@export_group("Gafas")
+@export var gafas_duracion: float = 10.0
+@export var gafas_cooldown_base: float = 2.0
+@export var gafas_incremento_cooldown: float = 1.5
+@export var gafas_cooldown_maximo: float = 10.0
+
 var estado_actual: StringName = &"sin_estado"
 var sistema_estamina
+var habilidad_gafas
 
 var _vida_inicial: int = 0
 var _gravedad: float = 0.0
@@ -64,16 +73,20 @@ func _ready() -> void:
 
 	sistema_estamina = SistemaEstaminaClass.new(estamina_maxima)
 	sistema_estamina.valor_cambiado.connect(_on_estamina_valor_cambiado)
+	habilidad_gafas = HabilidadGafasClass.new(gafas_duracion, gafas_cooldown_base, gafas_incremento_cooldown, gafas_cooldown_maximo)
+	habilidad_gafas.estado_actualizado.connect(_on_gafas_estado_actualizado)
 	_crear_estados()
 	cambiar_a_estado(&"normal")
 
 	emit_signal("vida_cambiada", vida)
 	emit_signal("estamina_cambiada", sistema_estamina.actual, sistema_estamina.maxima)
 	emit_signal("sprint_cambiado", _sprint_activo)
+	emit_signal("gafas_actualizadas", habilidad_gafas.esta_activa(), habilidad_gafas.obtener_duracion_restante(), habilidad_gafas.obtener_cooldown_restante(), habilidad_gafas.obtener_cooldown_actual(), habilidad_gafas.obtener_cooldown_siguiente())
 
 
 func _physics_process(delta: float) -> void:
 	_actualizar_invulnerabilidad(delta)
+	habilidad_gafas.actualizar(delta)
 
 	if estado_actual != &"bloqueado" and not is_on_floor():
 		velocity.y += _gravedad * delta
@@ -81,6 +94,8 @@ func _physics_process(delta: float) -> void:
 	var direccion := obtener_input()
 	var quiere_sprint := Input.is_action_pressed("sprint")
 	var quiere_saltar := Input.is_action_just_pressed("saltar")
+	if _controles_habilitados and Input.is_action_just_pressed("usar_gafas"):
+		activar_gafas()
 	procesar_estado_actual(delta, direccion, quiere_sprint, quiere_saltar)
 
 	move_and_slide()
@@ -199,6 +214,30 @@ func obtener_vida_inicial() -> int:
 	return _vida_inicial
 
 
+func activar_gafas() -> bool:
+	return habilidad_gafas.intentar_activar()
+
+
+func gafas_activas() -> bool:
+	return habilidad_gafas.esta_activa()
+
+
+func obtener_duracion_gafas_restante() -> float:
+	return habilidad_gafas.obtener_duracion_restante()
+
+
+func obtener_cooldown_gafas_restante() -> float:
+	return habilidad_gafas.obtener_cooldown_restante()
+
+
+func obtener_siguiente_cooldown_gafas() -> float:
+	return habilidad_gafas.obtener_cooldown_siguiente()
+
+
+func obtener_cooldown_actual_gafas() -> float:
+	return habilidad_gafas.obtener_cooldown_actual()
+
+
 func esta_haciendo_sprint() -> bool:
 	return _sprint_activo
 
@@ -211,6 +250,7 @@ func restaurar_para_respawn(posicion: Vector2) -> void:
 	visual.modulate = _modulate_visual_original
 	vida = _vida_inicial
 	sistema_estamina.reiniciar()
+	habilidad_gafas.reiniciar()
 	establecer_sprint_activo(false)
 	cambiar_a_estado(&"normal")
 	emit_signal("vida_cambiada", vida)
@@ -239,6 +279,10 @@ func establecer_sprint_activo(activo: bool) -> void:
 
 func _on_estamina_valor_cambiado(actual: float, maxima: float) -> void:
 	emit_signal("estamina_cambiada", actual, maxima)
+
+
+func _on_gafas_estado_actualizado(activa: bool, duracion_restante: float, cooldown_restante: float, cooldown_actual: float, siguiente_cooldown: float) -> void:
+	emit_signal("gafas_actualizadas", activa, duracion_restante, cooldown_restante, cooldown_actual, siguiente_cooldown)
 
 
 func _crear_estados() -> void:

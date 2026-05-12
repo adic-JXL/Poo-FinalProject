@@ -58,8 +58,10 @@ func _ejecutar_verificacion() -> void:
 		var puzzle = escena_principal.get_node_or_null("Canvas/PuzzleSecuencia")
 		var puerta = escena_principal.get_node_or_null("Objetos/Puerta")
 		var puerta_destino = escena_principal.get_node_or_null("Objetos/Puerta2")
+		var camara_1 = escena_principal.get_node_or_null("Player/Camara1")
+		var plataforma_gafas = escena_principal.get_node_or_null("Plataformas/PlataformaGafas1")
 
-		if enemigo == null or perseguidor == null or flotante_horizontal == null or flotante_vertical == null or llave == null or puzzle == null or puerta == null or puerta_destino == null:
+		if enemigo == null or perseguidor == null or flotante_horizontal == null or flotante_vertical == null or llave == null or puzzle == null or puerta == null or puerta_destino == null or camara_1 == null or plataforma_gafas == null:
 			_registrar_error("Faltan nodos del flujo principal en MainGame.")
 		else:
 			var posicion_inicial_enemigo_x: float = enemigo.global_position.x
@@ -154,6 +156,47 @@ func _ejecutar_verificacion() -> void:
 
 			if absf(perseguidor.obtener_velocidad_persecucion_actual()) > jugador.velocidad_base * 0.55:
 				_registrar_error("El perseguidor supera el limite esperado de media velocidad del jugador.")
+
+			if not jugador.activar_gafas():
+				_registrar_error("El jugador no pudo activar las gafas cuando deberia.")
+
+			await process_frame
+
+			if not jugador.gafas_activas():
+				_registrar_error("Las gafas no quedan activas tras usarlas.")
+
+			if enemigo.obtener_multiplicador_velocidad() > 0.971:
+				_registrar_error("Las gafas no reducen la velocidad base de los enemigos.")
+
+			if not plataforma_gafas.esta_revelada():
+				_registrar_error("Las plataformas ocultas no se revelan con las gafas activas.")
+
+			if camara_1.zoom.x >= escena_principal.zoom_base_mundo.x:
+				_registrar_error("Las gafas no amplian el rango de vision de la camara principal.")
+
+			jugador.habilidad_gafas.actualizar(10.1)
+			await process_frame
+
+			if jugador.gafas_activas():
+				_registrar_error("Las gafas no terminan despues de agotar su duracion.")
+
+			if jugador.obtener_cooldown_gafas_restante() < 1.9:
+				_registrar_error("Las gafas no entran en cooldown al terminar su efecto.")
+
+			if jugador.activar_gafas():
+				_registrar_error("Las gafas pueden activarse durante el cooldown.")
+
+			if plataforma_gafas.esta_revelada():
+				_registrar_error("Las plataformas de gafas no vuelven a ocultarse al terminar el efecto.")
+
+			if not is_equal_approx(camara_1.zoom.x, escena_principal.zoom_base_mundo.x):
+				_registrar_error("La camara principal no vuelve a su zoom base al terminar las gafas.")
+
+			jugador.habilidad_gafas.actualizar(2.1)
+			await process_frame
+
+			if absf(jugador.obtener_siguiente_cooldown_gafas() - 3.5) > 0.05:
+				_registrar_error("El cooldown progresivo de las gafas no aumenta en 1.5 segundos tras el primer uso.")
 
 			jugador.global_position = llave.global_position
 			for _j in range(3):

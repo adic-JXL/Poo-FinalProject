@@ -23,7 +23,7 @@ func _procesar_comportamiento(delta: float) -> void:
 	elif offset_actual <= -distancia_flotacion:
 		_direccion_actual = 1.0
 
-	velocity = eje * _direccion_actual * velocidad
+	velocity = eje * _direccion_actual * velocidad * obtener_multiplicador_velocidad()
 	_actualizar_visual(eje)
 
 

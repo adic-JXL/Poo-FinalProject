@@ -1,16 +1,18 @@
-[gd_scene format=3 uid="uid://epu5x41hq3f0"]
+[gd_scene load_steps=4 format=3 uid="uid://epu5x41hq3f0"]
 
-[ext_resource type="Texture2D" uid="uid://3lhomoy1dgxd" path="res://Imagenes/Tileset.png" id="1_2k46e"]
+[ext_resource type="Texture2D" uid="uid://3lhomoy1dgxd" path="res://Imagenes/Tileset.png" id="1_tiles"]
+[ext_resource type="Script" path="res://Scripts/plataforma_gafas.gd" id="2_script"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_2hgla"]
+[sub_resource type="RectangleShape2D" id="1_shape"]
 size = Vector2(94, 30)
 
-[node name="Plataforma_Gafas" type="AnimatableBody2D" unique_id=1248097605]
+[node name="PlataformaGafas" type="AnimatableBody2D"]
+script = ExtResource("2_script")
 
-[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1114938689]
-texture = ExtResource("1_2k46e")
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_tiles")
 region_enabled = true
 region_rect = Rect2(32.957817, 97.22655, 94.23448, 29.846962)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Sprite2D" unique_id=280257717]
-shape = SubResource("RectangleShape2D_2hgla")
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("1_shape")

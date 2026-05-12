@@ -6,19 +6,27 @@ const MENSAJE_PUERTA_CERRADA := "La puerta sigue cerrada. Resuelve el puzzle de 
 const MENSAJE_NIVEL_COMPLETO := "La puerta se abrio. El nivel base ya esta completo."
 const MENSAJE_CHECKPOINT_ACTIVADO := "Checkpoint activado. Si caes, volveras despues de la puerta."
 const ESCALA_TIEMPO_PAUSA := 0.000001
+const FACTOR_LENTITUD_GAFAS_ENEMIGOS := 0.97
 
 @export var limite_caida_y: float = 700.0
 @export var escala_tiempo_golpe: float = 0.45
 @export var duracion_golpe_lento: float = 0.1
 @export var desplazamiento_checkpoint_puerta: Vector2 = Vector2(72, 0)
+@export var zoom_base_mundo: Vector2 = Vector2(2.15, 2.15)
+@export var zoom_con_gafas: Vector2 = Vector2(1.75, 1.75)
+@export var alpha_distorsion_base: float = 0.18
+@export var alpha_distorsion_gafas: float = 0.0
 
 @onready var tile_map: TileMapLayer = $Mapa/TileMapLayer
 @onready var puerta = $Objetos/Puerta
 @onready var puerta_salida = $Objetos/Puerta2
 @onready var checkpoint_puerta: Marker2D = $Objetos/CheckpointPuerta
 @onready var jugador: CharacterBody2D = $Player/Jugador
+@onready var camara_1: Camera2D = $Player/Camara1
+@onready var camara_2: Camera2D = $Player/Camara2
 @onready var hud = $Canvas/HUD
 @onready var menu_pausa = $Canvas/MenuPausa
+@onready var distorsion_overlay: ColorRect = $Canvas/DistorsionOverlay
 @onready var llave = $Objetos/Llave
 @onready var puzzle = $Canvas/PuzzleSecuencia
 
@@ -43,10 +51,12 @@ func _ready() -> void:
 	_configurar_jugador()
 	_configurar_puertas()
 	_configurar_enemigos()
+	_configurar_gafas()
 	_configurar_menu_pausa()
 	_configurar_interactivo(llave, _on_llave_interaccion_solicitada)
 	_configurar_interactivo(puerta, _on_puerta_interaccion_solicitada)
 	_configurar_puzzle()
+	_aplicar_estado_gafas(false)
 	_restaurar_mensaje_hud()
 
 
@@ -89,6 +99,7 @@ func reiniciar_nivel() -> void:
 	_cerrar_puzzle_si_esta_abierto()
 	_restaurar_entidades()
 	jugador.restaurar_para_respawn(_posicion_respawn_actual)
+	_aplicar_estado_gafas(jugador.gafas_activas())
 	_restaurar_mensaje_hud()
 
 
@@ -171,6 +182,7 @@ func _configurar_hud() -> void:
 func _configurar_jugador() -> void:
 	jugador.vida_cambiada.connect(_on_jugador_vida_cambiada)
 	jugador.dano_recibido.connect(_on_jugador_dano_recibido)
+	jugador.gafas_actualizadas.connect(_on_jugador_gafas_actualizadas)
 
 
 func _configurar_puertas() -> void:
@@ -185,6 +197,11 @@ func _configurar_enemigos() -> void:
 	for enemigo in get_tree().get_nodes_in_group("enemigo"):
 		if enemigo.has_signal("jugador_danado"):
 			enemigo.jugador_danado.connect(_on_enemigo_jugador_danado)
+
+
+func _configurar_gafas() -> void:
+	if distorsion_overlay != null:
+		distorsion_overlay.color.a = alpha_distorsion_base
 
 
 func _configurar_menu_pausa() -> void:
@@ -293,6 +310,10 @@ func _on_jugador_dano_recibido(_cantidad: int, _direccion: float) -> void:
 	_aplicar_golpe_lento()
 
 
+func _on_jugador_gafas_actualizadas(activa: bool, _duracion_restante: float, _cooldown_restante: float, _cooldown_actual: float, _siguiente_cooldown: float) -> void:
+	_aplicar_estado_gafas(activa)
+
+
 func _establecer_enemigos_congelados(congelados: bool) -> void:
 	for enemigo in get_tree().get_nodes_in_group("enemigo"):
 		if enemigo.has_method("establecer_congelado"):
@@ -303,6 +324,9 @@ func _restaurar_entidades() -> void:
 	for enemigo in get_tree().get_nodes_in_group("enemigo"):
 		if enemigo.has_method("reiniciar_enemigo"):
 			enemigo.reiniciar_enemigo()
+
+		if enemigo.has_method("establecer_multiplicador_velocidad"):
+			enemigo.establecer_multiplicador_velocidad(FACTOR_LENTITUD_GAFAS_ENEMIGOS if jugador.gafas_activas() else 1.0)
 
 
 func _on_rango_interaccion_cambiado(activo: bool, mensaje: String) -> void:
@@ -334,6 +358,30 @@ func _restaurar_mensaje_hud() -> void:
 
 func _obtener_descripcion_checkpoint() -> String:
 	return "(%.0f, %.0f)" % [_posicion_respawn_actual.x, _posicion_respawn_actual.y]
+
+
+func _aplicar_estado_gafas(activa: bool) -> void:
+	_aplicar_zoom_camaras(zoom_con_gafas if activa else zoom_base_mundo)
+
+	if distorsion_overlay != null:
+		distorsion_overlay.color.a = alpha_distorsion_gafas if activa else alpha_distorsion_base
+
+	var multiplicador_enemigos := FACTOR_LENTITUD_GAFAS_ENEMIGOS if activa else 1.0
+	for enemigo in get_tree().get_nodes_in_group("enemigo"):
+		if enemigo.has_method("establecer_multiplicador_velocidad"):
+			enemigo.establecer_multiplicador_velocidad(multiplicador_enemigos)
+
+	for plataforma in get_tree().get_nodes_in_group("plataforma_gafas"):
+		if plataforma.has_method("establecer_revelada"):
+			plataforma.establecer_revelada(activa)
+
+
+func _aplicar_zoom_camaras(zoom_objetivo: Vector2) -> void:
+	if camara_1 != null:
+		camara_1.zoom = zoom_objetivo
+
+	if camara_2 != null:
+		camara_2.zoom = zoom_objetivo
 
 
 func _preparar_temporizador_golpe() -> void:
