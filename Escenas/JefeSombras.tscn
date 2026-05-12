@@ -1,33 +1,39 @@
-[gd_scene load_steps=5 format=3]
+[gd_scene format=3 uid="uid://cgrdddpb18vhy"]
 
-[ext_resource type="Script" path="res://Scripts/jefe_sombras.gd" id="1_jefe"]
+[ext_resource type="Script" uid="uid://da84n3xlcg3qs" path="res://Scripts/jefe_sombras.gd" id="1_jefe"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_cuerpo"]
 radius = 24.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_ataque"]
-radius = 34.0
+radius = 25.495098
 
-[node name="JefeSombras" type="CharacterBody2D"]
+[node name="JefeSombras" type="CharacterBody2D" unique_id=41432351]
 script = ExtResource("1_jefe")
 vida = 3
-danio_contacto = 1
 tiempo_recarga_ataque = 1.1
 velocidad = 92.0
 aceleracion = 850.0
 usa_gravedad = false
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1044293646]
 shape = SubResource("CircleShape2D_cuerpo")
 
-[node name="Visual" type="Polygon2D" parent="."]
+[node name="Visual" type="Polygon2D" parent="." unique_id=139603634]
 color = Color(0.7, 0.24, 0.2, 0.95)
 polygon = PackedVector2Array(-18, -28, 18, -28, 28, 0, 18, 28, -18, 28, -28, 0)
 
-[node name="AreaAtaque" type="Area2D" parent="."]
+[node name="LineaCarga" type="Line2D" parent="." unique_id=322000393]
+visible = false
+z_index = -1
+points = PackedVector2Array(0, 0, 132, 0)
+width = 5.0
+default_color = Color(1, 0.34, 0.18, 0.42)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="AreaAtaque"]
+[node name="AreaAtaque" type="Area2D" parent="." unique_id=1263340214]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AreaAtaque" unique_id=1265244461]
 shape = SubResource("CircleShape2D_ataque")
 
-[node name="TemporizadorAtaque" type="Timer" parent="."]
+[node name="TemporizadorAtaque" type="Timer" parent="." unique_id=767484850]
 one_shot = true

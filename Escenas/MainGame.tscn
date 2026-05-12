@@ -21,7 +21,7 @@
 [ext_resource type="PackedScene" path="res://Escenas/AltarGafas.tscn" id="18_altar"]
 [ext_resource type="PackedScene" path="res://Escenas/PuzzleGafas.tscn" id="19_puzzle_gafas"]
 [ext_resource type="Script" uid="uid://credu5ihgvkxe" path="res://Scripts/checkpoint_activador.gd" id="20_checkpoint"]
-[ext_resource type="PackedScene" path="res://Escenas/JefeSombras.tscn" id="21_jefe"]
+[ext_resource type="PackedScene" uid="uid://cgrdddpb18vhy" path="res://Escenas/JefeSombras.tscn" id="21_jefe"]
 [ext_resource type="PackedScene" path="res://Escenas/TotemJefe.tscn" id="22_totem"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_n7y03"]
@@ -378,7 +378,7 @@ radius = 18.0
 size = Vector2(1334, 388)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_b7mqo"]
-size = Vector2(6628, 419)
+size = Vector2(9288, 419)
 
 [node name="Node2D" type="Node2D" unique_id=291629533]
 script = ExtResource("1_h1l5c")
@@ -436,8 +436,30 @@ position = Vector2(944, 142)
 distancia_flotacion = 64.0
 direccion_inicial = -1
 
+[node name="EnemigoPerseguidorZonaPuerta" parent="Enemigos" unique_id=1930534745 instance=ExtResource("10_chaser")]
+position = Vector2(1830, 291)
+rango_deteccion = 180.0
+angulo_vision_grados = 65.0
+
+[node name="EnemigoFlotanteHorizontalRutaMedia" parent="Enemigos" unique_id=32947957 instance=ExtResource("11_float_h")]
+position = Vector2(2680, 230)
+distancia_flotacion = 92.0
+
+[node name="EnemigoFlotanteVerticalEscaleras" parent="Enemigos" unique_id=205472260 instance=ExtResource("12_float_v")]
+position = Vector2(3288, 150)
+direccion_inicial = -1
+
+[node name="EnemigoFlotanteHorizontalParkourA" parent="Enemigos" unique_id=1529332308 instance=ExtResource("11_float_h")]
+position = Vector2(8464, 150)
+distancia_flotacion = 76.0
+
+[node name="EnemigoFlotanteVerticalParkourB" parent="Enemigos" unique_id=952009774 instance=ExtResource("12_float_v")]
+position = Vector2(8958, 102)
+distancia_flotacion = 56.0
+direccion_inicial = -1
+
 [node name="JefeSombras" parent="Enemigos" unique_id=154374902 instance=ExtResource("21_jefe")]
-position = Vector2(9940, 34)
+position = Vector2(10050, 34)
 tiempo_recarga_ataque = 1.15
 velocidad = 86.0
 
@@ -537,28 +559,33 @@ scale = Vector2(1.8, 1)
 
 [node name="PuenteArenaJefe" parent="Plataformas" unique_id=613633109 instance=ExtResource("17_solida")]
 position = Vector2(9730, 114)
-scale = Vector2(1.8, 1)
+scale = Vector2(2.2, 1)
 
 [node name="ArenaJefePiso" parent="Plataformas" unique_id=146890210 instance=ExtResource("17_solida")]
-position = Vector2(9938, 146)
-scale = Vector2(5.7, 1)
+position = Vector2(10070, 146)
+scale = Vector2(9.2, 1)
 
 [node name="ArenaJefeTecho" parent="Plataformas" unique_id=714211229 instance=ExtResource("17_solida")]
-position = Vector2(9938, -18)
-scale = Vector2(5.7, 1)
+position = Vector2(10076, -106)
+scale = Vector2(9.2, 1)
 
-[node name="ArenaJefeMuroIzquierdo" parent="Plataformas" unique_id=1153257856 instance=ExtResource("17_solida")]
-position = Vector2(9670, 62)
+[node name="ArenaJefeMuroIzquierdoSuperior" parent="Plataformas" unique_id=1153257856 instance=ExtResource("17_solida")]
+position = Vector2(9660, -48)
 rotation = 1.5708
-scale = Vector2(2.8, 1)
+scale = Vector2(0.95, 1)
+
+[node name="ArenaJefeMuroIzquierdoInferior" parent="Plataformas" unique_id=2105636098 instance=ExtResource("17_solida")]
+position = Vector2(9660, 204)
+rotation = 1.5708
+scale = Vector2(0.95, 1)
 
 [node name="ArenaJefeMuroDerecho" parent="Plataformas" unique_id=1449754246 instance=ExtResource("17_solida")]
-position = Vector2(10206, 62)
+position = Vector2(10519, 25.000004)
 rotation = 1.5708
 scale = Vector2(2.8, 1)
 
 [node name="PlataformaTotemCentral" parent="Plataformas" unique_id=1193438256 instance=ExtResource("17_solida")]
-position = Vector2(9938, 42)
+position = Vector2(10050, 42)
 scale = Vector2(1.35, 1)
 
 [node name="Objetos" type="Node2D" parent="." unique_id=1130510155]
@@ -608,18 +635,18 @@ color_activo = Color(0.996078, 0.921569, 0.380392, 1)
 shape = SubResource("CircleShape2D_checkpoint_gafas")
 
 [node name="TotemJefeA" parent="Objetos" unique_id=1756466637 instance=ExtResource("22_totem")]
-position = Vector2(9794, 110)
+position = Vector2(9768, 68)
 
 [node name="TotemJefeB" parent="Objetos" unique_id=824579014 instance=ExtResource("22_totem")]
-position = Vector2(10084, 110)
+position = Vector2(10310, 110)
 
 [node name="TotemJefeC" parent="Objetos" unique_id=1757669067 instance=ExtResource("22_totem")]
-position = Vector2(9938, 10)
+position = Vector2(10050, 10)
 
 [node name="Player" type="Node2D" parent="." unique_id=1906555285]
 
 [node name="Jugador" parent="Player" unique_id=740271185 instance=ExtResource("2_apeae")]
-position = Vector2(7058, 159)
+position = Vector2(115, 271)
 velocidad_base = 100.0
 fuerza_salto = 300.0
 aceleracion = 1000.0
@@ -639,7 +666,7 @@ object = NodePath("../Jugador")
 zoom = Vector2(2, 2)
 limit_left = 1320
 limit_top = 0
-limit_right = 10420
+limit_right = 10600
 limit_bottom = 340
 script = ExtResource("14_1obna")
 object = NodePath("../Jugador")
@@ -657,7 +684,7 @@ shape = SubResource("RectangleShape2D_1obna")
 
 [node name="Area2" type="CollisionShape2D" parent="Player/Area2D2" unique_id=285069609]
 visible = false
-position = Vector2(4645, 201.5)
+position = Vector2(5975, 201.5)
 shape = SubResource("RectangleShape2D_b7mqo")
 
 [connection signal="body_entered" from="Player/Area2D" to="Player/Camara1" method="_on_area_2d_body_entered"]

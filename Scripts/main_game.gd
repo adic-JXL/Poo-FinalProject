@@ -252,6 +252,9 @@ func _configurar_enemigos() -> void:
 	if jefe_sombras != null and jefe_sombras.has_signal("jefe_derrotado"):
 		jefe_sombras.jefe_derrotado.connect(_on_jefe_sombras_derrotado)
 
+	if jefe_sombras != null and jefe_sombras.has_signal("fase_cambiada"):
+		jefe_sombras.fase_cambiada.connect(_on_jefe_sombras_fase_cambiada)
+
 
 func _configurar_gafas() -> void:
 	if distorsion_overlay != null:
@@ -345,10 +348,13 @@ func _on_totem_jefe_interaccion_solicitada(totem) -> void:
 		return
 
 	_totems_activados_jefe += 1
+	var jefe_recibio_sello := false
 	if jefe_sombras != null and jefe_sombras.has_method("activar_sello"):
 		jefe_sombras.activar_sello()
+		jefe_recibio_sello = true
 
-	hud.mostrar_mensaje("Sello activado %d / 3. Mantente en movimiento." % _totems_activados_jefe)
+	if not jefe_recibio_sello:
+		hud.mostrar_mensaje("Sello activado %d / 3. Mantente en movimiento." % _totems_activados_jefe)
 
 
 func _on_puzzle_gafas_completado() -> void:
@@ -419,6 +425,10 @@ func _on_checkpoint_puzzle_gafas_alcanzado(posicion: Vector2, _mensaje: String) 
 func _on_jefe_sombras_derrotado() -> void:
 	_jefe_derrotado = true
 	hud.mostrar_mensaje(MENSAJE_JEFE_DERROTADO)
+
+
+func _on_jefe_sombras_fase_cambiada(fase_actual: int, sellos_activados: int) -> void:
+	hud.mostrar_mensaje(_obtener_mensaje_fase_jefe(fase_actual, sellos_activados))
 
 
 func _activar_checkpoint(posicion: Vector2, mensaje: String = MENSAJE_CHECKPOINT_ACTIVADO) -> void:
@@ -509,6 +519,16 @@ func _restaurar_mensaje_hud() -> void:
 
 func _obtener_descripcion_checkpoint() -> String:
 	return "(%.0f, %.0f)" % [_posicion_respawn_actual.x, _posicion_respawn_actual.y]
+
+
+func _obtener_mensaje_fase_jefe(fase_actual: int, sellos_activados: int) -> String:
+	match fase_actual:
+		2:
+			return "Sello %d / 3. Fase 2: el jefe prepara embestidas. Lee la carga y esquiva." % sellos_activados
+		3:
+			return "Sello %d / 3. Fase 3: la arena se acelera. Usa las gafas y remata el ultimo totem." % sellos_activados
+		_:
+			return "Sello %d / 3. Mantente en movimiento." % sellos_activados
 
 
 func _aplicar_estado_gafas(activa: bool, instantaneo: bool = false) -> void:
