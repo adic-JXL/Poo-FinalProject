@@ -62,10 +62,12 @@ func _ejecutar_verificacion() -> void:
 		var plataforma_gafas = escena_principal.get_node_or_null("Plataformas/PlataformaGafas1")
 		var altar_gafas = escena_principal.get_node_or_null("Objetos/AltarGafas")
 		var checkpoint_puzzle_gafas = escena_principal.get_node_or_null("Objetos/CheckpointPuzzleGafas")
+		var checkpoint_puerta_activador = escena_principal.get_node_or_null("Objetos/CheckpointPuerta/Activador")
+		var checkpoint_puzzle_gafas_activador = escena_principal.get_node_or_null("Objetos/CheckpointPuzzleGafas/Activador")
 		var meta_plataforma_gafas = escena_principal.get_node_or_null("Plataformas/MetaPlataformaGafas")
 		var puzzle_gafas = escena_principal.get_node_or_null("Canvas/PuzzleGafas")
 
-		if enemigo == null or perseguidor == null or flotante_horizontal == null or flotante_vertical == null or llave == null or puzzle == null or puerta == null or puerta_destino == null or camara_1 == null or plataforma_gafas == null or altar_gafas == null or checkpoint_puzzle_gafas == null or meta_plataforma_gafas == null or puzzle_gafas == null:
+		if enemigo == null or perseguidor == null or flotante_horizontal == null or flotante_vertical == null or llave == null or puzzle == null or puerta == null or puerta_destino == null or camara_1 == null or plataforma_gafas == null or altar_gafas == null or checkpoint_puzzle_gafas == null or checkpoint_puerta_activador == null or checkpoint_puzzle_gafas_activador == null or meta_plataforma_gafas == null or puzzle_gafas == null:
 			_registrar_error("Faltan nodos del flujo principal en MainGame.")
 		else:
 			var posicion_inicial_enemigo_x: float = enemigo.global_position.x
@@ -257,13 +259,21 @@ func _ejecutar_verificacion() -> void:
 			var salida_esperada: Vector2 = puerta_destino.obtener_punto_salida()
 			var checkpoint = escena_principal.get_node_or_null("Objetos/CheckpointPuerta")
 			puerta.teletransportar_jugador(jugador)
-			await process_frame
+			await create_timer(0.4).timeout
 
 			if jugador.global_position.distance_to(salida_esperada) > 24.0:
 				_registrar_error("La puerta abierta no teletransporta al jugador hacia la puerta destino.")
 
+			if escena_principal.checkpoint_esta_activo():
+				_registrar_error("El checkpoint posterior se activa sin pasar por encima del punto.")
+
+			jugador.global_position = checkpoint_puerta_activador.global_position
+			jugador.velocity = Vector2.ZERO
+			for _cp in range(3):
+				await physics_frame
+
 			if not escena_principal.checkpoint_esta_activo():
-				_registrar_error("Cruzar la puerta no activa el checkpoint posterior.")
+				_registrar_error("Pasar por encima del checkpoint posterior no activa el respawn.")
 
 			var respawn_checkpoint: Vector2 = escena_principal.obtener_respawn_actual()
 			if checkpoint != null and respawn_checkpoint.distance_to(checkpoint.global_position) > 1.0:
@@ -297,9 +307,17 @@ func _ejecutar_verificacion() -> void:
 			if not escena_principal.puzzle_gafas_esta_superado():
 				_registrar_error("Completar el puzzle de gafas no marca el reto final como superado.")
 
+			if escena_principal.obtener_respawn_actual().distance_to(respawn_checkpoint) > 1.0:
+				_registrar_error("Completar el puzzle de gafas no deberia activar el checkpoint final automaticamente.")
+
+			jugador.global_position = checkpoint_puzzle_gafas_activador.global_position
+			jugador.velocity = Vector2.ZERO
+			for _cg in range(3):
+				await physics_frame
+
 			var respawn_final: Vector2 = escena_principal.obtener_respawn_actual()
 			if respawn_final.distance_to(checkpoint_puzzle_gafas.global_position) > 1.0:
-				_registrar_error("Superar el puzzle de gafas no actualiza el checkpoint final.")
+				_registrar_error("Pasar por encima del checkpoint final no actualiza el respawn.")
 
 			jugador.global_position = Vector2(1800, 1000)
 			jugador.velocity = Vector2.ZERO

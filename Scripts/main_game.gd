@@ -5,8 +5,10 @@ const MENU_SCENE := "res://Escenas/Menu.tscn"
 const MENSAJE_PUERTA_CERRADA := "La puerta sigue cerrada. Resuelve el puzzle de la llave."
 const MENSAJE_NIVEL_COMPLETO := "La puerta se abrio. El nivel base ya esta completo."
 const MENSAJE_CHECKPOINT_ACTIVADO := "Checkpoint activado. Si caes, volveras despues de la puerta."
-const MENSAJE_CHECKPOINT_GAFAS := "Checkpoint activado. Activa las gafas para revelar el parkour oculto."
+const MENSAJE_CHECKPOINT_PUERTA_DISPONIBLE := "Nueva zona alcanzada. Pisa el punto verde para guardar tu avance."
+const MENSAJE_CHECKPOINT_GAFAS_ACTIVADO := "Checkpoint activado. Activa las gafas para revelar el parkour oculto."
 const MENSAJE_PUZZLE_GAFAS_COMPLETADO := "Reto de gafas superado. Has revelado el camino alternativo final."
+const MENSAJE_CHECKPOINT_ALTAR_DISPONIBLE := "El altar respondio. Pisa el punto azul para guardar este avance."
 const MENSAJE_GAFAS_REQUERIDAS := "Activa las gafas antes de tocar el altar. Solo asi podras leer sus glifos."
 const ESCALA_TIEMPO_PAUSA := 0.000001
 const FACTOR_LENTITUD_GAFAS_ENEMIGOS := 0.97
@@ -25,8 +27,10 @@ const FACTOR_LENTITUD_GAFAS_ENEMIGOS := 0.97
 @onready var puerta = $Objetos/Puerta
 @onready var puerta_salida = $Objetos/Puerta2
 @onready var checkpoint_puerta: Marker2D = $Objetos/CheckpointPuerta
+@onready var checkpoint_puerta_activador = $Objetos/CheckpointPuerta/Activador
 @onready var altar_gafas = $Objetos/AltarGafas
 @onready var checkpoint_puzzle_gafas: Marker2D = $Objetos/CheckpointPuzzleGafas
+@onready var checkpoint_puzzle_gafas_activador = $Objetos/CheckpointPuzzleGafas/Activador
 @onready var jugador: CharacterBody2D = $Player/Jugador
 @onready var camara_1: Camera2D = $Player/Camara1
 @onready var camara_2: Camera2D = $Player/Camara2
@@ -61,6 +65,7 @@ func _ready() -> void:
 	_configurar_hud()
 	_configurar_jugador()
 	_configurar_puertas()
+	_configurar_checkpoints()
 	_configurar_enemigos()
 	_configurar_gafas()
 	_configurar_menu_pausa()
@@ -214,6 +219,14 @@ func _configurar_puertas() -> void:
 		puerta.teletransporte_realizado.connect(_on_puerta_teletransporte_realizado)
 
 
+func _configurar_checkpoints() -> void:
+	if checkpoint_puerta_activador != null and checkpoint_puerta_activador.has_signal("checkpoint_alcanzado"):
+		checkpoint_puerta_activador.checkpoint_alcanzado.connect(_on_checkpoint_puerta_alcanzado)
+
+	if checkpoint_puzzle_gafas_activador != null and checkpoint_puzzle_gafas_activador.has_signal("checkpoint_alcanzado"):
+		checkpoint_puzzle_gafas_activador.checkpoint_alcanzado.connect(_on_checkpoint_puzzle_gafas_alcanzado)
+
+
 func _configurar_enemigos() -> void:
 	for enemigo in get_tree().get_nodes_in_group("enemigo"):
 		if enemigo.has_signal("jugador_danado"):
@@ -290,11 +303,7 @@ func _on_puzzle_gafas_completado() -> void:
 	if altar_gafas != null and altar_gafas.has_method("marcar_resuelto"):
 		altar_gafas.marcar_resuelto()
 
-	if checkpoint_puzzle_gafas != null:
-		_establecer_checkpoint(checkpoint_puzzle_gafas.global_position)
-		hud.actualizar_checkpoint(_checkpoint_activo)
-
-	_cerrar_puzzle(MENSAJE_PUZZLE_GAFAS_COMPLETADO)
+	_cerrar_puzzle(MENSAJE_CHECKPOINT_ALTAR_DISPONIBLE)
 
 
 func _on_puzzle_gafas_cancelado() -> void:
@@ -343,8 +352,15 @@ func _on_puerta_teletransporte_realizado(_jugador: Node2D, destino: Node2D) -> v
 	if destino == null or not destino.has_method("obtener_punto_salida"):
 		return
 
-	var nueva_posicion_checkpoint := _obtener_posicion_checkpoint_puerta(destino)
-	_activar_checkpoint(nueva_posicion_checkpoint, MENSAJE_CHECKPOINT_GAFAS)
+	hud.mostrar_mensaje(MENSAJE_CHECKPOINT_PUERTA_DISPONIBLE)
+
+
+func _on_checkpoint_puerta_alcanzado(posicion: Vector2, _mensaje: String) -> void:
+	_activar_checkpoint(posicion, MENSAJE_CHECKPOINT_GAFAS_ACTIVADO)
+
+
+func _on_checkpoint_puzzle_gafas_alcanzado(posicion: Vector2, _mensaje: String) -> void:
+	_activar_checkpoint(posicion, MENSAJE_PUZZLE_GAFAS_COMPLETADO)
 
 
 func _activar_checkpoint(posicion: Vector2, mensaje: String = MENSAJE_CHECKPOINT_ACTIVADO) -> void:

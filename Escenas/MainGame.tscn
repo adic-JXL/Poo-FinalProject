@@ -16,10 +16,11 @@
 [ext_resource type="PackedScene" uid="uid://cfqkuepi47a1d" path="res://Escenas/Plataforma.tscn" id="13_p1w6e"]
 [ext_resource type="Script" path="res://Escenas/camara_2.gd" id="14_1obna"]
 [ext_resource type="PackedScene" path="res://Escenas/MenuPausa.tscn" id="15_pause"]
-[ext_resource type="PackedScene" path="res://Escenas/plataforma_gafas.tscn" id="16_gafas"]
+[ext_resource type="PackedScene" uid="uid://epu5x41hq3f0" path="res://Escenas/plataforma_gafas.tscn" id="16_gafas"]
 [ext_resource type="PackedScene" path="res://Escenas/PlataformaSolida.tscn" id="17_solida"]
 [ext_resource type="PackedScene" path="res://Escenas/AltarGafas.tscn" id="18_altar"]
 [ext_resource type="PackedScene" path="res://Escenas/PuzzleGafas.tscn" id="19_puzzle_gafas"]
+[ext_resource type="Script" uid="uid://credu5ihgvkxe" path="res://Scripts/checkpoint_activador.gd" id="20_checkpoint"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_n7y03"]
 
@@ -365,6 +366,12 @@ physics_layer_0/collision_layer = 1
 physics_layer_0/physics_material = SubResource("PhysicsMaterial_n7y03")
 sources/0 = SubResource("TileSetAtlasSource_apeae")
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_checkpoint_puerta"]
+radius = 18.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_checkpoint_gafas"]
+radius = 18.0
+
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_1obna"]
 size = Vector2(1334, 388)
 
@@ -384,8 +391,7 @@ tile_set = SubResource("TileSet_o37df")
 
 [node name="Canvas" type="CanvasLayer" parent="." unique_id=202099576]
 
-[node name="DistorsionOverlay" type="ColorRect" parent="Canvas"]
-layout_mode = 1
+[node name="DistorsionOverlay" type="ColorRect" parent="Canvas" unique_id=1906247050]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -401,8 +407,9 @@ color = Color(0.168627, 0.203922, 0.266667, 0.18)
 [node name="HUD" parent="Canvas" unique_id=129481986 instance=ExtResource("6_hud01")]
 
 [node name="MenuPausa" parent="Canvas" unique_id=1528197418 instance=ExtResource("15_pause")]
+visible = true
 
-[node name="PuzzleGafas" parent="Canvas" instance=ExtResource("19_puzzle_gafas")]
+[node name="PuzzleGafas" parent="Canvas" unique_id=2076556364 instance=ExtResource("19_puzzle_gafas")]
 
 [node name="Enemigos" type="Node2D" parent="." unique_id=1191135653]
 
@@ -447,60 +454,60 @@ position = Vector2(3448, 261)
 [node name="Plataforma7" parent="Plataformas" unique_id=1316912996 instance=ExtResource("13_p1w6e")]
 position = Vector2(3368, 229)
 
-[node name="PlataformaGafas1" parent="Plataformas" instance=ExtResource("16_gafas")]
-position = Vector2(4690, 246)
+[node name="PlataformaGafas1" parent="Plataformas" unique_id=1027299212 instance=ExtResource("16_gafas")]
+position = Vector2(7768, 338)
 
-[node name="PlataformaGafas2" parent="Plataformas" instance=ExtResource("16_gafas")]
-position = Vector2(4792, 214)
+[node name="PlataformaGafas2" parent="Plataformas" unique_id=1486878800 instance=ExtResource("16_gafas")]
+position = Vector2(7870, 306)
 
-[node name="PlataformaGafas3" parent="Plataformas" instance=ExtResource("16_gafas")]
-position = Vector2(4896, 182)
+[node name="PlataformaGafas3" parent="Plataformas" unique_id=1017152989 instance=ExtResource("16_gafas")]
+position = Vector2(7974, 274)
 
-[node name="PlataformaGafas4" parent="Plataformas" instance=ExtResource("16_gafas")]
-position = Vector2(5000, 150)
+[node name="PlataformaGafas4" parent="Plataformas" unique_id=219731388 instance=ExtResource("16_gafas")]
+position = Vector2(8078, 242)
 
-[node name="DescansoGafas1" parent="Plataformas" instance=ExtResource("17_solida")]
-position = Vector2(5132, 150)
+[node name="DescansoGafas1" parent="Plataformas" unique_id=1088988449 instance=ExtResource("17_solida")]
+position = Vector2(8210, 242)
 scale = Vector2(1.4, 1)
 
-[node name="InicioParkourGafas" parent="Plataformas" instance=ExtResource("17_solida")]
-position = Vector2(4554, 278)
+[node name="InicioParkourGafas" parent="Plataformas" unique_id=2004964371 instance=ExtResource("17_solida")]
+position = Vector2(7632, 370)
 scale = Vector2(1.6, 1)
 
-[node name="PlataformaGafas5" parent="Plataformas" instance=ExtResource("16_gafas")]
-position = Vector2(5274, 118)
+[node name="PlataformaGafas5" parent="Plataformas" unique_id=1635009532 instance=ExtResource("16_gafas")]
+position = Vector2(8352, 210)
 
-[node name="PlataformaGafas6" parent="Plataformas" instance=ExtResource("16_gafas")]
-position = Vector2(5386, 86)
+[node name="PlataformaGafas6" parent="Plataformas" unique_id=1091120508 instance=ExtResource("16_gafas")]
+position = Vector2(8464, 178)
 
-[node name="PlataformaGafas7" parent="Plataformas" instance=ExtResource("16_gafas")]
-position = Vector2(5498, 118)
+[node name="PlataformaGafas7" parent="Plataformas" unique_id=1278501828 instance=ExtResource("16_gafas")]
+position = Vector2(8576, 210)
 
-[node name="DescansoGafas2" parent="Plataformas" instance=ExtResource("17_solida")]
-position = Vector2(5628, 118)
+[node name="DescansoGafas2" parent="Plataformas" unique_id=391847605 instance=ExtResource("17_solida")]
+position = Vector2(8706, 210)
 scale = Vector2(1.5, 1)
 
-[node name="PlataformaGafas8" parent="Plataformas" instance=ExtResource("16_gafas")]
-position = Vector2(5768, 86)
+[node name="PlataformaGafas8" parent="Plataformas" unique_id=1062218736 instance=ExtResource("16_gafas")]
+position = Vector2(8846, 178)
 
-[node name="PlataformaGafas9" parent="Plataformas" instance=ExtResource("16_gafas")]
-position = Vector2(5880, 54)
+[node name="PlataformaGafas9" parent="Plataformas" unique_id=1860805752 instance=ExtResource("16_gafas")]
+position = Vector2(8958, 146)
 
-[node name="PlataformaGafas10" parent="Plataformas" instance=ExtResource("16_gafas")]
-position = Vector2(5992, 86)
+[node name="PlataformaGafas10" parent="Plataformas" unique_id=289053436 instance=ExtResource("16_gafas")]
+position = Vector2(9070, 178)
 
-[node name="DescansoGafas3" parent="Plataformas" instance=ExtResource("17_solida")]
-position = Vector2(6118, 86)
+[node name="DescansoGafas3" parent="Plataformas" unique_id=1740535448 instance=ExtResource("17_solida")]
+position = Vector2(9196, 178)
 scale = Vector2(1.35, 1)
 
-[node name="PlataformaGafas11" parent="Plataformas" instance=ExtResource("16_gafas")]
-position = Vector2(6252, 54)
+[node name="PlataformaGafas11" parent="Plataformas" unique_id=1794954774 instance=ExtResource("16_gafas")]
+position = Vector2(9330, 146)
 
-[node name="PlataformaGafas12" parent="Plataformas" instance=ExtResource("16_gafas")]
-position = Vector2(6364, 22)
+[node name="PlataformaGafas12" parent="Plataformas" unique_id=1903065900 instance=ExtResource("16_gafas")]
+position = Vector2(9442, 114)
 
-[node name="MetaPlataformaGafas" parent="Plataformas" instance=ExtResource("17_solida")]
-position = Vector2(6496, 22)
+[node name="MetaPlataformaGafas" parent="Plataformas" unique_id=37552864 instance=ExtResource("17_solida")]
+position = Vector2(9574, 114)
 scale = Vector2(1.8, 1)
 
 [node name="Objetos" type="Node2D" parent="." unique_id=1130510155]
@@ -520,18 +527,34 @@ position = Vector2(1551, 291)
 color = Color(0.215686, 0.964706, 0.537255, 0.95)
 polygon = PackedVector2Array(0, -6, 6, 0, 0, 6, -6, 0)
 
+[node name="Activador" type="Area2D" parent="Objetos/CheckpointPuerta" unique_id=1829978677]
+script = ExtResource("20_checkpoint")
+mensaje_activacion = "Checkpoint activado. Si caes, volveras despues de la puerta."
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Objetos/CheckpointPuerta/Activador" unique_id=1137202388]
+shape = SubResource("CircleShape2D_checkpoint_puerta")
+
 [node name="Llave" parent="Objetos" unique_id=183524802 instance=ExtResource("7_llave")]
 position = Vector2(1024, 195)
 
-[node name="AltarGafas" parent="Objetos" instance=ExtResource("18_altar")]
-position = Vector2(6496, -18)
+[node name="AltarGafas" parent="Objetos" unique_id=707470456 instance=ExtResource("18_altar")]
+position = Vector2(9574, 74)
 
-[node name="CheckpointPuzzleGafas" type="Marker2D" parent="Objetos"]
-position = Vector2(6496, -14)
+[node name="CheckpointPuzzleGafas" type="Marker2D" parent="Objetos" unique_id=2004459046]
+position = Vector2(9682, 78)
 
-[node name="PuntoVisible" type="Polygon2D" parent="Objetos/CheckpointPuzzleGafas"]
+[node name="PuntoVisible" type="Polygon2D" parent="Objetos/CheckpointPuzzleGafas" unique_id=1976305317]
 color = Color(0.392157, 0.764706, 1, 0.95)
 polygon = PackedVector2Array(0, -6, 6, 0, 0, 6, -6, 0)
+
+[node name="Activador" type="Area2D" parent="Objetos/CheckpointPuzzleGafas" unique_id=215361368]
+script = ExtResource("20_checkpoint")
+mensaje_activacion = "Checkpoint final activado. El altar ya reconoce tu avance."
+color_inactivo = Color(0.392157, 0.764706, 1, 0.95)
+color_activo = Color(0.996078, 0.921569, 0.380392, 1)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Objetos/CheckpointPuzzleGafas/Activador" unique_id=177139532]
+shape = SubResource("CircleShape2D_checkpoint_gafas")
 
 [node name="Player" type="Node2D" parent="." unique_id=1906555285]
 
@@ -556,7 +579,7 @@ object = NodePath("../Jugador")
 zoom = Vector2(2, 2)
 limit_left = 1320
 limit_top = 0
-limit_right = 8000
+limit_right = 10120
 limit_bottom = 340
 script = ExtResource("14_1obna")
 object = NodePath("../Jugador")
