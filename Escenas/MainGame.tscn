@@ -14,13 +14,15 @@
 [ext_resource type="PackedScene" path="res://Escenas/EnemigoFlotanteHorizontal.tscn" id="11_float_h"]
 [ext_resource type="PackedScene" path="res://Escenas/EnemigoFlotanteVertical.tscn" id="12_float_v"]
 [ext_resource type="PackedScene" uid="uid://cfqkuepi47a1d" path="res://Escenas/Plataforma.tscn" id="13_p1w6e"]
-[ext_resource type="Script" path="res://Escenas/camara_2.gd" id="14_1obna"]
+[ext_resource type="Script" uid="uid://b3rgtsadp855b" path="res://Escenas/camara_2.gd" id="14_1obna"]
 [ext_resource type="PackedScene" path="res://Escenas/MenuPausa.tscn" id="15_pause"]
 [ext_resource type="PackedScene" uid="uid://epu5x41hq3f0" path="res://Escenas/plataforma_gafas.tscn" id="16_gafas"]
 [ext_resource type="PackedScene" path="res://Escenas/PlataformaSolida.tscn" id="17_solida"]
 [ext_resource type="PackedScene" path="res://Escenas/AltarGafas.tscn" id="18_altar"]
 [ext_resource type="PackedScene" path="res://Escenas/PuzzleGafas.tscn" id="19_puzzle_gafas"]
 [ext_resource type="Script" uid="uid://credu5ihgvkxe" path="res://Scripts/checkpoint_activador.gd" id="20_checkpoint"]
+[ext_resource type="PackedScene" path="res://Escenas/JefeSombras.tscn" id="21_jefe"]
+[ext_resource type="PackedScene" path="res://Escenas/TotemJefe.tscn" id="22_totem"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_n7y03"]
 
@@ -392,6 +394,7 @@ tile_set = SubResource("TileSet_o37df")
 [node name="Canvas" type="CanvasLayer" parent="." unique_id=202099576]
 
 [node name="DistorsionOverlay" type="ColorRect" parent="Canvas" unique_id=1906247050]
+visible = false
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -403,13 +406,15 @@ mouse_filter = 2
 color = Color(0.168627, 0.203922, 0.266667, 0.18)
 
 [node name="PuzzleSecuencia" parent="Canvas" unique_id=1326261426 instance=ExtResource("8_puzzle")]
+visible = false
 
 [node name="HUD" parent="Canvas" unique_id=129481986 instance=ExtResource("6_hud01")]
+visible = false
 
 [node name="MenuPausa" parent="Canvas" unique_id=1528197418 instance=ExtResource("15_pause")]
-visible = true
 
 [node name="PuzzleGafas" parent="Canvas" unique_id=2076556364 instance=ExtResource("19_puzzle_gafas")]
+visible = false
 
 [node name="Enemigos" type="Node2D" parent="." unique_id=1191135653]
 
@@ -430,6 +435,11 @@ distancia_flotacion = 88.0
 position = Vector2(944, 142)
 distancia_flotacion = 64.0
 direccion_inicial = -1
+
+[node name="JefeSombras" parent="Enemigos" unique_id=154374902 instance=ExtResource("21_jefe")]
+position = Vector2(9940, 34)
+tiempo_recarga_ataque = 1.15
+velocidad = 86.0
 
 [node name="Plataformas" type="Node2D" parent="." unique_id=483207205]
 
@@ -462,6 +472,21 @@ position = Vector2(7870, 306)
 
 [node name="PlataformaGafas3" parent="Plataformas" unique_id=1017152989 instance=ExtResource("16_gafas")]
 position = Vector2(7974, 274)
+
+[node name="PlataformaGafas1" parent="Plataformas/PlataformaGafas3" unique_id=76669613 instance=ExtResource("16_gafas")]
+position = Vector2(-1942, -4)
+
+[node name="PlataformaGafas2" parent="Plataformas/PlataformaGafas3" unique_id=1914926229 instance=ExtResource("16_gafas")]
+position = Vector2(-1767, 10)
+
+[node name="PlataformaGafas2" parent="Plataformas/PlataformaGafas3/PlataformaGafas2" unique_id=115325593 instance=ExtResource("16_gafas")]
+position = Vector2(299, 36)
+
+[node name="PlataformaGafas2" parent="Plataformas/PlataformaGafas3/PlataformaGafas2/PlataformaGafas2" unique_id=591430 instance=ExtResource("16_gafas")]
+position = Vector2(139, -29)
+
+[node name="PlataformaGafas3" parent="Plataformas/PlataformaGafas3" unique_id=693806529 instance=ExtResource("16_gafas")]
+position = Vector2(-1620, 29)
 
 [node name="PlataformaGafas4" parent="Plataformas" unique_id=219731388 instance=ExtResource("16_gafas")]
 position = Vector2(8078, 242)
@@ -510,6 +535,32 @@ position = Vector2(9442, 114)
 position = Vector2(9574, 114)
 scale = Vector2(1.8, 1)
 
+[node name="PuenteArenaJefe" parent="Plataformas" unique_id=613633109 instance=ExtResource("17_solida")]
+position = Vector2(9730, 114)
+scale = Vector2(1.8, 1)
+
+[node name="ArenaJefePiso" parent="Plataformas" unique_id=146890210 instance=ExtResource("17_solida")]
+position = Vector2(9938, 146)
+scale = Vector2(5.7, 1)
+
+[node name="ArenaJefeTecho" parent="Plataformas" unique_id=714211229 instance=ExtResource("17_solida")]
+position = Vector2(9938, -18)
+scale = Vector2(5.7, 1)
+
+[node name="ArenaJefeMuroIzquierdo" parent="Plataformas" unique_id=1153257856 instance=ExtResource("17_solida")]
+position = Vector2(9670, 62)
+rotation = 1.5708
+scale = Vector2(2.8, 1)
+
+[node name="ArenaJefeMuroDerecho" parent="Plataformas" unique_id=1449754246 instance=ExtResource("17_solida")]
+position = Vector2(10206, 62)
+rotation = 1.5708
+scale = Vector2(2.8, 1)
+
+[node name="PlataformaTotemCentral" parent="Plataformas" unique_id=1193438256 instance=ExtResource("17_solida")]
+position = Vector2(9938, 42)
+scale = Vector2(1.35, 1)
+
 [node name="Objetos" type="Node2D" parent="." unique_id=1130510155]
 
 [node name="Puerta" parent="Objetos" unique_id=413627468 instance=ExtResource("5_ryxee")]
@@ -556,10 +607,19 @@ color_activo = Color(0.996078, 0.921569, 0.380392, 1)
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Objetos/CheckpointPuzzleGafas/Activador" unique_id=177139532]
 shape = SubResource("CircleShape2D_checkpoint_gafas")
 
+[node name="TotemJefeA" parent="Objetos" unique_id=1756466637 instance=ExtResource("22_totem")]
+position = Vector2(9794, 110)
+
+[node name="TotemJefeB" parent="Objetos" unique_id=824579014 instance=ExtResource("22_totem")]
+position = Vector2(10084, 110)
+
+[node name="TotemJefeC" parent="Objetos" unique_id=1757669067 instance=ExtResource("22_totem")]
+position = Vector2(9938, 10)
+
 [node name="Player" type="Node2D" parent="." unique_id=1906555285]
 
 [node name="Jugador" parent="Player" unique_id=740271185 instance=ExtResource("2_apeae")]
-position = Vector2(61, 310)
+position = Vector2(7058, 159)
 velocidad_base = 100.0
 fuerza_salto = 300.0
 aceleracion = 1000.0
@@ -579,7 +639,7 @@ object = NodePath("../Jugador")
 zoom = Vector2(2, 2)
 limit_left = 1320
 limit_top = 0
-limit_right = 10120
+limit_right = 10420
 limit_bottom = 340
 script = ExtResource("14_1obna")
 object = NodePath("../Jugador")
