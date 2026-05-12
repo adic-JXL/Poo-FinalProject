@@ -1,19 +1,12 @@
-extends "res://Scripts/interactivo_base.gd"
+extends "res://Scripts/puerta_teletransporte.gd"
 class_name PuertaBloqueada
-
-@export var color_bloqueada: Color = Color(1, 1, 1, 1)
-@export var color_abierta: Color = Color(0.67, 1, 0.78, 1)
 
 var _abierta: bool = false
 
-@onready var sprite: Sprite2D = $Puerta
-@onready var collision_shape: CollisionShape2D = $CuerpoSolido/CollisionShape2D
-@onready var area_interaccion_shape: CollisionShape2D = $CollisionShape2D
-
 
 func _ready() -> void:
+	transporte_habilitado = false
 	super()
-	_actualizar_visual()
 
 
 func puede_interactuar() -> bool:
@@ -25,15 +18,10 @@ func abrir() -> void:
 		return
 
 	_abierta = true
-	collision_shape.set_deferred("disabled", true)
-	area_interaccion_shape.set_deferred("disabled", true)
-	desactivar_interaccion()
-	_actualizar_visual()
+	establecer_transporte_habilitado(true)
+	_cambiar_rango_interaccion(false)
+	mensaje_interaccion = "La puerta ya esta abierta."
 
 
 func esta_abierta() -> bool:
 	return _abierta
-
-
-func _actualizar_visual() -> void:
-	sprite.modulate = color_abierta if _abierta else color_bloqueada

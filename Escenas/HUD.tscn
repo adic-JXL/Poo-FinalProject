@@ -1,9 +1,9 @@
 [gd_scene load_steps=2 format=3]
 
-[ext_resource type="Script" path="res://Scripts/hud.gd" id="1_4r81u"]
+[ext_resource type="Script" path="res://Scripts/hud.gd" id="1_hud"]
 
 [node name="HUD" type="CanvasLayer"]
-script = ExtResource("1_4r81u")
+script = ExtResource("1_hud")
 
 [node name="Control" type="Control" parent="."]
 layout_mode = 3
@@ -14,63 +14,156 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 
-[node name="MarginContainer" type="MarginContainer" parent="Control"]
+[node name="MensajePanel" type="PanelContainer" parent="Control"]
 layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = 20.0
-offset_top = 20.0
-offset_right = -760.0
-offset_bottom = -500.0
-grow_horizontal = 2
-grow_vertical = 2
+offset_left = 18.0
+offset_top = 18.0
+offset_right = 290.0
+offset_bottom = 130.0
 
-[node name="PanelContainer" type="PanelContainer" parent="Control/MarginContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="Control/MensajePanel"]
 layout_mode = 2
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 10
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Control/MarginContainer/PanelContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="Control/MensajePanel/MarginContainer"]
 layout_mode = 2
-theme_override_constants/separation = 8
+theme_override_constants/separation = 4
 
-[node name="TituloLabel" type="Label" parent="Control/MarginContainer/PanelContainer/VBoxContainer"]
+[node name="MensajeLabel" type="Label" parent="Control/MensajePanel/MarginContainer/VBoxContainer"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 28
-text = "Deep Shadow"
-
-[node name="MensajeLabel" type="Label" parent="Control/MarginContainer/PanelContainer/VBoxContainer"]
-layout_mode = 2
-text = "Shift activa sprint y consume estamina."
+text = "Mensajes provisionales del nivel."
 autowrap_mode = 3
 
-[node name="VidaLabel" type="Label" parent="Control/MarginContainer/PanelContainer/VBoxContainer"]
-layout_mode = 2
-text = "Vida: --"
-
-[node name="EstadoLabel" type="Label" parent="Control/MarginContainer/PanelContainer/VBoxContainer"]
+[node name="EstadoLabel" type="Label" parent="Control/MensajePanel/MarginContainer/VBoxContainer"]
 layout_mode = 2
 text = "Estado: --"
 
-[node name="EstaminaBarra" type="ProgressBar" parent="Control/MarginContainer/PanelContainer/VBoxContainer"]
-custom_minimum_size = Vector2(280, 18)
+[node name="LlaveLabel" type="Label" parent="Control/MensajePanel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Llave: --"
+
+[node name="CheckpointLabel" type="Label" parent="Control/MensajePanel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Checkpoint: --"
+
+[node name="StaminaPanel" type="PanelContainer" parent="Control"]
+layout_mode = 1
+anchors_preset = 10
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -170.0
+offset_top = 16.0
+offset_right = 170.0
+offset_bottom = 98.0
+grow_horizontal = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="Control/StaminaPanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 14
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 14
+theme_override_constants/margin_bottom = 10
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Control/StaminaPanel/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="TituloLabel" type="Label" parent="Control/StaminaPanel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+horizontal_alignment = 1
+text = "Estamina"
+
+[node name="EstaminaBarra" type="ProgressBar" parent="Control/StaminaPanel/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(300, 20)
 layout_mode = 2
 max_value = 100.0
 value = 100.0
 show_percentage = false
 
-[node name="EstaminaLabel" type="Label" parent="Control/MarginContainer/PanelContainer/VBoxContainer"]
+[node name="EstaminaLabel" type="Label" parent="Control/StaminaPanel/MarginContainer/VBoxContainer"]
 layout_mode = 2
+horizontal_alignment = 1
 text = "Estamina: --"
 
-[node name="SprintLabel" type="Label" parent="Control/MarginContainer/PanelContainer/VBoxContainer"]
+[node name="SprintLabel" type="Label" parent="Control/StaminaPanel/MarginContainer/VBoxContainer"]
 layout_mode = 2
+horizontal_alignment = 1
 text = "Sprint: --"
 
-[node name="LlaveLabel" type="Label" parent="Control/MarginContainer/PanelContainer/VBoxContainer"]
-layout_mode = 2
-text = "Llave: --"
+[node name="VidaPanel" type="PanelContainer" parent="Control"]
+layout_mode = 1
+anchors_preset = 9
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -202.0
+offset_top = 18.0
+offset_right = -18.0
+offset_bottom = 74.0
+grow_horizontal = 0
 
-[node name="AyudaLabel" type="Label" parent="Control/MarginContainer/PanelContainer/VBoxContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="Control/VidaPanel"]
 layout_mode = 2
-text = "A/D o flechas para mover, espacio para saltar, Shift para sprint, E para interactuar y R para reiniciar."
-autowrap_mode = 3
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 12
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 12
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Control/VidaPanel/MarginContainer"]
+layout_mode = 2
+
+[node name="VidaLabel" type="Label" parent="Control/VidaPanel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+horizontal_alignment = 1
+text = "Vida: --"
+theme_override_font_sizes/font_size = 20
+
+[node name="GafasPanel" type="PanelContainer" parent="Control"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -240.0
+offset_top = -150.0
+offset_right = -18.0
+offset_bottom = -18.0
+grow_horizontal = 0
+grow_vertical = 0
+
+[node name="MarginContainer" type="MarginContainer" parent="Control/GafasPanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 14
+theme_override_constants/margin_top = 12
+theme_override_constants/margin_right = 14
+theme_override_constants/margin_bottom = 12
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Control/GafasPanel/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="TituloLabel" type="Label" parent="Control/GafasPanel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+horizontal_alignment = 1
+text = "GAFAS"
+theme_override_font_sizes/font_size = 18
+
+[node name="GafasEstadoLabel" type="Label" parent="Control/GafasPanel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+horizontal_alignment = 1
+text = "Gafas: --"
+
+[node name="GafasBarra" type="ProgressBar" parent="Control/GafasPanel/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(180, 18)
+layout_mode = 2
+max_value = 10.0
+value = 10.0
+show_percentage = false
+
+[node name="GafasCooldownLabel" type="Label" parent="Control/GafasPanel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+horizontal_alignment = 1
+text = "Cooldown: --"
