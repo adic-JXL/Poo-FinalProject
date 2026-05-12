@@ -20,8 +20,8 @@
 [ext_resource type="PackedScene" path="res://Escenas/PlataformaSolida.tscn" id="17_solida"]
 [ext_resource type="PackedScene" path="res://Escenas/AltarGafas.tscn" id="18_altar"]
 [ext_resource type="PackedScene" path="res://Escenas/PuzzleGafas.tscn" id="19_puzzle_gafas"]
-[ext_resource type="Script" path="res://Scripts/checkpoint_activador.gd" id="20_checkpoint"]
-[ext_resource type="PackedScene" path="res://Escenas/JefeSombras.tscn" id="21_jefe"]
+[ext_resource type="Script" uid="uid://credu5ihgvkxe" path="res://Scripts/checkpoint_activador.gd" id="20_checkpoint"]
+[ext_resource type="PackedScene" uid="uid://cgrdddpb18vhy" path="res://Escenas/JefeSombras.tscn" id="21_jefe"]
 [ext_resource type="PackedScene" path="res://Escenas/TotemJefe.tscn" id="22_totem"]
 [ext_resource type="PackedScene" path="res://Escenas/NPC.tscn" id="23_npc"]
 
@@ -393,6 +393,7 @@ tile_map_data = PackedByteArray("AAAAABgAAAAAAAAAAAAAABkAAAABAAEAAAABABgAAAABAAA
 tile_set = SubResource("TileSet_o37df")
 
 [node name="Canvas" type="CanvasLayer" parent="." unique_id=202099576]
+visible = false
 
 [node name="DistorsionOverlay" type="ColorRect" parent="Canvas" unique_id=1879804617]
 anchors_preset = 15
@@ -652,7 +653,7 @@ velocidad_base = 100.0
 fuerza_salto = 300.0
 aceleracion = 1000.0
 
-[node name="Camara1" type="Camera2D" parent="Player" unique_id=1193660833]
+[node name="Camara1" type="Camera2D" parent="Player" unique_id=1193660833 node_paths=PackedStringArray("object")]
 position = Vector2(116, 314)
 scale = Vector2(1.323858, 1.3854806)
 zoom = Vector2(2, 2)
@@ -661,6 +662,7 @@ limit_top = 0
 limit_right = 1319
 limit_bottom = 374
 script = ExtResource("3_ryxee")
+object = NodePath("../Jugador")
 
 [node name="Camara2" type="Camera2D" parent="Player" unique_id=1719587605 node_paths=PackedStringArray("object")]
 zoom = Vector2(2, 2)
@@ -688,7 +690,7 @@ position = Vector2(5975, 201.5)
 shape = SubResource("RectangleShape2D_b7mqo")
 
 [node name="NPC" parent="." unique_id=1768407957 instance=ExtResource("23_npc")]
-position = Vector2(21, 334)
+position = Vector2(49, 315)
 
 [connection signal="body_entered" from="Player/Area2D" to="Player/Camara1" method="_on_area_2d_body_entered"]
 [connection signal="body_exited" from="Player/Area2D" to="Player/Camara1" method="_on_area_2d_body_exited"]

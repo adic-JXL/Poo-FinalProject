@@ -11,9 +11,13 @@ signal dialogo_finalizado(nombre: String)
 	"Busca la llave, resuelve su secuencia y vuelve a la puerta.",
 	"Si ves algo imposible, tal vez las gafas tengan la respuesta."
 ]
+@export_group("Retrato de dialogo")
+@export var retrato_escala: float = 2.4
+@export var retrato_posicion: Vector2 = Vector2(90, 118)
 
 @onready var dialogo_ui: DialogoUI = $DialogoUI
 @onready var nombre_label: Label = $NombreLabel
+@onready var visual: Node2D = $Visual
 
 var _jugador_dialogando: Node = null
 
@@ -34,7 +38,7 @@ func interactuar() -> void:
 	if _jugador_dialogando != null and _jugador_dialogando.has_method("establecer_control_habilitado"):
 		_jugador_dialogando.establecer_control_habilitado(false)
 
-	dialogo_ui.iniciar(nombre_npc, lineas_dialogo)
+	dialogo_ui.iniciar(nombre_npc, lineas_dialogo, visual, retrato_escala, retrato_posicion)
 	emit_signal("dialogo_iniciado", nombre_npc)
 
 
