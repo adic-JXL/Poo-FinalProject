@@ -209,6 +209,46 @@ func _ejecutar_verificacion() -> void:
 			if jugador.global_position.distance_to(salida_esperada) > 24.0:
 				_registrar_error("La puerta abierta no teletransporta al jugador hacia la puerta destino.")
 
+			if not escena_principal.checkpoint_esta_activo():
+				_registrar_error("Cruzar la puerta no activa el checkpoint posterior.")
+
+			var respawn_checkpoint: Vector2 = escena_principal.obtener_respawn_actual()
+			if respawn_checkpoint.distance_to(salida_esperada + escena_principal.desplazamiento_checkpoint_puerta) > 1.0:
+				_registrar_error("El respawn actual no coincide con el checkpoint esperado despues de la puerta.")
+
+			jugador.global_position = Vector2(1800, 1000)
+			jugador.velocity = Vector2.ZERO
+			escena_principal.reiniciar_nivel()
+			await process_frame
+			await physics_frame
+
+			if jugador.global_position.distance_to(respawn_checkpoint) > 2.0:
+				_registrar_error("Reiniciar el nivel no devuelve al jugador al checkpoint activo.")
+
+			if jugador.vida != jugador.obtener_vida_inicial():
+				_registrar_error("El respawn no restaura la vida inicial del jugador.")
+
+			if enemigo.global_position.distance_to(Vector2(522, 231)) > 2.0:
+				_registrar_error("El respawn no reinicia al enemigo patrulla a su posicion base.")
+
+			escena_principal.abrir_menu_pausa()
+			await process_frame
+
+			if not escena_principal.esta_pausa_activa():
+				_registrar_error("El menu de pausa no se activa al abrirlo.")
+
+			if not paused:
+				_registrar_error("El arbol no queda en pausa al abrir el menu provisional.")
+
+			escena_principal.cerrar_menu_pausa()
+			await process_frame
+
+			if escena_principal.esta_pausa_activa():
+				_registrar_error("El menu de pausa no se cierra correctamente.")
+
+			if paused:
+				_registrar_error("El arbol sigue en pausa despues de cerrar el menu provisional.")
+
 	if _errores.is_empty():
 		print("MOVIMIENTO_OK")
 		quit()

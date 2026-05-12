@@ -4,35 +4,43 @@ class_name MainGame
 const MENU_SCENE := "res://Escenas/Menu.tscn"
 const MENSAJE_PUERTA_CERRADA := "La puerta sigue cerrada. Resuelve el puzzle de la llave."
 const MENSAJE_NIVEL_COMPLETO := "La puerta se abrio. El nivel base ya esta completo."
+const MENSAJE_CHECKPOINT_ACTIVADO := "Checkpoint activado. Si caes, volveras despues de la puerta."
 
 @export var limite_caida_y: float = 700.0
 @export var escala_tiempo_golpe: float = 0.45
 @export var duracion_golpe_lento: float = 0.1
-
+@export var desplazamiento_checkpoint_puerta: Vector2 = Vector2(72, 0)
 
 @onready var tile_map: TileMapLayer = $Mapa/TileMapLayer
 @onready var puerta = $Objetos/Puerta
 @onready var puerta_salida = $Objetos/Puerta2
 @onready var jugador: CharacterBody2D = $Player/Jugador
 @onready var hud = $Canvas/HUD
+@onready var menu_pausa = $Canvas/MenuPausa
 @onready var llave = $Objetos/Llave
 @onready var puzzle = $Canvas/PuzzleSecuencia
 
 var _posicion_inicial_jugador: Vector2
+var _posicion_respawn_actual: Vector2
 var _llave_obtenida: bool = false
 var _nivel_completado: bool = false
 var _puzzle_activo: bool = false
+var _checkpoint_activo: bool = false
+var _pausa_activa: bool = false
 var _temporizador_golpe: Timer
 
 
 func _ready() -> void:
+	process_mode = Node.PROCESS_MODE_ALWAYS
 	_preparar_temporizador_golpe()
 	_posicion_inicial_jugador = jugador.global_position
+	_posicion_respawn_actual = _posicion_inicial_jugador
 
 	_configurar_hud()
 	_configurar_jugador()
 	_configurar_puertas()
 	_configurar_enemigos()
+	_configurar_menu_pausa()
 	_configurar_interactivo(llave, _on_llave_interaccion_solicitada)
 	_configurar_interactivo(puerta, _on_puerta_interaccion_solicitada)
 	_configurar_puzzle()
@@ -40,11 +48,22 @@ func _ready() -> void:
 
 
 func _physics_process(_delta: float) -> void:
+	if _pausa_activa:
+		return
+
 	if jugador.global_position.y > limite_caida_y:
 		reiniciar_nivel()
 
 
 func _unhandled_input(event: InputEvent) -> void:
+	if event.is_action_pressed("pausa"):
+		alternar_pausa()
+		get_viewport().set_input_as_handled()
+		return
+
+	if _pausa_activa:
+		return
+
 	if event.is_action_pressed("reiniciar"):
 		reiniciar_nivel()
 		return
@@ -62,11 +81,16 @@ func _unhandled_input(event: InputEvent) -> void:
 
 
 func reiniciar_nivel() -> void:
+	cerrar_menu_pausa()
 	_restaurar_tiempo_normal()
-	get_tree().reload_current_scene()
+	_cerrar_puzzle_si_esta_abierto()
+	_restaurar_entidades()
+	jugador.restaurar_para_respawn(_posicion_respawn_actual)
+	_restaurar_mensaje_hud()
 
 
 func volver_al_menu() -> void:
+	cerrar_menu_pausa()
 	_restaurar_tiempo_normal()
 	get_tree().change_scene_to_file(MENU_SCENE)
 
@@ -79,6 +103,10 @@ func obtener_spawn_jugador() -> Vector2:
 	return _posicion_inicial_jugador
 
 
+func obtener_respawn_actual() -> Vector2:
+	return _posicion_respawn_actual
+
+
 func tiene_llave() -> bool:
 	return _llave_obtenida
 
@@ -87,16 +115,48 @@ func esta_puzzle_activo() -> bool:
 	return _puzzle_activo
 
 
+func checkpoint_esta_activo() -> bool:
+	return _checkpoint_activo
+
+
+func esta_pausa_activa() -> bool:
+	return _pausa_activa
+
+
 func nivel_esta_completado() -> bool:
 	return _nivel_completado
 
 
+func alternar_pausa() -> void:
+	if _pausa_activa:
+		cerrar_menu_pausa()
+		return
 
+	abrir_menu_pausa()
+
+
+func abrir_menu_pausa() -> void:
+	if _pausa_activa:
+		return
+
+	_pausa_activa = true
+	get_tree().paused = true
+	menu_pausa.abrir(_checkpoint_activo, _obtener_descripcion_checkpoint())
+
+
+func cerrar_menu_pausa() -> void:
+	if not _pausa_activa and not get_tree().paused:
+		return
+
+	_pausa_activa = false
+	get_tree().paused = false
+	menu_pausa.cerrar()
 
 
 func _configurar_hud() -> void:
 	hud.configurar_jugador(jugador)
 	hud.actualizar_llave(_llave_obtenida)
+	hud.actualizar_checkpoint(_checkpoint_activo)
 
 
 func _configurar_jugador() -> void:
@@ -108,6 +168,9 @@ func _configurar_puertas() -> void:
 	if puerta != null and puerta_salida != null and puerta.has_method("configurar_destino"):
 		puerta.configurar_destino(puerta_salida)
 
+	if puerta != null and puerta.has_signal("teletransporte_realizado"):
+		puerta.teletransporte_realizado.connect(_on_puerta_teletransporte_realizado)
+
 
 func _configurar_enemigos() -> void:
 	for enemigo in get_tree().get_nodes_in_group("enemigo"):
@@ -115,7 +178,16 @@ func _configurar_enemigos() -> void:
 			enemigo.jugador_danado.connect(_on_enemigo_jugador_danado)
 
 
+func _configurar_menu_pausa() -> void:
+	menu_pausa.continuar_solicitado.connect(cerrar_menu_pausa)
+	menu_pausa.reiniciar_solicitado.connect(reiniciar_nivel)
+	menu_pausa.volver_menu_solicitado.connect(volver_al_menu)
+
+
 func _configurar_interactivo(interactivo: Node, callback: Callable) -> void:
+	if interactivo == null:
+		return
+
 	interactivo.interaccion_solicitada.connect(callback)
 	interactivo.rango_interaccion_cambiado.connect(_on_rango_interaccion_cambiado)
 
@@ -155,6 +227,16 @@ func _cerrar_puzzle(mensaje: String) -> void:
 	hud.mostrar_mensaje(mensaje)
 
 
+func _cerrar_puzzle_si_esta_abierto() -> void:
+	if not _puzzle_activo and not puzzle.esta_visible():
+		return
+
+	_puzzle_activo = false
+	jugador.establecer_control_habilitado(true)
+	_establecer_enemigos_congelados(false)
+	puzzle.cerrar()
+
+
 func _on_puerta_interaccion_solicitada() -> void:
 	if _nivel_completado:
 		return
@@ -168,11 +250,26 @@ func _on_puerta_interaccion_solicitada() -> void:
 	hud.mostrar_mensaje(MENSAJE_NIVEL_COMPLETO)
 
 
+func _on_puerta_teletransporte_realizado(_jugador: Node2D, destino: Node2D) -> void:
+	if destino == null or not destino.has_method("obtener_punto_salida"):
+		return
+
+	var nueva_posicion_checkpoint: Vector2 = destino.obtener_punto_salida() + desplazamiento_checkpoint_puerta
+	_activar_checkpoint(nueva_posicion_checkpoint)
+
+
+func _activar_checkpoint(posicion: Vector2) -> void:
+	_checkpoint_activo = true
+	_posicion_respawn_actual = posicion
+	hud.actualizar_checkpoint(_checkpoint_activo)
+	hud.mostrar_mensaje(MENSAJE_CHECKPOINT_ACTIVADO)
+
+
 func _on_jugador_vida_cambiada(vida_actual: int) -> void:
 	if vida_actual > 0:
 		return
 
-	hud.mostrar_mensaje("La sombra te vencio. Reiniciando el nivel.")
+	hud.mostrar_mensaje("La sombra te vencio. Regresando al ultimo checkpoint.")
 	call_deferred("reiniciar_nivel")
 
 
@@ -191,8 +288,14 @@ func _establecer_enemigos_congelados(congelados: bool) -> void:
 			enemigo.establecer_congelado(congelados)
 
 
+func _restaurar_entidades() -> void:
+	for enemigo in get_tree().get_nodes_in_group("enemigo"):
+		if enemigo.has_method("reiniciar_enemigo"):
+			enemigo.reiniciar_enemigo()
+
+
 func _on_rango_interaccion_cambiado(activo: bool, mensaje: String) -> void:
-	if _puzzle_activo:
+	if _puzzle_activo or _pausa_activa:
 		return
 
 	if activo:
@@ -203,6 +306,10 @@ func _on_rango_interaccion_cambiado(activo: bool, mensaje: String) -> void:
 
 
 func _restaurar_mensaje_hud() -> void:
+	if _checkpoint_activo:
+		hud.mostrar_mensaje("Checkpoint activo. Puedes seguir avanzando desde la nueva zona.")
+		return
+
 	if _nivel_completado:
 		hud.mostrar_mensaje(MENSAJE_NIVEL_COMPLETO)
 		return
@@ -212,6 +319,10 @@ func _restaurar_mensaje_hud() -> void:
 		return
 
 	hud.mostrar_mensaje("Explora el nivel, encuentra la llave y presiona E para activar el puzzle.")
+
+
+func _obtener_descripcion_checkpoint() -> String:
+	return "(%.0f, %.0f)" % [_posicion_respawn_actual.x, _posicion_respawn_actual.y]
 
 
 func _preparar_temporizador_golpe() -> void:
@@ -239,4 +350,5 @@ func _restaurar_tiempo_normal() -> void:
 
 
 func _exit_tree() -> void:
+	get_tree().paused = false
 	_restaurar_tiempo_normal()

@@ -17,6 +17,8 @@ signal vida_cambiada(vida_actual: int)
 var _gravedad: float = 0.0
 var _puede_atacar: bool = true
 var _congelado: bool = false
+var _posicion_inicial: Vector2 = Vector2.ZERO
+var _vida_inicial: int = 1
 
 @onready var visual: Node2D = $Visual
 @onready var area_ataque: Area2D = $AreaAtaque
@@ -26,6 +28,8 @@ var _congelado: bool = false
 func _ready() -> void:
 	add_to_group("enemigo")
 	_gravedad = float(ProjectSettings.get_setting("physics/2d/default_gravity"))
+	_posicion_inicial = global_position
+	_vida_inicial = max(vida, 1)
 	area_ataque.body_entered.connect(_on_area_ataque_body_entered)
 	temporizador_ataque.timeout.connect(_on_temporizador_ataque_timeout)
 	_inicializar_enemigo()
@@ -76,6 +80,17 @@ func establecer_congelado(congelado: bool) -> void:
 
 func esta_congelado() -> bool:
 	return _congelado
+
+
+func reiniciar_enemigo() -> void:
+	global_position = _posicion_inicial
+	velocity = Vector2.ZERO
+	vida = _vida_inicial
+	_puede_atacar = true
+	_congelado = false
+	temporizador_ataque.stop()
+	_inicializar_enemigo()
+	emit_signal("vida_cambiada", vida)
 
 
 func _inicializar_enemigo() -> void:

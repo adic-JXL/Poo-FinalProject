@@ -12,7 +12,7 @@ var _escala_original_x: float = 1.0
 func _inicializar_enemigo() -> void:
 	_origen_x = global_position.x
 	_direccion_actual = 1.0 if direccion_inicial >= 0 else -1.0
-	_escala_original_x = visual.scale.x
+	_escala_original_x = absf(visual.scale.x)
 	_actualizar_orientacion()
 
 

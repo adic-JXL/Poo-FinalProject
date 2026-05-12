@@ -40,6 +40,7 @@ signal dano_recibido(cantidad: int, direccion: float)
 var estado_actual: StringName = &"sin_estado"
 var sistema_estamina
 
+var _vida_inicial: int = 0
 var _gravedad: float = 0.0
 var _direccion_actual: float = 1.0
 var _escala_original_x: float = 1.0
@@ -56,6 +57,7 @@ var _tiempo_aturdimiento_restante: float = 0.0
 
 func _ready() -> void:
 	add_to_group("jugador")
+	_vida_inicial = max(vida, 1)
 	_gravedad = float(ProjectSettings.get_setting("physics/2d/default_gravity"))
 	_escala_original_x = visual.scale.x
 	_modulate_visual_original = visual.modulate
@@ -193,8 +195,25 @@ func obtener_velocidad_base_para_enemigos() -> float:
 	return velocidad_base
 
 
+func obtener_vida_inicial() -> int:
+	return _vida_inicial
+
+
 func esta_haciendo_sprint() -> bool:
 	return _sprint_activo
+
+
+func restaurar_para_respawn(posicion: Vector2) -> void:
+	global_position = posicion
+	velocity = Vector2.ZERO
+	_tiempo_invulnerable_restante = 0.0
+	_tiempo_aturdimiento_restante = 0.0
+	visual.modulate = _modulate_visual_original
+	vida = _vida_inicial
+	sistema_estamina.reiniciar()
+	establecer_sprint_activo(false)
+	cambiar_a_estado(&"normal")
+	emit_signal("vida_cambiada", vida)
 
 
 func procesar_retroceso(delta: float) -> void:
