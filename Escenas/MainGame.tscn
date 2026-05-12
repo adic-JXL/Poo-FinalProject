@@ -16,6 +16,7 @@
 [ext_resource type="PackedScene" uid="uid://cfqkuepi47a1d" path="res://Escenas/Plataforma.tscn" id="13_p1w6e"]
 [ext_resource type="Script" path="res://Escenas/camara_2.gd" id="14_1obna"]
 [ext_resource type="PackedScene" path="res://Escenas/MenuPausa.tscn" id="15_pause"]
+[ext_resource type="PackedScene" path="res://Escenas/plataforma_gafas.tscn" id="16_gafas"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_n7y03"]
 
@@ -380,6 +381,18 @@ tile_set = SubResource("TileSet_o37df")
 
 [node name="Canvas" type="CanvasLayer" parent="." unique_id=202099576]
 
+[node name="DistorsionOverlay" type="ColorRect" parent="Canvas"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 1152.0
+offset_bottom = 648.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0.168627, 0.203922, 0.266667, 0.18)
+
 [node name="PuzzleSecuencia" parent="Canvas" unique_id=1326261426 instance=ExtResource("8_puzzle")]
 
 [node name="HUD" parent="Canvas" unique_id=129481986 instance=ExtResource("6_hud01")]
@@ -429,6 +442,15 @@ position = Vector2(3448, 261)
 [node name="Plataforma7" parent="Plataformas" unique_id=1316912996 instance=ExtResource("13_p1w6e")]
 position = Vector2(3368, 229)
 
+[node name="PlataformaGafas1" parent="Plataformas" instance=ExtResource("16_gafas")]
+position = Vector2(1628, 246)
+
+[node name="PlataformaGafas2" parent="Plataformas" instance=ExtResource("16_gafas")]
+position = Vector2(1730, 214)
+
+[node name="PlataformaGafas3" parent="Plataformas" instance=ExtResource("16_gafas")]
+position = Vector2(1834, 182)
+
 [node name="Objetos" type="Node2D" parent="." unique_id=1130510155]
 
 [node name="Puerta" parent="Objetos" unique_id=413627468 instance=ExtResource("5_ryxee")]
@@ -440,7 +462,7 @@ position = Vector2(1400, 293)
 scale = Vector2(0.26893523, 0.26217192)
 
 [node name="CheckpointPuerta" type="Marker2D" parent="Objetos" unique_id=829114517]
-position = Vector2(1466, 293)
+position = Vector2(1551, 291)
 
 [node name="PuntoVisible" type="Polygon2D" parent="Objetos/CheckpointPuerta" unique_id=127510834]
 color = Color(0.215686, 0.964706, 0.537255, 0.95)

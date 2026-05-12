@@ -19,6 +19,7 @@ var _puede_atacar: bool = true
 var _congelado: bool = false
 var _posicion_inicial: Vector2 = Vector2.ZERO
 var _vida_inicial: int = 1
+var _multiplicador_velocidad_temporal: float = 1.0
 
 @onready var visual: Node2D = $Visual
 @onready var area_ataque: Area2D = $AreaAtaque
@@ -51,7 +52,7 @@ func _physics_process(delta: float) -> void:
 
 
 func mover_horizontal(direccion: float, delta: float, multiplicador: float = 1.0) -> void:
-	var velocidad_objetivo := direccion * velocidad * multiplicador
+	var velocidad_objetivo := direccion * velocidad * multiplicador * _multiplicador_velocidad_temporal
 	mover_hacia_velocidad_objetivo(velocidad_objetivo, delta)
 
 
@@ -82,12 +83,21 @@ func esta_congelado() -> bool:
 	return _congelado
 
 
+func establecer_multiplicador_velocidad(factor: float) -> void:
+	_multiplicador_velocidad_temporal = max(factor, 0.0)
+
+
+func obtener_multiplicador_velocidad() -> float:
+	return _multiplicador_velocidad_temporal
+
+
 func reiniciar_enemigo() -> void:
 	global_position = _posicion_inicial
 	velocity = Vector2.ZERO
 	vida = _vida_inicial
 	_puede_atacar = true
 	_congelado = false
+	_multiplicador_velocidad_temporal = 1.0
 	temporizador_ataque.stop()
 	_inicializar_enemigo()
 	emit_signal("vida_cambiada", vida)
