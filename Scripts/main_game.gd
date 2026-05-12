@@ -5,6 +5,8 @@ const MENU_SCENE := "res://Escenas/Menu.tscn"
 const MENSAJE_PUERTA_CERRADA := "La puerta sigue cerrada. Resuelve el puzzle de la llave."
 const MENSAJE_NIVEL_COMPLETO := "La puerta se abrio. El nivel base ya esta completo."
 const MENSAJE_CHECKPOINT_ACTIVADO := "Checkpoint activado. Si caes, volveras despues de la puerta."
+const MENSAJE_CHECKPOINT_GAFAS := "Checkpoint activado. Activa las gafas para revelar el parkour oculto."
+const MENSAJE_PUZZLE_GAFAS_COMPLETADO := "Reto de gafas superado. Has revelado el camino alternativo final."
 const ESCALA_TIEMPO_PAUSA := 0.000001
 const FACTOR_LENTITUD_GAFAS_ENEMIGOS := 0.97
 
@@ -29,6 +31,8 @@ const FACTOR_LENTITUD_GAFAS_ENEMIGOS := 0.97
 @onready var distorsion_overlay: ColorRect = $Canvas/DistorsionOverlay
 @onready var llave = $Objetos/Llave
 @onready var puzzle = $Canvas/PuzzleSecuencia
+@onready var meta_puzzle_gafas: Area2D = $Objetos/MetaPuzzleGafas
+@onready var checkpoint_puzzle_gafas: Marker2D = $Objetos/CheckpointPuzzleGafas
 
 var _posicion_inicial_jugador: Vector2
 var _posicion_respawn_actual: Vector2
@@ -39,6 +43,7 @@ var _checkpoint_activo: bool = false
 var _pausa_activa: bool = false
 var _golpe_lento_activo: bool = false
 var _temporizador_golpe: Timer
+var _puzzle_gafas_superado: bool = false
 
 
 func _ready() -> void:
@@ -52,6 +57,7 @@ func _ready() -> void:
 	_configurar_puertas()
 	_configurar_enemigos()
 	_configurar_gafas()
+	_configurar_meta_puzzle_gafas()
 	_configurar_menu_pausa()
 	_configurar_interactivo(llave, _on_llave_interaccion_solicitada)
 	_configurar_interactivo(puerta, _on_puerta_interaccion_solicitada)
@@ -141,6 +147,10 @@ func nivel_esta_completado() -> bool:
 	return _nivel_completado
 
 
+func puzzle_gafas_esta_superado() -> bool:
+	return _puzzle_gafas_superado
+
+
 func alternar_pausa() -> void:
 	if _pausa_activa:
 		cerrar_menu_pausa()
@@ -202,6 +212,13 @@ func _configurar_enemigos() -> void:
 func _configurar_gafas() -> void:
 	if distorsion_overlay != null:
 		distorsion_overlay.color.a = alpha_distorsion_base
+
+
+func _configurar_meta_puzzle_gafas() -> void:
+	if meta_puzzle_gafas == null:
+		return
+
+	meta_puzzle_gafas.body_entered.connect(_on_meta_puzzle_gafas_body_entered)
 
 
 func _configurar_menu_pausa() -> void:
@@ -283,14 +300,25 @@ func _on_puerta_teletransporte_realizado(_jugador: Node2D, destino: Node2D) -> v
 		return
 
 	var nueva_posicion_checkpoint := _obtener_posicion_checkpoint_puerta(destino)
-	_activar_checkpoint(nueva_posicion_checkpoint)
+	_activar_checkpoint(nueva_posicion_checkpoint, MENSAJE_CHECKPOINT_GAFAS)
 
 
-func _activar_checkpoint(posicion: Vector2) -> void:
+func _activar_checkpoint(posicion: Vector2, mensaje: String = MENSAJE_CHECKPOINT_ACTIVADO) -> void:
 	_checkpoint_activo = true
 	_posicion_respawn_actual = posicion
 	hud.actualizar_checkpoint(_checkpoint_activo)
-	hud.mostrar_mensaje(MENSAJE_CHECKPOINT_ACTIVADO)
+	hud.mostrar_mensaje(mensaje)
+
+
+func _on_meta_puzzle_gafas_body_entered(body: Node) -> void:
+	if body != jugador or _puzzle_gafas_superado:
+		return
+
+	_puzzle_gafas_superado = true
+	if checkpoint_puzzle_gafas != null:
+		_activar_checkpoint(checkpoint_puzzle_gafas.global_position, MENSAJE_PUZZLE_GAFAS_COMPLETADO)
+	else:
+		hud.mostrar_mensaje(MENSAJE_PUZZLE_GAFAS_COMPLETADO)
 
 
 func _on_jugador_vida_cambiada(vida_actual: int) -> void:
@@ -341,8 +369,12 @@ func _on_rango_interaccion_cambiado(activo: bool, mensaje: String) -> void:
 
 
 func _restaurar_mensaje_hud() -> void:
+	if _puzzle_gafas_superado:
+		hud.mostrar_mensaje("Reto de gafas superado. El camino alternativo final ya es tuyo.")
+		return
+
 	if _checkpoint_activo:
-		hud.mostrar_mensaje("Checkpoint activo. Puedes seguir avanzando desde la nueva zona.")
+		hud.mostrar_mensaje("Checkpoint activo. Usa las gafas para revelar el parkour oculto.")
 		return
 
 	if _nivel_completado:

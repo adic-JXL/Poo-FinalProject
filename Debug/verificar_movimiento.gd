@@ -60,8 +60,11 @@ func _ejecutar_verificacion() -> void:
 		var puerta_destino = escena_principal.get_node_or_null("Objetos/Puerta2")
 		var camara_1 = escena_principal.get_node_or_null("Player/Camara1")
 		var plataforma_gafas = escena_principal.get_node_or_null("Plataformas/PlataformaGafas1")
+		var meta_puzzle_gafas = escena_principal.get_node_or_null("Objetos/MetaPuzzleGafas")
+		var checkpoint_puzzle_gafas = escena_principal.get_node_or_null("Objetos/CheckpointPuzzleGafas")
+		var meta_plataforma_gafas = escena_principal.get_node_or_null("Plataformas/MetaPlataformaGafas")
 
-		if enemigo == null or perseguidor == null or flotante_horizontal == null or flotante_vertical == null or llave == null or puzzle == null or puerta == null or puerta_destino == null or camara_1 == null or plataforma_gafas == null:
+		if enemigo == null or perseguidor == null or flotante_horizontal == null or flotante_vertical == null or llave == null or puzzle == null or puerta == null or puerta_destino == null or camara_1 == null or plataforma_gafas == null or meta_puzzle_gafas == null or checkpoint_puzzle_gafas == null or meta_plataforma_gafas == null:
 			_registrar_error("Faltan nodos del flujo principal en MainGame.")
 		else:
 			var posicion_inicial_enemigo_x: float = enemigo.global_position.x
@@ -260,13 +263,25 @@ func _ejecutar_verificacion() -> void:
 			if checkpoint != null and respawn_checkpoint.distance_to(checkpoint.global_position) > 1.0:
 				_registrar_error("El respawn actual no coincide con el checkpoint esperado despues de la puerta.")
 
+			jugador.global_position = meta_puzzle_gafas.global_position
+			jugador.velocity = Vector2.ZERO
+			for _r in range(3):
+				await physics_frame
+
+			if not escena_principal.puzzle_gafas_esta_superado():
+				_registrar_error("La meta final del puzzle de gafas no se activa al llegar al final del parkour.")
+
+			var respawn_final: Vector2 = escena_principal.obtener_respawn_actual()
+			if respawn_final.distance_to(checkpoint_puzzle_gafas.global_position) > 1.0:
+				_registrar_error("Superar el puzzle de gafas no actualiza el checkpoint final.")
+
 			jugador.global_position = Vector2(1800, 1000)
 			jugador.velocity = Vector2.ZERO
 			escena_principal.reiniciar_nivel()
 			await process_frame
 			await physics_frame
 
-			if jugador.global_position.distance_to(respawn_checkpoint) > 2.0:
+			if jugador.global_position.distance_to(respawn_final) > 2.0:
 				_registrar_error("Reiniciar el nivel no devuelve al jugador al checkpoint activo.")
 
 			if jugador.vida != jugador.obtener_vida_inicial():
