@@ -20,8 +20,8 @@
 [ext_resource type="PackedScene" path="res://Escenas/PlataformaSolida.tscn" id="17_solida"]
 [ext_resource type="PackedScene" path="res://Escenas/AltarGafas.tscn" id="18_altar"]
 [ext_resource type="PackedScene" path="res://Escenas/PuzzleGafas.tscn" id="19_puzzle_gafas"]
-[ext_resource type="Script" uid="uid://credu5ihgvkxe" path="res://Scripts/checkpoint_activador.gd" id="20_checkpoint"]
-[ext_resource type="PackedScene" uid="uid://cgrdddpb18vhy" path="res://Escenas/JefeSombras.tscn" id="21_jefe"]
+[ext_resource type="Script" path="res://Scripts/checkpoint_activador.gd" id="20_checkpoint"]
+[ext_resource type="PackedScene" path="res://Escenas/JefeSombras.tscn" id="21_jefe"]
 [ext_resource type="PackedScene" path="res://Escenas/TotemJefe.tscn" id="22_totem"]
 [ext_resource type="PackedScene" path="res://Escenas/NPC.tscn" id="23_npc"]
 
@@ -651,8 +651,6 @@ position = Vector2(115, 271)
 velocidad_base = 100.0
 fuerza_salto = 300.0
 aceleracion = 1000.0
-
-[node name="Camera2D" type="Camera2D" parent="Player/Jugador" unique_id=1807661619]
 
 [node name="Camara1" type="Camera2D" parent="Player" unique_id=1193660833]
 position = Vector2(116, 314)
