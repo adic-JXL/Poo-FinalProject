@@ -60,6 +60,7 @@ func _ejecutar_verificacion() -> void:
 		var puerta = escena_principal.get_node_or_null("Objetos/Puerta")
 		var puerta_destino = escena_principal.get_node_or_null("Objetos/Puerta2")
 		var camara_1 = escena_principal.get_node_or_null("Player/Camara1")
+		var camara_2 = escena_principal.get_node_or_null("Player/Camara2")
 		var plataforma_gafas = escena_principal.get_node_or_null("Plataformas/PlataformaGafas1")
 		var altar_gafas = escena_principal.get_node_or_null("Objetos/AltarGafas")
 		var checkpoint_puzzle_gafas = escena_principal.get_node_or_null("Objetos/CheckpointPuzzleGafas")
@@ -70,8 +71,29 @@ func _ejecutar_verificacion() -> void:
 		var totem_jefe_c = escena_principal.get_node_or_null("Objetos/TotemJefeC")
 		var meta_plataforma_gafas = escena_principal.get_node_or_null("Plataformas/MetaPlataformaGafas")
 		var puzzle_gafas = escena_principal.get_node_or_null("Canvas/PuzzleGafas")
+		var muro_bloqueo_arena = escena_principal.get_node_or_null("Plataformas/ArenaJefeMuroIzquierdo")
+		var muro_arena_superior = escena_principal.get_node_or_null("Plataformas/ArenaJefeMuroIzquierdoSuperior")
+		var muro_arena_inferior = escena_principal.get_node_or_null("Plataformas/ArenaJefeMuroIzquierdoInferior")
+		var piso_arena_jefe = escena_principal.get_node_or_null("Plataformas/ArenaJefePiso")
+		var enemigo_ruta_media = escena_principal.get_node_or_null("Enemigos/EnemigoFlotanteHorizontalRutaMedia")
+		var enemigo_parkour = escena_principal.get_node_or_null("Enemigos/EnemigoFlotanteHorizontalParkourA")
 
-		if enemigo == null or perseguidor == null or flotante_horizontal == null or flotante_vertical == null or jefe_sombras == null or llave == null or puzzle == null or puerta == null or puerta_destino == null or camara_1 == null or plataforma_gafas == null or altar_gafas == null or checkpoint_puzzle_gafas == null or checkpoint_puerta_activador == null or checkpoint_puzzle_gafas_activador == null or totem_jefe_a == null or totem_jefe_b == null or totem_jefe_c == null or meta_plataforma_gafas == null or puzzle_gafas == null:
+		if muro_bloqueo_arena != null:
+			_registrar_error("La pared completa de entrada a la arena del jefe sigue bloqueando el acceso.")
+
+		if muro_arena_superior == null or muro_arena_inferior == null:
+			_registrar_error("La arena del jefe no tiene la entrada abierta con muros separados.")
+
+		if piso_arena_jefe != null and piso_arena_jefe.scale.x < 9.0:
+			_registrar_error("La arena del jefe no quedo lo bastante amplia.")
+
+		if camara_2 != null and camara_2.limit_right < 10550:
+			_registrar_error("La camara secundaria no alcanza a cubrir la arena ampliada del jefe.")
+
+		if enemigo_ruta_media == null or enemigo_parkour == null:
+			_registrar_error("No se instanciaron enemigos nuevos en el trayecto hacia el jefe.")
+
+		if enemigo == null or perseguidor == null or flotante_horizontal == null or flotante_vertical == null or jefe_sombras == null or llave == null or puzzle == null or puerta == null or puerta_destino == null or camara_1 == null or camara_2 == null or plataforma_gafas == null or altar_gafas == null or checkpoint_puzzle_gafas == null or checkpoint_puerta_activador == null or checkpoint_puzzle_gafas_activador == null or totem_jefe_a == null or totem_jefe_b == null or totem_jefe_c == null or meta_plataforma_gafas == null or puzzle_gafas == null:
 			_registrar_error("Faltan nodos del flujo principal en MainGame.")
 		else:
 			var posicion_inicial_enemigo_x: float = enemigo.global_position.x
@@ -330,10 +352,29 @@ func _ejecutar_verificacion() -> void:
 
 			await create_timer(0.35).timeout
 
-			var totems := [totem_jefe_a, totem_jefe_b, totem_jefe_c]
-			for totem in totems:
-				escena_principal.call("_on_totem_jefe_interaccion_solicitada", totem)
-				await process_frame
+			escena_principal.call("_on_totem_jefe_interaccion_solicitada", totem_jefe_a)
+			await process_frame
+
+			if jefe_sombras.obtener_sellos_activados() != 1:
+				_registrar_error("El primer totem no activa el primer sello del jefe.")
+
+			if jefe_sombras.obtener_fase_actual() != 2:
+				_registrar_error("El jefe no pasa a fase 2 tras el primer sello.")
+
+			if jefe_sombras.obtener_estado_jefe() != &"aturdido":
+				_registrar_error("El jefe no queda aturdido brevemente al activar un sello.")
+
+			escena_principal.call("_on_totem_jefe_interaccion_solicitada", totem_jefe_b)
+			await process_frame
+
+			if jefe_sombras.obtener_sellos_activados() != 2:
+				_registrar_error("El segundo totem no activa el segundo sello del jefe.")
+
+			if jefe_sombras.obtener_fase_actual() != 3:
+				_registrar_error("El jefe no pasa a fase 3 tras el segundo sello.")
+
+			escena_principal.call("_on_totem_jefe_interaccion_solicitada", totem_jefe_c)
+			await process_frame
 
 			if not jefe_sombras.esta_derrotado():
 				_registrar_error("Activar los tres totems no derrota al jefe de sombras.")
