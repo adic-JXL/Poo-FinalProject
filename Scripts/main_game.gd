@@ -11,8 +11,8 @@ const MENSAJE_NIVEL_COMPLETO := "La puerta se abrio. El nivel base ya esta compl
 
 
 @onready var tile_map: TileMapLayer = $Mapa/TileMapLayer
-@onready var camara: Camera2D = $Player/Camera2D
 @onready var puerta = $Objetos/Puerta
+@onready var puerta_salida = $Objetos/Puerta2
 @onready var jugador: CharacterBody2D = $Player/Jugador
 @onready var hud = $Canvas/HUD
 @onready var llave = $Objetos/Llave
@@ -31,6 +31,7 @@ func _ready() -> void:
 
 	_configurar_hud()
 	_configurar_jugador()
+	_configurar_puertas()
 	_configurar_enemigos()
 	_configurar_interactivo(llave, _on_llave_interaccion_solicitada)
 	_configurar_interactivo(puerta, _on_puerta_interaccion_solicitada)
@@ -101,6 +102,11 @@ func _configurar_hud() -> void:
 func _configurar_jugador() -> void:
 	jugador.vida_cambiada.connect(_on_jugador_vida_cambiada)
 	jugador.dano_recibido.connect(_on_jugador_dano_recibido)
+
+
+func _configurar_puertas() -> void:
+	if puerta != null and puerta_salida != null and puerta.has_method("configurar_destino"):
+		puerta.configurar_destino(puerta_salida)
 
 
 func _configurar_enemigos() -> void:
