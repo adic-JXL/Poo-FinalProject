@@ -54,14 +54,46 @@ func _ejecutar_verificacion() -> void:
 		var perseguidor = escena_principal.get_node_or_null("Enemigos/EnemigoPerseguidor")
 		var flotante_horizontal = escena_principal.get_node_or_null("Enemigos/EnemigoFlotanteHorizontal")
 		var flotante_vertical = escena_principal.get_node_or_null("Enemigos/EnemigoFlotanteVertical")
+		var jefe_sombras = escena_principal.get_node_or_null("Enemigos/JefeSombras")
 		var llave = escena_principal.get_node_or_null("Objetos/Llave")
 		var puzzle = escena_principal.get_node_or_null("Canvas/PuzzleSecuencia")
 		var puerta = escena_principal.get_node_or_null("Objetos/Puerta")
 		var puerta_destino = escena_principal.get_node_or_null("Objetos/Puerta2")
 		var camara_1 = escena_principal.get_node_or_null("Player/Camara1")
+		var camara_2 = escena_principal.get_node_or_null("Player/Camara2")
 		var plataforma_gafas = escena_principal.get_node_or_null("Plataformas/PlataformaGafas1")
+		var altar_gafas = escena_principal.get_node_or_null("Objetos/AltarGafas")
+		var checkpoint_puzzle_gafas = escena_principal.get_node_or_null("Objetos/CheckpointPuzzleGafas")
+		var checkpoint_puerta_activador = escena_principal.get_node_or_null("Objetos/CheckpointPuerta/Activador")
+		var checkpoint_puzzle_gafas_activador = escena_principal.get_node_or_null("Objetos/CheckpointPuzzleGafas/Activador")
+		var totem_jefe_a = escena_principal.get_node_or_null("Objetos/TotemJefeA")
+		var totem_jefe_b = escena_principal.get_node_or_null("Objetos/TotemJefeB")
+		var totem_jefe_c = escena_principal.get_node_or_null("Objetos/TotemJefeC")
+		var meta_plataforma_gafas = escena_principal.get_node_or_null("Plataformas/MetaPlataformaGafas")
+		var puzzle_gafas = escena_principal.get_node_or_null("Canvas/PuzzleGafas")
+		var muro_bloqueo_arena = escena_principal.get_node_or_null("Plataformas/ArenaJefeMuroIzquierdo")
+		var muro_arena_superior = escena_principal.get_node_or_null("Plataformas/ArenaJefeMuroIzquierdoSuperior")
+		var muro_arena_inferior = escena_principal.get_node_or_null("Plataformas/ArenaJefeMuroIzquierdoInferior")
+		var piso_arena_jefe = escena_principal.get_node_or_null("Plataformas/ArenaJefePiso")
+		var enemigo_ruta_media = escena_principal.get_node_or_null("Enemigos/EnemigoFlotanteHorizontalRutaMedia")
+		var enemigo_parkour = escena_principal.get_node_or_null("Enemigos/EnemigoFlotanteHorizontalParkourA")
 
-		if enemigo == null or perseguidor == null or flotante_horizontal == null or flotante_vertical == null or llave == null or puzzle == null or puerta == null or puerta_destino == null or camara_1 == null or plataforma_gafas == null:
+		if muro_bloqueo_arena != null:
+			_registrar_error("La pared completa de entrada a la arena del jefe sigue bloqueando el acceso.")
+
+		if muro_arena_superior == null or muro_arena_inferior == null:
+			_registrar_error("La arena del jefe no tiene la entrada abierta con muros separados.")
+
+		if piso_arena_jefe != null and piso_arena_jefe.scale.x < 9.0:
+			_registrar_error("La arena del jefe no quedo lo bastante amplia.")
+
+		if camara_2 != null and camara_2.limit_right < 10550:
+			_registrar_error("La camara secundaria no alcanza a cubrir la arena ampliada del jefe.")
+
+		if enemigo_ruta_media == null or enemigo_parkour == null:
+			_registrar_error("No se instanciaron enemigos nuevos en el trayecto hacia el jefe.")
+
+		if enemigo == null or perseguidor == null or flotante_horizontal == null or flotante_vertical == null or jefe_sombras == null or llave == null or puzzle == null or puerta == null or puerta_destino == null or camara_1 == null or camara_2 == null or plataforma_gafas == null or altar_gafas == null or checkpoint_puzzle_gafas == null or checkpoint_puerta_activador == null or checkpoint_puzzle_gafas_activador == null or totem_jefe_a == null or totem_jefe_b == null or totem_jefe_c == null or meta_plataforma_gafas == null or puzzle_gafas == null:
 			_registrar_error("Faltan nodos del flujo principal en MainGame.")
 		else:
 			var posicion_inicial_enemigo_x: float = enemigo.global_position.x
@@ -165,13 +197,16 @@ func _ejecutar_verificacion() -> void:
 			if not jugador.gafas_activas():
 				_registrar_error("Las gafas no quedan activas tras usarlas.")
 
-			if enemigo.obtener_multiplicador_velocidad() > 0.971:
+			if enemigo.obtener_multiplicador_velocidad() > 0.901:
 				_registrar_error("Las gafas no reducen la velocidad base de los enemigos.")
+
+			var zoom_con_gafas_x_antes: float = camara_1.zoom.x
+			await create_timer(0.35).timeout
 
 			if not plataforma_gafas.esta_revelada():
 				_registrar_error("Las plataformas ocultas no se revelan con las gafas activas.")
 
-			if camara_1.zoom.x >= escena_principal.zoom_base_mundo.x:
+			if camara_1.zoom.x >= escena_principal.zoom_base_mundo.x or camara_1.zoom.x >= zoom_con_gafas_x_antes:
 				_registrar_error("Las gafas no amplian el rango de vision de la camara principal.")
 
 			jugador.habilidad_gafas.actualizar(10.1)
@@ -188,6 +223,8 @@ func _ejecutar_verificacion() -> void:
 
 			if plataforma_gafas.esta_revelada():
 				_registrar_error("Las plataformas de gafas no vuelven a ocultarse al terminar el efecto.")
+
+			await create_timer(0.35).timeout
 
 			if not is_equal_approx(camara_1.zoom.x, escena_principal.zoom_base_mundo.x):
 				_registrar_error("La camara principal no vuelve a su zoom base al terminar las gafas.")
@@ -248,17 +285,99 @@ func _ejecutar_verificacion() -> void:
 			var salida_esperada: Vector2 = puerta_destino.obtener_punto_salida()
 			var checkpoint = escena_principal.get_node_or_null("Objetos/CheckpointPuerta")
 			puerta.teletransportar_jugador(jugador)
-			await process_frame
+			await create_timer(0.4).timeout
 
 			if jugador.global_position.distance_to(salida_esperada) > 24.0:
 				_registrar_error("La puerta abierta no teletransporta al jugador hacia la puerta destino.")
 
+			if escena_principal.checkpoint_esta_activo():
+				_registrar_error("El checkpoint posterior se activa sin pasar por encima del punto.")
+
+			jugador.global_position = checkpoint_puerta_activador.global_position
+			jugador.velocity = Vector2.ZERO
+			for _cp in range(3):
+				await physics_frame
+
 			if not escena_principal.checkpoint_esta_activo():
-				_registrar_error("Cruzar la puerta no activa el checkpoint posterior.")
+				_registrar_error("Pasar por encima del checkpoint posterior no activa el respawn.")
 
 			var respawn_checkpoint: Vector2 = escena_principal.obtener_respawn_actual()
 			if checkpoint != null and respawn_checkpoint.distance_to(checkpoint.global_position) > 1.0:
 				_registrar_error("El respawn actual no coincide con el checkpoint esperado despues de la puerta.")
+
+			jugador.global_position = altar_gafas.global_position
+			jugador.velocity = Vector2.ZERO
+			for _r in range(3):
+				await physics_frame
+
+			altar_gafas.interactuar()
+			await process_frame
+
+			if escena_principal.esta_puzzle_activo():
+				_registrar_error("El altar de gafas abre el puzzle aun sin tener las gafas activas.")
+
+			if not jugador.activar_gafas():
+				_registrar_error("No se pudieron reactivar las gafas antes del altar final.")
+
+			await create_timer(0.35).timeout
+
+			altar_gafas.interactuar()
+			await process_frame
+
+			if not escena_principal.esta_puzzle_activo():
+				_registrar_error("El altar de gafas no abre su puzzle cuando las gafas estan activas.")
+
+			puzzle_gafas.resolver_automaticamente_para_prueba()
+			await process_frame
+
+			if not escena_principal.puzzle_gafas_esta_superado():
+				_registrar_error("Completar el puzzle de gafas no marca el reto final como superado.")
+
+			if escena_principal.obtener_respawn_actual().distance_to(respawn_checkpoint) > 1.0:
+				_registrar_error("Completar el puzzle de gafas no deberia activar el checkpoint final automaticamente.")
+
+			jugador.global_position = checkpoint_puzzle_gafas_activador.global_position
+			jugador.velocity = Vector2.ZERO
+			for _cg in range(3):
+				await physics_frame
+
+			var respawn_final: Vector2 = escena_principal.obtener_respawn_actual()
+			if respawn_final.distance_to(checkpoint_puzzle_gafas.global_position) > 1.0:
+				_registrar_error("Pasar por encima del checkpoint final no actualiza el respawn.")
+
+			jefe_sombras.establecer_congelado(true)
+			jugador.habilidad_gafas.reiniciar()
+			if not jugador.activar_gafas():
+				_registrar_error("No se pudieron activar las gafas para probar la arena del jefe.")
+
+			await create_timer(0.35).timeout
+
+			escena_principal.call("_on_totem_jefe_interaccion_solicitada", totem_jefe_a)
+			await process_frame
+
+			if jefe_sombras.obtener_sellos_activados() != 1:
+				_registrar_error("El primer totem no activa el primer sello del jefe.")
+
+			if jefe_sombras.obtener_fase_actual() != 2:
+				_registrar_error("El jefe no pasa a fase 2 tras el primer sello.")
+
+			if jefe_sombras.obtener_estado_jefe() != &"aturdido":
+				_registrar_error("El jefe no queda aturdido brevemente al activar un sello.")
+
+			escena_principal.call("_on_totem_jefe_interaccion_solicitada", totem_jefe_b)
+			await process_frame
+
+			if jefe_sombras.obtener_sellos_activados() != 2:
+				_registrar_error("El segundo totem no activa el segundo sello del jefe.")
+
+			if jefe_sombras.obtener_fase_actual() != 3:
+				_registrar_error("El jefe no pasa a fase 3 tras el segundo sello.")
+
+			escena_principal.call("_on_totem_jefe_interaccion_solicitada", totem_jefe_c)
+			await process_frame
+
+			if not jefe_sombras.esta_derrotado():
+				_registrar_error("Activar los tres totems no derrota al jefe de sombras.")
 
 			jugador.global_position = Vector2(1800, 1000)
 			jugador.velocity = Vector2.ZERO
@@ -266,7 +385,7 @@ func _ejecutar_verificacion() -> void:
 			await process_frame
 			await physics_frame
 
-			if jugador.global_position.distance_to(respawn_checkpoint) > 2.0:
+			if jugador.global_position.distance_to(respawn_final) > 2.0:
 				_registrar_error("Reiniciar el nivel no devuelve al jugador al checkpoint activo.")
 
 			if jugador.vida != jugador.obtener_vida_inicial():
@@ -274,6 +393,9 @@ func _ejecutar_verificacion() -> void:
 
 			if enemigo.global_position.distance_to(Vector2(522, 231)) > 2.0:
 				_registrar_error("El respawn no reinicia al enemigo patrulla a su posicion base.")
+
+			if jefe_sombras.esta_derrotado():
+				_registrar_error("El respawn no restablece el estado del jefe.")
 
 			escena_principal.abrir_menu_pausa()
 			await process_frame

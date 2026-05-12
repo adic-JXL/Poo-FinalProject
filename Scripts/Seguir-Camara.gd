@@ -18,8 +18,10 @@ func _on_area_2d_body_entered(body: Node2D) -> void:
 	if body.name == "Jugador":
 		enabled = true
 		make_current()
+		var camara_2: Camera2D = $"../Camara2"
+		if camara_2 != null:
+			camara_2.enabled = false
 		
 
 func _on_area_2d_body_exited(body: Node2D) -> void:
-	if body.name == "Jugador":
-		enabled = false
+	pass

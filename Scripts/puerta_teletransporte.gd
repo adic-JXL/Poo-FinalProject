@@ -7,6 +7,8 @@ signal teletransporte_realizado(jugador: Node2D, destino: Node2D)
 @export var transporte_habilitado: bool = false
 @export var teletransporta_al_tocar: bool = true
 @export var permite_interaccion: bool = false
+@export var duracion_animacion_entrada: float = 0.24
+@export var offset_animacion_entrada: Vector2 = Vector2(0, 10)
 @export var color_inactiva: Color = Color(0.76, 0.82, 0.88, 1)
 @export var color_activa: Color = Color(0.67, 1, 0.78, 1)
 
@@ -78,10 +80,16 @@ func _teletransportar_jugador(body: Node) -> void:
 	if jugador == null or destino == null:
 		return
 
+	if jugador.has_method("animar_entrada_puerta"):
+		await jugador.animar_entrada_puerta(global_position + offset_animacion_entrada, duracion_animacion_entrada)
+
 	jugador.set_meta("puerta_ignorada", destino.get_instance_id())
 	jugador.global_position = destino.obtener_punto_salida()
 	if jugador is CharacterBody2D:
 		(jugador as CharacterBody2D).velocity = Vector2.ZERO
+
+	if jugador.has_method("finalizar_animacion_puerta"):
+		jugador.finalizar_animacion_puerta()
 
 	emit_signal("teletransporte_realizado", jugador, destino)
 

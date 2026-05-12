@@ -53,6 +53,7 @@ var _vida_inicial: int = 0
 var _gravedad: float = 0.0
 var _direccion_actual: float = 1.0
 var _escala_original_x: float = 1.0
+var _escala_visual_original: Vector2 = Vector2.ONE
 var _sprint_activo: bool = false
 var _controles_habilitados: bool = true
 var _estado_instancia_actual
@@ -60,6 +61,7 @@ var _estados: Dictionary = {}
 var _tiempo_invulnerable_restante: float = 0.0
 var _modulate_visual_original: Color = Color(1, 1, 1, 1)
 var _tiempo_aturdimiento_restante: float = 0.0
+var _animacion_puerta_activa: bool = false
 
 @onready var visual: Node2D = $Visual
 
@@ -69,6 +71,7 @@ func _ready() -> void:
 	_vida_inicial = max(vida, 1)
 	_gravedad = float(ProjectSettings.get_setting("physics/2d/default_gravity"))
 	_escala_original_x = visual.scale.x
+	_escala_visual_original = visual.scale
 	_modulate_visual_original = visual.modulate
 
 	sistema_estamina = SistemaEstaminaClass.new(estamina_maxima)
@@ -87,6 +90,9 @@ func _ready() -> void:
 func _physics_process(delta: float) -> void:
 	_actualizar_invulnerabilidad(delta)
 	habilidad_gafas.actualizar(delta)
+
+	if _animacion_puerta_activa:
+		return
 
 	if estado_actual != &"bloqueado" and not is_on_floor():
 		velocity.y += _gravedad * delta
@@ -242,12 +248,44 @@ func esta_haciendo_sprint() -> bool:
 	return _sprint_activo
 
 
+func esta_en_animacion_puerta() -> bool:
+	return _animacion_puerta_activa
+
+
+func animar_entrada_puerta(posicion_objetivo: Vector2, duracion: float = 0.24) -> void:
+	_animacion_puerta_activa = true
+	velocity = Vector2.ZERO
+	cambiar_a_estado(&"bloqueado")
+
+	var tween := create_tween()
+	tween.set_parallel(true)
+	tween.set_trans(Tween.TRANS_CUBIC)
+	tween.set_ease(Tween.EASE_IN)
+	tween.set_ignore_time_scale(true)
+	tween.tween_property(self, "global_position", posicion_objetivo, duracion)
+
+	var escala_destino := Vector2(signf(_direccion_actual) * absf(_escala_visual_original.x) * 0.2, _escala_visual_original.y * 0.2)
+	var color_destino := _modulate_visual_original
+	color_destino.a = 0.12
+	tween.tween_property(visual, "scale", escala_destino, duracion)
+	tween.tween_property(visual, "modulate", color_destino, duracion)
+	await tween.finished
+
+
+func finalizar_animacion_puerta() -> void:
+	_animacion_puerta_activa = false
+	velocity = Vector2.ZERO
+	_restaurar_visual_base()
+	cambiar_a_estado(&"normal")
+
+
 func restaurar_para_respawn(posicion: Vector2) -> void:
 	global_position = posicion
 	velocity = Vector2.ZERO
 	_tiempo_invulnerable_restante = 0.0
 	_tiempo_aturdimiento_restante = 0.0
-	visual.modulate = _modulate_visual_original
+	_animacion_puerta_activa = false
+	_restaurar_visual_base()
 	vida = _vida_inicial
 	sistema_estamina.reiniciar()
 	habilidad_gafas.reiniciar()
@@ -324,3 +362,8 @@ func _aplicar_retroceso(direccion: float) -> void:
 	velocity.y = -fuerza_retroceso_y
 	_tiempo_aturdimiento_restante = duracion_aturdimiento
 	cambiar_a_estado(&"aturdido")
+
+
+func _restaurar_visual_base() -> void:
+	visual.scale = Vector2(_direccion_actual * absf(_escala_visual_original.x), _escala_visual_original.y)
+	visual.modulate = _modulate_visual_original

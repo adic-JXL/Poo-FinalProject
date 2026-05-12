@@ -5,8 +5,15 @@ const MENU_SCENE := "res://Escenas/Menu.tscn"
 const MENSAJE_PUERTA_CERRADA := "La puerta sigue cerrada. Resuelve el puzzle de la llave."
 const MENSAJE_NIVEL_COMPLETO := "La puerta se abrio. El nivel base ya esta completo."
 const MENSAJE_CHECKPOINT_ACTIVADO := "Checkpoint activado. Si caes, volveras despues de la puerta."
+const MENSAJE_CHECKPOINT_PUERTA_DISPONIBLE := "Nueva zona alcanzada. Pisa el punto verde para guardar tu avance."
+const MENSAJE_CHECKPOINT_GAFAS_ACTIVADO := "Checkpoint activado. Activa las gafas para revelar el parkour oculto."
+const MENSAJE_PUZZLE_GAFAS_COMPLETADO := "Reto de gafas superado. Has revelado el camino alternativo final."
+const MENSAJE_CHECKPOINT_ALTAR_DISPONIBLE := "El altar respondio. Pisa el punto azul para guardar este avance."
+const MENSAJE_GAFAS_REQUERIDAS := "Activa las gafas antes de tocar el altar. Solo asi podras leer sus glifos."
+const MENSAJE_TOTEM_SIN_GAFAS := "Los totems solo responden cuando miras con las gafas."
+const MENSAJE_JEFE_DERROTADO := "El jefe se desmorona. Activaste los tres sellos de la arena."
 const ESCALA_TIEMPO_PAUSA := 0.000001
-const FACTOR_LENTITUD_GAFAS_ENEMIGOS := 0.97
+const FACTOR_LENTITUD_GAFAS_ENEMIGOS := 0.90
 
 @export var limite_caida_y: float = 700.0
 @export var escala_tiempo_golpe: float = 0.45
@@ -16,11 +23,19 @@ const FACTOR_LENTITUD_GAFAS_ENEMIGOS := 0.97
 @export var zoom_con_gafas: Vector2 = Vector2(1.75, 1.75)
 @export var alpha_distorsion_base: float = 0.18
 @export var alpha_distorsion_gafas: float = 0.0
+@export var duracion_transicion_gafas: float = 0.22
 
 @onready var tile_map: TileMapLayer = $Mapa/TileMapLayer
 @onready var puerta = $Objetos/Puerta
 @onready var puerta_salida = $Objetos/Puerta2
 @onready var checkpoint_puerta: Marker2D = $Objetos/CheckpointPuerta
+@onready var checkpoint_puerta_activador = $Objetos/CheckpointPuerta/Activador
+@onready var altar_gafas = $Objetos/AltarGafas
+@onready var checkpoint_puzzle_gafas: Marker2D = $Objetos/CheckpointPuzzleGafas
+@onready var checkpoint_puzzle_gafas_activador = $Objetos/CheckpointPuzzleGafas/Activador
+@onready var totem_jefe_a = $Objetos/TotemJefeA
+@onready var totem_jefe_b = $Objetos/TotemJefeB
+@onready var totem_jefe_c = $Objetos/TotemJefeC
 @onready var jugador: CharacterBody2D = $Player/Jugador
 @onready var camara_1: Camera2D = $Player/Camara1
 @onready var camara_2: Camera2D = $Player/Camara2
@@ -29,6 +44,8 @@ const FACTOR_LENTITUD_GAFAS_ENEMIGOS := 0.97
 @onready var distorsion_overlay: ColorRect = $Canvas/DistorsionOverlay
 @onready var llave = $Objetos/Llave
 @onready var puzzle = $Canvas/PuzzleSecuencia
+@onready var puzzle_gafas = $Canvas/PuzzleGafas
+@onready var jefe_sombras = $Enemigos/JefeSombras
 
 var _posicion_inicial_jugador: Vector2
 var _posicion_respawn_actual: Vector2
@@ -39,6 +56,13 @@ var _checkpoint_activo: bool = false
 var _pausa_activa: bool = false
 var _golpe_lento_activo: bool = false
 var _temporizador_golpe: Timer
+var _puzzle_gafas_superado: bool = false
+var _tipo_puzzle_activo: StringName = &""
+var _tween_transicion_gafas: Tween
+var _estado_gafas_aplicado: bool = false
+var _totems_jefe: Array = []
+var _totems_activados_jefe: int = 0
+var _jefe_derrotado: bool = false
 
 
 func _ready() -> void:
@@ -50,13 +74,18 @@ func _ready() -> void:
 	_configurar_hud()
 	_configurar_jugador()
 	_configurar_puertas()
+	_configurar_checkpoints()
 	_configurar_enemigos()
 	_configurar_gafas()
 	_configurar_menu_pausa()
+	_preparar_canvas_runtime()
 	_configurar_interactivo(llave, _on_llave_interaccion_solicitada)
+	_configurar_interactivo(altar_gafas, _on_altar_gafas_interaccion_solicitada)
+	_configurar_totems_jefe()
 	_configurar_interactivo(puerta, _on_puerta_interaccion_solicitada)
-	_configurar_puzzle()
-	_aplicar_estado_gafas(false)
+	_configurar_puzzles()
+	_estado_gafas_aplicado = false
+	_aplicar_estado_gafas(false, true)
 	_restaurar_mensaje_hud()
 
 
@@ -89,6 +118,15 @@ func _unhandled_input(event: InputEvent) -> void:
 			llave.interactuar()
 			return
 
+		if altar_gafas != null and altar_gafas.esta_en_rango():
+			altar_gafas.interactuar()
+			return
+
+		for totem in _totems_jefe:
+			if totem != null and totem.esta_en_rango():
+				totem.interactuar()
+				return
+
 		if puerta != null and puerta.esta_en_rango():
 			puerta.interactuar()
 			return
@@ -103,7 +141,7 @@ func reiniciar_nivel() -> void:
 	_cerrar_puzzle_si_esta_abierto()
 	_restaurar_entidades()
 	jugador.restaurar_para_respawn(_posicion_respawn_actual)
-	_aplicar_estado_gafas(jugador.gafas_activas())
+	_aplicar_estado_gafas(jugador.gafas_activas(), true)
 	_restaurar_mensaje_hud()
 
 
@@ -145,6 +183,10 @@ func nivel_esta_completado() -> bool:
 	return _nivel_completado
 
 
+func puzzle_gafas_esta_superado() -> bool:
+	return _puzzle_gafas_superado
+
+
 func alternar_pausa() -> void:
 	if _pausa_activa:
 		cerrar_menu_pausa()
@@ -178,6 +220,7 @@ func cerrar_menu_pausa() -> void:
 
 
 func _configurar_hud() -> void:
+	hud.show()
 	hud.configurar_jugador(jugador)
 	hud.actualizar_llave(_llave_obtenida)
 	hud.actualizar_checkpoint(_checkpoint_activo)
@@ -197,10 +240,24 @@ func _configurar_puertas() -> void:
 		puerta.teletransporte_realizado.connect(_on_puerta_teletransporte_realizado)
 
 
+func _configurar_checkpoints() -> void:
+	if checkpoint_puerta_activador != null and checkpoint_puerta_activador.has_signal("checkpoint_alcanzado"):
+		checkpoint_puerta_activador.checkpoint_alcanzado.connect(_on_checkpoint_puerta_alcanzado)
+
+	if checkpoint_puzzle_gafas_activador != null and checkpoint_puzzle_gafas_activador.has_signal("checkpoint_alcanzado"):
+		checkpoint_puzzle_gafas_activador.checkpoint_alcanzado.connect(_on_checkpoint_puzzle_gafas_alcanzado)
+
+
 func _configurar_enemigos() -> void:
 	for enemigo in get_tree().get_nodes_in_group("enemigo"):
 		if enemigo.has_signal("jugador_danado"):
 			enemigo.jugador_danado.connect(_on_enemigo_jugador_danado)
+
+	if jefe_sombras != null and jefe_sombras.has_signal("jefe_derrotado"):
+		jefe_sombras.jefe_derrotado.connect(_on_jefe_sombras_derrotado)
+
+	if jefe_sombras != null and jefe_sombras.has_signal("fase_cambiada"):
+		jefe_sombras.fase_cambiada.connect(_on_jefe_sombras_fase_cambiada)
 
 
 func _interactuar_con_npc_en_rango() -> bool:
@@ -214,6 +271,7 @@ func _interactuar_con_npc_en_rango() -> bool:
 
 func _configurar_gafas() -> void:
 	if distorsion_overlay != null:
+		distorsion_overlay.show()
 		distorsion_overlay.color.a = alpha_distorsion_base
 
 
@@ -231,9 +289,25 @@ func _configurar_interactivo(interactivo: Node, callback: Callable) -> void:
 	interactivo.rango_interaccion_cambiado.connect(_on_rango_interaccion_cambiado)
 
 
-func _configurar_puzzle() -> void:
+func _configurar_totems_jefe() -> void:
+	_totems_jefe = [totem_jefe_a, totem_jefe_b, totem_jefe_c]
+
+	for totem in _totems_jefe:
+		if totem == null:
+			continue
+
+		_configurar_interactivo(totem, _on_totem_jefe_interaccion_solicitada.bind(totem))
+
+
+func _configurar_puzzles() -> void:
+	puzzle.show()
+	puzzle.cerrar()
+	puzzle_gafas.show()
+	puzzle_gafas.cerrar()
 	puzzle.completado.connect(_on_puzzle_completado)
 	puzzle.cancelado.connect(_on_puzzle_cancelado)
+	puzzle_gafas.completado.connect(_on_puzzle_gafas_completado)
+	puzzle_gafas.cancelado.connect(_on_puzzle_gafas_cancelado)
 
 
 func _on_llave_interaccion_solicitada() -> void:
@@ -241,6 +315,7 @@ func _on_llave_interaccion_solicitada() -> void:
 		return
 
 	_puzzle_activo = true
+	_tipo_puzzle_activo = &"llave"
 	jugador.establecer_control_habilitado(false)
 	_establecer_enemigos_congelados(true)
 	hud.mostrar_mensaje("La llave te arrastra a un ritual. Resuelve la secuencia para reclamarla.")
@@ -258,24 +333,78 @@ func _on_puzzle_cancelado() -> void:
 	_cerrar_puzzle("Saliste del puzzle. Puedes volver a intentarlo cuando quieras.")
 
 
+func _on_altar_gafas_interaccion_solicitada() -> void:
+	if _puzzle_gafas_superado or _puzzle_activo:
+		return
+
+	if not jugador.gafas_activas():
+		hud.mostrar_mensaje(MENSAJE_GAFAS_REQUERIDAS)
+		return
+
+	_puzzle_activo = true
+	_tipo_puzzle_activo = &"gafas"
+	jugador.establecer_control_habilitado(false)
+	_establecer_enemigos_congelados(true)
+	hud.mostrar_mensaje("Los glifos aparecen en el altar. Memoriza el patron antes de que se desvanezca.")
+	puzzle_gafas.iniciar_puzzle()
+
+
+func _on_totem_jefe_interaccion_solicitada(totem) -> void:
+	if _jefe_derrotado or totem == null:
+		return
+
+	if not jugador.gafas_activas():
+		hud.mostrar_mensaje(MENSAJE_TOTEM_SIN_GAFAS)
+		return
+
+	if not totem.activar():
+		return
+
+	_totems_activados_jefe += 1
+	var jefe_recibio_sello := false
+	if jefe_sombras != null and jefe_sombras.has_method("activar_sello"):
+		jefe_sombras.activar_sello()
+		jefe_recibio_sello = true
+
+	if not jefe_recibio_sello:
+		hud.mostrar_mensaje("Sello activado %d / 3. Mantente en movimiento." % _totems_activados_jefe)
+
+
+func _on_puzzle_gafas_completado() -> void:
+	_puzzle_gafas_superado = true
+	if altar_gafas != null and altar_gafas.has_method("marcar_resuelto"):
+		altar_gafas.marcar_resuelto()
+
+	_cerrar_puzzle(MENSAJE_CHECKPOINT_ALTAR_DISPONIBLE)
+
+
+func _on_puzzle_gafas_cancelado() -> void:
+	_cerrar_puzzle("El altar se oscurece. Activa las gafas otra vez si quieres reintentar.")
+
+
 func _cerrar_puzzle(mensaje: String) -> void:
 	_puzzle_activo = false
+	_tipo_puzzle_activo = &""
 	if not _pausa_activa:
 		jugador.establecer_control_habilitado(true)
 	_establecer_enemigos_congelados(_pausa_activa)
-	puzzle.cerrar()
+	_cerrar_overlay_puzzle_activo()
 	hud.mostrar_mensaje(mensaje)
 
 
 func _cerrar_puzzle_si_esta_abierto() -> void:
-	if not _puzzle_activo and not puzzle.esta_visible():
+	if not _puzzle_activo and not puzzle.esta_visible() and not puzzle_gafas.esta_visible():
 		return
 
 	_puzzle_activo = false
+	_tipo_puzzle_activo = &""
 	if not _pausa_activa:
 		jugador.establecer_control_habilitado(true)
 	_establecer_enemigos_congelados(_pausa_activa)
-	puzzle.cerrar()
+	if puzzle.esta_visible():
+		puzzle.cerrar()
+	if puzzle_gafas.esta_visible():
+		puzzle_gafas.cerrar()
 
 
 func _on_puerta_interaccion_solicitada() -> void:
@@ -295,15 +424,30 @@ func _on_puerta_teletransporte_realizado(_jugador: Node2D, destino: Node2D) -> v
 	if destino == null or not destino.has_method("obtener_punto_salida"):
 		return
 
-	var nueva_posicion_checkpoint := _obtener_posicion_checkpoint_puerta(destino)
-	_activar_checkpoint(nueva_posicion_checkpoint)
+	hud.mostrar_mensaje(MENSAJE_CHECKPOINT_PUERTA_DISPONIBLE)
 
 
-func _activar_checkpoint(posicion: Vector2) -> void:
-	_checkpoint_activo = true
-	_posicion_respawn_actual = posicion
+func _on_checkpoint_puerta_alcanzado(posicion: Vector2, _mensaje: String) -> void:
+	_activar_checkpoint(posicion, MENSAJE_CHECKPOINT_GAFAS_ACTIVADO)
+
+
+func _on_checkpoint_puzzle_gafas_alcanzado(posicion: Vector2, _mensaje: String) -> void:
+	_activar_checkpoint(posicion, MENSAJE_PUZZLE_GAFAS_COMPLETADO)
+
+
+func _on_jefe_sombras_derrotado() -> void:
+	_jefe_derrotado = true
+	hud.mostrar_mensaje(MENSAJE_JEFE_DERROTADO)
+
+
+func _on_jefe_sombras_fase_cambiada(fase_actual: int, sellos_activados: int) -> void:
+	hud.mostrar_mensaje(_obtener_mensaje_fase_jefe(fase_actual, sellos_activados))
+
+
+func _activar_checkpoint(posicion: Vector2, mensaje: String = MENSAJE_CHECKPOINT_ACTIVADO) -> void:
+	_establecer_checkpoint(posicion)
 	hud.actualizar_checkpoint(_checkpoint_activo)
-	hud.mostrar_mensaje(MENSAJE_CHECKPOINT_ACTIVADO)
+	hud.mostrar_mensaje(mensaje)
 
 
 func _on_jugador_vida_cambiada(vida_actual: int) -> void:
@@ -324,6 +468,9 @@ func _on_jugador_dano_recibido(_cantidad: int, _direccion: float) -> void:
 
 
 func _on_jugador_gafas_actualizadas(activa: bool, _duracion_restante: float, _cooldown_restante: float, _cooldown_actual: float, _siguiente_cooldown: float) -> void:
+	if activa == _estado_gafas_aplicado:
+		return
+
 	_aplicar_estado_gafas(activa)
 
 
@@ -341,6 +488,12 @@ func _restaurar_entidades() -> void:
 		if enemigo.has_method("establecer_multiplicador_velocidad"):
 			enemigo.establecer_multiplicador_velocidad(FACTOR_LENTITUD_GAFAS_ENEMIGOS if jugador.gafas_activas() else 1.0)
 
+	_totems_activados_jefe = 0
+	_jefe_derrotado = false
+	for totem in _totems_jefe:
+		if totem != null and totem.has_method("reiniciar_totem"):
+			totem.reiniciar_totem()
+
 
 func _on_rango_interaccion_cambiado(activo: bool, mensaje: String) -> void:
 	if _puzzle_activo or _pausa_activa:
@@ -354,8 +507,16 @@ func _on_rango_interaccion_cambiado(activo: bool, mensaje: String) -> void:
 
 
 func _restaurar_mensaje_hud() -> void:
+	if _jefe_derrotado:
+		hud.mostrar_mensaje(MENSAJE_JEFE_DERROTADO)
+		return
+
+	if _puzzle_gafas_superado:
+		hud.mostrar_mensaje("Reto de gafas superado. El camino alternativo final ya es tuyo.")
+		return
+
 	if _checkpoint_activo:
-		hud.mostrar_mensaje("Checkpoint activo. Puedes seguir avanzando desde la nueva zona.")
+		hud.mostrar_mensaje("Checkpoint activo. Usa las gafas para revelar el parkour oculto.")
 		return
 
 	if _nivel_completado:
@@ -373,11 +534,19 @@ func _obtener_descripcion_checkpoint() -> String:
 	return "(%.0f, %.0f)" % [_posicion_respawn_actual.x, _posicion_respawn_actual.y]
 
 
-func _aplicar_estado_gafas(activa: bool) -> void:
-	_aplicar_zoom_camaras(zoom_con_gafas if activa else zoom_base_mundo)
+func _obtener_mensaje_fase_jefe(fase_actual: int, sellos_activados: int) -> String:
+	match fase_actual:
+		2:
+			return "Sello %d / 3. Fase 2: el jefe prepara embestidas. Lee la carga y esquiva." % sellos_activados
+		3:
+			return "Sello %d / 3. Fase 3: la arena se acelera. Usa las gafas y remata el ultimo totem." % sellos_activados
+		_:
+			return "Sello %d / 3. Mantente en movimiento." % sellos_activados
 
-	if distorsion_overlay != null:
-		distorsion_overlay.color.a = alpha_distorsion_gafas if activa else alpha_distorsion_base
+
+func _aplicar_estado_gafas(activa: bool, instantaneo: bool = false) -> void:
+	_estado_gafas_aplicado = activa
+	_animar_transicion_gafas(activa, instantaneo)
 
 	var multiplicador_enemigos := FACTOR_LENTITUD_GAFAS_ENEMIGOS if activa else 1.0
 	for enemigo in get_tree().get_nodes_in_group("enemigo"):
@@ -387,6 +556,39 @@ func _aplicar_estado_gafas(activa: bool) -> void:
 	for plataforma in get_tree().get_nodes_in_group("plataforma_gafas"):
 		if plataforma.has_method("establecer_revelada"):
 			plataforma.establecer_revelada(activa)
+
+
+func _animar_transicion_gafas(activa: bool, instantaneo: bool) -> void:
+	var zoom_objetivo := zoom_con_gafas if activa else zoom_base_mundo
+	var alpha_objetivo := alpha_distorsion_gafas if activa else alpha_distorsion_base
+
+	if instantaneo:
+		_aplicar_zoom_camaras(zoom_objetivo)
+		if distorsion_overlay != null:
+			var color_base := distorsion_overlay.color
+			color_base.a = alpha_objetivo
+			distorsion_overlay.color = color_base
+		return
+
+	if _tween_transicion_gafas != null and _tween_transicion_gafas.is_valid():
+		_tween_transicion_gafas.kill()
+
+	_tween_transicion_gafas = create_tween()
+	_tween_transicion_gafas.set_parallel(true)
+	_tween_transicion_gafas.set_trans(Tween.TRANS_SINE)
+	_tween_transicion_gafas.set_ease(Tween.EASE_IN_OUT)
+	_tween_transicion_gafas.set_ignore_time_scale(true)
+
+	if camara_1 != null:
+		_tween_transicion_gafas.tween_property(camara_1, "zoom", zoom_objetivo, duracion_transicion_gafas)
+
+	if camara_2 != null:
+		_tween_transicion_gafas.tween_property(camara_2, "zoom", zoom_objetivo, duracion_transicion_gafas)
+
+	if distorsion_overlay != null:
+		var color_objetivo := distorsion_overlay.color
+		color_objetivo.a = alpha_objetivo
+		_tween_transicion_gafas.tween_property(distorsion_overlay, "color", color_objetivo, duracion_transicion_gafas)
 
 
 func _aplicar_zoom_camaras(zoom_objetivo: Vector2) -> void:
@@ -440,6 +642,29 @@ func _obtener_posicion_checkpoint_puerta(destino: Node2D) -> Vector2:
 		return checkpoint_puerta.global_position
 
 	return destino.obtener_punto_salida() + desplazamiento_checkpoint_puerta
+
+
+func _establecer_checkpoint(posicion: Vector2) -> void:
+	_checkpoint_activo = true
+	_posicion_respawn_actual = posicion
+
+
+func _cerrar_overlay_puzzle_activo() -> void:
+	match _tipo_puzzle_activo:
+		&"llave":
+			puzzle.cerrar()
+		&"gafas":
+			puzzle_gafas.cerrar()
+		_:
+			if puzzle.esta_visible():
+				puzzle.cerrar()
+			if puzzle_gafas.esta_visible():
+				puzzle_gafas.cerrar()
+
+
+func _preparar_canvas_runtime() -> void:
+	if menu_pausa != null:
+		menu_pausa.hide()
 
 
 func _exit_tree() -> void:

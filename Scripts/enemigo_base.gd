@@ -47,6 +47,7 @@ func _physics_process(delta: float) -> void:
 
 	_procesar_comportamiento(delta)
 	move_and_slide()
+	_post_procesar_movimiento()
 	_intentar_atacar_colisiones_directas()
 	_intentar_atacar_cuerpos_superpuestos()
 
@@ -109,6 +110,10 @@ func _inicializar_enemigo() -> void:
 
 func _procesar_comportamiento(delta: float) -> void:
 	detener(delta)
+
+
+func _post_procesar_movimiento() -> void:
+	pass
 
 
 func _puede_danar_objetivo(objetivo: Node) -> bool:
