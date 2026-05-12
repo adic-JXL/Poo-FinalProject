@@ -91,6 +91,10 @@ func _unhandled_input(event: InputEvent) -> void:
 
 		if puerta != null and puerta.esta_en_rango():
 			puerta.interactuar()
+			return
+
+		if _interactuar_con_npc_en_rango():
+			return
 
 
 func reiniciar_nivel() -> void:
@@ -197,6 +201,15 @@ func _configurar_enemigos() -> void:
 	for enemigo in get_tree().get_nodes_in_group("enemigo"):
 		if enemigo.has_signal("jugador_danado"):
 			enemigo.jugador_danado.connect(_on_enemigo_jugador_danado)
+
+
+func _interactuar_con_npc_en_rango() -> bool:
+	for npc in get_tree().get_nodes_in_group("npc"):
+		if npc.has_method("esta_en_rango") and npc.has_method("interactuar") and npc.esta_en_rango():
+			npc.interactuar()
+			return true
+
+	return false
 
 
 func _configurar_gafas() -> void:

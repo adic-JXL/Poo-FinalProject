@@ -4,19 +4,20 @@
 [ext_resource type="Texture2D" uid="uid://3lhomoy1dgxd" path="res://Imagenes/Tileset.png" id="1_n7y03"]
 [ext_resource type="PackedScene" uid="uid://sh8mxgnkcji2" path="res://Escenas/Personaje.tscn" id="2_apeae"]
 [ext_resource type="Script" uid="uid://btswu5ega1pn8" path="res://Scripts/Seguir-Camara.gd" id="3_ryxee"]
-[ext_resource type="PackedScene" uid="uid://dkdpa48nrjkq3" path="res://Escenas/Puerta.tscn" id="5_ryxee"]
+[ext_resource type="PackedScene" path="res://Escenas/Puerta.tscn" id="5_ryxee"]
 [ext_resource type="PackedScene" path="res://Escenas/PuertaTeletransporte.tscn" id="6_door_tp"]
 [ext_resource type="PackedScene" path="res://Escenas/HUD.tscn" id="6_hud01"]
-[ext_resource type="PackedScene" path="res://Escenas/Llave.tscn" id="7_llave"]
+[ext_resource type="PackedScene" uid="uid://y3yoa2fcfb6n" path="res://Escenas/Llave.tscn" id="7_llave"]
 [ext_resource type="PackedScene" uid="uid://cr3wwcude65ay" path="res://Escenas/PuzzleSecuencia.tscn" id="8_puzzle"]
 [ext_resource type="PackedScene" path="res://Escenas/EnemigoPatrulla.tscn" id="9_enemy"]
 [ext_resource type="PackedScene" path="res://Escenas/EnemigoPerseguidor.tscn" id="10_chaser"]
 [ext_resource type="PackedScene" path="res://Escenas/EnemigoFlotanteHorizontal.tscn" id="11_float_h"]
 [ext_resource type="PackedScene" path="res://Escenas/EnemigoFlotanteVertical.tscn" id="12_float_v"]
 [ext_resource type="PackedScene" uid="uid://cfqkuepi47a1d" path="res://Escenas/Plataforma.tscn" id="13_p1w6e"]
-[ext_resource type="Script" path="res://Escenas/camara_2.gd" id="14_1obna"]
+[ext_resource type="Script" uid="uid://b3rgtsadp855b" path="res://Escenas/camara_2.gd" id="14_1obna"]
 [ext_resource type="PackedScene" path="res://Escenas/MenuPausa.tscn" id="15_pause"]
-[ext_resource type="PackedScene" path="res://Escenas/plataforma_gafas.tscn" id="16_gafas"]
+[ext_resource type="PackedScene" uid="uid://epu5x41hq3f0" path="res://Escenas/plataforma_gafas.tscn" id="16_gafas"]
+[ext_resource type="PackedScene" path="res://Escenas/NPC.tscn" id="18_oqvof"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_n7y03"]
 
@@ -381,8 +382,7 @@ tile_set = SubResource("TileSet_o37df")
 
 [node name="Canvas" type="CanvasLayer" parent="." unique_id=202099576]
 
-[node name="DistorsionOverlay" type="ColorRect" parent="Canvas"]
-layout_mode = 1
+[node name="DistorsionOverlay" type="ColorRect" parent="Canvas" unique_id=1879804617]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -398,6 +398,7 @@ color = Color(0.168627, 0.203922, 0.266667, 0.18)
 [node name="HUD" parent="Canvas" unique_id=129481986 instance=ExtResource("6_hud01")]
 
 [node name="MenuPausa" parent="Canvas" unique_id=1528197418 instance=ExtResource("15_pause")]
+visible = true
 
 [node name="Enemigos" type="Node2D" parent="." unique_id=1191135653]
 
@@ -442,13 +443,13 @@ position = Vector2(3448, 261)
 [node name="Plataforma7" parent="Plataformas" unique_id=1316912996 instance=ExtResource("13_p1w6e")]
 position = Vector2(3368, 229)
 
-[node name="PlataformaGafas1" parent="Plataformas" instance=ExtResource("16_gafas")]
+[node name="PlataformaGafas1" parent="Plataformas" unique_id=1464166742 instance=ExtResource("16_gafas")]
 position = Vector2(1628, 246)
 
-[node name="PlataformaGafas2" parent="Plataformas" instance=ExtResource("16_gafas")]
+[node name="PlataformaGafas2" parent="Plataformas" unique_id=461069948 instance=ExtResource("16_gafas")]
 position = Vector2(1730, 214)
 
-[node name="PlataformaGafas3" parent="Plataformas" instance=ExtResource("16_gafas")]
+[node name="PlataformaGafas3" parent="Plataformas" unique_id=1897161473 instance=ExtResource("16_gafas")]
 position = Vector2(1834, 182)
 
 [node name="Objetos" type="Node2D" parent="." unique_id=1130510155]
@@ -479,7 +480,9 @@ velocidad_base = 100.0
 fuerza_salto = 300.0
 aceleracion = 1000.0
 
-[node name="Camara1" type="Camera2D" parent="Player" unique_id=1193660833 node_paths=PackedStringArray("object")]
+[node name="Camera2D" type="Camera2D" parent="Player/Jugador" unique_id=1807661619]
+
+[node name="Camara1" type="Camera2D" parent="Player" unique_id=1193660833]
 position = Vector2(116, 314)
 scale = Vector2(1.323858, 1.3854806)
 zoom = Vector2(2, 2)
@@ -513,6 +516,9 @@ shape = SubResource("RectangleShape2D_1obna")
 visible = false
 position = Vector2(4645, 201.5)
 shape = SubResource("RectangleShape2D_b7mqo")
+
+[node name="NPC" parent="." unique_id=1768407957 instance=ExtResource("18_oqvof")]
+position = Vector2(21, 334)
 
 [connection signal="body_entered" from="Player/Area2D" to="Player/Camara1" method="_on_area_2d_body_entered"]
 [connection signal="body_exited" from="Player/Area2D" to="Player/Camara1" method="_on_area_2d_body_exited"]

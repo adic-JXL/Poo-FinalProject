@@ -1,0 +1,42 @@
+[gd_scene load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://Scripts/npc_dialogo.gd" id="1_npc"]
+[ext_resource type="PackedScene" path="res://Escenas/DialogoUI.tscn" id="2_dialogo"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_interaccion"]
+radius = 42.0
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_cuerpo"]
+radius = 12.0
+height = 44.0
+
+[node name="NPC" type="Area2D"]
+collision_layer = 0
+script = ExtResource("1_npc")
+mensaje_interaccion = "Presiona E para hablar."
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_interaccion")
+
+[node name="Cuerpo" type="StaticBody2D" parent="."]
+collision_layer = 2
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Cuerpo"]
+position = Vector2(0, -14)
+shape = SubResource("CapsuleShape2D_cuerpo")
+
+[node name="Visual" type="Polygon2D" parent="."]
+position = Vector2(0, -16)
+color = Color(0.58, 0.72, 1, 1)
+polygon = PackedVector2Array(0, -28, 16, -8, 12, 20, -12, 20, -16, -8)
+
+[node name="NombreLabel" type="Label" parent="."]
+offset_left = -48.0
+offset_top = -70.0
+offset_right = 48.0
+offset_bottom = -46.0
+text = "Guia"
+horizontal_alignment = 1
+
+[node name="DialogoUI" parent="." instance=ExtResource("2_dialogo")]

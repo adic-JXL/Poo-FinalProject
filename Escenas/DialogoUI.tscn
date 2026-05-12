@@ -1,0 +1,71 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://Scripts/dialogo_ui.gd" id="1_dialogo"]
+
+[node name="DialogoUI" type="CanvasLayer"]
+layer = 6
+script = ExtResource("1_dialogo")
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="Control"]
+custom_minimum_size = Vector2(620, 150)
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 80.0
+offset_top = -190.0
+offset_right = -80.0
+offset_bottom = -28.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="MarginContainer" type="MarginContainer" parent="Control/PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 18
+theme_override_constants/margin_top = 14
+theme_override_constants/margin_right = 18
+theme_override_constants/margin_bottom = 14
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Control/PanelContainer/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="NombreLabel" type="Label" parent="Control/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 22
+text = "NPC"
+
+[node name="TextoLabel" type="Label" parent="Control/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Texto de dialogo."
+autowrap_mode = 3
+
+[node name="ProgresoLabel" type="Label" parent="Control/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "1 / 1"
+horizontal_alignment = 2
+
+[node name="Botones" type="HBoxContainer" parent="Control/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 10
+alignment = 2
+
+[node name="CerrarBoton" type="Button" parent="Control/PanelContainer/MarginContainer/VBoxContainer/Botones"]
+custom_minimum_size = Vector2(110, 36)
+layout_mode = 2
+text = "Cerrar"
+
+[node name="SiguienteBoton" type="Button" parent="Control/PanelContainer/MarginContainer/VBoxContainer/Botones"]
+custom_minimum_size = Vector2(120, 36)
+layout_mode = 2
+text = "Siguiente"
