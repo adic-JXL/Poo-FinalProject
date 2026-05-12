@@ -18,7 +18,7 @@ var _persiguiendo: bool = false
 
 
 func _inicializar_enemigo() -> void:
-	_escala_original_x = visual.scale.x
+	_escala_original_x = absf(visual.scale.x)
 	_direccion_mirada = -1.0 if direccion_inicial < 0 else 1.0
 	_actualizar_visual()
 

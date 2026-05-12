@@ -70,7 +70,11 @@ text = "Sprint: --"
 layout_mode = 2
 text = "Llave: --"
 
+[node name="CheckpointLabel" type="Label" parent="Control/MarginContainer/PanelContainer/VBoxContainer"]
+layout_mode = 2
+text = "Checkpoint: --"
+
 [node name="AyudaLabel" type="Label" parent="Control/MarginContainer/PanelContainer/VBoxContainer"]
 layout_mode = 2
-text = "A/D o flechas para mover, espacio para saltar, Shift para sprint, E para interactuar y R para reiniciar."
+text = "A/D o flechas para mover, espacio para saltar, Shift para sprint, E para interactuar, R para reiniciar y Esc para pausa."
 autowrap_mode = 3

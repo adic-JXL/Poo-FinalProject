@@ -15,6 +15,7 @@
 [ext_resource type="PackedScene" path="res://Escenas/EnemigoFlotanteVertical.tscn" id="12_float_v"]
 [ext_resource type="PackedScene" uid="uid://cfqkuepi47a1d" path="res://Escenas/Plataforma.tscn" id="13_p1w6e"]
 [ext_resource type="Script" path="res://Escenas/camara_2.gd" id="14_1obna"]
+[ext_resource type="PackedScene" path="res://Escenas/MenuPausa.tscn" id="15_pause"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_n7y03"]
 
@@ -382,6 +383,8 @@ tile_set = SubResource("TileSet_o37df")
 [node name="PuzzleSecuencia" parent="Canvas" unique_id=1326261426 instance=ExtResource("8_puzzle")]
 
 [node name="HUD" parent="Canvas" unique_id=129481986 instance=ExtResource("6_hud01")]
+
+[node name="MenuPausa" parent="Canvas" instance=ExtResource("15_pause")]
 
 [node name="Enemigos" type="Node2D" parent="." unique_id=1191135653]
 

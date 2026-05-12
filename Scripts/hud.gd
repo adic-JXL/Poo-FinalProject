@@ -8,6 +8,7 @@ class_name HUD
 @onready var estamina_label: Label = $Control/MarginContainer/PanelContainer/VBoxContainer/EstaminaLabel
 @onready var sprint_label: Label = $Control/MarginContainer/PanelContainer/VBoxContainer/SprintLabel
 @onready var llave_label: Label = $Control/MarginContainer/PanelContainer/VBoxContainer/LlaveLabel
+@onready var checkpoint_label: Label = $Control/MarginContainer/PanelContainer/VBoxContainer/CheckpointLabel
 
 
 func configurar_jugador(jugador) -> void:
@@ -46,3 +47,7 @@ func actualizar_sprint(activo: bool) -> void:
 
 func actualizar_llave(tiene_llave: bool) -> void:
 	llave_label.text = "Llave: %s" % ("obtenida" if tiene_llave else "pendiente")
+
+
+func actualizar_checkpoint(activo: bool) -> void:
+	checkpoint_label.text = "Checkpoint: %s" % ("activo" if activo else "pendiente")
