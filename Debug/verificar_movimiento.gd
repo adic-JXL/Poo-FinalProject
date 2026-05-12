@@ -16,7 +16,7 @@ func _ejecutar_verificacion() -> void:
 	for _i in range(45):
 		await physics_frame
 
-	var jugador = escena_principal.get_node_or_null("Jugador")
+	var jugador = escena_principal.get_node_or_null("Player/Jugador")
 	if jugador == null:
 		_registrar_error("No se pudo instanciar el jugador en MainGame.")
 	else:
@@ -50,15 +50,16 @@ func _ejecutar_verificacion() -> void:
 		if jugador.obtener_estamina_actual() <= estamina_despues_sprint:
 			_registrar_error("La estamina no se regenera cuando el jugador deja de correr.")
 
-		var enemigo = escena_principal.get_node_or_null("EnemigoPatrulla")
-		var perseguidor = escena_principal.get_node_or_null("EnemigoPerseguidor")
-		var flotante_horizontal = escena_principal.get_node_or_null("EnemigoFlotanteHorizontal")
-		var flotante_vertical = escena_principal.get_node_or_null("EnemigoFlotanteVertical")
-		var llave = escena_principal.get_node_or_null("Llave")
-		var puzzle = escena_principal.get_node_or_null("PuzzleSecuencia")
-		var puerta = escena_principal.get_node_or_null("Puerta")
+		var enemigo = escena_principal.get_node_or_null("Enemigos/EnemigoPatrulla")
+		var perseguidor = escena_principal.get_node_or_null("Enemigos/EnemigoPerseguidor")
+		var flotante_horizontal = escena_principal.get_node_or_null("Enemigos/EnemigoFlotanteHorizontal")
+		var flotante_vertical = escena_principal.get_node_or_null("Enemigos/EnemigoFlotanteVertical")
+		var llave = escena_principal.get_node_or_null("Objetos/Llave")
+		var puzzle = escena_principal.get_node_or_null("Canvas/PuzzleSecuencia")
+		var puerta = escena_principal.get_node_or_null("Objetos/Puerta")
+		var puerta_destino = escena_principal.get_node_or_null("Objetos/Puerta2")
 
-		if enemigo == null or perseguidor == null or flotante_horizontal == null or flotante_vertical == null or llave == null or puzzle == null or puerta == null:
+		if enemigo == null or perseguidor == null or flotante_horizontal == null or flotante_vertical == null or llave == null or puzzle == null or puerta == null or puerta_destino == null:
 			_registrar_error("Faltan nodos del flujo principal en MainGame.")
 		else:
 			var posicion_inicial_enemigo_x: float = enemigo.global_position.x
@@ -197,6 +198,16 @@ func _ejecutar_verificacion() -> void:
 
 			if not puerta.esta_abierta():
 				_registrar_error("La puerta no se abre despues de obtener la llave.")
+
+			if not puerta.puede_teletransportar():
+				_registrar_error("La puerta abierta no queda lista para teletransportar al jugador.")
+
+			var salida_esperada: Vector2 = puerta_destino.obtener_punto_salida()
+			puerta.teletransportar_jugador(jugador)
+			await process_frame
+
+			if jugador.global_position.distance_to(salida_esperada) > 24.0:
+				_registrar_error("La puerta abierta no teletransporta al jugador hacia la puerta destino.")
 
 	if _errores.is_empty():
 		print("MOVIMIENTO_OK")

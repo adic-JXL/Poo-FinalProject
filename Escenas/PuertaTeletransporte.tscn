@@ -1,16 +1,18 @@
 [gd_scene format=3]
 
 [ext_resource type="Texture2D" path="res://Imagenes/Puerta.png" id="1_textura"]
-[ext_resource type="Script" path="res://Scripts/puerta_bloqueada.gd" id="2_script"]
+[ext_resource type="Script" path="res://Scripts/puerta_teletransporte.gd" id="2_script"]
 
 [sub_resource type="CapsuleShape2D" id="1_capsula"]
 radius = 66.0
 height = 282.0
 
-[node name="PuertaBloqueada" type="Area2D"]
+[node name="PuertaTeletransporte" type="Area2D"]
 script = ExtResource("2_script")
-mensaje_interaccion = "Presiona E para abrir la puerta."
-color_inactiva = Color(0.76, 0.82, 0.88, 1)
+mensaje_interaccion = ""
+teletransporta_al_tocar = false
+transporte_habilitado = false
+color_inactiva = Color(0.55, 0.63, 0.72, 0.85)
 color_activa = Color(0.67, 1, 0.78, 1)
 
 [node name="Puerta" type="Sprite2D" parent="."]
