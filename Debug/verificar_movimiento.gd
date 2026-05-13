@@ -59,6 +59,8 @@ func _ejecutar_verificacion() -> void:
 		var puzzle = escena_principal.get_node_or_null("Canvas/PuzzleSecuencia")
 		var puerta = escena_principal.get_node_or_null("Objetos/Puerta")
 		var puerta_destino = escena_principal.get_node_or_null("Objetos/Puerta2")
+		var puerta_mundo_2 = escena_principal.get_node_or_null("Objetos/PuertaMundo2")
+		var puerta_mundo_2_destino = escena_principal.get_node_or_null("Objetos/PuertaMundo2Destino")
 		var camara_1 = escena_principal.get_node_or_null("Player/Camara1")
 		var camara_2 = escena_principal.get_node_or_null("Player/Camara2")
 		var plataforma_gafas = escena_principal.get_node_or_null("Plataformas/PlataformaGafas1")
@@ -66,6 +68,8 @@ func _ejecutar_verificacion() -> void:
 		var checkpoint_puzzle_gafas = escena_principal.get_node_or_null("Objetos/CheckpointPuzzleGafas")
 		var checkpoint_puerta_activador = escena_principal.get_node_or_null("Objetos/CheckpointPuerta/Activador")
 		var checkpoint_puzzle_gafas_activador = escena_principal.get_node_or_null("Objetos/CheckpointPuzzleGafas/Activador")
+		var checkpoint_mundo_2 = escena_principal.get_node_or_null("Objetos/CheckpointMundo2Inicio")
+		var checkpoint_mundo_2_activador = escena_principal.get_node_or_null("Objetos/CheckpointMundo2Inicio/Activador")
 		var totem_jefe_a = escena_principal.get_node_or_null("Objetos/TotemJefeA")
 		var totem_jefe_b = escena_principal.get_node_or_null("Objetos/TotemJefeB")
 		var totem_jefe_c = escena_principal.get_node_or_null("Objetos/TotemJefeC")
@@ -75,6 +79,7 @@ func _ejecutar_verificacion() -> void:
 		var muro_arena_superior = escena_principal.get_node_or_null("Plataformas/ArenaJefeMuroIzquierdoSuperior")
 		var muro_arena_inferior = escena_principal.get_node_or_null("Plataformas/ArenaJefeMuroIzquierdoInferior")
 		var piso_arena_jefe = escena_principal.get_node_or_null("Plataformas/ArenaJefePiso")
+		var base_mundo_2 = escena_principal.get_node_or_null("Plataformas/BaseMundo2Inicio")
 		var enemigo_ruta_media = escena_principal.get_node_or_null("Enemigos/EnemigoFlotanteHorizontalRutaMedia")
 		var enemigo_parkour = escena_principal.get_node_or_null("Enemigos/EnemigoFlotanteHorizontalParkourA")
 
@@ -87,13 +92,16 @@ func _ejecutar_verificacion() -> void:
 		if piso_arena_jefe != null and piso_arena_jefe.scale.x < 9.0:
 			_registrar_error("La arena del jefe no quedo lo bastante amplia.")
 
-		if camara_2 != null and camara_2.limit_right < 10550:
-			_registrar_error("La camara secundaria no alcanza a cubrir la arena ampliada del jefe.")
+		if camara_2 != null and camara_2.limit_right < 12000:
+			_registrar_error("La camara secundaria no alcanza a cubrir la salida hacia el mundo 2.")
 
 		if enemigo_ruta_media == null or enemigo_parkour == null:
 			_registrar_error("No se instanciaron enemigos nuevos en el trayecto hacia el jefe.")
 
-		if enemigo == null or perseguidor == null or flotante_horizontal == null or flotante_vertical == null or jefe_sombras == null or llave == null or puzzle == null or puerta == null or puerta_destino == null or camara_1 == null or camara_2 == null or plataforma_gafas == null or altar_gafas == null or checkpoint_puzzle_gafas == null or checkpoint_puerta_activador == null or checkpoint_puzzle_gafas_activador == null or totem_jefe_a == null or totem_jefe_b == null or totem_jefe_c == null or meta_plataforma_gafas == null or puzzle_gafas == null:
+		if puerta_mundo_2 != null and puerta_mundo_2.visible:
+			_registrar_error("La puerta final del mundo 2 aparece antes de derrotar al jefe.")
+
+		if enemigo == null or perseguidor == null or flotante_horizontal == null or flotante_vertical == null or jefe_sombras == null or llave == null or puzzle == null or puerta == null or puerta_destino == null or puerta_mundo_2 == null or puerta_mundo_2_destino == null or camara_1 == null or camara_2 == null or plataforma_gafas == null or altar_gafas == null or checkpoint_puzzle_gafas == null or checkpoint_puerta_activador == null or checkpoint_puzzle_gafas_activador == null or checkpoint_mundo_2 == null or checkpoint_mundo_2_activador == null or totem_jefe_a == null or totem_jefe_b == null or totem_jefe_c == null or meta_plataforma_gafas == null or puzzle_gafas == null or base_mundo_2 == null:
 			_registrar_error("Faltan nodos del flujo principal en MainGame.")
 		else:
 			var posicion_inicial_enemigo_x: float = enemigo.global_position.x
@@ -379,14 +387,42 @@ func _ejecutar_verificacion() -> void:
 			if not jefe_sombras.esta_derrotado():
 				_registrar_error("Activar los tres totems no derrota al jefe de sombras.")
 
+			if not escena_principal.mundo_2_esta_desbloqueado():
+				_registrar_error("Derrotar al jefe no desbloquea la salida hacia el mundo 2.")
+
+			if not puerta_mundo_2.visible:
+				_registrar_error("La puerta final no aparece al derrotar al jefe.")
+
+			if not puerta_mundo_2.puede_teletransportar():
+				_registrar_error("La puerta final aparece, pero no queda lista para llevar al mundo 2.")
+
+			var salida_mundo_2: Vector2 = puerta_mundo_2_destino.obtener_punto_salida()
+			puerta_mundo_2.teletransportar_jugador(jugador)
+			await create_timer(0.4).timeout
+
+			if jugador.global_position.distance_to(salida_mundo_2) > 24.0:
+				_registrar_error("La puerta final no traslada al jugador hacia la base provisional del mundo 2.")
+
+			jugador.global_position = checkpoint_mundo_2_activador.global_position
+			jugador.velocity = Vector2.ZERO
+			for _cm2 in range(3):
+				await physics_frame
+
+			if not escena_principal.mundo_2_esta_alcanzado():
+				_registrar_error("El checkpoint del mundo 2 no marca la llegada a la nueva base.")
+
+			var respawn_mundo_2: Vector2 = escena_principal.obtener_respawn_actual()
+			if respawn_mundo_2.distance_to(checkpoint_mundo_2.global_position) > 1.0:
+				_registrar_error("El checkpoint del mundo 2 no actualiza el respawn al inicio provisional.")
+
 			jugador.global_position = Vector2(1800, 1000)
 			jugador.velocity = Vector2.ZERO
 			escena_principal.reiniciar_nivel()
 			await process_frame
 			await physics_frame
 
-			if jugador.global_position.distance_to(respawn_final) > 2.0:
-				_registrar_error("Reiniciar el nivel no devuelve al jugador al checkpoint activo.")
+			if jugador.global_position.distance_to(respawn_mundo_2) > 2.0:
+				_registrar_error("Reiniciar el nivel no devuelve al jugador al checkpoint activo del mundo 2.")
 
 			if jugador.vida != jugador.obtener_vida_inicial():
 				_registrar_error("El respawn no restaura la vida inicial del jugador.")
@@ -394,8 +430,11 @@ func _ejecutar_verificacion() -> void:
 			if enemigo.global_position.distance_to(Vector2(522, 231)) > 2.0:
 				_registrar_error("El respawn no reinicia al enemigo patrulla a su posicion base.")
 
-			if jefe_sombras.esta_derrotado():
-				_registrar_error("El respawn no restablece el estado del jefe.")
+			if not jefe_sombras.esta_derrotado():
+				_registrar_error("El respawn restablecio al jefe aun despues de abrir la salida al mundo 2.")
+
+			if not puerta_mundo_2.visible or not puerta_mundo_2.puede_teletransportar():
+				_registrar_error("La puerta final deja de estar disponible tras reiniciar el nivel.")
 
 			escena_principal.abrir_menu_pausa()
 			await process_frame

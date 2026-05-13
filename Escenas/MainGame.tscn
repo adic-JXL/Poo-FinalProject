@@ -378,7 +378,7 @@ radius = 18.0
 size = Vector2(1334, 388)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_b7mqo"]
-size = Vector2(9288, 419)
+size = Vector2(11260, 419)
 
 [node name="Node2D" type="Node2D" unique_id=291629533]
 script = ExtResource("1_h1l5c")
@@ -588,6 +588,14 @@ scale = Vector2(2.8, 1)
 position = Vector2(10050, 42)
 scale = Vector2(1.35, 1)
 
+[node name="BaseMundo2Inicio" parent="Plataformas" unique_id=1520632574 instance=ExtResource("17_solida")]
+position = Vector2(11490, 323)
+scale = Vector2(8.8, 1)
+
+[node name="BaseMundo2Ancla" parent="Plataformas" unique_id=1078681752 instance=ExtResource("17_solida")]
+position = Vector2(11110, 291)
+scale = Vector2(1.25, 1)
+
 [node name="Objetos" type="Node2D" parent="." unique_id=1130510155]
 
 [node name="Puerta" parent="Objetos" unique_id=413627468 instance=ExtResource("5_ryxee")]
@@ -643,6 +651,43 @@ position = Vector2(10310, 110)
 [node name="TotemJefeC" parent="Objetos" unique_id=1757669067 instance=ExtResource("22_totem")]
 position = Vector2(10050, 10)
 
+[node name="PuertaMundo2" parent="Objetos" unique_id=1300687901 instance=ExtResource("5_ryxee")]
+visible = false
+position = Vector2(10378, 111)
+scale = Vector2(0.26893523, 0.26217192)
+monitoring = false
+monitorable = false
+
+[node name="PuertaMundo2Destino" parent="Objetos" unique_id=1521705693 instance=ExtResource("6_door_tp")]
+position = Vector2(11280, 291)
+scale = Vector2(0.26893523, 0.26217192)
+
+[node name="CheckpointMundo2Inicio" type="Marker2D" parent="Objetos" unique_id=1033152245]
+position = Vector2(11426, 289)
+
+[node name="PuntoVisible" type="Polygon2D" parent="Objetos/CheckpointMundo2Inicio" unique_id=290676976]
+color = Color(1, 0.713726, 0.266667, 0.95)
+polygon = PackedVector2Array(0, -6, 6, 0, 0, 6, -6, 0)
+
+[node name="Activador" type="Area2D" parent="Objetos/CheckpointMundo2Inicio" unique_id=861515645]
+script = ExtResource("20_checkpoint")
+mensaje_activacion = "Checkpoint del mundo 2 activado."
+color_inactivo = Color(1, 0.713726, 0.266667, 0.95)
+color_activo = Color(0.996078, 0.921569, 0.380392, 1)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Objetos/CheckpointMundo2Inicio/Activador" unique_id=1262808447]
+shape = SubResource("CircleShape2D_checkpoint_gafas")
+
+[node name="RotuloMundo2Provisional" type="Label" parent="Objetos" unique_id=109182097]
+offset_left = 11178.0
+offset_top = 208.0
+offset_right = 11798.0
+offset_bottom = 254.0
+theme_override_colors/font_color = Color(0.937255, 0.913726, 0.705882, 0.95)
+theme_override_font_sizes/font_size = 22
+text = "Inicio Mundo 2 (provisional)"
+horizontal_alignment = 1
+
 [node name="Player" type="Node2D" parent="." unique_id=1906555285]
 
 [node name="Jugador" parent="Player" unique_id=740271185 instance=ExtResource("2_apeae")]
@@ -666,7 +711,7 @@ object = NodePath("../Jugador")
 zoom = Vector2(2, 2)
 limit_left = 1320
 limit_top = 0
-limit_right = 10600
+limit_right = 12120
 limit_bottom = 340
 script = ExtResource("14_1obna")
 object = NodePath("../Jugador")
