@@ -378,7 +378,7 @@ radius = 18.0
 size = Vector2(1334, 388)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_b7mqo"]
-size = Vector2(11260, 419)
+size = Vector2(11260, 521.5)
 
 [node name="Node2D" type="Node2D" unique_id=291629533]
 script = ExtResource("1_h1l5c")
@@ -461,7 +461,7 @@ direccion_inicial = -1
 [node name="JefeSombras" parent="Enemigos" unique_id=154374902 instance=ExtResource("21_jefe")]
 position = Vector2(10050, 34)
 tiempo_recarga_ataque = 1.15
-velocidad = 86.0
+velocidad = 80.0
 
 [node name="Plataformas" type="Node2D" parent="." unique_id=483207205]
 
@@ -727,7 +727,7 @@ shape = SubResource("RectangleShape2D_1obna")
 [node name="Area2D2" type="Area2D" parent="Player" unique_id=1474394775]
 
 [node name="Area2" type="CollisionShape2D" parent="Player/Area2D2" unique_id=285069609]
-position = Vector2(5975, 201.5)
+position = Vector2(6977, 130.75)
 shape = SubResource("RectangleShape2D_b7mqo")
 
 [connection signal="body_entered" from="Player/Area2D" to="Player/Camara1" method="_on_area_2d_body_entered"]

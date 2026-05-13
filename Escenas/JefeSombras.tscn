@@ -11,9 +11,9 @@ radius = 25.495098
 [node name="JefeSombras" type="CharacterBody2D" unique_id=41432351]
 script = ExtResource("1_jefe")
 vida = 3
-tiempo_recarga_ataque = 1.1
-velocidad = 92.0
-aceleracion = 850.0
+tiempo_recarga_ataque = 1.25
+velocidad = 84.0
+aceleracion = 780.0
 usa_gravedad = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1044293646]
