@@ -11,7 +11,9 @@ const MENSAJE_PUZZLE_GAFAS_COMPLETADO := "Reto de gafas superado. Has revelado e
 const MENSAJE_CHECKPOINT_ALTAR_DISPONIBLE := "El altar respondio. Pisa el punto azul para guardar este avance."
 const MENSAJE_GAFAS_REQUERIDAS := "Activa las gafas antes de tocar el altar. Solo asi podras leer sus glifos."
 const MENSAJE_TOTEM_SIN_GAFAS := "Los totems solo responden cuando miras con las gafas."
-const MENSAJE_JEFE_DERROTADO := "El jefe se desmorona. Activaste los tres sellos de la arena."
+const MENSAJE_JEFE_DERROTADO := "El jefe se desmorona. Una puerta al siguiente mundo emerge dentro de la arena."
+const MENSAJE_LLEGADA_MUNDO_2 := "Has cruzado al inicio provisional del mundo 2. Avanza hasta el punto dorado para fijar este nuevo comienzo."
+const MENSAJE_CHECKPOINT_MUNDO_2_ACTIVADO := "Checkpoint del mundo 2 activado. Esta base plana ya puede servir como nuevo inicio."
 const ESCALA_TIEMPO_PAUSA := 0.000001
 const FACTOR_LENTITUD_GAFAS_ENEMIGOS := 0.90
 
@@ -28,11 +30,15 @@ const FACTOR_LENTITUD_GAFAS_ENEMIGOS := 0.90
 @onready var tile_map: TileMapLayer = $Mapa/TileMapLayer
 @onready var puerta = $Objetos/Puerta
 @onready var puerta_salida = $Objetos/Puerta2
+@onready var puerta_mundo_2 = $Objetos/PuertaMundo2
+@onready var puerta_mundo_2_destino = $Objetos/PuertaMundo2Destino
 @onready var checkpoint_puerta: Marker2D = $Objetos/CheckpointPuerta
 @onready var checkpoint_puerta_activador = $Objetos/CheckpointPuerta/Activador
 @onready var altar_gafas = $Objetos/AltarGafas
 @onready var checkpoint_puzzle_gafas: Marker2D = $Objetos/CheckpointPuzzleGafas
 @onready var checkpoint_puzzle_gafas_activador = $Objetos/CheckpointPuzzleGafas/Activador
+@onready var checkpoint_mundo_2_inicio: Marker2D = $Objetos/CheckpointMundo2Inicio
+@onready var checkpoint_mundo_2_inicio_activador = $Objetos/CheckpointMundo2Inicio/Activador
 @onready var totem_jefe_a = $Objetos/TotemJefeA
 @onready var totem_jefe_b = $Objetos/TotemJefeB
 @onready var totem_jefe_c = $Objetos/TotemJefeC
@@ -63,6 +69,8 @@ var _estado_gafas_aplicado: bool = false
 var _totems_jefe: Array = []
 var _totems_activados_jefe: int = 0
 var _jefe_derrotado: bool = false
+var _mundo_2_desbloqueado: bool = false
+var _mundo_2_alcanzado: bool = false
 
 
 func _ready() -> void:
@@ -183,6 +191,14 @@ func puzzle_gafas_esta_superado() -> bool:
 	return _puzzle_gafas_superado
 
 
+func mundo_2_esta_desbloqueado() -> bool:
+	return _mundo_2_desbloqueado
+
+
+func mundo_2_esta_alcanzado() -> bool:
+	return _mundo_2_alcanzado
+
+
 func alternar_pausa() -> void:
 	if _pausa_activa:
 		cerrar_menu_pausa()
@@ -235,6 +251,14 @@ func _configurar_puertas() -> void:
 	if puerta != null and puerta.has_signal("teletransporte_realizado"):
 		puerta.teletransporte_realizado.connect(_on_puerta_teletransporte_realizado)
 
+	if puerta_mundo_2 != null and puerta_mundo_2_destino != null and puerta_mundo_2.has_method("configurar_destino"):
+		puerta_mundo_2.configurar_destino(puerta_mundo_2_destino)
+
+	if puerta_mundo_2 != null and puerta_mundo_2.has_signal("teletransporte_realizado"):
+		puerta_mundo_2.teletransporte_realizado.connect(_on_puerta_mundo_2_teletransporte_realizado)
+
+	_actualizar_puerta_mundo_2(_mundo_2_desbloqueado)
+
 
 func _configurar_checkpoints() -> void:
 	if checkpoint_puerta_activador != null and checkpoint_puerta_activador.has_signal("checkpoint_alcanzado"):
@@ -242,6 +266,9 @@ func _configurar_checkpoints() -> void:
 
 	if checkpoint_puzzle_gafas_activador != null and checkpoint_puzzle_gafas_activador.has_signal("checkpoint_alcanzado"):
 		checkpoint_puzzle_gafas_activador.checkpoint_alcanzado.connect(_on_checkpoint_puzzle_gafas_alcanzado)
+
+	if checkpoint_mundo_2_inicio_activador != null and checkpoint_mundo_2_inicio_activador.has_signal("checkpoint_alcanzado"):
+		checkpoint_mundo_2_inicio_activador.checkpoint_alcanzado.connect(_on_checkpoint_mundo_2_alcanzado)
 
 
 func _configurar_enemigos() -> void:
@@ -422,8 +449,15 @@ func _on_checkpoint_puzzle_gafas_alcanzado(posicion: Vector2, _mensaje: String) 
 	_activar_checkpoint(posicion, MENSAJE_PUZZLE_GAFAS_COMPLETADO)
 
 
+func _on_checkpoint_mundo_2_alcanzado(posicion: Vector2, _mensaje: String) -> void:
+	_mundo_2_alcanzado = true
+	_activar_checkpoint(posicion, MENSAJE_CHECKPOINT_MUNDO_2_ACTIVADO)
+
+
 func _on_jefe_sombras_derrotado() -> void:
 	_jefe_derrotado = true
+	_mundo_2_desbloqueado = true
+	_actualizar_puerta_mundo_2(true)
 	hud.mostrar_mensaje(MENSAJE_JEFE_DERROTADO)
 
 
@@ -461,6 +495,13 @@ func _on_jugador_gafas_actualizadas(activa: bool, _duracion_restante: float, _co
 	_aplicar_estado_gafas(activa)
 
 
+func _on_puerta_mundo_2_teletransporte_realizado(_jugador: Node2D, destino: Node2D) -> void:
+	if destino == null or not destino.has_method("obtener_punto_salida"):
+		return
+
+	hud.mostrar_mensaje(MENSAJE_LLEGADA_MUNDO_2)
+
+
 func _establecer_enemigos_congelados(congelados: bool) -> void:
 	for enemigo in get_tree().get_nodes_in_group("enemigo"):
 		if enemigo.has_method("establecer_congelado"):
@@ -469,17 +510,28 @@ func _establecer_enemigos_congelados(congelados: bool) -> void:
 
 func _restaurar_entidades() -> void:
 	for enemigo in get_tree().get_nodes_in_group("enemigo"):
+		if _mundo_2_desbloqueado and enemigo == jefe_sombras:
+			if enemigo.has_method("establecer_multiplicador_velocidad"):
+				enemigo.establecer_multiplicador_velocidad(FACTOR_LENTITUD_GAFAS_ENEMIGOS if jugador.gafas_activas() else 1.0)
+			continue
+
 		if enemigo.has_method("reiniciar_enemigo"):
 			enemigo.reiniciar_enemigo()
 
 		if enemigo.has_method("establecer_multiplicador_velocidad"):
 			enemigo.establecer_multiplicador_velocidad(FACTOR_LENTITUD_GAFAS_ENEMIGOS if jugador.gafas_activas() else 1.0)
 
-	_totems_activados_jefe = 0
-	_jefe_derrotado = false
-	for totem in _totems_jefe:
-		if totem != null and totem.has_method("reiniciar_totem"):
-			totem.reiniciar_totem()
+	if _mundo_2_desbloqueado:
+		_totems_activados_jefe = max(_totems_activados_jefe, 3)
+		_jefe_derrotado = true
+	else:
+		_totems_activados_jefe = 0
+		_jefe_derrotado = false
+		for totem in _totems_jefe:
+			if totem != null and totem.has_method("reiniciar_totem"):
+				totem.reiniciar_totem()
+
+	_actualizar_puerta_mundo_2(_mundo_2_desbloqueado)
 
 
 func _on_rango_interaccion_cambiado(activo: bool, mensaje: String) -> void:
@@ -494,6 +546,14 @@ func _on_rango_interaccion_cambiado(activo: bool, mensaje: String) -> void:
 
 
 func _restaurar_mensaje_hud() -> void:
+	if _mundo_2_alcanzado:
+		hud.mostrar_mensaje(MENSAJE_LLEGADA_MUNDO_2)
+		return
+
+	if _mundo_2_desbloqueado:
+		hud.mostrar_mensaje(MENSAJE_JEFE_DERROTADO)
+		return
+
 	if _jefe_derrotado:
 		hud.mostrar_mensaje(MENSAJE_JEFE_DERROTADO)
 		return
@@ -519,6 +579,25 @@ func _restaurar_mensaje_hud() -> void:
 
 func _obtener_descripcion_checkpoint() -> String:
 	return "(%.0f, %.0f)" % [_posicion_respawn_actual.x, _posicion_respawn_actual.y]
+
+
+func _actualizar_puerta_mundo_2(activa: bool) -> void:
+	if puerta_mundo_2 == null:
+		return
+
+	puerta_mundo_2.visible = activa
+	puerta_mundo_2.monitoring = activa
+	puerta_mundo_2.monitorable = activa
+
+	if activa:
+		if puerta_mundo_2.has_method("abrir"):
+			puerta_mundo_2.abrir()
+		elif puerta_mundo_2.has_method("establecer_transporte_habilitado"):
+			puerta_mundo_2.establecer_transporte_habilitado(true)
+		return
+
+	if puerta_mundo_2.has_method("establecer_transporte_habilitado"):
+		puerta_mundo_2.establecer_transporte_habilitado(false)
 
 
 func _obtener_mensaje_fase_jefe(fase_actual: int, sellos_activados: int) -> String:

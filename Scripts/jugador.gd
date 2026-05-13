@@ -44,6 +44,8 @@ signal gafas_actualizadas(activa: bool, duracion_restante: float, cooldown_resta
 @export var gafas_cooldown_base: float = 2.0
 @export var gafas_incremento_cooldown: float = 1.5
 @export var gafas_cooldown_maximo: float = 10.0
+@export var gafas_bonus_velocidad: float = 0.05
+@export var gafas_bonus_salto: float = 0.15
 
 var estado_actual: StringName = &"sin_estado"
 var sistema_estamina
@@ -120,7 +122,7 @@ func mover(direccion: float, delta: float) -> void:
 
 
 func mover_con_multiplicador(direccion: float, delta: float, multiplicador: float) -> void:
-	var velocidad_objetivo := direccion * velocidad_base * multiplicador
+	var velocidad_objetivo := direccion * obtener_velocidad_movimiento_actual() * multiplicador
 	var ajuste := aceleracion if not is_zero_approx(direccion) else desaceleracion
 	velocity.x = move_toward(velocity.x, velocidad_objetivo, ajuste * delta)
 
@@ -138,7 +140,7 @@ func procesar_estado_actual(delta: float, direccion: float, quiere_sprint: bool,
 
 func saltar() -> void:
 	if is_on_floor():
-		velocity.y = -fuerza_salto
+		velocity.y = -obtener_fuerza_salto_actual()
 
 
 func recibir_danio(cantidad: int, origen_x: float = 0.0) -> bool:
@@ -213,7 +215,15 @@ func obtener_estamina_maxima() -> float:
 
 
 func obtener_velocidad_base_para_enemigos() -> float:
-	return velocidad_base
+	return obtener_velocidad_movimiento_actual()
+
+
+func obtener_velocidad_movimiento_actual() -> float:
+	return velocidad_base * _obtener_factor_buff_velocidad_gafas()
+
+
+func obtener_fuerza_salto_actual() -> float:
+	return fuerza_salto * _obtener_factor_buff_salto_gafas()
 
 
 func obtener_vida_inicial() -> int:
@@ -367,3 +377,11 @@ func _aplicar_retroceso(direccion: float) -> void:
 func _restaurar_visual_base() -> void:
 	visual.scale = Vector2(_direccion_actual * absf(_escala_visual_original.x), _escala_visual_original.y)
 	visual.modulate = _modulate_visual_original
+
+
+func _obtener_factor_buff_velocidad_gafas() -> float:
+	return 1.0 + gafas_bonus_velocidad if gafas_activas() else 1.0
+
+
+func _obtener_factor_buff_salto_gafas() -> float:
+	return 1.0 + gafas_bonus_salto if gafas_activas() else 1.0
