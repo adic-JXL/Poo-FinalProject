@@ -1,28 +1,26 @@
-[gd_scene format=3]
+[gd_scene format=3 uid="uid://dm4jn5adictov"]
 
-[ext_resource type="Texture2D" path="res://Imagenes/Puerta.png" id="1_textura"]
 [ext_resource type="Script" path="res://Scripts/puerta_teletransporte.gd" id="2_script"]
+[ext_resource type="Texture2D" uid="uid://wpdixetypfo2" path="res://Imagenes/Puerta-Cerrada.png" id="2_yt8nv"]
 
 [sub_resource type="CapsuleShape2D" id="1_capsula"]
-radius = 66.0
-height = 282.0
+radius = 76.0
+height = 328.0
 
-[node name="PuertaTeletransporte" type="Area2D"]
+[node name="PuertaTeletransporte" type="Area2D" unique_id=1084831425]
 script = ExtResource("2_script")
-mensaje_interaccion = ""
 teletransporta_al_tocar = false
-transporte_habilitado = false
 color_inactiva = Color(0.55, 0.63, 0.72, 0.85)
-color_activa = Color(0.67, 1, 0.78, 1)
+mensaje_interaccion = ""
 
-[node name="Puerta" type="Sprite2D" parent="."]
+[node name="Puerta" type="Sprite2D" parent="." unique_id=19973949]
 texture_filter = 1
-scale = Vector2(0.55, 0.55)
-texture = ExtResource("1_textura")
+scale = Vector2(5.85, 6.087)
+texture = ExtResource("2_yt8nv")
 
-[node name="Marker2D" type="Marker2D" parent="."]
+[node name="Marker2D" type="Marker2D" parent="." unique_id=1520679640]
 position = Vector2(0, 8)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=952123004]
 position = Vector2(0, 6)
 shape = SubResource("1_capsula")

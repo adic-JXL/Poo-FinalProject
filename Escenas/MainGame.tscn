@@ -5,9 +5,9 @@
 [ext_resource type="PackedScene" uid="uid://sh8mxgnkcji2" path="res://Escenas/Personaje.tscn" id="2_apeae"]
 [ext_resource type="Script" uid="uid://btswu5ega1pn8" path="res://Scripts/Seguir-Camara.gd" id="3_ryxee"]
 [ext_resource type="PackedScene" uid="uid://dkdpa48nrjkq3" path="res://Escenas/Puerta.tscn" id="5_ryxee"]
-[ext_resource type="PackedScene" path="res://Escenas/PuertaTeletransporte.tscn" id="6_door_tp"]
+[ext_resource type="PackedScene" uid="uid://dm4jn5adictov" path="res://Escenas/PuertaTeletransporte.tscn" id="6_door_tp"]
 [ext_resource type="PackedScene" path="res://Escenas/HUD.tscn" id="6_hud01"]
-[ext_resource type="PackedScene" path="res://Escenas/Llave.tscn" id="7_llave"]
+[ext_resource type="PackedScene" uid="uid://y3yoa2fcfb6n" path="res://Escenas/Llave.tscn" id="7_llave"]
 [ext_resource type="PackedScene" uid="uid://cr3wwcude65ay" path="res://Escenas/PuzzleSecuencia.tscn" id="8_puzzle"]
 [ext_resource type="PackedScene" path="res://Escenas/EnemigoPatrulla.tscn" id="9_enemy"]
 [ext_resource type="PackedScene" path="res://Escenas/EnemigoPerseguidor.tscn" id="10_chaser"]
@@ -20,8 +20,8 @@
 [ext_resource type="PackedScene" path="res://Escenas/PlataformaSolida.tscn" id="17_solida"]
 [ext_resource type="PackedScene" path="res://Escenas/AltarGafas.tscn" id="18_altar"]
 [ext_resource type="PackedScene" path="res://Escenas/PuzzleGafas.tscn" id="19_puzzle_gafas"]
-[ext_resource type="Script" uid="uid://credu5ihgvkxe" path="res://Scripts/checkpoint_activador.gd" id="20_checkpoint"]
-[ext_resource type="PackedScene" uid="uid://cgrdddpb18vhy" path="res://Escenas/JefeSombras.tscn" id="21_jefe"]
+[ext_resource type="Script" path="res://Scripts/checkpoint_activador.gd" id="20_checkpoint"]
+[ext_resource type="PackedScene" path="res://Escenas/JefeSombras.tscn" id="21_jefe"]
 [ext_resource type="PackedScene" path="res://Escenas/TotemJefe.tscn" id="22_totem"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_n7y03"]
@@ -591,11 +591,11 @@ scale = Vector2(1.35, 1)
 [node name="Objetos" type="Node2D" parent="." unique_id=1130510155]
 
 [node name="Puerta" parent="Objetos" unique_id=413627468 instance=ExtResource("5_ryxee")]
-position = Vector2(1240, 292.99997)
+position = Vector2(1235.0001, 280.99997)
 scale = Vector2(0.26893523, 0.26217192)
 
 [node name="Puerta2" parent="Objetos" unique_id=692291154 instance=ExtResource("6_door_tp")]
-position = Vector2(1400, 293)
+position = Vector2(1406.0001, 282.99997)
 scale = Vector2(0.26893523, 0.26217192)
 
 [node name="CheckpointPuerta" type="Marker2D" parent="Objetos" unique_id=829114517]

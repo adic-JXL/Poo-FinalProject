@@ -1,26 +1,23 @@
-[gd_scene format=3]
+[gd_scene format=3 uid="uid://dkdpa48nrjkq3"]
 
-[ext_resource type="Texture2D" path="res://Imagenes/Puerta.png" id="1_textura"]
-[ext_resource type="Script" path="res://Scripts/puerta_bloqueada.gd" id="2_script"]
+[ext_resource type="Texture2D" uid="uid://wpdixetypfo2" path="res://Imagenes/Puerta-Cerrada.png" id="2_00lnm"]
+[ext_resource type="Script" uid="uid://dnoqadedpxx1r" path="res://Scripts/puerta_bloqueada.gd" id="2_script"]
 
 [sub_resource type="CapsuleShape2D" id="1_capsula"]
 radius = 66.0
-height = 282.0
+height = 328.0
 
-[node name="PuertaBloqueada" type="Area2D"]
+[node name="PuertaBloqueada" type="Area2D" unique_id=1165641711]
 script = ExtResource("2_script")
 mensaje_interaccion = "Presiona E para abrir la puerta."
-color_inactiva = Color(0.76, 0.82, 0.88, 1)
-color_activa = Color(0.67, 1, 0.78, 1)
 
-[node name="Puerta" type="Sprite2D" parent="."]
+[node name="Puerta" type="Sprite2D" parent="." unique_id=176029259]
 texture_filter = 1
-scale = Vector2(0.55, 0.55)
-texture = ExtResource("1_textura")
+scale = Vector2(5.85, 6.0874996)
+texture = ExtResource("2_00lnm")
 
-[node name="Marker2D" type="Marker2D" parent="."]
+[node name="Marker2D" type="Marker2D" parent="." unique_id=1227646108]
 position = Vector2(0, 8)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0, 6)
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=950529764]
 shape = SubResource("1_capsula")
