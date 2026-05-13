@@ -676,14 +676,12 @@ collision_layer = 2
 collision_mask = 2
 
 [node name="Area1" type="CollisionShape2D" parent="Player/Area2D" unique_id=88767536]
-visible = false
 position = Vector2(657, 184)
 shape = SubResource("RectangleShape2D_1obna")
 
 [node name="Area2D2" type="Area2D" parent="Player" unique_id=1474394775]
 
 [node name="Area2" type="CollisionShape2D" parent="Player/Area2D2" unique_id=285069609]
-visible = false
 position = Vector2(5975, 201.5)
 shape = SubResource("RectangleShape2D_b7mqo")
 
