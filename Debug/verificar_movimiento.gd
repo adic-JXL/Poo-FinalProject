@@ -205,8 +205,19 @@ func _ejecutar_verificacion() -> void:
 			if not jugador.gafas_activas():
 				_registrar_error("Las gafas no quedan activas tras usarlas.")
 
+			if jugador.obtener_velocidad_movimiento_actual() < jugador.velocidad_base * 1.049:
+				_registrar_error("Las gafas no aumentan la velocidad base del jugador en el porcentaje esperado.")
+
+			if jugador.obtener_fuerza_salto_actual() < jugador.fuerza_salto * 1.149:
+				_registrar_error("Las gafas no aumentan la fuerza de salto del jugador en el porcentaje esperado.")
+
 			if enemigo.obtener_multiplicador_velocidad() > 0.901:
 				_registrar_error("Las gafas no reducen la velocidad base de los enemigos.")
+
+			jugador.velocity = Vector2.ZERO
+			jugador.mover_con_multiplicador(1.0, 0.2, 1.0)
+			if jugador.velocity.x < jugador.velocidad_base * 1.049:
+				_registrar_error("El movimiento real con gafas no refleja el buff de velocidad esperado.")
 
 			var zoom_con_gafas_x_antes: float = camara_1.zoom.x
 			await create_timer(0.35).timeout
