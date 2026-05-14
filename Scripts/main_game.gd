@@ -7,11 +7,13 @@ const MENSAJE_NIVEL_COMPLETO := "La puerta se abrio. El nivel base ya esta compl
 const MENSAJE_CHECKPOINT_ACTIVADO := "Checkpoint activado. Si caes, volveras despues de la puerta."
 const MENSAJE_CHECKPOINT_PUERTA_DISPONIBLE := "Nueva zona alcanzada. Pisa el punto verde para guardar tu avance."
 const MENSAJE_CHECKPOINT_GAFAS_ACTIVADO := "Checkpoint activado. Activa las gafas para revelar el parkour oculto."
-const MENSAJE_PUZZLE_GAFAS_COMPLETADO := "Reto de gafas superado. Has revelado el camino alternativo final."
+const MENSAJE_PUZZLE_GAFAS_COMPLETADO := "Reto de gafas superado. La puerta hacia la arena del jefe ya esta activa."
 const MENSAJE_CHECKPOINT_ALTAR_DISPONIBLE := "El altar respondio. Pisa el punto azul para guardar este avance."
 const MENSAJE_GAFAS_REQUERIDAS := "Activa las gafas antes de tocar el altar. Solo asi podras leer sus glifos."
 const MENSAJE_TOTEM_SIN_GAFAS := "Los totems solo responden cuando miras con las gafas."
 const MENSAJE_JEFE_DERROTADO := "El jefe se desmorona. Una puerta al siguiente mundo emerge dentro de la arena."
+const MENSAJE_PUERTA_JEFE_REVELADA := "El puzzle se resolvio. La puerta hacia la arena del jefe se revela frente a ti."
+const MENSAJE_LLEGADA_ARENA_JEFE := "Has entrado en la arena del jefe. Usa las gafas y activa los tres totems."
 const MENSAJE_LLEGADA_MUNDO_2 := "Has cruzado al inicio provisional del mundo 2. Avanza hasta el punto dorado para fijar este nuevo comienzo."
 const MENSAJE_CHECKPOINT_MUNDO_2_ACTIVADO := "Checkpoint del mundo 2 activado. Esta base plana ya puede servir como nuevo inicio."
 const ESCALA_TIEMPO_PAUSA := 0.000001
@@ -30,21 +32,24 @@ const FACTOR_LENTITUD_GAFAS_ENEMIGOS := 0.90
 @onready var tile_map: TileMapLayer = $Mapa/TileMapLayer
 @onready var puerta = $Objetos/Puerta
 @onready var puerta_salida = $Objetos/Puerta2
-@onready var puerta_mundo_2 = $Objetos/PuertaMundo2
-@onready var puerta_mundo_2_destino = $Objetos/PuertaMundo2Destino
+@onready var puerta_3 = get_node_or_null("Objetos/Puerta3")
+@onready var puerta_4 = get_node_or_null("Objetos/Puerta4")
+@onready var puerta_mundo_2 = get_node_or_null("Objetos/PuertaMundo2")
+@onready var puerta_mundo_2_destino = get_node_or_null("Objetos/PuertaMundo2Destino")
 @onready var checkpoint_puerta: Marker2D = $Objetos/CheckpointPuerta
 @onready var checkpoint_puerta_activador = $Objetos/CheckpointPuerta/Activador
 @onready var altar_gafas = $Objetos/AltarGafas
 @onready var checkpoint_puzzle_gafas: Marker2D = $Objetos/CheckpointPuzzleGafas
 @onready var checkpoint_puzzle_gafas_activador = $Objetos/CheckpointPuzzleGafas/Activador
-@onready var checkpoint_mundo_2_inicio: Marker2D = $Objetos/CheckpointMundo2Inicio
-@onready var checkpoint_mundo_2_inicio_activador = $Objetos/CheckpointMundo2Inicio/Activador
+@onready var checkpoint_mundo_2_inicio: Marker2D = get_node_or_null("Objetos/CheckpointMundo2Inicio") as Marker2D
+@onready var checkpoint_mundo_2_inicio_activador = get_node_or_null("Objetos/CheckpointMundo2Inicio/Activador")
 @onready var totem_jefe_a = $Objetos/TotemJefeA
 @onready var totem_jefe_b = $Objetos/TotemJefeB
 @onready var totem_jefe_c = $Objetos/TotemJefeC
 @onready var jugador: CharacterBody2D = $Player/Jugador
 @onready var camara_1: Camera2D = $Player/Camara1
 @onready var camara_2: Camera2D = $Player/Camara2
+@onready var camara_3: Camera2D = $Player/Camara3
 @onready var hud = $Canvas/HUD
 @onready var menu_pausa = $Canvas/MenuPausa
 @onready var distorsion_overlay: ColorRect = $Canvas/DistorsionOverlay
@@ -71,6 +76,7 @@ var _totems_activados_jefe: int = 0
 var _jefe_derrotado: bool = false
 var _mundo_2_desbloqueado: bool = false
 var _mundo_2_alcanzado: bool = false
+var _tween_puerta_jefe: Tween
 
 
 func _ready() -> void:
@@ -251,12 +257,19 @@ func _configurar_puertas() -> void:
 	if puerta != null and puerta.has_signal("teletransporte_realizado"):
 		puerta.teletransporte_realizado.connect(_on_puerta_teletransporte_realizado)
 
+	if puerta_3 != null and puerta_4 != null and puerta_3.has_method("configurar_destino"):
+		puerta_3.configurar_destino(puerta_4)
+
+	if puerta_3 != null and puerta_3.has_signal("teletransporte_realizado"):
+		puerta_3.teletransporte_realizado.connect(_on_puerta_jefe_teletransporte_realizado)
+
 	if puerta_mundo_2 != null and puerta_mundo_2_destino != null and puerta_mundo_2.has_method("configurar_destino"):
 		puerta_mundo_2.configurar_destino(puerta_mundo_2_destino)
 
 	if puerta_mundo_2 != null and puerta_mundo_2.has_signal("teletransporte_realizado"):
 		puerta_mundo_2.teletransporte_realizado.connect(_on_puerta_mundo_2_teletransporte_realizado)
 
+	_actualizar_puerta_jefe(_puzzle_gafas_superado)
 	_actualizar_puerta_mundo_2(_mundo_2_desbloqueado)
 
 
@@ -389,7 +402,8 @@ func _on_puzzle_gafas_completado() -> void:
 	if altar_gafas != null and altar_gafas.has_method("marcar_resuelto"):
 		altar_gafas.marcar_resuelto()
 
-	_cerrar_puzzle(MENSAJE_CHECKPOINT_ALTAR_DISPONIBLE)
+	_actualizar_puerta_jefe(true, true)
+	_cerrar_puzzle(MENSAJE_PUERTA_JEFE_REVELADA)
 
 
 func _on_puzzle_gafas_cancelado() -> void:
@@ -502,6 +516,13 @@ func _on_puerta_mundo_2_teletransporte_realizado(_jugador: Node2D, destino: Node
 	hud.mostrar_mensaje(MENSAJE_LLEGADA_MUNDO_2)
 
 
+func _on_puerta_jefe_teletransporte_realizado(_jugador: Node2D, destino: Node2D) -> void:
+	if destino == null or not destino.has_method("obtener_punto_salida"):
+		return
+
+	hud.mostrar_mensaje(MENSAJE_LLEGADA_ARENA_JEFE)
+
+
 func _establecer_enemigos_congelados(congelados: bool) -> void:
 	for enemigo in get_tree().get_nodes_in_group("enemigo"):
 		if enemigo.has_method("establecer_congelado"):
@@ -531,6 +552,7 @@ func _restaurar_entidades() -> void:
 			if totem != null and totem.has_method("reiniciar_totem"):
 				totem.reiniciar_totem()
 
+	_actualizar_puerta_jefe(_puzzle_gafas_superado)
 	_actualizar_puerta_mundo_2(_mundo_2_desbloqueado)
 
 
@@ -559,7 +581,7 @@ func _restaurar_mensaje_hud() -> void:
 		return
 
 	if _puzzle_gafas_superado:
-		hud.mostrar_mensaje("Reto de gafas superado. El camino alternativo final ya es tuyo.")
+		hud.mostrar_mensaje("Reto de gafas superado. La puerta a la arena del jefe ya esta abierta.")
 		return
 
 	if _checkpoint_activo:
@@ -598,6 +620,53 @@ func _actualizar_puerta_mundo_2(activa: bool) -> void:
 
 	if puerta_mundo_2.has_method("establecer_transporte_habilitado"):
 		puerta_mundo_2.establecer_transporte_habilitado(false)
+
+
+func _actualizar_puerta_jefe(activa: bool, animar: bool = false) -> void:
+	if puerta_3 == null:
+		return
+
+	if _tween_puerta_jefe != null and _tween_puerta_jefe.is_valid():
+		_tween_puerta_jefe.kill()
+
+	if not activa:
+		puerta_3.visible = false
+		puerta_3.monitoring = false
+		puerta_3.monitorable = false
+		puerta_3.modulate = Color(1, 1, 1, 0)
+		if puerta_3.has_method("establecer_transporte_habilitado"):
+			puerta_3.establecer_transporte_habilitado(false)
+		return
+
+	puerta_3.visible = true
+	puerta_3.monitoring = false
+	puerta_3.monitorable = false
+
+	if animar:
+		puerta_3.modulate = Color(1, 1, 1, 0)
+		_tween_puerta_jefe = create_tween()
+		_tween_puerta_jefe.set_ignore_time_scale(true)
+		_tween_puerta_jefe.set_trans(Tween.TRANS_SINE)
+		_tween_puerta_jefe.set_ease(Tween.EASE_OUT)
+		_tween_puerta_jefe.tween_property(puerta_3, "modulate", Color(1, 1, 1, 1), 0.55)
+		_tween_puerta_jefe.finished.connect(_habilitar_puerta_jefe.bind(true), CONNECT_ONE_SHOT)
+		return
+
+	puerta_3.modulate = Color(1, 1, 1, 1)
+	_habilitar_puerta_jefe()
+
+
+func _habilitar_puerta_jefe(_desde_animacion: bool = false) -> void:
+	if puerta_3 == null:
+		return
+
+	if puerta_3.has_method("abrir"):
+		puerta_3.abrir()
+	elif puerta_3.has_method("establecer_transporte_habilitado"):
+		puerta_3.establecer_transporte_habilitado(true)
+
+	puerta_3.monitoring = true
+	puerta_3.monitorable = true
 
 
 func _obtener_mensaje_fase_jefe(fase_actual: int, sellos_activados: int) -> String:
@@ -651,6 +720,9 @@ func _animar_transicion_gafas(activa: bool, instantaneo: bool) -> void:
 	if camara_2 != null:
 		_tween_transicion_gafas.tween_property(camara_2, "zoom", zoom_objetivo, duracion_transicion_gafas)
 
+	if camara_3 != null:
+		_tween_transicion_gafas.tween_property(camara_3, "zoom", zoom_objetivo, duracion_transicion_gafas)
+
 	if distorsion_overlay != null:
 		var color_objetivo := distorsion_overlay.color
 		color_objetivo.a = alpha_objetivo
@@ -663,6 +735,9 @@ func _aplicar_zoom_camaras(zoom_objetivo: Vector2) -> void:
 
 	if camara_2 != null:
 		camara_2.zoom = zoom_objetivo
+
+	if camara_3 != null:
+		camara_3.zoom = zoom_objetivo
 
 
 func _preparar_temporizador_golpe() -> void:
