@@ -3,10 +3,10 @@
 [ext_resource type="Script" uid="uid://da84n3xlcg3qs" path="res://Scripts/jefe_sombras.gd" id="1_jefe"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_cuerpo"]
-radius = 26.400757
+radius = 18.48053
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_ataque"]
-radius = 26.400757
+radius = 18.48053
 
 [node name="JefeSombras" type="CharacterBody2D" unique_id=41432351]
 script = ExtResource("1_jefe")

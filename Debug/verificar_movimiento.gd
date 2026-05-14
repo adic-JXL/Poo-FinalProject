@@ -84,6 +84,9 @@ func _ejecutar_verificacion() -> void:
 		var base_mundo_2 = escena_principal.get_node_or_null("Plataformas/BaseMundo2Inicio")
 		var enemigo_ruta_media = escena_principal.get_node_or_null("Enemigos/EnemigoFlotanteHorizontalRutaMedia")
 		var enemigo_parkour = escena_principal.get_node_or_null("Enemigos/EnemigoFlotanteHorizontalParkourA")
+		var enemigo_vertical_zona_puerta = escena_principal.get_node_or_null("Enemigos/EnemigoFlotanteVerticalZonaPuerta")
+		var enemigo_vertical_ruta_central = escena_principal.get_node_or_null("Enemigos/EnemigoFlotanteVerticalRutaCentral")
+		var enemigo_vertical_parkour_c = escena_principal.get_node_or_null("Enemigos/EnemigoFlotanteVerticalParkourC")
 		var mundo_2_configurado := puerta_mundo_2 != null and puerta_mundo_2_destino != null and checkpoint_mundo_2 != null and checkpoint_mundo_2_activador != null and base_mundo_2 != null
 
 		if muro_bloqueo_arena != null:
@@ -103,6 +106,9 @@ func _ejecutar_verificacion() -> void:
 		if enemigo_ruta_media == null or enemigo_parkour == null:
 			_registrar_error("No se instanciaron enemigos nuevos en el trayecto hacia el jefe.")
 
+		if enemigo_vertical_zona_puerta == null or enemigo_vertical_ruta_central == null or enemigo_vertical_parkour_c == null:
+			_registrar_error("No se añadieron enemigos flotantes verticales en los tramos vacios del recorrido.")
+
 		if puerta_mundo_2 != null and puerta_mundo_2.visible:
 			_registrar_error("La puerta final del mundo 2 aparece antes de derrotar al jefe.")
 
@@ -112,8 +118,18 @@ func _ejecutar_verificacion() -> void:
 			if puerta_3.visible:
 				_registrar_error("La puerta 3 aparece antes de completar el puzzle previo al jefe.")
 
-			if jefe_sombras.velocidad > 75.25:
+			if jefe_sombras.velocidad > 70.69:
 				_registrar_error("La velocidad base del jefe no se redujo el 6% adicional esperado.")
+
+			var shape_cuerpo = jefe_sombras.get_node_or_null("CollisionShape2D")
+			var shape_ataque = jefe_sombras.get_node_or_null("AreaAtaque/CollisionShape2D")
+			if shape_cuerpo == null or shape_ataque == null:
+				_registrar_error("No se encontraron las hitboxes principales del jefe.")
+			else:
+				var radio_cuerpo := (shape_cuerpo.shape as CircleShape2D).radius
+				var radio_ataque := (shape_ataque.shape as CircleShape2D).radius
+				if radio_cuerpo > 18.6 or radio_ataque > 18.6:
+					_registrar_error("La hitbox del jefe no se redujo aproximadamente un 30 por ciento.")
 
 			if jefe_sombras.arena_min.x > puerta_4.global_position.x + 32.0 or jefe_sombras.arena_max.x < totem_jefe_b.global_position.x - 32.0:
 				_registrar_error("El rango horizontal del jefe no cubre bien la nueva jaula de combate.")
@@ -242,6 +258,24 @@ func _ejecutar_verificacion() -> void:
 			if not plataforma_gafas.esta_revelada():
 				_registrar_error("Las plataformas ocultas no se revelan con las gafas activas.")
 
+			jugador.global_position = plataforma_gafas.global_position
+			jugador.velocity = Vector2.ZERO
+			plataforma_gafas.establecer_revelada(false)
+			await physics_frame
+			plataforma_gafas.establecer_revelada(true)
+			await physics_frame
+
+			if plataforma_gafas.esta_revelada():
+				_registrar_error("La plataforma de gafas reactiva su colision aun con el jugador superpuesto, lo que puede atascarlo.")
+
+			jugador.global_position = plataforma_gafas.global_position + Vector2(120, 0)
+			jugador.velocity = Vector2.ZERO
+			for _pl in range(3):
+				await physics_frame
+
+			if not plataforma_gafas.esta_revelada():
+				_registrar_error("La plataforma de gafas no reactiva su colision cuando el jugador sale de su volumen.")
+
 			if camara_1.zoom.x >= escena_principal.zoom_base_mundo.x or camara_1.zoom.x >= zoom_con_gafas_x_antes:
 				_registrar_error("Las gafas no amplian el rango de vision de la camara principal.")
 
@@ -328,6 +362,21 @@ func _ejecutar_verificacion() -> void:
 
 			if escena_principal.checkpoint_esta_activo():
 				_registrar_error("El checkpoint posterior se activa sin pasar por encima del punto.")
+
+			escena_principal.reiniciar_nivel()
+			await process_frame
+			await physics_frame
+
+			if jugador.global_position.distance_to(escena_principal.obtener_spawn_jugador()) > 2.0:
+				_registrar_error("Caer antes del checkpoint posterior no devuelve al jugador al inicio esperado.")
+
+			if not camara_1.is_current():
+				_registrar_error("La camara no vuelve al tramo inicial al reiniciar antes del primer checkpoint.")
+
+			jugador.global_position = puerta.global_position
+			jugador.velocity = Vector2.ZERO
+			puerta.teletransportar_jugador(jugador)
+			await create_timer(0.4).timeout
 
 			jugador.global_position = checkpoint_puerta_activador.global_position
 			jugador.velocity = Vector2.ZERO
