@@ -7,7 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://dkdpa48nrjkq3" path="res://Escenas/Puerta.tscn" id="5_ryxee"]
 [ext_resource type="PackedScene" uid="uid://dm4jn5adictov" path="res://Escenas/PuertaTeletransporte.tscn" id="6_door_tp"]
 [ext_resource type="PackedScene" path="res://Escenas/HUD.tscn" id="6_hud01"]
-[ext_resource type="PackedScene" uid="uid://y3yoa2fcfb6n" path="res://Escenas/Llave.tscn" id="7_llave"]
+[ext_resource type="PackedScene" path="res://Escenas/Llave.tscn" id="7_llave"]
 [ext_resource type="PackedScene" uid="uid://cr3wwcude65ay" path="res://Escenas/PuzzleSecuencia.tscn" id="8_puzzle"]
 [ext_resource type="PackedScene" path="res://Escenas/EnemigoPatrulla.tscn" id="9_enemy"]
 [ext_resource type="PackedScene" path="res://Escenas/EnemigoPerseguidor.tscn" id="10_chaser"]
@@ -462,8 +462,10 @@ direccion_inicial = -1
 
 [node name="JefeSombras" parent="Enemigos" unique_id=154374902 instance=ExtResource("21_jefe")]
 position = Vector2(10456, 21)
+arena_min = Vector2(10008, -108)
+arena_max = Vector2(11072, 170)
 tiempo_recarga_ataque = 1.15
-velocidad = 80.0
+velocidad = 75.2
 
 [node name="Plataformas" type="Node2D" parent="." unique_id=483207205]
 
@@ -519,7 +521,7 @@ position = Vector2(8568, 181)
 position = Vector2(8696, 309)
 
 [node name="PlataformaGafas8" parent="Plataformas" unique_id=1062218736 instance=ExtResource("16_gafas")]
-position = Vector2(8856, 245)
+position = Vector2(8855, 276)
 
 [node name="PlataformaGafas9" parent="Plataformas" unique_id=1860805752 instance=ExtResource("16_gafas")]
 position = Vector2(9016, 277)
@@ -680,3 +682,5 @@ shape = SubResource("RectangleShape2D_yhne7")
 [connection signal="body_exited" from="Player/Area2D" to="Player/Camara1" method="_on_area_2d_body_exited"]
 [connection signal="body_entered" from="Player/Area2D2" to="Player/Camara2" method="_on_area_2d_2_body_entered"]
 [connection signal="body_exited" from="Player/Area2D2" to="Player/Camara2" method="_on_area_2d_2_body_exited"]
+[connection signal="body_entered" from="Player/Area2D3" to="Player/Camara3" method="_on_area_2d_3_body_entered"]
+[connection signal="body_exited" from="Player/Area2D3" to="Player/Camara3" method="_on_area_2d_3_body_exited"]

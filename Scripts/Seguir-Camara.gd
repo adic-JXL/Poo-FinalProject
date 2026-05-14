@@ -15,13 +15,23 @@ func _process(_delta: float) -> void:
 
 
 func _on_area_2d_body_entered(body: Node2D) -> void:
-	if body.name == "Jugador":
-		enabled = true
-		make_current()
-		var camara_2: Camera2D = $"../Camara2"
-		if camara_2 != null:
-			camara_2.enabled = false
+	if not body.is_in_group("jugador"):
+		return
+
+	enabled = true
+	make_current()
+	_desactivar_otras_camaras()
 		
 
 func _on_area_2d_body_exited(body: Node2D) -> void:
 	pass
+
+
+func _desactivar_otras_camaras() -> void:
+	var contenedor := get_parent()
+	if contenedor == null:
+		return
+
+	for child in contenedor.get_children():
+		if child is Camera2D and child != self:
+			(child as Camera2D).enabled = false
