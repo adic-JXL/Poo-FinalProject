@@ -50,6 +50,9 @@ const FACTOR_LENTITUD_GAFAS_ENEMIGOS := 0.90
 @onready var camara_1: Camera2D = $Player/Camara1
 @onready var camara_2: Camera2D = $Player/Camara2
 @onready var camara_3: Camera2D = $Player/Camara3
+@onready var area_camara_1: Area2D = $Player/Area2D
+@onready var area_camara_2: Area2D = $Player/Area2D2
+@onready var area_camara_3: Area2D = $Player/Area2D3
 @onready var hud = $Canvas/HUD
 @onready var menu_pausa = $Canvas/MenuPausa
 @onready var distorsion_overlay: ColorRect = $Canvas/DistorsionOverlay
@@ -100,6 +103,7 @@ func _ready() -> void:
 	_configurar_puzzles()
 	_estado_gafas_aplicado = false
 	_aplicar_estado_gafas(false, true)
+	_sincronizar_camara_con_jugador()
 	_restaurar_mensaje_hud()
 
 
@@ -152,6 +156,7 @@ func reiniciar_nivel() -> void:
 	_restaurar_entidades()
 	jugador.restaurar_para_respawn(_posicion_respawn_actual)
 	_aplicar_estado_gafas(jugador.gafas_activas(), true)
+	_sincronizar_camara_con_jugador()
 	_restaurar_mensaje_hud()
 
 
@@ -452,6 +457,7 @@ func _on_puerta_teletransporte_realizado(_jugador: Node2D, destino: Node2D) -> v
 	if destino == null or not destino.has_method("obtener_punto_salida"):
 		return
 
+	_sincronizar_camara_con_jugador()
 	hud.mostrar_mensaje(MENSAJE_CHECKPOINT_PUERTA_DISPONIBLE)
 
 
@@ -520,6 +526,7 @@ func _on_puerta_jefe_teletransporte_realizado(_jugador: Node2D, destino: Node2D)
 	if destino == null or not destino.has_method("obtener_punto_salida"):
 		return
 
+	_sincronizar_camara_con_jugador()
 	hud.mostrar_mensaje(MENSAJE_LLEGADA_ARENA_JEFE)
 
 
@@ -738,6 +745,61 @@ func _aplicar_zoom_camaras(zoom_objetivo: Vector2) -> void:
 
 	if camara_3 != null:
 		camara_3.zoom = zoom_objetivo
+
+
+func _sincronizar_camara_con_jugador() -> void:
+	if jugador == null:
+		return
+
+	var camara_objetivo: Camera2D = camara_1
+	if _area_contiene_posicion(area_camara_3, jugador.global_position):
+		camara_objetivo = camara_3
+	elif _area_contiene_posicion(area_camara_2, jugador.global_position):
+		camara_objetivo = camara_2
+	elif _area_contiene_posicion(area_camara_1, jugador.global_position):
+		camara_objetivo = camara_1
+
+	_activar_camara(camara_objetivo)
+
+
+func _activar_camara(camara_objetivo: Camera2D) -> void:
+	if camara_objetivo == null:
+		return
+
+	for camara in [camara_1, camara_2, camara_3]:
+		if camara == null:
+			continue
+		camara.enabled = camara == camara_objetivo
+
+	camara_objetivo.make_current()
+
+
+func _area_contiene_posicion(area: Area2D, posicion_global: Vector2) -> bool:
+	if area == null:
+		return false
+
+	for child in area.get_children():
+		if child is CollisionShape2D and _shape_contiene_posicion(child as CollisionShape2D, posicion_global):
+			return true
+
+	return false
+
+
+func _shape_contiene_posicion(shape_node: CollisionShape2D, posicion_global: Vector2) -> bool:
+	if shape_node == null or shape_node.shape == null or shape_node.disabled:
+		return false
+
+	var posicion_local := shape_node.global_transform.affine_inverse() * posicion_global
+	if shape_node.shape is RectangleShape2D:
+		var rectangulo := shape_node.shape as RectangleShape2D
+		var mitad := rectangulo.size * 0.5
+		return absf(posicion_local.x) <= mitad.x and absf(posicion_local.y) <= mitad.y
+
+	if shape_node.shape is CircleShape2D:
+		var circulo := shape_node.shape as CircleShape2D
+		return posicion_local.length() <= circulo.radius
+
+	return false
 
 
 func _preparar_temporizador_golpe() -> void:

@@ -451,6 +451,15 @@ distancia_flotacion = 92.0
 position = Vector2(3288, 150)
 direccion_inicial = -1
 
+[node name="EnemigoFlotanteVerticalZonaPuerta" parent="Enemigos" instance=ExtResource("12_float_v")]
+position = Vector2(2360, 186)
+distancia_flotacion = 72.0
+direccion_inicial = -1
+
+[node name="EnemigoFlotanteVerticalRutaCentral" parent="Enemigos" instance=ExtResource("12_float_v")]
+position = Vector2(4520, 170)
+distancia_flotacion = 68.0
+
 [node name="EnemigoFlotanteHorizontalParkourA" parent="Enemigos" unique_id=1529332308 instance=ExtResource("11_float_h")]
 position = Vector2(8568, 133)
 distancia_flotacion = 76.0
@@ -460,12 +469,17 @@ position = Vector2(9176, 229)
 distancia_flotacion = 56.0
 direccion_inicial = -1
 
+[node name="EnemigoFlotanteVerticalParkourC" parent="Enemigos" instance=ExtResource("12_float_v")]
+position = Vector2(7360, 213)
+distancia_flotacion = 62.0
+direccion_inicial = -1
+
 [node name="JefeSombras" parent="Enemigos" unique_id=154374902 instance=ExtResource("21_jefe")]
 position = Vector2(10456, 21)
 arena_min = Vector2(10008, -108)
 arena_max = Vector2(11072, 170)
 tiempo_recarga_ataque = 1.15
-velocidad = 75.2
+velocidad = 70.688
 
 [node name="Plataformas" type="Node2D" parent="." unique_id=483207205]
 
