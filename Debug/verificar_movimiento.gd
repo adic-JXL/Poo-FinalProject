@@ -66,6 +66,7 @@ func _ejecutar_verificacion() -> void:
 		var camara_1 = escena_principal.get_node_or_null("Player/Camara1")
 		var camara_2 = escena_principal.get_node_or_null("Player/Camara2")
 		var camara_3 = escena_principal.get_node_or_null("Player/Camara3")
+		var distorsion_overlay = escena_principal.get_node_or_null("Canvas/DistorsionOverlay")
 		var plataforma_gafas = escena_principal.get_node_or_null("Plataformas/PlataformaGafas1")
 		var altar_gafas = escena_principal.get_node_or_null("Objetos/AltarGafas")
 		var checkpoint_puzzle_gafas = escena_principal.get_node_or_null("Objetos/CheckpointPuzzleGafas")
@@ -112,9 +113,18 @@ func _ejecutar_verificacion() -> void:
 		if puerta_mundo_2 != null and puerta_mundo_2.visible:
 			_registrar_error("La puerta final del mundo 2 aparece antes de derrotar al jefe.")
 
-		if enemigo == null or perseguidor == null or flotante_horizontal == null or flotante_vertical == null or jefe_sombras == null or llave == null or puzzle == null or puerta == null or puerta_destino == null or puerta_3 == null or puerta_4 == null or camara_1 == null or camara_2 == null or camara_3 == null or plataforma_gafas == null or altar_gafas == null or checkpoint_puzzle_gafas == null or checkpoint_puerta_activador == null or checkpoint_puzzle_gafas_activador == null or totem_jefe_a == null or totem_jefe_b == null or totem_jefe_c == null or puzzle_gafas == null:
+		if enemigo == null or perseguidor == null or flotante_horizontal == null or flotante_vertical == null or jefe_sombras == null or llave == null or puzzle == null or puerta == null or puerta_destino == null or puerta_3 == null or puerta_4 == null or camara_1 == null or camara_2 == null or camara_3 == null or distorsion_overlay == null or plataforma_gafas == null or altar_gafas == null or checkpoint_puzzle_gafas == null or checkpoint_puerta_activador == null or checkpoint_puzzle_gafas_activador == null or totem_jefe_a == null or totem_jefe_b == null or totem_jefe_c == null or puzzle_gafas == null:
 			_registrar_error("Faltan nodos del flujo principal en MainGame.")
 		else:
+			if not distorsion_overlay.visible:
+				_registrar_error("La capa de distorsion visual no esta activa al iniciar la escena.")
+
+			if not (distorsion_overlay.material is ShaderMaterial):
+				_registrar_error("La distorsion visual no usa el shader de viñeta esperado.")
+
+			if distorsion_overlay.color.a < 0.15:
+				_registrar_error("La intensidad base de la viñeta quedo demasiado baja al iniciar.")
+
 			if puerta_3.visible:
 				_registrar_error("La puerta 3 aparece antes de completar el puzzle previo al jefe.")
 
@@ -258,6 +268,9 @@ func _ejecutar_verificacion() -> void:
 			if not plataforma_gafas.esta_revelada():
 				_registrar_error("Las plataformas ocultas no se revelan con las gafas activas.")
 
+			if distorsion_overlay.color.a > 0.03:
+				_registrar_error("La viñeta no se anula al activar las gafas.")
+
 			jugador.global_position = plataforma_gafas.global_position
 			jugador.velocity = Vector2.ZERO
 			plataforma_gafas.establecer_revelada(false)
@@ -298,6 +311,9 @@ func _ejecutar_verificacion() -> void:
 
 			if not is_equal_approx(camara_1.zoom.x, escena_principal.zoom_base_mundo.x):
 				_registrar_error("La camara principal no vuelve a su zoom base al terminar las gafas.")
+
+			if distorsion_overlay.color.a < 0.15:
+				_registrar_error("La viñeta no vuelve al terminar el efecto de las gafas.")
 
 			jugador.habilidad_gafas.actualizar(2.1)
 			await process_frame
