@@ -22,6 +22,7 @@
 [ext_resource type="Script" uid="uid://credu5ihgvkxe" path="res://Scripts/checkpoint_activador.gd" id="20_checkpoint"]
 [ext_resource type="PackedScene" uid="uid://cgrdddpb18vhy" path="res://Escenas/JefeSombras.tscn" id="21_jefe"]
 [ext_resource type="PackedScene" path="res://Escenas/TotemJefe.tscn" id="22_totem"]
+[ext_resource type="Shader" path="res://Shaders/vigneta_distorsion.gdshader" id="23_vineta"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_n7y03"]
 
@@ -382,6 +383,18 @@ size = Vector2(8563.219, 594.5)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_yhne7"]
 size = Vector2(1241, 481)
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_vineta"]
+shader = ExtResource("23_vineta")
+shader_parameter/vignette_radius = 0.43
+shader_parameter/vignette_softness = 0.34
+shader_parameter/blur_strength = 4.2
+shader_parameter/edge_darkness = 0.82
+shader_parameter/tint_strength = 0.22
+shader_parameter/edge_desaturation = 0.34
+shader_parameter/aberration_strength = 1.35
+shader_parameter/pulse_strength = 0.018
+shader_parameter/pulse_speed = 0.75
+
 [node name="Node2D" type="Node2D" unique_id=291629533]
 script = ExtResource("1_h1l5c")
 
@@ -397,6 +410,7 @@ tile_set = SubResource("TileSet_o37df")
 
 [node name="DistorsionOverlay" type="ColorRect" parent="Canvas" unique_id=1906247050]
 visible = false
+material = SubResource("ShaderMaterial_vineta")
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -405,7 +419,7 @@ offset_bottom = 648.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
-color = Color(0.168627, 0.203922, 0.266667, 0.18)
+color = Color(0.07, 0.085, 0.11, 0.72)
 
 [node name="PuzzleSecuencia" parent="Canvas" unique_id=1326261426 instance=ExtResource("8_puzzle")]
 visible = false

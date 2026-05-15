@@ -25,7 +25,7 @@ const FACTOR_LENTITUD_GAFAS_ENEMIGOS := 0.90
 @export var desplazamiento_checkpoint_puerta: Vector2 = Vector2(72, 0)
 @export var zoom_base_mundo: Vector2 = Vector2(2.15, 2.15)
 @export var zoom_con_gafas: Vector2 = Vector2(1.75, 1.75)
-@export var alpha_distorsion_base: float = 0.18
+@export var alpha_distorsion_base: float = 0.72
 @export var alpha_distorsion_gafas: float = 0.0
 @export var duracion_transicion_gafas: float = 0.22
 
