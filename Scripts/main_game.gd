@@ -25,9 +25,37 @@ const FACTOR_LENTITUD_GAFAS_ENEMIGOS := 0.90
 @export var desplazamiento_checkpoint_puerta: Vector2 = Vector2(72, 0)
 @export var zoom_base_mundo: Vector2 = Vector2(2.15, 2.15)
 @export var zoom_con_gafas: Vector2 = Vector2(1.75, 1.75)
+@export_group("Distorsion")
 @export var alpha_distorsion_base: float = 0.72
+@export var alpha_distorsion_jefe: float = 0.86
 @export var alpha_distorsion_gafas: float = 0.0
+@export var alpha_distorsion_extra_por_fase_jefe: float = 0.03
 @export var duracion_transicion_gafas: float = 0.22
+@export var duracion_transicion_gafas_en_jefe: float = 0.1
+@export var duracion_transicion_distorsion_jefe: float = 0.35
+@export var vignette_radius_base: float = 0.43
+@export var vignette_radius_jefe: float = 0.35
+@export var vignette_softness_base: float = 0.34
+@export var vignette_softness_jefe: float = 0.25
+@export var blur_strength_base: float = 4.2
+@export var blur_strength_jefe: float = 5.2
+@export var edge_darkness_base: float = 0.82
+@export var edge_darkness_jefe: float = 0.93
+@export var tint_strength_base: float = 0.22
+@export var tint_strength_jefe: float = 0.3
+@export var edge_desaturation_base: float = 0.34
+@export var edge_desaturation_jefe: float = 0.46
+@export var aberration_strength_base: float = 1.35
+@export var aberration_strength_jefe: float = 2.2
+@export var pulse_strength_base: float = 0.018
+@export var pulse_strength_jefe: float = 0.042
+@export var pulse_speed_base: float = 0.75
+@export var pulse_speed_jefe: float = 1.55
+@export var blur_extra_por_fase_jefe: float = 0.45
+@export var edge_darkness_extra_por_fase_jefe: float = 0.02
+@export var aberration_extra_por_fase_jefe: float = 0.28
+@export var pulse_strength_extra_por_fase_jefe: float = 0.012
+@export var pulse_speed_extra_por_fase_jefe: float = 0.18
 
 @onready var tile_map: TileMapLayer = $Mapa/TileMapLayer
 @onready var puerta = $Objetos/Puerta
@@ -56,6 +84,7 @@ const FACTOR_LENTITUD_GAFAS_ENEMIGOS := 0.90
 @onready var hud = $Canvas/HUD
 @onready var menu_pausa = $Canvas/MenuPausa
 @onready var distorsion_overlay: ColorRect = $Canvas/DistorsionOverlay
+@onready var distorsion_material: ShaderMaterial = distorsion_overlay.material as ShaderMaterial
 @onready var llave = $Objetos/Llave
 @onready var puzzle = $Canvas/PuzzleSecuencia
 @onready var puzzle_gafas = $Canvas/PuzzleGafas
@@ -80,6 +109,8 @@ var _jefe_derrotado: bool = false
 var _mundo_2_desbloqueado: bool = false
 var _mundo_2_alcanzado: bool = false
 var _tween_puerta_jefe: Tween
+var _tween_alpha_distorsion: Tween
+var _jugador_en_zona_jefe: bool = false
 
 
 func _ready() -> void:
@@ -102,6 +133,7 @@ func _ready() -> void:
 	_configurar_interactivo(puerta, _on_puerta_interaccion_solicitada)
 	_configurar_puzzles()
 	_estado_gafas_aplicado = false
+	_actualizar_estado_zona_jefe(true)
 	_aplicar_estado_gafas(false, true)
 	_sincronizar_camara_con_jugador()
 	_restaurar_mensaje_hud()
@@ -110,6 +142,8 @@ func _ready() -> void:
 func _physics_process(_delta: float) -> void:
 	if _pausa_activa:
 		return
+
+	_actualizar_estado_zona_jefe()
 
 	if jugador.global_position.y > limite_caida_y:
 		reiniciar_nivel()
@@ -155,6 +189,7 @@ func reiniciar_nivel() -> void:
 	_cerrar_puzzle_si_esta_abierto()
 	_restaurar_entidades()
 	jugador.restaurar_para_respawn(_posicion_respawn_actual)
+	_actualizar_estado_zona_jefe(true)
 	_aplicar_estado_gafas(jugador.gafas_activas(), true)
 	_sincronizar_camara_con_jugador()
 	_restaurar_mensaje_hud()
@@ -303,8 +338,17 @@ func _configurar_enemigos() -> void:
 
 func _configurar_gafas() -> void:
 	if distorsion_overlay != null:
+		if distorsion_overlay.material is ShaderMaterial:
+			distorsion_material = (distorsion_overlay.material as ShaderMaterial).duplicate()
+			distorsion_material.resource_local_to_scene = true
+			distorsion_overlay.material = distorsion_material
+
 		distorsion_overlay.show()
-		distorsion_overlay.color.a = alpha_distorsion_base
+		var color_base := distorsion_overlay.color
+		color_base.a = _obtener_alpha_distorsion_objetivo(false)
+		distorsion_overlay.color = color_base
+
+	_aplicar_perfil_distorsion(true)
 
 
 func _configurar_menu_pausa() -> void:
@@ -457,6 +501,7 @@ func _on_puerta_teletransporte_realizado(_jugador: Node2D, destino: Node2D) -> v
 	if destino == null or not destino.has_method("obtener_punto_salida"):
 		return
 
+	_actualizar_estado_zona_jefe(true)
 	_sincronizar_camara_con_jugador()
 	hud.mostrar_mensaje(MENSAJE_CHECKPOINT_PUERTA_DISPONIBLE)
 
@@ -478,10 +523,14 @@ func _on_jefe_sombras_derrotado() -> void:
 	_jefe_derrotado = true
 	_mundo_2_desbloqueado = true
 	_actualizar_puerta_mundo_2(true)
+	_aplicar_alpha_distorsion_actual(false)
+	_aplicar_perfil_distorsion(true)
 	hud.mostrar_mensaje(MENSAJE_JEFE_DERROTADO)
 
 
 func _on_jefe_sombras_fase_cambiada(fase_actual: int, sellos_activados: int) -> void:
+	_aplicar_alpha_distorsion_actual(false)
+	_aplicar_perfil_distorsion(true)
 	hud.mostrar_mensaje(_obtener_mensaje_fase_jefe(fase_actual, sellos_activados))
 
 
@@ -510,6 +559,8 @@ func _on_jugador_dano_recibido(_cantidad: int, _direccion: float) -> void:
 
 func _on_jugador_gafas_actualizadas(activa: bool, _duracion_restante: float, _cooldown_restante: float, _cooldown_actual: float, _siguiente_cooldown: float) -> void:
 	if activa == _estado_gafas_aplicado:
+		_aplicar_alpha_distorsion_actual(false)
+		_aplicar_perfil_distorsion(false)
 		return
 
 	_aplicar_estado_gafas(activa)
@@ -519,6 +570,7 @@ func _on_puerta_mundo_2_teletransporte_realizado(_jugador: Node2D, destino: Node
 	if destino == null or not destino.has_method("obtener_punto_salida"):
 		return
 
+	_actualizar_estado_zona_jefe(true)
 	hud.mostrar_mensaje(MENSAJE_LLEGADA_MUNDO_2)
 
 
@@ -526,6 +578,9 @@ func _on_puerta_jefe_teletransporte_realizado(_jugador: Node2D, destino: Node2D)
 	if destino == null or not destino.has_method("obtener_punto_salida"):
 		return
 
+	_jugador_en_zona_jefe = true
+	_aplicar_alpha_distorsion_actual(true)
+	_aplicar_perfil_distorsion(true)
 	_sincronizar_camara_con_jugador()
 	hud.mostrar_mensaje(MENSAJE_LLEGADA_ARENA_JEFE)
 
@@ -702,10 +757,17 @@ func _aplicar_estado_gafas(activa: bool, instantaneo: bool = false) -> void:
 
 func _animar_transicion_gafas(activa: bool, instantaneo: bool) -> void:
 	var zoom_objetivo := zoom_con_gafas if activa else zoom_base_mundo
-	var alpha_objetivo := alpha_distorsion_gafas if activa else alpha_distorsion_base
+	var alpha_objetivo := _obtener_alpha_distorsion_objetivo(activa)
+	var duracion_transicion_actual := duracion_transicion_gafas
+	if _jugador_en_zona_jefe and not activa:
+		duracion_transicion_actual = min(duracion_transicion_gafas_en_jefe, duracion_transicion_gafas)
+
+	if _tween_alpha_distorsion != null and _tween_alpha_distorsion.is_valid():
+		_tween_alpha_distorsion.kill()
 
 	if instantaneo:
 		_aplicar_zoom_camaras(zoom_objetivo)
+		_aplicar_perfil_distorsion(true)
 		if distorsion_overlay != null:
 			var color_base := distorsion_overlay.color
 			color_base.a = alpha_objetivo
@@ -722,18 +784,20 @@ func _animar_transicion_gafas(activa: bool, instantaneo: bool) -> void:
 	_tween_transicion_gafas.set_ignore_time_scale(true)
 
 	if camara_1 != null:
-		_tween_transicion_gafas.tween_property(camara_1, "zoom", zoom_objetivo, duracion_transicion_gafas)
+		_tween_transicion_gafas.tween_property(camara_1, "zoom", zoom_objetivo, duracion_transicion_actual)
 
 	if camara_2 != null:
-		_tween_transicion_gafas.tween_property(camara_2, "zoom", zoom_objetivo, duracion_transicion_gafas)
+		_tween_transicion_gafas.tween_property(camara_2, "zoom", zoom_objetivo, duracion_transicion_actual)
 
 	if camara_3 != null:
-		_tween_transicion_gafas.tween_property(camara_3, "zoom", zoom_objetivo, duracion_transicion_gafas)
+		_tween_transicion_gafas.tween_property(camara_3, "zoom", zoom_objetivo, duracion_transicion_actual)
 
 	if distorsion_overlay != null:
 		var color_objetivo := distorsion_overlay.color
 		color_objetivo.a = alpha_objetivo
-		_tween_transicion_gafas.tween_property(distorsion_overlay, "color", color_objetivo, duracion_transicion_gafas)
+		_tween_transicion_gafas.tween_property(distorsion_overlay, "color", color_objetivo, duracion_transicion_actual)
+
+	_aplicar_perfil_distorsion(false)
 
 
 func _aplicar_zoom_camaras(zoom_objetivo: Vector2) -> void:
@@ -752,7 +816,7 @@ func _sincronizar_camara_con_jugador() -> void:
 		return
 
 	var camara_objetivo: Camera2D = camara_1
-	if _area_contiene_posicion(area_camara_3, jugador.global_position):
+	if _jugador_en_zona_jefe:
 		camara_objetivo = camara_3
 	elif _area_contiene_posicion(area_camara_2, jugador.global_position):
 		camara_objetivo = camara_2
@@ -800,6 +864,95 @@ func _shape_contiene_posicion(shape_node: CollisionShape2D, posicion_global: Vec
 		return posicion_local.length() <= circulo.radius
 
 	return false
+
+
+func _actualizar_estado_zona_jefe(forzar: bool = false) -> void:
+	if jugador == null:
+		return
+
+	var estaba_en_zona := _jugador_en_zona_jefe
+	var dentro_area := _area_contiene_posicion(area_camara_3, jugador.global_position)
+	if not dentro_area and puerta_4 != null and jefe_sombras != null:
+		dentro_area = (
+			jugador.global_position.x >= puerta_4.global_position.x - 48.0
+			and jugador.global_position.x <= jefe_sombras.arena_max.x + 96.0
+			and jugador.global_position.y >= jefe_sombras.arena_min.y - 96.0
+			and jugador.global_position.y <= jefe_sombras.arena_max.y + 160.0
+		)
+
+	_jugador_en_zona_jefe = dentro_area
+	if not forzar and estaba_en_zona == _jugador_en_zona_jefe:
+		return
+
+	_aplicar_alpha_distorsion_actual(forzar)
+	_aplicar_perfil_distorsion(forzar)
+
+
+func _obtener_alpha_distorsion_objetivo(gafas_activas: bool) -> float:
+	if gafas_activas:
+		return alpha_distorsion_gafas
+
+	if _distorsion_jefe_activa():
+		return clampf(alpha_distorsion_jefe + (_obtener_intensidad_fase_jefe() * alpha_distorsion_extra_por_fase_jefe), 0.0, 0.98)
+
+	return alpha_distorsion_base
+
+
+func _aplicar_perfil_distorsion(_instantaneo: bool) -> void:
+	var material := distorsion_material
+	if material == null:
+		return
+
+	var es_jefe := _distorsion_jefe_activa()
+	var intensidad_fase := _obtener_intensidad_fase_jefe() if es_jefe else 0.0
+	var parametros := {
+		"vignette_radius": max(0.22, vignette_radius_jefe - (intensidad_fase * 0.03)) if es_jefe else vignette_radius_base,
+		"vignette_softness": max(0.14, vignette_softness_jefe - (intensidad_fase * 0.015)) if es_jefe else vignette_softness_base,
+		"blur_strength": min(6.0, blur_strength_jefe + (intensidad_fase * blur_extra_por_fase_jefe)) if es_jefe else blur_strength_base,
+		"edge_darkness": min(0.98, edge_darkness_jefe + (intensidad_fase * edge_darkness_extra_por_fase_jefe)) if es_jefe else edge_darkness_base,
+		"tint_strength": min(0.52, tint_strength_jefe + (intensidad_fase * 0.03)) if es_jefe else tint_strength_base,
+		"edge_desaturation": min(0.8, edge_desaturation_jefe + (intensidad_fase * 0.06)) if es_jefe else edge_desaturation_base,
+		"aberration_strength": min(4.0, aberration_strength_jefe + (intensidad_fase * aberration_extra_por_fase_jefe)) if es_jefe else aberration_strength_base,
+		"pulse_strength": min(0.12, pulse_strength_jefe + (intensidad_fase * pulse_strength_extra_por_fase_jefe)) if es_jefe else pulse_strength_base,
+		"pulse_speed": min(4.0, pulse_speed_jefe + (intensidad_fase * pulse_speed_extra_por_fase_jefe)) if es_jefe else pulse_speed_base,
+	}
+
+	for nombre in parametros.keys():
+		material.set_shader_parameter(nombre, parametros[nombre])
+
+
+func _aplicar_alpha_distorsion_actual(instantaneo: bool) -> void:
+	if distorsion_overlay == null:
+		return
+
+	var alpha_objetivo := _obtener_alpha_distorsion_objetivo(_estado_gafas_aplicado)
+	if _tween_alpha_distorsion != null and _tween_alpha_distorsion.is_valid():
+		_tween_alpha_distorsion.kill()
+
+	if instantaneo:
+		var color_actual := distorsion_overlay.color
+		color_actual.a = alpha_objetivo
+		distorsion_overlay.color = color_actual
+		return
+
+	var color_objetivo := distorsion_overlay.color
+	color_objetivo.a = alpha_objetivo
+	_tween_alpha_distorsion = create_tween()
+	_tween_alpha_distorsion.set_trans(Tween.TRANS_SINE)
+	_tween_alpha_distorsion.set_ease(Tween.EASE_IN_OUT)
+	_tween_alpha_distorsion.set_ignore_time_scale(true)
+	_tween_alpha_distorsion.tween_property(distorsion_overlay, "color", color_objetivo, duracion_transicion_distorsion_jefe)
+
+
+func _distorsion_jefe_activa() -> bool:
+	return _jugador_en_zona_jefe and jefe_sombras != null and is_instance_valid(jefe_sombras) and not jefe_sombras.esta_derrotado()
+
+
+func _obtener_intensidad_fase_jefe() -> float:
+	if not _distorsion_jefe_activa() or not jefe_sombras.has_method("obtener_fase_actual"):
+		return 0.0
+
+	return float(max(jefe_sombras.obtener_fase_actual() - 1, 0))
 
 
 func _preparar_temporizador_golpe() -> void:

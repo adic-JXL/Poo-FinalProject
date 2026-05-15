@@ -458,6 +458,24 @@ func _ejecutar_verificacion() -> void:
 			if not camara_3.is_current():
 				_registrar_error("La camara 3 no se activa al entrar en el Area2D3 de la zona del jefe.")
 
+			jugador.habilidad_gafas.reiniciar()
+			await process_frame
+			await create_timer(0.15).timeout
+
+			if distorsion_overlay.color.a < escena_principal.alpha_distorsion_jefe - 0.04:
+				_registrar_error("La viñeta no se intensifica al entrar en la zona del jefe.")
+
+			var material_vineta := distorsion_overlay.material as ShaderMaterial
+			if material_vineta == null:
+				_registrar_error("La zona del jefe no tiene acceso al material de viñeta.")
+			else:
+				var oscuridad_jefe := float(material_vineta.get_shader_parameter("edge_darkness"))
+				var aberracion_jefe := float(material_vineta.get_shader_parameter("aberration_strength"))
+				if oscuridad_jefe < escena_principal.edge_darkness_jefe - 0.03:
+					_registrar_error("El perfil de viñeta del jefe no aumenta la oscuridad periférica.")
+				if aberracion_jefe < escena_principal.aberration_strength_jefe - 0.08:
+					_registrar_error("El perfil de viñeta del jefe no aumenta la aberración cromática esperada.")
+
 			jugador.global_position = checkpoint_puzzle_gafas_activador.global_position
 			jugador.velocity = Vector2.ZERO
 			for _cg in range(3):

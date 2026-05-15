@@ -33,11 +33,11 @@ signal gafas_actualizadas(activa: bool, duracion_restante: float, cooldown_resta
 @export var regeneracion_estamina_por_segundo: float = 24.0
 
 @export_group("Combate")
-@export var tiempo_invulnerabilidad: float = 1.0
+@export var tiempo_invulnerabilidad: float = 1.3
 @export var frecuencia_parpadeo_danio: float = 18.0
-@export var fuerza_retroceso_x: float = 260.0
-@export var fuerza_retroceso_y: float = 170.0
-@export var duracion_aturdimiento: float = 0.22
+@export var fuerza_retroceso_x: float = 320.0
+@export var fuerza_retroceso_y: float = 205.0
+@export var duracion_aturdimiento: float = 0.3
 
 @export_group("Gafas")
 @export var gafas_duracion: float = 10.0
