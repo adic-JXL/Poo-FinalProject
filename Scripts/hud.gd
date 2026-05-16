@@ -9,6 +9,11 @@ const RUTA_TEXTURA_MARCO_STAMINA := "res://Imagenes/HUD/stamina_frame.png"
 const RUTA_TEXTURA_RELLENO_STAMINA := "res://Imagenes/HUD/stamina_fill.png"
 const RUTA_TEXTURA_CAJA_ITEM := "res://Imagenes/HUD/item_box_frame.png"
 const RUTA_TEXTURA_LLAVE := "res://Imagenes/HUD/key_icon.png"
+const RUTAS_TEXTURAS_GAFAS := [
+	"res://Imagenes/Objetos/gafas_00.png",
+	"res://Imagenes/Objetos/gafas_01.png",
+	"res://Imagenes/Objetos/gafas_02.png",
+]
 
 const COLOR_TEXTO_CLARO := Color(0.95, 0.93, 0.72, 1.0)
 const COLOR_TEXTO_SUAVE := Color(0.79, 0.84, 0.68, 1.0)
@@ -36,8 +41,12 @@ var _corazones_container: HBoxContainer
 var _stamina_fill_rect: TextureRect
 var _stamina_fill_ancho_max: float = 0.0
 var _item_box_frame: TextureRect
+var _gafas_icono: TextureRect
 var _item_box_label: Label
 var _llave_icono: TextureRect
+var _frames_gafas: Array[Texture2D] = []
+var _indice_frame_gafas: int = 0
+var _tiempo_animacion_gafas: float = 0.0
 
 @onready var mensaje_panel: PanelContainer = $Control/MensajePanel
 @onready var mensaje_vbox: VBoxContainer = $Control/MensajePanel/MarginContainer/VBoxContainer
@@ -68,6 +77,20 @@ var _llave_icono: TextureRect
 func _ready() -> void:
 	_cargar_texturas_hud()
 	_configurar_layout_base()
+	set_process(true)
+
+
+func _process(delta: float) -> void:
+	if _gafas_icono == null or _frames_gafas.is_empty():
+		return
+
+	_tiempo_animacion_gafas += delta
+	if _tiempo_animacion_gafas < 0.16:
+		return
+
+	_tiempo_animacion_gafas = 0.0
+	_indice_frame_gafas = (_indice_frame_gafas + 1) % _frames_gafas.size()
+	_gafas_icono.texture = _frames_gafas[_indice_frame_gafas]
 
 
 func configurar_jugador(jugador) -> void:
@@ -279,12 +302,20 @@ func _configurar_gafas_visual() -> void:
 	_item_box_frame.set_anchors_preset(Control.PRESET_FULL_RECT)
 	slot.add_child(_item_box_frame)
 
+	_gafas_icono = _crear_texture_rect(_obtener_frame_gafas_actual(), Vector2(34, 34), TextureRect.STRETCH_KEEP_ASPECT_CENTERED)
+	_gafas_icono.position = Vector2(10, 8)
+	slot.add_child(_gafas_icono)
+
 	_item_box_label = Label.new()
-	_item_box_label.set_anchors_preset(Control.PRESET_FULL_RECT)
+	_item_box_label.anchor_left = 0.0
+	_item_box_label.anchor_top = 1.0
+	_item_box_label.anchor_right = 1.0
+	_item_box_label.anchor_bottom = 1.0
+	_item_box_label.offset_top = -18.0
 	_item_box_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	_item_box_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
-	_item_box_label.add_theme_font_size_override("font_size", 16)
-	_item_box_label.add_theme_color_override("font_color", Color(0.26, 0.18, 0.28, 1.0))
+	_item_box_label.add_theme_font_size_override("font_size", 10)
+	_item_box_label.add_theme_color_override("font_color", Color(0.12, 0.08, 0.16, 1.0))
 	_item_box_label.text = "Q"
 	slot.add_child(_item_box_label)
 
@@ -348,6 +379,8 @@ func _actualizar_relleno_stamina(actual: float, maxima: float) -> void:
 func _actualizar_item_box_visual(color_objetivo: Color, texto: String) -> void:
 	if _item_box_frame != null:
 		_item_box_frame.modulate = color_objetivo
+	if _gafas_icono != null:
+		_gafas_icono.modulate = color_objetivo
 	if _item_box_label != null:
 		_item_box_label.text = texto
 
@@ -384,6 +417,7 @@ func _cargar_texturas_hud() -> void:
 	_textura_relleno_stamina = _cargar_textura_desde_archivo(RUTA_TEXTURA_RELLENO_STAMINA)
 	_textura_caja_item = _cargar_textura_desde_archivo(RUTA_TEXTURA_CAJA_ITEM)
 	_textura_llave = _cargar_textura_desde_archivo(RUTA_TEXTURA_LLAVE)
+	_frames_gafas = _cargar_secuencia_desde_archivo(RUTAS_TEXTURAS_GAFAS)
 
 
 func _cargar_textura_desde_archivo(ruta: String) -> Texture2D:
@@ -391,6 +425,23 @@ func _cargar_textura_desde_archivo(ruta: String) -> Texture2D:
 	if imagen == null or imagen.is_empty():
 		return null
 	return ImageTexture.create_from_image(imagen)
+
+
+func _cargar_secuencia_desde_archivo(rutas: Array) -> Array[Texture2D]:
+	var frames: Array[Texture2D] = []
+	for ruta in rutas:
+		var textura := _cargar_textura_desde_archivo(ruta)
+		if textura != null:
+			frames.append(textura)
+
+	return frames
+
+
+func _obtener_frame_gafas_actual() -> Texture2D:
+	if _frames_gafas.is_empty():
+		return null
+
+	return _frames_gafas[clampi(_indice_frame_gafas, 0, _frames_gafas.size() - 1)]
 
 
 func _crear_texture_rect(textura: Texture2D, tamano: Vector2, stretch_mode: int) -> TextureRect:

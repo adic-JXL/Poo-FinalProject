@@ -7,11 +7,22 @@ const EstadoNormalClass = preload("res://Scripts/estado_jugador_normal.gd")
 const EstadoSprintClass = preload("res://Scripts/estado_jugador_sprint.gd")
 const EstadoBloqueadoClass = preload("res://Scripts/estado_jugador_bloqueado.gd")
 const EstadoAturdidoClass = preload("res://Scripts/estado_jugador_aturdido.gd")
-const RUTA_TEXTURA_JUGADOR_NORMAL := "res://Imagenes/Personaje/player_idle.png"
-const RUTAS_TEXTURAS_JUGADOR_DANIO := [
-	"res://Imagenes/Personaje/player_hurt_1.png",
-	"res://Imagenes/Personaje/player_hurt_2.png",
-	"res://Imagenes/Personaje/player_hurt_3.png",
+const RUTAS_TEXTURAS_IDLE := [
+	"res://Imagenes/Personaje/idle_00.png",
+	"res://Imagenes/Personaje/idle_01.png",
+	"res://Imagenes/Personaje/idle_02.png",
+	"res://Imagenes/Personaje/idle_03.png",
+]
+const RUTAS_TEXTURAS_DANIO := [
+	"res://Imagenes/Personaje/hurt_00.png",
+	"res://Imagenes/Personaje/hurt_01.png",
+	"res://Imagenes/Personaje/hurt_02.png",
+]
+const RUTAS_TEXTURAS_MUERTE := [
+	"res://Imagenes/Personaje/death_00.png",
+	"res://Imagenes/Personaje/death_01.png",
+	"res://Imagenes/Personaje/death_02.png",
+	"res://Imagenes/Personaje/death_03.png",
 ]
 
 signal estado_cambiado(nuevo_estado: StringName)
@@ -55,6 +66,10 @@ signal gafas_actualizadas(activa: bool, duracion_restante: float, cooldown_resta
 
 @export_group("Game Feel")
 @export var intervalo_particulas_sprint: float = 0.055
+@export var velocidad_animacion_idle: float = 5.0
+@export var velocidad_animacion_movimiento: float = 10.0
+@export var duracion_animacion_muerte: float = 0.9
+@export var espera_respawn_muerte: float = 0.8
 @export var color_polvo_sprint: Color = Color(0.58, 0.52, 0.39, 0.72)
 @export var color_chispa_gafas: Color = Color(0.73, 1.0, 0.55, 0.95)
 @export var color_chispa_danio: Color = Color(1.0, 0.36, 0.2, 0.9)
@@ -76,9 +91,13 @@ var _tiempo_invulnerable_restante: float = 0.0
 var _modulate_visual_original: Color = Color(1, 1, 1, 1)
 var _tiempo_aturdimiento_restante: float = 0.0
 var _animacion_puerta_activa: bool = false
+var _muerte_activa: bool = false
 var _tiempo_particula_sprint: float = 0.0
-var _textura_jugador_normal: Texture2D
+var _tiempo_animacion_visual: float = 0.0
+var _indice_frame_visual: int = 0
+var _frames_idle: Array[Texture2D] = []
 var _texturas_jugador_danio: Array[Texture2D] = []
+var _frames_muerte: Array[Texture2D] = []
 
 @onready var visual: Node2D = $Visual
 @onready var sprite_visual: Sprite2D = get_node_or_null("Visual/Sprite2D") as Sprite2D
@@ -92,7 +111,7 @@ func _ready() -> void:
 	_escala_visual_original = visual.scale
 	_modulate_visual_original = visual.modulate
 	_cargar_texturas_jugador()
-	_establecer_textura_jugador(_textura_jugador_normal)
+	_establecer_textura_jugador(_obtener_frame_idle_actual())
 
 	sistema_estamina = SistemaEstaminaClass.new(estamina_maxima)
 	sistema_estamina.valor_cambiado.connect(_on_estamina_valor_cambiado)
@@ -108,6 +127,10 @@ func _ready() -> void:
 
 
 func _physics_process(delta: float) -> void:
+	if _muerte_activa:
+		velocity = Vector2.ZERO
+		return
+
 	_actualizar_invulnerabilidad(delta)
 	habilidad_gafas.actualizar(delta)
 
@@ -130,6 +153,7 @@ func _physics_process(delta: float) -> void:
 		_actualizar_orientacion(direccion)
 
 	_actualizar_particulas_sprint(delta)
+	_actualizar_animacion_visual(delta, direccion)
 
 
 func obtener_input() -> float:
@@ -164,15 +188,20 @@ func saltar() -> void:
 
 
 func recibir_danio(cantidad: int, origen_x: float = 0.0) -> bool:
-	if esta_invulnerable():
+	if esta_invulnerable() or _muerte_activa:
 		return false
 
 	var direccion_danio := signf(global_position.x - origen_x)
 	vida = max(vida - cantidad, 0)
 	emit_signal("vida_cambiada", vida)
+	_emitir_chispas_danio(direccion_danio)
+	if vida <= 0:
+		velocity = Vector2.ZERO
+		_controles_habilitados = false
+		return true
+
 	_activar_invulnerabilidad()
 	_aplicar_retroceso(direccion_danio)
-	_emitir_chispas_danio(direccion_danio)
 	emit_signal("dano_recibido", cantidad, direccion_danio)
 	return true
 
@@ -287,6 +316,32 @@ func esta_en_animacion_puerta() -> bool:
 	return _animacion_puerta_activa
 
 
+func esta_en_animacion_muerte() -> bool:
+	return _muerte_activa
+
+
+func reproducir_muerte() -> void:
+	if _muerte_activa:
+		return
+
+	_muerte_activa = true
+	velocity = Vector2.ZERO
+	_tiempo_invulnerable_restante = 0.0
+	_tiempo_aturdimiento_restante = 0.0
+	_controles_habilitados = false
+	visual.modulate = _modulate_visual_original
+	visual.rotation = 0.0
+	visual.position = Vector2(0, -2)
+
+	var frames := _frames_muerte if not _frames_muerte.is_empty() else _frames_idle
+	var duracion_frame := duracion_animacion_muerte / float(max(frames.size(), 1))
+	for frame in frames:
+		_establecer_textura_jugador(frame)
+		await get_tree().create_timer(duracion_frame, true, false, true).timeout
+
+	await get_tree().create_timer(espera_respawn_muerte, true, false, true).timeout
+
+
 func animar_entrada_puerta(posicion_objetivo: Vector2, duracion: float = 0.24) -> void:
 	_animacion_puerta_activa = true
 	velocity = Vector2.ZERO
@@ -320,6 +375,7 @@ func restaurar_para_respawn(posicion: Vector2) -> void:
 	_tiempo_invulnerable_restante = 0.0
 	_tiempo_aturdimiento_restante = 0.0
 	_animacion_puerta_activa = false
+	_muerte_activa = false
 	_restaurar_visual_base()
 	vida = _vida_inicial
 	sistema_estamina.reiniciar()
@@ -377,7 +433,6 @@ func _actualizar_invulnerabilidad(delta: float) -> void:
 	if _tiempo_invulnerable_restante <= 0.0:
 		if visual.modulate != _modulate_visual_original:
 			visual.modulate = _modulate_visual_original
-		_establecer_textura_jugador(_textura_jugador_normal)
 		return
 
 	_tiempo_invulnerable_restante = max(_tiempo_invulnerable_restante - delta, 0.0)
@@ -388,7 +443,6 @@ func _actualizar_invulnerabilidad(delta: float) -> void:
 
 	if _tiempo_invulnerable_restante == 0.0:
 		visual.modulate = _modulate_visual_original
-		_establecer_textura_jugador(_textura_jugador_normal)
 		emit_signal("invulnerabilidad_cambiada", false)
 
 
@@ -405,8 +459,10 @@ func _aplicar_retroceso(direccion: float) -> void:
 
 func _restaurar_visual_base() -> void:
 	visual.scale = Vector2(_direccion_actual * absf(_escala_visual_original.x), _escala_visual_original.y)
+	visual.position = Vector2(0, -2)
+	visual.rotation = 0.0
 	visual.modulate = _modulate_visual_original
-	_establecer_textura_jugador(_textura_jugador_normal)
+	_establecer_textura_jugador(_obtener_frame_idle_actual())
 
 
 func _obtener_factor_buff_velocidad_gafas() -> float:
@@ -430,6 +486,28 @@ func _actualizar_textura_danio() -> void:
 
 	var indice := int(floor(_tiempo_invulnerable_restante * 12.0)) % _texturas_jugador_danio.size()
 	sprite_visual.texture = _texturas_jugador_danio[indice]
+
+
+func _actualizar_animacion_visual(delta: float, direccion: float) -> void:
+	if sprite_visual == null or _frames_idle.is_empty() or esta_invulnerable():
+		return
+
+	var moviendose := absf(direccion) > 0.05 and absf(velocity.x) > 5.0
+	var velocidad_frames := velocidad_animacion_movimiento if moviendose else velocidad_animacion_idle
+	_tiempo_animacion_visual += delta
+	if _tiempo_animacion_visual >= 1.0 / max(velocidad_frames, 0.1):
+		_tiempo_animacion_visual = 0.0
+		_indice_frame_visual = (_indice_frame_visual + 1) % _frames_idle.size()
+
+	sprite_visual.texture = _frames_idle[_indice_frame_visual]
+	if moviendose:
+		var pulso := sin(Time.get_ticks_msec() * 0.025)
+		visual.position = Vector2(0, -2 + pulso * 1.5)
+		visual.rotation = deg_to_rad(pulso * (2.0 if _sprint_activo else 1.0))
+		return
+
+	visual.position = Vector2(0, -2)
+	visual.rotation = 0.0
 
 
 func _actualizar_particulas_sprint(delta: float) -> void:
@@ -493,13 +571,30 @@ func _crear_particula(origen_global: Vector2, desplazamiento: Vector2, color_par
 
 
 func _cargar_texturas_jugador() -> void:
-	_textura_jugador_normal = _cargar_textura_png(RUTA_TEXTURA_JUGADOR_NORMAL)
+	_frames_idle = _cargar_secuencia_png(RUTAS_TEXTURAS_IDLE)
 	_texturas_jugador_danio.clear()
+	_texturas_jugador_danio = _cargar_secuencia_png(RUTAS_TEXTURAS_DANIO)
+	_frames_muerte = _cargar_secuencia_png(RUTAS_TEXTURAS_MUERTE)
 
-	for ruta in RUTAS_TEXTURAS_JUGADOR_DANIO:
+	if _frames_idle.is_empty():
+		_frames_idle.append(_cargar_textura_png("res://Imagenes/Personaje/player_idle.png"))
+
+
+func _cargar_secuencia_png(rutas: Array) -> Array[Texture2D]:
+	var frames: Array[Texture2D] = []
+	for ruta in rutas:
 		var textura := _cargar_textura_png(ruta)
 		if textura != null:
-			_texturas_jugador_danio.append(textura)
+			frames.append(textura)
+
+	return frames
+
+
+func _obtener_frame_idle_actual() -> Texture2D:
+	if _frames_idle.is_empty():
+		return null
+
+	return _frames_idle[clampi(_indice_frame_visual, 0, _frames_idle.size() - 1)]
 
 
 func _cargar_textura_png(ruta: String) -> Texture2D:
