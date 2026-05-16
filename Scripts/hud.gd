@@ -19,6 +19,9 @@ const COLOR_TEXTO_CLARO := Color(0.95, 0.93, 0.72, 1.0)
 const COLOR_TEXTO_SUAVE := Color(0.79, 0.84, 0.68, 1.0)
 const COLOR_MENSAJE_FONDO := Color(0.10, 0.10, 0.11, 0.76)
 const COLOR_MENSAJE_BORDE := Color(0.34, 0.34, 0.29, 0.85)
+const COLOR_PENSAMIENTO_FONDO := Color(0.025, 0.028, 0.035, 0.82)
+const COLOR_PENSAMIENTO_BORDE := Color(0.52, 0.56, 0.48, 0.58)
+const COLOR_PENSAMIENTO_POSITIVO := Color(0.86, 1.0, 0.62, 1.0)
 const COLOR_HUD_LISTO := Color(1.0, 1.0, 1.0, 1.0)
 const COLOR_HUD_ACTIVO := Color(1.0, 0.96, 0.66, 1.0)
 const COLOR_HUD_ENFRIANDO := Color(0.62, 0.64, 0.74, 0.95)
@@ -47,6 +50,9 @@ var _llave_icono: TextureRect
 var _frames_gafas: Array[Texture2D] = []
 var _indice_frame_gafas: int = 0
 var _tiempo_animacion_gafas: float = 0.0
+var _pensamiento_panel: PanelContainer
+var _pensamiento_label: Label
+var _tween_pensamiento: Tween
 
 @onready var mensaje_panel: PanelContainer = $Control/MensajePanel
 @onready var mensaje_vbox: VBoxContainer = $Control/MensajePanel/MarginContainer/VBoxContainer
@@ -122,6 +128,31 @@ func mostrar_mensaje(texto: String) -> void:
 	mensaje_label.text = texto
 
 
+func mostrar_pensamiento(texto: String, positivo: bool = false) -> void:
+	if texto.strip_edges().is_empty():
+		return
+
+	_configurar_pensamiento_visual()
+	if _tween_pensamiento != null and _tween_pensamiento.is_valid():
+		_tween_pensamiento.kill()
+
+	_aplicar_estilo_pensamiento(positivo)
+	_pensamiento_label.text = texto
+	_pensamiento_label.add_theme_color_override("font_color", COLOR_PENSAMIENTO_POSITIVO if positivo else COLOR_TEXTO_CLARO)
+	_pensamiento_panel.modulate = Color(1, 1, 1, 0)
+	_pensamiento_panel.show()
+
+	_tween_pensamiento = create_tween()
+	_tween_pensamiento.set_ignore_time_scale(true)
+	_tween_pensamiento.set_trans(Tween.TRANS_SINE)
+	_tween_pensamiento.set_ease(Tween.EASE_OUT)
+	_tween_pensamiento.tween_property(_pensamiento_panel, "modulate:a", 1.0, 0.28)
+	_tween_pensamiento.tween_interval(4.9)
+	_tween_pensamiento.set_ease(Tween.EASE_IN)
+	_tween_pensamiento.tween_property(_pensamiento_panel, "modulate:a", 0.0, 0.45)
+	_tween_pensamiento.tween_callback(_pensamiento_panel.hide)
+
+
 func actualizar_vida(vida_actual: int) -> void:
 	vida_label.text = "Vida: %d" % vida_actual
 	for indice in range(_corazones.size()):
@@ -186,6 +217,7 @@ func _configurar_layout_base() -> void:
 	_configurar_stamina_visual()
 	_configurar_gafas_visual()
 	_configurar_llave_visual()
+	_configurar_pensamiento_visual()
 
 
 func _aplicar_estilo_mensaje() -> void:
@@ -203,6 +235,60 @@ func _aplicar_estilo_mensaje() -> void:
 	mensaje_panel.add_theme_stylebox_override("panel", fondo)
 	mensaje_panel.offset_right = 322.0
 	mensaje_panel.offset_bottom = 178.0
+
+
+func _configurar_pensamiento_visual() -> void:
+	if _pensamiento_panel != null:
+		return
+
+	_pensamiento_panel = PanelContainer.new()
+	_pensamiento_panel.name = "PensamientoPanel"
+	_pensamiento_panel.anchor_left = 0.5
+	_pensamiento_panel.anchor_top = 1.0
+	_pensamiento_panel.anchor_right = 0.5
+	_pensamiento_panel.anchor_bottom = 1.0
+	_pensamiento_panel.offset_left = -340.0
+	_pensamiento_panel.offset_top = -96.0
+	_pensamiento_panel.offset_right = 340.0
+	_pensamiento_panel.offset_bottom = -28.0
+	_pensamiento_panel.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_aplicar_estilo_pensamiento(false)
+	$Control.add_child(_pensamiento_panel)
+
+	var margen := MarginContainer.new()
+	margen.add_theme_constant_override("margin_left", 20)
+	margen.add_theme_constant_override("margin_top", 12)
+	margen.add_theme_constant_override("margin_right", 20)
+	margen.add_theme_constant_override("margin_bottom", 12)
+	_pensamiento_panel.add_child(margen)
+
+	_pensamiento_label = Label.new()
+	_pensamiento_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	_pensamiento_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	_pensamiento_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	_pensamiento_label.add_theme_color_override("font_color", COLOR_TEXTO_CLARO)
+	_pensamiento_label.add_theme_font_size_override("font_size", 16)
+	margen.add_child(_pensamiento_label)
+
+	_pensamiento_panel.hide()
+
+
+func _aplicar_estilo_pensamiento(positivo: bool) -> void:
+	if _pensamiento_panel == null:
+		return
+
+	var fondo := StyleBoxFlat.new()
+	fondo.bg_color = COLOR_PENSAMIENTO_FONDO if not positivo else Color(0.055, 0.075, 0.045, 0.86)
+	fondo.corner_radius_top_left = 8
+	fondo.corner_radius_top_right = 8
+	fondo.corner_radius_bottom_right = 8
+	fondo.corner_radius_bottom_left = 8
+	fondo.border_width_left = 1
+	fondo.border_width_top = 1
+	fondo.border_width_right = 1
+	fondo.border_width_bottom = 1
+	fondo.border_color = COLOR_PENSAMIENTO_BORDE if not positivo else Color(0.64, 0.82, 0.38, 0.72)
+	_pensamiento_panel.add_theme_stylebox_override("panel", fondo)
 
 
 func _configurar_fuentes_colores() -> void:

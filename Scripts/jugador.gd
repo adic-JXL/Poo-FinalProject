@@ -55,6 +55,7 @@ signal gafas_actualizadas(activa: bool, duracion_restante: float, cooldown_resta
 @export var fuerza_retroceso_x: float = 320.0
 @export var fuerza_retroceso_y: float = 205.0
 @export var duracion_aturdimiento: float = 0.3
+@export var tiempo_invulnerabilidad_respawn: float = 1.35
 
 @export_group("Gafas")
 @export var gafas_duracion: float = 10.0
@@ -190,7 +191,7 @@ func saltar() -> void:
 
 
 func recibir_danio(cantidad: int, origen_x: float = 0.0) -> bool:
-	if esta_invulnerable() or _muerte_activa:
+	if vida <= 0 or esta_invulnerable() or _muerte_activa:
 		return false
 
 	var direccion_danio := signf(global_position.x - origen_x)
@@ -387,6 +388,7 @@ func restaurar_para_respawn(posicion: Vector2) -> void:
 	estado_actual = &"sin_estado"
 	_estado_instancia_actual = null
 	cambiar_a_estado(&"normal")
+	_activar_invulnerabilidad(tiempo_invulnerabilidad_respawn)
 	emit_signal("vida_cambiada", vida)
 
 
@@ -428,9 +430,11 @@ func _crear_estados() -> void:
 	}
 
 
-func _activar_invulnerabilidad() -> void:
-	_tiempo_invulnerable_restante = max(tiempo_invulnerabilidad, 0.0)
-	emit_signal("invulnerabilidad_cambiada", true)
+func _activar_invulnerabilidad(duracion: float = -1.0) -> void:
+	var duracion_objetivo := tiempo_invulnerabilidad if duracion < 0.0 else duracion
+	_tiempo_invulnerable_restante = max(duracion_objetivo, 0.0)
+	if _tiempo_invulnerable_restante > 0.0:
+		emit_signal("invulnerabilidad_cambiada", true)
 
 
 func _actualizar_invulnerabilidad(delta: float) -> void:

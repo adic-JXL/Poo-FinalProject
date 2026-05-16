@@ -3,8 +3,9 @@ class_name FondoMundo1
 
 @export var inicio_x: float = -2048.0
 @export var fin_x: float = 16000.0
-@export var posicion_y: float = -48.0
+@export var posicion_y: float = -245.0
 @export var escala_base: float = 4.7
+@export var escala_vertical: float = 6.0
 @export var margen_vertical_superior: float = -1200.0
 @export var margen_vertical_inferior: float = 1600.0
 @export var color_cielo_base: Color = Color(0.35, 0.68, 0.76, 1.0)
@@ -79,7 +80,7 @@ func _crear_capa(capa: Dictionary) -> void:
 		sprite.centered = false
 		sprite.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
 		sprite.texture = textura
-		sprite.scale = Vector2(escala_base, escala_base)
+		sprite.scale = Vector2(escala_base, escala_vertical)
 		sprite.z_as_relative = false
 		sprite.z_index = int(capa["z"])
 		sprite.modulate = capa["modulate"]
