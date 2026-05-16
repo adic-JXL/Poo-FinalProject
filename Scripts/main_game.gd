@@ -18,6 +18,24 @@ const MENSAJE_LLEGADA_MUNDO_2 := "Has cruzado al inicio provisional del mundo 2.
 const MENSAJE_CHECKPOINT_MUNDO_2_ACTIVADO := "Checkpoint del mundo 2 activado. Esta base plana ya puede servir como nuevo inicio."
 const ESCALA_TIEMPO_PAUSA := 0.000001
 const FACTOR_LENTITUD_GAFAS_ENEMIGOS := 0.90
+const INTERVALO_PENSAMIENTOS := 20.0
+const PENSAMIENTOS_OSCUROS := [
+	"Otra vez se rien. Mejor camino rapido y no miro a nadie.",
+	"Si notan las gafas, van a empezar de nuevo.",
+	"No quiero escuchar mi nombre en sus bocas.",
+	"Tal vez si paso sin hacer ruido, no me ven.",
+	"Me dijeron cuatro ojos otra vez. Como si eso fuera todo lo que soy.",
+	"Cada pasillo suena como una burla antes de que pase.",
+	"Las gafas pesan mas cuando todos las miran.",
+	"Ojala pudiera esconderme detras del marco.",
+	"No son solo lentes. A veces se sienten como una marca.",
+	"Respira. Solo llega al otro lado.",
+]
+const PENSAMIENTOS_GAFAS := [
+	"Quizas no es tan malo como parece.",
+	"Al final el mundo no se ve tan mal.",
+	"Con las gafas puestas, algo por fin encaja.",
+]
 
 @export var limite_caida_y: float = 700.0
 @export var escala_tiempo_golpe: float = 0.45
@@ -112,6 +130,9 @@ var _tween_puerta_jefe: Tween
 var _tween_alpha_distorsion: Tween
 var _jugador_en_zona_jefe: bool = false
 var _respawn_muerte_activo: bool = false
+var _temporizador_pensamientos: Timer
+var _indice_pensamiento: int = 0
+var _indice_pensamiento_gafas: int = 0
 
 
 func _ready() -> void:
@@ -121,6 +142,7 @@ func _ready() -> void:
 	_posicion_respawn_actual = _posicion_inicial_jugador
 
 	_configurar_hud()
+	_configurar_pensamientos()
 	_configurar_jugador()
 	_configurar_puertas()
 	_configurar_checkpoints()
@@ -283,6 +305,15 @@ func _configurar_hud() -> void:
 	hud.configurar_jugador(jugador)
 	hud.actualizar_llave(_llave_obtenida)
 	hud.actualizar_checkpoint(_checkpoint_activo)
+
+
+func _configurar_pensamientos() -> void:
+	_temporizador_pensamientos = Timer.new()
+	_temporizador_pensamientos.wait_time = INTERVALO_PENSAMIENTOS
+	_temporizador_pensamientos.one_shot = false
+	_temporizador_pensamientos.timeout.connect(_on_temporizador_pensamientos_timeout)
+	add_child(_temporizador_pensamientos)
+	_temporizador_pensamientos.start()
 
 
 func _configurar_jugador() -> void:
@@ -545,6 +576,9 @@ func _on_jugador_vida_cambiada(vida_actual: int) -> void:
 	if vida_actual > 0:
 		return
 
+	if _respawn_muerte_activo:
+		return
+
 	hud.mostrar_mensaje("La sombra te vencio. Regresando al ultimo checkpoint.")
 	call_deferred("_reaparecer_tras_muerte")
 
@@ -559,12 +593,15 @@ func _reaparecer_tras_muerte() -> void:
 	if jugador != null and jugador.has_method("reproducir_muerte"):
 		await jugador.reproducir_muerte()
 
-	_respawn_muerte_activo = false
-	_establecer_enemigos_congelados(_puzzle_activo or _pausa_activa)
 	reiniciar_nivel()
+	_establecer_enemigos_congelados(_puzzle_activo or _pausa_activa)
+	_respawn_muerte_activo = false
 
 
 func _on_enemigo_jugador_danado(_cantidad: int) -> void:
+	if _respawn_muerte_activo:
+		return
+
 	if not _puzzle_activo:
 		hud.mostrar_mensaje("Una sombra te alcanzo. Mantente en movimiento.")
 
@@ -580,6 +617,8 @@ func _on_jugador_gafas_actualizadas(activa: bool, _duracion_restante: float, _co
 		return
 
 	_aplicar_estado_gafas(activa)
+	if activa:
+		_mostrar_pensamiento_gafas()
 
 
 func _on_puerta_mundo_2_teletransporte_realizado(_jugador: Node2D, destino: Node2D) -> void:
@@ -605,6 +644,34 @@ func _establecer_enemigos_congelados(congelados: bool) -> void:
 	for enemigo in get_tree().get_nodes_in_group("enemigo"):
 		if enemigo.has_method("establecer_congelado"):
 			enemigo.establecer_congelado(congelados)
+
+
+func _on_temporizador_pensamientos_timeout() -> void:
+	if _puzzle_activo or _pausa_activa or _respawn_muerte_activo:
+		return
+
+	if hud != null and hud.has_method("mostrar_pensamiento"):
+		hud.mostrar_pensamiento(_obtener_pensamiento_siguiente())
+
+
+func _obtener_pensamiento_siguiente() -> String:
+	if PENSAMIENTOS_OSCUROS.is_empty():
+		return ""
+
+	var mensaje: String = PENSAMIENTOS_OSCUROS[_indice_pensamiento % PENSAMIENTOS_OSCUROS.size()]
+	_indice_pensamiento += 1
+	return mensaje
+
+
+func _mostrar_pensamiento_gafas() -> void:
+	if PENSAMIENTOS_GAFAS.is_empty() or hud == null or not hud.has_method("mostrar_pensamiento"):
+		return
+
+	var mensaje: String = PENSAMIENTOS_GAFAS[_indice_pensamiento_gafas % PENSAMIENTOS_GAFAS.size()]
+	_indice_pensamiento_gafas += 1
+	hud.mostrar_pensamiento(mensaje, true)
+	if _temporizador_pensamientos != null:
+		_temporizador_pensamientos.start(INTERVALO_PENSAMIENTOS)
 
 
 func _restaurar_entidades() -> void:
