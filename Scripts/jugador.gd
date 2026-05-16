@@ -83,6 +83,7 @@ var _gravedad: float = 0.0
 var _direccion_actual: float = 1.0
 var _escala_original_x: float = 1.0
 var _escala_visual_original: Vector2 = Vector2.ONE
+var _posicion_visual_original: Vector2 = Vector2.ZERO
 var _sprint_activo: bool = false
 var _controles_habilitados: bool = true
 var _estado_instancia_actual
@@ -109,6 +110,7 @@ func _ready() -> void:
 	_gravedad = float(ProjectSettings.get_setting("physics/2d/default_gravity"))
 	_escala_original_x = visual.scale.x
 	_escala_visual_original = visual.scale
+	_posicion_visual_original = visual.position
 	_modulate_visual_original = visual.modulate
 	_cargar_texturas_jugador()
 	_establecer_textura_jugador(_obtener_frame_idle_actual())
@@ -197,7 +199,7 @@ func recibir_danio(cantidad: int, origen_x: float = 0.0) -> bool:
 	_emitir_chispas_danio(direccion_danio)
 	if vida <= 0:
 		velocity = Vector2.ZERO
-		_controles_habilitados = false
+		cambiar_a_estado(&"bloqueado")
 		return true
 
 	_activar_invulnerabilidad()
@@ -328,10 +330,10 @@ func reproducir_muerte() -> void:
 	velocity = Vector2.ZERO
 	_tiempo_invulnerable_restante = 0.0
 	_tiempo_aturdimiento_restante = 0.0
-	_controles_habilitados = false
+	cambiar_a_estado(&"bloqueado")
 	visual.modulate = _modulate_visual_original
 	visual.rotation = 0.0
-	visual.position = Vector2(0, -2)
+	visual.position = _posicion_visual_original
 
 	var frames := _frames_muerte if not _frames_muerte.is_empty() else _frames_idle
 	var duracion_frame := duracion_animacion_muerte / float(max(frames.size(), 1))
@@ -382,6 +384,8 @@ func restaurar_para_respawn(posicion: Vector2) -> void:
 	habilidad_gafas.reiniciar()
 	establecer_sprint_activo(false)
 	_tiempo_particula_sprint = 0.0
+	estado_actual = &"sin_estado"
+	_estado_instancia_actual = null
 	cambiar_a_estado(&"normal")
 	emit_signal("vida_cambiada", vida)
 
@@ -459,7 +463,7 @@ func _aplicar_retroceso(direccion: float) -> void:
 
 func _restaurar_visual_base() -> void:
 	visual.scale = Vector2(_direccion_actual * absf(_escala_visual_original.x), _escala_visual_original.y)
-	visual.position = Vector2(0, -2)
+	visual.position = _posicion_visual_original
 	visual.rotation = 0.0
 	visual.modulate = _modulate_visual_original
 	_establecer_textura_jugador(_obtener_frame_idle_actual())
@@ -502,12 +506,18 @@ func _actualizar_animacion_visual(delta: float, direccion: float) -> void:
 	sprite_visual.texture = _frames_idle[_indice_frame_visual]
 	if moviendose:
 		var pulso := sin(Time.get_ticks_msec() * 0.025)
-		visual.position = Vector2(0, -2 + pulso * 1.5)
-		visual.rotation = deg_to_rad(pulso * (2.0 if _sprint_activo else 1.0))
+		var compresion := absf(pulso)
+		visual.position = _posicion_visual_original + Vector2(0, pulso * 2.4)
+		visual.rotation = deg_to_rad(pulso * (3.0 if _sprint_activo else 1.7))
+		visual.scale = Vector2(
+			_direccion_actual * absf(_escala_visual_original.x) * (1.0 - (compresion * 0.025)),
+			_escala_visual_original.y * (1.0 + (compresion * 0.035))
+		)
 		return
 
-	visual.position = Vector2(0, -2)
+	visual.position = _posicion_visual_original
 	visual.rotation = 0.0
+	visual.scale = Vector2(_direccion_actual * absf(_escala_visual_original.x), _escala_visual_original.y)
 
 
 func _actualizar_particulas_sprint(delta: float) -> void:
@@ -598,7 +608,7 @@ func _obtener_frame_idle_actual() -> Texture2D:
 
 
 func _cargar_textura_png(ruta: String) -> Texture2D:
-	var imagen := Image.load_from_file(ruta)
+	var imagen := Image.load_from_file(ProjectSettings.globalize_path(ruta))
 	if imagen == null or imagen.is_empty():
 		return null
 

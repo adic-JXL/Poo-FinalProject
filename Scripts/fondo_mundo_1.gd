@@ -1,10 +1,13 @@
 extends Node2D
 class_name FondoMundo1
 
-@export var inicio_x: float = -768.0
-@export var fin_x: float = 11392.0
-@export var posicion_y: float = -184.0
-@export var escala_base: float = 3.0
+@export var inicio_x: float = -2048.0
+@export var fin_x: float = 16000.0
+@export var posicion_y: float = -48.0
+@export var escala_base: float = 4.7
+@export var margen_vertical_superior: float = -1200.0
+@export var margen_vertical_inferior: float = 1600.0
+@export var color_cielo_base: Color = Color(0.35, 0.68, 0.76, 1.0)
 
 const CAPAS := [
 	{
@@ -42,8 +45,23 @@ const CAPAS := [
 
 func _ready() -> void:
 	z_as_relative = false
+	_crear_relleno_base()
 	for capa in CAPAS:
 		_crear_capa(capa)
+
+
+func _crear_relleno_base() -> void:
+	var relleno := Polygon2D.new()
+	relleno.z_as_relative = false
+	relleno.z_index = -340
+	relleno.color = color_cielo_base
+	relleno.polygon = PackedVector2Array([
+		Vector2(inicio_x - 1024.0, margen_vertical_superior),
+		Vector2(fin_x + 1024.0, margen_vertical_superior),
+		Vector2(fin_x + 1024.0, margen_vertical_inferior),
+		Vector2(inicio_x - 1024.0, margen_vertical_inferior),
+	])
+	add_child(relleno)
 
 
 func _crear_capa(capa: Dictionary) -> void:
@@ -70,7 +88,7 @@ func _crear_capa(capa: Dictionary) -> void:
 
 
 func _cargar_textura_png(ruta: String) -> Texture2D:
-	var imagen := Image.load_from_file(ruta)
+	var imagen := Image.load_from_file(ProjectSettings.globalize_path(ruta))
 	if imagen == null or imagen.is_empty():
 		return null
 

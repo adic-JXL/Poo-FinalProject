@@ -233,7 +233,7 @@ func _actualizar_radio_ataque() -> void:
 	if collision_ataque == null or not (collision_ataque.shape is CircleShape2D):
 		return
 
-	(collision_ataque.shape as CircleShape2D).radius = _radio_ataque_base + ((_fase_actual - 1) * 5.0)
+	(collision_ataque.shape as CircleShape2D).radius = _radio_ataque_base
 
 
 func _actualizar_linea_carga(visible: bool) -> void:

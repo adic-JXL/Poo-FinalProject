@@ -13,7 +13,7 @@ position = Vector2(0, 4)
 shape = SubResource("RectangleShape2D_jugador")
 
 [node name="Visual" type="Node2D" parent="." unique_id=1133481450]
-position = Vector2(0, -2)
+position = Vector2(0, 8)
 scale = Vector2(1.35, 1.35)
 
 [node name="Sprite2D" type="Sprite2D" parent="Visual"]
