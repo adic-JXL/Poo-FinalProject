@@ -68,6 +68,7 @@ func _ejecutar_verificacion() -> void:
 		var camara_3 = escena_principal.get_node_or_null("Player/Camara3")
 		var distorsion_overlay = escena_principal.get_node_or_null("Canvas/DistorsionOverlay")
 		var plataforma_gafas = escena_principal.get_node_or_null("Plataformas/PlataformaGafas1")
+		var plataforma_desvanecible = escena_principal.get_node_or_null("Plataformas/Plataforma1")
 		var altar_gafas = escena_principal.get_node_or_null("Objetos/AltarGafas")
 		var checkpoint_puzzle_gafas = escena_principal.get_node_or_null("Objetos/CheckpointPuzzleGafas")
 		var checkpoint_puerta_activador = escena_principal.get_node_or_null("Objetos/CheckpointPuerta/Activador")
@@ -278,8 +279,8 @@ func _ejecutar_verificacion() -> void:
 			plataforma_gafas.establecer_revelada(true)
 			await physics_frame
 
-			if plataforma_gafas.esta_revelada():
-				_registrar_error("La plataforma de gafas reactiva su colision aun con el jugador superpuesto, lo que puede atascarlo.")
+			if not plataforma_gafas.esta_revelada():
+				_registrar_error("La plataforma de gafas debe conservar colision activa mientras las gafas estan revelando el parkour.")
 
 			jugador.global_position = plataforma_gafas.global_position + Vector2(120, 0)
 			jugador.velocity = Vector2.ZERO
@@ -288,6 +289,29 @@ func _ejecutar_verificacion() -> void:
 
 			if not plataforma_gafas.esta_revelada():
 				_registrar_error("La plataforma de gafas no reactiva su colision cuando el jugador sale de su volumen.")
+
+			if plataforma_desvanecible != null:
+				var colision_desvanecible := plataforma_desvanecible.get_node_or_null("CollisionShape2D") as CollisionShape2D
+				var sprite_desvanecible := plataforma_desvanecible.get_node_or_null("Sprite2D") as Sprite2D
+				var animacion_desvanecible := plataforma_desvanecible.get_node_or_null("AnimationPlayer") as AnimationPlayer
+				if colision_desvanecible != null and sprite_desvanecible != null:
+					if animacion_desvanecible != null:
+						animacion_desvanecible.stop()
+
+					jugador.global_position = plataforma_desvanecible.global_position
+					jugador.velocity = Vector2.ZERO
+					colision_desvanecible.disabled = true
+					sprite_desvanecible.modulate.a = 1.0
+					await physics_frame
+
+					if not colision_desvanecible.disabled:
+						_registrar_error("La plataforma desvanecible reactiva su colision aun con el jugador dentro del bloque.")
+
+					jugador.global_position = plataforma_desvanecible.global_position + Vector2(140, 0)
+					await physics_frame
+
+					if colision_desvanecible.disabled:
+						_registrar_error("La plataforma desvanecible no reactiva su colision cuando el jugador sale de su volumen.")
 
 			if camara_1.zoom.x >= escena_principal.zoom_base_mundo.x or camara_1.zoom.x >= zoom_con_gafas_x_antes:
 				_registrar_error("Las gafas no amplian el rango de vision de la camara principal.")
