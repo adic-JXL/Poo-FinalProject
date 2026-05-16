@@ -189,7 +189,7 @@ func actualizar_gafas(activa: bool, duracion_restante: float, cooldown_restante:
 		gafas_barra.max_value = _gafas_duracion_max
 		gafas_barra.value = duracion_restante
 		gafas_cooldown_label.text = "Vision clara: %.1fs" % duracion_restante
-		_actualizar_item_box_visual(COLOR_HUD_ACTIVO, "ON")
+		_actualizar_item_box_visual(COLOR_HUD_ACTIVO, "")
 		return
 
 	if cooldown_restante > 0.0:
