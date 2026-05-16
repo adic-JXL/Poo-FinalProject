@@ -4,13 +4,16 @@ class_name PlataformaGafas
 @export var alpha_oculta: float = 0.0
 @export var alpha_revelada: float = 0.92
 @export var duracion_transicion: float = 0.18
-@export var margen_zona_segura: Vector2 = Vector2(14, 12)
+@export var margen_zona_segura: Vector2 = Vector2(6, 4)
+@export var frames_minimos_antes_colision: int = 2
 
 @onready var sprite: Sprite2D = $Sprite2D
 @onready var collision_shape: CollisionShape2D = $CollisionShape2D
 
 var _tween_visual: Tween
 var _activacion_colision_pendiente: bool = false
+var _revelada_objetivo: bool = false
+var _frames_espera_activacion: int = 0
 
 
 func _ready() -> void:
@@ -20,10 +23,12 @@ func _ready() -> void:
 
 
 func establecer_revelada(activa: bool) -> void:
+	_revelada_objetivo = activa
 	if activa:
 		_programar_colision_segura()
 	else:
 		_activacion_colision_pendiente = false
+		_frames_espera_activacion = 0
 		set_physics_process(false)
 		collision_shape.set_deferred("disabled", true)
 
@@ -49,14 +54,26 @@ func _animar_alpha(alpha_objetivo: float) -> void:
 
 
 func _physics_process(_delta: float) -> void:
+	if not _revelada_objetivo:
+		return
+
+	if not collision_shape.disabled and _jugador_superpone_colision():
+		_activacion_colision_pendiente = true
+		_frames_espera_activacion = max(frames_minimos_antes_colision, 1)
+		collision_shape.set_deferred("disabled", true)
+		return
+
 	if not _activacion_colision_pendiente:
+		return
+
+	if _frames_espera_activacion > 0:
+		_frames_espera_activacion -= 1
 		return
 
 	if _jugador_superpone_colision():
 		return
 
 	_activacion_colision_pendiente = false
-	set_physics_process(false)
 	collision_shape.set_deferred("disabled", false)
 
 
@@ -64,15 +81,11 @@ func _programar_colision_segura() -> void:
 	if collision_shape == null:
 		return
 
-	if _jugador_superpone_colision():
-		_activacion_colision_pendiente = true
-		set_physics_process(true)
-		collision_shape.set_deferred("disabled", true)
-		return
-
-	_activacion_colision_pendiente = false
 	set_physics_process(false)
-	collision_shape.set_deferred("disabled", false)
+	_activacion_colision_pendiente = true
+	_frames_espera_activacion = max(frames_minimos_antes_colision, 1)
+	collision_shape.set_deferred("disabled", true)
+	set_physics_process(true)
 
 
 func _jugador_superpone_colision() -> bool:
@@ -118,6 +131,7 @@ func _shapes_rectangulares_se_superponen(a: CollisionShape2D, b: CollisionShape2
 
 func _obtener_rectangulo_global(shape_node: CollisionShape2D) -> Rect2:
 	var shape_rect := shape_node.shape as RectangleShape2D
-	var tamano := shape_rect.size
+	var escala := shape_node.global_scale.abs()
+	var tamano := Vector2(shape_rect.size.x * escala.x, shape_rect.size.y * escala.y)
 	var centro := shape_node.global_position
 	return Rect2(centro - (tamano * 0.5), tamano)

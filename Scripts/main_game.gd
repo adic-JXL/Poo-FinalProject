@@ -35,7 +35,13 @@ const PENSAMIENTOS_GAFAS := [
 	"Quizas no es tan malo como parece.",
 	"Al final el mundo no se ve tan mal.",
 	"Con las gafas puestas, algo por fin encaja.",
+	"Ver distinto no significa estar mal.",
+	"Mis gafas no me hacen menos.",
+	"Hay caminos que solo yo podia ver.",
+	"Quizas esta claridad tambien es mia.",
 ]
+const PENSAMIENTO_ZONA_JEFE := "La mente es como un slime, moldeable."
+const PENSAMIENTO_JEFE_DERROTADO := "Pude moldear mi mente."
 
 @export var limite_caida_y: float = 700.0
 @export var escala_tiempo_golpe: float = 0.45
@@ -133,6 +139,7 @@ var _respawn_muerte_activo: bool = false
 var _temporizador_pensamientos: Timer
 var _indice_pensamiento: int = 0
 var _indice_pensamiento_gafas: int = 0
+var _pensamiento_jefe_mostrado: bool = false
 
 
 func _ready() -> void:
@@ -558,6 +565,8 @@ func _on_jefe_sombras_derrotado() -> void:
 	_aplicar_alpha_distorsion_actual(false)
 	_aplicar_perfil_distorsion(true)
 	hud.mostrar_mensaje(MENSAJE_JEFE_DERROTADO)
+	if hud != null and hud.has_method("mostrar_pensamiento"):
+		hud.mostrar_pensamiento(PENSAMIENTO_JEFE_DERROTADO, true)
 
 
 func _on_jefe_sombras_fase_cambiada(fase_actual: int, sellos_activados: int) -> void:
@@ -637,6 +646,7 @@ func _on_puerta_jefe_teletransporte_realizado(_jugador: Node2D, destino: Node2D)
 	_aplicar_alpha_distorsion_actual(true)
 	_aplicar_perfil_distorsion(true)
 	_sincronizar_camara_con_jugador()
+	_mostrar_pensamiento_zona_jefe()
 	hud.mostrar_mensaje(MENSAJE_LLEGADA_ARENA_JEFE)
 
 
@@ -672,6 +682,14 @@ func _mostrar_pensamiento_gafas() -> void:
 	hud.mostrar_pensamiento(mensaje, true)
 	if _temporizador_pensamientos != null:
 		_temporizador_pensamientos.start(INTERVALO_PENSAMIENTOS)
+
+
+func _mostrar_pensamiento_zona_jefe() -> void:
+	if _pensamiento_jefe_mostrado or hud == null or not hud.has_method("mostrar_pensamiento"):
+		return
+
+	_pensamiento_jefe_mostrado = true
+	hud.mostrar_pensamiento(PENSAMIENTO_ZONA_JEFE, true)
 
 
 func _restaurar_entidades() -> void:
@@ -966,6 +984,9 @@ func _actualizar_estado_zona_jefe(forzar: bool = false) -> void:
 	_jugador_en_zona_jefe = dentro_area
 	if not forzar and estaba_en_zona == _jugador_en_zona_jefe:
 		return
+
+	if _jugador_en_zona_jefe:
+		_mostrar_pensamiento_zona_jefe()
 
 	_aplicar_alpha_distorsion_actual(forzar)
 	_aplicar_perfil_distorsion(forzar)

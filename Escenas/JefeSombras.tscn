@@ -1,6 +1,7 @@
-[gd_scene format=3 uid="uid://cgrdddpb18vhy"]
+[gd_scene load_steps=5 format=3 uid="uid://cgrdddpb18vhy"]
 
 [ext_resource type="Script" uid="uid://da84n3xlcg3qs" path="res://Scripts/jefe_sombras.gd" id="1_jefe"]
+[ext_resource type="Script" path="res://Scripts/sprite_animado_frames.gd" id="2_anim"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_cuerpo"]
 radius = 18.48053
@@ -19,9 +20,14 @@ usa_gravedad = false
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1044293646]
 shape = SubResource("CircleShape2D_cuerpo")
 
-[node name="Visual" type="Polygon2D" parent="." unique_id=139603634]
-color = Color(0.7, 0.24, 0.2, 0.95)
-polygon = PackedVector2Array(-18, -28, 18, -28, 28, 0, 18, 28, -18, 28, -28, 0)
+[node name="Visual" type="Node2D" parent="." unique_id=139603634]
+scale = Vector2(1.15, 1.15)
+script = ExtResource("2_anim")
+rutas_frames = PackedStringArray("res://Imagenes/Enemigos/rey_slime/rey_slime_00.png", "res://Imagenes/Enemigos/rey_slime/rey_slime_01.png", "res://Imagenes/Enemigos/rey_slime/rey_slime_02.png", "res://Imagenes/Enemigos/rey_slime/rey_slime_03.png", "res://Imagenes/Enemigos/rey_slime/rey_slime_04.png")
+fps = 7.0
+
+[node name="Sprite2D" type="Sprite2D" parent="Visual"]
+texture_filter = 1
 
 [node name="LineaCarga" type="Line2D" parent="." unique_id=322000393]
 visible = false
