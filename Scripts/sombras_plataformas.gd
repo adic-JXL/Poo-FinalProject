@@ -2,9 +2,11 @@ extends Node2D
 class_name SombrasPlataformas
 
 @export var ruta_plataformas: NodePath = NodePath("../Plataformas")
-@export var desplazamiento_sombra: Vector2 = Vector2(10, 17)
-@export var altura_sombra: float = 20.0
-@export var color_sombra: Color = Color(0.015, 0.018, 0.022, 0.34)
+@export var y_referencia_superior: float = 170.0
+@export var y_referencia_inferior: float = 420.0
+@export var alpha_minimo: float = 0.04
+@export var alpha_maximo: float = 0.34
+@export var color_profundidad: Color = Color(0.012, 0.014, 0.018, 1.0)
 
 
 func _ready() -> void:
@@ -22,37 +24,15 @@ func _crear_sombras() -> void:
 		if not (plataforma is Node2D):
 			continue
 
-		var ancho := _obtener_ancho_plataforma(plataforma)
-		if ancho <= 0.0:
+		var sprite := plataforma.get_node_or_null("Sprite2D") as Sprite2D
+		if sprite == null:
 			continue
 
-		_crear_sombra(plataforma as Node2D, ancho)
+		_aplicar_profundidad(plataforma as Node2D, sprite)
 
 
-func _crear_sombra(plataforma: Node2D, ancho: float) -> void:
-	var sombra := Polygon2D.new()
-	var mitad := ancho * 0.5
-	sombra.z_as_relative = false
-	sombra.z_index = z_index
-	sombra.color = color_sombra
-	sombra.polygon = PackedVector2Array([
-		Vector2(-mitad + 7.0, 0.0),
-		Vector2(mitad + 16.0, 0.0),
-		Vector2(mitad + 4.0, altura_sombra),
-		Vector2(-mitad - 12.0, altura_sombra),
-	])
-	add_child(sombra)
-	sombra.global_position = plataforma.global_position + desplazamiento_sombra
-
-
-func _obtener_ancho_plataforma(plataforma: Node) -> float:
-	var sprite := plataforma.get_node_or_null("Sprite2D") as Sprite2D
-	if sprite != null:
-		var rect := sprite.region_rect if sprite.region_enabled else Rect2(Vector2.ZERO, sprite.texture.get_size())
-		return rect.size.x * absf(sprite.global_scale.x)
-
-	var shape := plataforma.get_node_or_null("CollisionShape2D") as CollisionShape2D
-	if shape != null and shape.shape is RectangleShape2D:
-		return (shape.shape as RectangleShape2D).size.x * absf(shape.global_scale.x)
-
-	return 0.0
+func _aplicar_profundidad(plataforma: Node2D, sprite: Sprite2D) -> void:
+	var progreso := inverse_lerp(y_referencia_superior, y_referencia_inferior, plataforma.global_position.y)
+	var alpha := lerpf(alpha_minimo, alpha_maximo, clampf(progreso, 0.0, 1.0))
+	var luz := 1.0 - clampf(alpha, 0.0, 0.72)
+	sprite.self_modulate = Color(luz, luz, luz, 1.0)
