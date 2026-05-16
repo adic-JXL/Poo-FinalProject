@@ -90,6 +90,10 @@ func _puede_ver_objetivo(objetivo: Node2D) -> bool:
 
 func _actualizar_visual() -> void:
 	visual.scale.x = _direccion_mirada * _escala_original_x
+	if vision == null:
+		return
+
+	vision.visible = false
 	vision.scale.x = _direccion_mirada
 	vision.color = Color(1.0, 0.45, 0.25, 0.22) if _persiguiendo else Color(1.0, 0.9, 0.2, 0.14)
 

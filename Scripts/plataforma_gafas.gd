@@ -4,6 +4,7 @@ class_name PlataformaGafas
 @export var alpha_oculta: float = 0.0
 @export var alpha_revelada: float = 0.92
 @export var duracion_transicion: float = 0.18
+@export var margen_zona_segura: Vector2 = Vector2(14, 12)
 
 @onready var sprite: Sprite2D = $Sprite2D
 @onready var collision_shape: CollisionShape2D = $CollisionShape2D
@@ -110,6 +111,7 @@ func _shapes_rectangulares_se_superponen(a: CollisionShape2D, b: CollisionShape2
 		return false
 
 	var rect_a := _obtener_rectangulo_global(a)
+	rect_a = rect_a.grow_individual(margen_zona_segura.x, margen_zona_segura.y, margen_zona_segura.x, margen_zona_segura.y)
 	var rect_b := _obtener_rectangulo_global(b)
 	return rect_a.intersects(rect_b)
 

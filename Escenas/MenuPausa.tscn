@@ -1,6 +1,56 @@
-[gd_scene load_steps=2 format=3]
+[gd_scene load_steps=6 format=3]
 
 [ext_resource type="Script" path="res://Scripts/menu_pausa.gd" id="1_menu"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_panel"]
+bg_color = Color(0.075, 0.064, 0.09, 0.95)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.72, 0.84, 0.36, 0.9)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+shadow_color = Color(0, 0, 0, 0.45)
+shadow_size = 14
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_button"]
+bg_color = Color(0.18, 0.17, 0.16, 0.96)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.55, 0.62, 0.34, 0.75)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_button_focus"]
+bg_color = Color(0.43, 0.45, 0.18, 0.98)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.86, 0.94, 0.43, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_status"]
+bg_color = Color(0.11, 0.12, 0.105, 0.82)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.36, 0.42, 0.27, 0.72)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
 
 [node name="MenuPausa" type="Control"]
 visible = false
@@ -10,7 +60,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-mouse_filter = 2
+mouse_filter = 0
 script = ExtResource("1_menu")
 
 [node name="ColorRect" type="ColorRect" parent="."]
@@ -20,7 +70,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0, 0, 0, 0.55)
+color = Color(0.015, 0.018, 0.024, 0.74)
 
 [node name="CenterContainer" type="CenterContainer" parent="."]
 layout_mode = 1
@@ -31,46 +81,95 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="PanelContainer" type="PanelContainer" parent="CenterContainer"]
-custom_minimum_size = Vector2(360, 0)
+custom_minimum_size = Vector2(430, 0)
 layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_panel")
 
 [node name="MarginContainer" type="MarginContainer" parent="CenterContainer/PanelContainer"]
 layout_mode = 2
-theme_override_constants/margin_left = 24
+theme_override_constants/margin_left = 28
 theme_override_constants/margin_top = 24
-theme_override_constants/margin_right = 24
+theme_override_constants/margin_right = 28
 theme_override_constants/margin_bottom = 24
 
 [node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer/PanelContainer/MarginContainer"]
 layout_mode = 2
-theme_override_constants/separation = 12
+theme_override_constants/separation = 11
 
 [node name="TituloLabel" type="Label" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 26
-text = "Juego en pausa"
+theme_override_colors/font_color = Color(0.86, 0.94, 0.43, 1)
+theme_override_font_sizes/font_size = 28
+text = "Deep Shadow"
+horizontal_alignment = 1
 
-[node name="ContextoLabel" type="Label" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer"]
+[node name="SubtituloLabel" type="Label" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
+theme_override_colors/font_color = Color(0.74, 0.78, 0.58, 1)
+theme_override_font_sizes/font_size = 15
+text = "PAUSA"
+horizontal_alignment = 1
+
+[node name="EstadoPanel" type="PanelContainer" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_status")
+
+[node name="EstadoMargin" type="MarginContainer" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/EstadoPanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 14
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 14
+theme_override_constants/margin_bottom = 10
+
+[node name="EstadoVBox" type="VBoxContainer" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/EstadoPanel/EstadoMargin"]
+layout_mode = 2
+theme_override_constants/separation = 5
+
+[node name="ContextoLabel" type="Label" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/EstadoPanel/EstadoMargin/EstadoVBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.91, 0.9, 0.68, 1)
 text = "Checkpoint activo: no."
 autowrap_mode = 3
 
-[node name="AyudaLabel" type="Label" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer"]
+[node name="EstadoPartidaLabel" type="Label" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/EstadoPanel/EstadoMargin/EstadoVBox"]
 layout_mode = 2
-text = "Esc reanuda la partida."
+theme_override_colors/font_color = Color(0.62, 0.78, 0.75, 1)
+text = "Mundo detenido."
+autowrap_mode = 3
+
+[node name="Separador" type="HSeparator" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
 
 [node name="Botones" type="VBoxContainer" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 theme_override_constants/separation = 8
 
 [node name="ContinuarBoton" type="Button" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/Botones"]
+custom_minimum_size = Vector2(0, 38)
 layout_mode = 2
+theme_override_colors/font_color = Color(0.93, 0.94, 0.74, 1)
+theme_override_styles/normal = SubResource("StyleBoxFlat_button")
+theme_override_styles/hover = SubResource("StyleBoxFlat_button_focus")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_button_focus")
+theme_override_styles/focus = SubResource("StyleBoxFlat_button_focus")
 text = "Continuar"
 
 [node name="ReiniciarBoton" type="Button" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/Botones"]
+custom_minimum_size = Vector2(0, 38)
 layout_mode = 2
+theme_override_colors/font_color = Color(0.93, 0.94, 0.74, 1)
+theme_override_styles/normal = SubResource("StyleBoxFlat_button")
+theme_override_styles/hover = SubResource("StyleBoxFlat_button_focus")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_button_focus")
+theme_override_styles/focus = SubResource("StyleBoxFlat_button_focus")
 text = "Reiniciar desde checkpoint"
 
 [node name="MenuBoton" type="Button" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/Botones"]
+custom_minimum_size = Vector2(0, 38)
 layout_mode = 2
+theme_override_colors/font_color = Color(0.93, 0.94, 0.74, 1)
+theme_override_styles/normal = SubResource("StyleBoxFlat_button")
+theme_override_styles/hover = SubResource("StyleBoxFlat_button_focus")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_button_focus")
+theme_override_styles/focus = SubResource("StyleBoxFlat_button_focus")
 text = "Volver al menu"
