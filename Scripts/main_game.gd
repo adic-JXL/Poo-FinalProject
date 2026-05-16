@@ -111,6 +111,7 @@ var _mundo_2_alcanzado: bool = false
 var _tween_puerta_jefe: Tween
 var _tween_alpha_distorsion: Tween
 var _jugador_en_zona_jefe: bool = false
+var _respawn_muerte_activo: bool = false
 
 
 func _ready() -> void:
@@ -545,7 +546,22 @@ func _on_jugador_vida_cambiada(vida_actual: int) -> void:
 		return
 
 	hud.mostrar_mensaje("La sombra te vencio. Regresando al ultimo checkpoint.")
-	call_deferred("reiniciar_nivel")
+	call_deferred("_reaparecer_tras_muerte")
+
+
+func _reaparecer_tras_muerte() -> void:
+	if _respawn_muerte_activo:
+		return
+
+	_respawn_muerte_activo = true
+	_restaurar_tiempo_normal()
+	_establecer_enemigos_congelados(true)
+	if jugador != null and jugador.has_method("reproducir_muerte"):
+		await jugador.reproducir_muerte()
+
+	_respawn_muerte_activo = false
+	_establecer_enemigos_congelados(_puzzle_activo or _pausa_activa)
+	reiniciar_nivel()
 
 
 func _on_enemigo_jugador_danado(_cantidad: int) -> void:
