@@ -17,6 +17,7 @@ collision_mask = 1
 shape = SubResource("RectangleShape2D_cuerpo")
 
 [node name="Visual" type="Node2D" parent="."]
+position = Vector2(0, 8)
 scale = Vector2(1.45, 1.45)
 script = ExtResource("2_anim")
 rutas_frames = PackedStringArray("res://Imagenes/Enemigos/esqueleto/esqueleto_00.png", "res://Imagenes/Enemigos/esqueleto/esqueleto_01.png", "res://Imagenes/Enemigos/esqueleto/esqueleto_02.png", "res://Imagenes/Enemigos/esqueleto/esqueleto_03.png")
