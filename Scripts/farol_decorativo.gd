@@ -12,6 +12,7 @@ class_name FarolDecorativo
 var _fase_animacion: float = 0.0
 static var _textura_radial_cache: Texture2D
 static var _textura_particula_cache: Texture2D
+static var _stream_crepitar_cache: AudioStreamWAV
 
 @onready var antorcha: Node2D = $Lampara
 @onready var sombra_entorno: Sprite2D = $Lampara/SombraEntorno
@@ -24,6 +25,7 @@ static var _textura_particula_cache: Texture2D
 @onready var chispa: Polygon2D = $Lampara/Chispa
 @onready var particulas_chispa: CPUParticles2D = $Lampara/Chispas
 @onready var particulas_humo: CPUParticles2D = $Lampara/Humo
+@onready var audio_crepitar: AudioStreamPlayer2D = $Lampara/AudioCrepitar
 
 
 func _ready() -> void:
@@ -40,6 +42,7 @@ func _ready() -> void:
 	if point_light != null:
 		point_light.texture = textura_radial
 	_configurar_particulas()
+	_configurar_audio()
 	_actualizar_farol(0.0)
 
 
@@ -152,6 +155,63 @@ func _configurar_particulas() -> void:
 		particulas_humo.scale_amount_max = 0.55
 		particulas_humo.modulate = Color(0.18, 0.2, 0.24, 0.18)
 		particulas_humo.emitting = true
+
+
+func _configurar_audio() -> void:
+	if audio_crepitar == null:
+		return
+
+	var rng := RandomNumberGenerator.new()
+	rng.randomize()
+	audio_crepitar.bus = &"Master"
+	audio_crepitar.volume_db = lerpf(-17.5, -13.5, clampf(intensidad_luz, 0.0, 1.0))
+	audio_crepitar.pitch_scale = rng.randf_range(0.94, 1.07)
+	audio_crepitar.max_distance = 520.0
+	audio_crepitar.attenuation = 1.35
+	audio_crepitar.stream = _obtener_stream_crepitar()
+	if not audio_crepitar.finished.is_connected(_on_audio_crepitar_finished):
+		audio_crepitar.finished.connect(_on_audio_crepitar_finished)
+	audio_crepitar.play(rng.randf_range(0.0, 1.15))
+
+
+func _on_audio_crepitar_finished() -> void:
+	if audio_crepitar == null:
+		return
+
+	audio_crepitar.play()
+
+
+func _obtener_stream_crepitar() -> AudioStreamWAV:
+	if _stream_crepitar_cache != null:
+		return _stream_crepitar_cache
+
+	var sample_rate := 22050
+	var duracion := 1.8
+	var total_samples := int(sample_rate * duracion)
+	var data := PackedByteArray()
+	data.resize(total_samples * 2)
+	for i in range(total_samples):
+		var t := float(i) / float(sample_rate)
+		var siseo := (
+			sin(TAU * 187.0 * t) * 0.18 +
+			sin(TAU * 311.0 * t + 0.7) * 0.12 +
+			sin(TAU * 487.0 * t + 1.2) * 0.08
+		)
+		var crepitar_a := pow(maxf(0.0, sin(TAU * (6.4 + (0.55 * sin(TAU * 0.21 * t))) * t)), 14.0)
+		var crepitar_b := pow(maxf(0.0, sin(TAU * (8.9 + (0.7 * sin(TAU * 0.17 * t + 0.6))) * t + 0.9)), 18.0)
+		var brasa := maxf(0.0, sin(TAU * 2.2 * t + 0.3)) * 0.16
+		var muestra := (siseo * 0.42 + crepitar_a * 0.5 + crepitar_b * 0.34 + brasa) * 0.58
+		var valor := int(clampf(muestra, -1.0, 1.0) * 32767.0)
+		data[i * 2] = valor & 0xFF
+		data[(i * 2) + 1] = (valor >> 8) & 0xFF
+
+	_stream_crepitar_cache = AudioStreamWAV.new()
+	_stream_crepitar_cache.format = AudioStreamWAV.FORMAT_16_BITS
+	_stream_crepitar_cache.mix_rate = sample_rate
+	_stream_crepitar_cache.stereo = false
+	_stream_crepitar_cache.loop_mode = AudioStreamWAV.LOOP_DISABLED
+	_stream_crepitar_cache.data = data
+	return _stream_crepitar_cache
 
 
 func _crear_textura_radial(size: int) -> Texture2D:

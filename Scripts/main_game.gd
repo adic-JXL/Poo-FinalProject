@@ -116,6 +116,7 @@ const PENSAMIENTO_JEFE_DERROTADO := "Pude moldear mi mente."
 @onready var puzzle = $Canvas/PuzzleSecuencia
 @onready var puzzle_gafas = $Canvas/PuzzleGafas
 @onready var jefe_sombras = $Enemigos/JefeSombras
+@onready var ambiente_mundo_1 = get_node_or_null("AmbienteMundo1")
 
 var _posicion_inicial_jugador: Vector2
 var _posicion_respawn_actual: Vector2
@@ -168,6 +169,7 @@ func _ready() -> void:
 	_estado_gafas_aplicado = false
 	_actualizar_estado_zona_jefe(true)
 	_aplicar_estado_gafas(false, true)
+	_actualizar_ambiente_sonoro()
 	_sincronizar_camara_con_jugador()
 	_restaurar_mensaje_hud()
 
@@ -997,6 +999,7 @@ func _actualizar_estado_zona_jefe(forzar: bool = false) -> void:
 
 	_jugador_en_zona_jefe = dentro_area
 	_actualizar_actividad_jefe()
+	_actualizar_ambiente_sonoro()
 	if not forzar and estaba_en_zona == _jugador_en_zona_jefe:
 		return
 
@@ -1013,6 +1016,14 @@ func _actualizar_actividad_jefe() -> void:
 
 	if jefe_sombras.has_method("establecer_activo_en_arena"):
 		jefe_sombras.establecer_activo_en_arena(_jugador_en_zona_jefe and not _jefe_derrotado and not _mundo_2_desbloqueado)
+
+
+func _actualizar_ambiente_sonoro() -> void:
+	if ambiente_mundo_1 == null or not is_instance_valid(ambiente_mundo_1):
+		return
+
+	if ambiente_mundo_1.has_method("establecer_modo_jefe"):
+		ambiente_mundo_1.establecer_modo_jefe(_jugador_en_zona_jefe)
 
 
 func _obtener_alpha_distorsion_objetivo(gafas_activas: bool) -> float:

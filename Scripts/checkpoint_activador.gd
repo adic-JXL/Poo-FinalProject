@@ -20,9 +20,11 @@ var _escala_base_visual: Vector2 = Vector2.ONE
 var _escala_base_aura: Vector2 = Vector2.ONE
 static var _textura_aura_cache: Texture2D
 static var _textura_cartel_cache: Texture2D
+static var _stream_checkpoint_cache: AudioStreamWAV
 
 @onready var punto_visible: Node2D = $"../PuntoVisible"
 @onready var aura_checkpoint: Sprite2D = get_node_or_null("../AuraCheckpoint") as Sprite2D
+@onready var audio_checkpoint: AudioStreamPlayer = get_node_or_null("../AudioCheckpoint") as AudioStreamPlayer
 
 
 func _ready() -> void:
@@ -37,6 +39,15 @@ func _ready() -> void:
 	if aura_checkpoint != null:
 		aura_checkpoint.texture = _obtener_textura_aura()
 		_escala_base_aura = aura_checkpoint.scale
+	if audio_checkpoint == null:
+		audio_checkpoint = AudioStreamPlayer.new()
+		audio_checkpoint.name = "AudioCheckpoint"
+		get_parent().call_deferred("add_child", audio_checkpoint)
+		await get_tree().process_frame
+	if audio_checkpoint != null:
+		audio_checkpoint.bus = &"Master"
+		audio_checkpoint.volume_db = -8.0
+		audio_checkpoint.stream = _obtener_stream_checkpoint()
 	body_entered.connect(_on_body_entered)
 	set_process(true)
 	_actualizar_visual()
@@ -71,6 +82,7 @@ func _on_body_entered(body: Node) -> void:
 	_activado = true
 	_actualizar_visual()
 	_animar_activacion()
+	_reproducir_sonido_activacion()
 	emit_signal("checkpoint_alcanzado", get_parent().global_position, mensaje_activacion)
 
 
@@ -123,6 +135,43 @@ func _obtener_textura_cartel() -> Texture2D:
 
 	_textura_cartel_cache = ImageTexture.create_from_image(imagen)
 	return _textura_cartel_cache
+
+
+func _reproducir_sonido_activacion() -> void:
+	if audio_checkpoint == null or not audio_checkpoint.is_inside_tree():
+		return
+
+	audio_checkpoint.stop()
+	audio_checkpoint.play()
+
+
+func _obtener_stream_checkpoint() -> AudioStreamWAV:
+	if _stream_checkpoint_cache != null:
+		return _stream_checkpoint_cache
+
+	var sample_rate := 22050
+	var duracion := 0.42
+	var total_samples := int(sample_rate * duracion)
+	var data := PackedByteArray()
+	data.resize(total_samples * 2)
+	for i in range(total_samples):
+		var t := float(i) / float(sample_rate)
+		var envelope := exp(-5.8 * t)
+		var nota_a := sin(TAU * 740.0 * t)
+		var nota_b := sin(TAU * 1110.0 * t)
+		var brillo := sin(TAU * 1480.0 * t) * 0.18
+		var muestra := (nota_a * 0.68 + nota_b * 0.26 + brillo) * envelope * 0.72
+		var valor := int(clampf(muestra, -1.0, 1.0) * 32767.0)
+		data[i * 2] = valor & 0xFF
+		data[(i * 2) + 1] = (valor >> 8) & 0xFF
+
+	_stream_checkpoint_cache = AudioStreamWAV.new()
+	_stream_checkpoint_cache.format = AudioStreamWAV.FORMAT_16_BITS
+	_stream_checkpoint_cache.mix_rate = sample_rate
+	_stream_checkpoint_cache.stereo = false
+	_stream_checkpoint_cache.loop_mode = AudioStreamWAV.LOOP_DISABLED
+	_stream_checkpoint_cache.data = data
+	return _stream_checkpoint_cache
 
 
 func _crear_textura_radial(size: int) -> Texture2D:

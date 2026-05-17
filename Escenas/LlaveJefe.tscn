@@ -4,7 +4,7 @@
 [ext_resource type="Texture2D" path="res://Imagenes/Objetos/llave_jefe_animada/llave_jefe_00.png" id="2_key"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_llave_jefe"]
-radius = 18.0
+radius = 14.0
 
 [node name="LlaveJefe" type="Area2D"]
 collision_layer = 0
@@ -18,6 +18,6 @@ shape = SubResource("CircleShape2D_llave_jefe")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 position = Vector2(0, -12)
-scale = Vector2(0.68, 0.68)
+scale = Vector2(0.28, 0.28)
 texture_filter = 1
 texture = ExtResource("2_key")

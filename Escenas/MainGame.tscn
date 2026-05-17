@@ -403,7 +403,7 @@ size = Vector2(1241, 481)
 [node name="Node2D" type="Node2D" unique_id=291629533]
 script = ExtResource("1_h1l5c")
 
-[node name="AmbienteMundo1" parent="." instance=ExtResource("28_ambiente")]
+[node name="AmbienteMundo1" parent="." unique_id=1793802979 instance=ExtResource("28_ambiente")]
 
 [node name="FondoMundo1" type="Node2D" parent="." unique_id=46584655]
 script = ExtResource("24_fondo")
@@ -620,20 +620,20 @@ position = Vector2(1406.0001, 282.99997)
 scale = Vector2(0.82, 0.82)
 
 [node name="CheckpointPuerta" type="Marker2D" parent="Objetos" unique_id=829114517]
-position = Vector2(1551, 291)
+position = Vector2(1554, 314)
 
 [node name="AuraCheckpoint" type="Sprite2D" parent="Objetos/CheckpointPuerta" unique_id=277771011]
-position = Vector2(-22, -20)
+modulate = Color(0.62, 0.84, 1, 0.08)
 z_index = -1
 texture_filter = 1
+position = Vector2(-22, -20)
 scale = Vector2(0.42, 0.42)
-modulate = Color(0.62, 0.84, 1, 0.08)
 
 [node name="PuntoVisible" type="Sprite2D" parent="Objetos/CheckpointPuerta" unique_id=127510834]
-position = Vector2(-22, -18)
-texture_filter = 1
-scale = Vector2(1.1, 1.1)
 modulate = Color(0.88, 0.92, 0.96, 0.95)
+texture_filter = 1
+position = Vector2(-22, -18)
+scale = Vector2(1.1, 1.1)
 
 [node name="Activador" type="Area2D" parent="Objetos/CheckpointPuerta" unique_id=1829978677]
 script = ExtResource("20_checkpoint")
@@ -641,6 +641,8 @@ mensaje_activacion = "Checkpoint activado. Si caes, volveras despues de la puert
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Objetos/CheckpointPuerta/Activador" unique_id=1137202388]
 shape = SubResource("CircleShape2D_checkpoint_puerta")
+
+[node name="AudioCheckpoint" type="AudioStreamPlayer" parent="Objetos/CheckpointPuerta" unique_id=811832153]
 
 [node name="FarolPuerta" parent="Objetos" unique_id=1948360616 instance=ExtResource("26_farol")]
 position = Vector2(1368, 190)
@@ -656,17 +658,17 @@ escala_aura = 0.9
 position = Vector2(5815, 205)
 
 [node name="AuraCheckpoint" type="Sprite2D" parent="Objetos/CheckpointPreParkour" unique_id=630435316]
-position = Vector2(-22, -20)
+modulate = Color(0.62, 0.84, 1, 0.08)
 z_index = -1
 texture_filter = 1
+position = Vector2(-22, -20)
 scale = Vector2(0.42, 0.42)
-modulate = Color(0.62, 0.84, 1, 0.08)
 
 [node name="PuntoVisible" type="Sprite2D" parent="Objetos/CheckpointPreParkour" unique_id=495855037]
-position = Vector2(-22, -18)
-texture_filter = 1
-scale = Vector2(1.1, 1.1)
 modulate = Color(0.88, 0.92, 0.96, 0.95)
+texture_filter = 1
+position = Vector2(-22, -18)
+scale = Vector2(1.1, 1.1)
 
 [node name="Activador" type="Area2D" parent="Objetos/CheckpointPreParkour" unique_id=1672728190]
 script = ExtResource("20_checkpoint")
@@ -676,6 +678,8 @@ color_activo = Color(0.996078, 0.921569, 0.380392, 1)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Objetos/CheckpointPreParkour/Activador" unique_id=241169711]
 shape = SubResource("CircleShape2D_checkpoint_puerta")
+
+[node name="AudioCheckpoint" type="AudioStreamPlayer" parent="Objetos/CheckpointPreParkour" unique_id=125998608]
 
 [node name="FarolPreParkourA" parent="Objetos" unique_id=1393301661 instance=ExtResource("26_farol")]
 position = Vector2(5651, 234)
@@ -692,6 +696,7 @@ escala_aura = 0.96
 
 [node name="Llave" parent="Objetos" unique_id=183524802 instance=ExtResource("7_llave")]
 position = Vector2(1024, 195)
+rutas_frames = []
 
 [node name="AltarGafas" parent="Objetos" unique_id=707470456 instance=ExtResource("18_altar")]
 position = Vector2(9816, 69)
@@ -705,17 +710,17 @@ escala_aura = 0.82
 position = Vector2(10072, 69)
 
 [node name="AuraCheckpoint" type="Sprite2D" parent="Objetos/CheckpointPuzzleGafas" unique_id=684529306]
-position = Vector2(-22, -20)
+modulate = Color(0.62, 0.84, 1, 0.08)
 z_index = -1
 texture_filter = 1
+position = Vector2(-22, -20)
 scale = Vector2(0.42, 0.42)
-modulate = Color(0.62, 0.84, 1, 0.08)
 
 [node name="PuntoVisible" type="Sprite2D" parent="Objetos/CheckpointPuzzleGafas" unique_id=1976305317]
-position = Vector2(-22, -18)
-texture_filter = 1
-scale = Vector2(1.1, 1.1)
 modulate = Color(0.88, 0.92, 0.96, 0.95)
+texture_filter = 1
+position = Vector2(-22, -18)
+scale = Vector2(1.1, 1.1)
 
 [node name="Activador" type="Area2D" parent="Objetos/CheckpointPuzzleGafas" unique_id=215361368]
 script = ExtResource("20_checkpoint")
@@ -725,6 +730,8 @@ color_activo = Color(0.996078, 0.921569, 0.380392, 1)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Objetos/CheckpointPuzzleGafas/Activador" unique_id=177139532]
 shape = SubResource("CircleShape2D_checkpoint_gafas")
+
+[node name="AudioCheckpoint" type="AudioStreamPlayer" parent="Objetos/CheckpointPuzzleGafas" unique_id=497891617]
 
 [node name="TotemJefeA" parent="Objetos" unique_id=1756466637 instance=ExtResource("22_totem")]
 position = Vector2(10136, -75)
@@ -789,7 +796,6 @@ shape = SubResource("RectangleShape2D_1obna")
 [node name="Area2D2" type="Area2D" parent="Player" unique_id=1474394775]
 
 [node name="Area2" type="CollisionShape2D" parent="Player/Area2D2" unique_id=285069609]
-visible = false
 position = Vector2(5678.3906, 94.25)
 shape = SubResource("RectangleShape2D_b7mqo")
 

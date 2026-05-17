@@ -79,3 +79,6 @@ emitting = false
 position = Vector2(0, -21)
 z_index = -2
 emitting = false
+
+[node name="AudioCrepitar" type="AudioStreamPlayer2D" parent="Lampara"]
+position = Vector2(0, -16)
