@@ -8,7 +8,7 @@ const RUTA_TEXTURA_STAMINA := "res://Imagenes/HUD/stamina_text.png"
 const RUTA_TEXTURA_MARCO_STAMINA := "res://Imagenes/HUD/stamina_frame.png"
 const RUTA_TEXTURA_RELLENO_STAMINA := "res://Imagenes/HUD/stamina_fill.png"
 const RUTA_TEXTURA_CAJA_ITEM := "res://Imagenes/HUD/item_box_frame.png"
-const RUTA_TEXTURA_LLAVE := "res://Imagenes/HUD/key_icon.png"
+const RUTA_TEXTURA_LLAVE := "res://Imagenes/Objetos/llave_animada/llave_00.png"
 const RUTAS_TEXTURAS_GAFAS := [
 	"res://Imagenes/Objetos/gafas_00.png",
 	"res://Imagenes/Objetos/gafas_01.png",
