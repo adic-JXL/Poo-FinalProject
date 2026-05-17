@@ -25,6 +25,7 @@
 [ext_resource type="Shader" uid="uid://byaogt1hw8u6i" path="res://Shaders/vigneta_distorsion.gdshader" id="23_vineta"]
 [ext_resource type="Script" uid="uid://cweddlayqf442" path="res://Scripts/fondo_mundo_1.gd" id="24_fondo"]
 [ext_resource type="Script" uid="uid://pd6punsgvi5p" path="res://Scripts/sombras_plataformas.gd" id="25_sombras"]
+[ext_resource type="PackedScene" path="res://Escenas/FarolDecorativo.tscn" id="26_farol"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_n7y03"]
 
@@ -462,12 +463,12 @@ distancia_flotacion = 64.0
 direccion_inicial = -1
 
 [node name="EnemigoPerseguidorZonaPuerta" parent="Enemigos" unique_id=1930534745 instance=ExtResource("10_chaser")]
-position = Vector2(1830, 291)
+position = Vector2(1857, 161)
 rango_deteccion = 180.0
 angulo_vision_grados = 65.0
 
 [node name="EnemigoPatrullaRutaTemprana" parent="Enemigos" unique_id=1328877654 instance=ExtResource("9_enemy")]
-position = Vector2(1953, 91)
+position = Vector2(1876, 297)
 distancia_patruya = 150.0
 
 [node name="EnemigoFlotanteHorizontalRutaMedia" parent="Enemigos" unique_id=32947957 instance=ExtResource("11_float_h")]
@@ -629,11 +630,56 @@ mensaje_activacion = "Checkpoint activado. Si caes, volveras despues de la puert
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Objetos/CheckpointPuerta/Activador" unique_id=1137202388]
 shape = SubResource("CircleShape2D_checkpoint_puerta")
 
+[node name="FarolPuerta" parent="Objetos" unique_id=1948360616 instance=ExtResource("26_farol")]
+position = Vector2(1368, 190)
+rotation = 1.574099
+intensidad_luz = 0.9
+escala_aura = 0.95
+
+[node name="FarolRutaMedia" parent="Objetos" unique_id=1051042579 instance=ExtResource("26_farol")]
+position = Vector2(5185, 226)
+intensidad_luz = 0.85
+escala_aura = 0.9
+
+[node name="CheckpointPreParkour" type="Marker2D" parent="Objetos" unique_id=1049821103]
+position = Vector2(5815, 205)
+
+[node name="PuntoVisible" type="Polygon2D" parent="Objetos/CheckpointPreParkour" unique_id=495855037]
+color = Color(0.321569, 0.854902, 1, 0.95)
+polygon = PackedVector2Array(0, -7, 7, 0, 0, 7, -7, 0)
+
+[node name="Activador" type="Area2D" parent="Objetos/CheckpointPreParkour" unique_id=1672728190]
+script = ExtResource("20_checkpoint")
+mensaje_activacion = "Checkpoint activado. El parkour oculto empieza adelante."
+color_inactivo = Color(0.321569, 0.854902, 1, 0.95)
+color_activo = Color(0.996078, 0.921569, 0.380392, 1)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Objetos/CheckpointPreParkour/Activador" unique_id=241169711]
+shape = SubResource("CircleShape2D_checkpoint_puerta")
+
+[node name="FarolPreParkourA" parent="Objetos" unique_id=1393301661 instance=ExtResource("26_farol")]
+position = Vector2(5651, 229)
+escala_aura = 1.05
+
+[node name="FarolPreParkourB" parent="Objetos" unique_id=1854044345 instance=ExtResource("26_farol")]
+position = Vector2(5917, 226)
+escala_aura = 1.05
+
+[node name="FarolPreParkourC" parent="Objetos" unique_id=269303098 instance=ExtResource("26_farol")]
+position = Vector2(6783, 233)
+intensidad_luz = 0.92
+escala_aura = 0.96
+
 [node name="Llave" parent="Objetos" unique_id=183524802 instance=ExtResource("7_llave")]
 position = Vector2(1024, 195)
 
 [node name="AltarGafas" parent="Objetos" unique_id=707470456 instance=ExtResource("18_altar")]
 position = Vector2(9816, 69)
+
+[node name="FarolAltarGafas" parent="Objetos" unique_id=320863913 instance=ExtResource("26_farol")]
+position = Vector2(9894, 102)
+intensidad_luz = 0.78
+escala_aura = 0.82
 
 [node name="CheckpointPuzzleGafas" type="Marker2D" parent="Objetos" unique_id=2004459046]
 position = Vector2(10072, 69)
@@ -661,7 +707,6 @@ position = Vector2(11016, -27)
 position = Vector2(10744, -75)
 
 [node name="PuertaMundo2" parent="Objetos" unique_id=1300687901 instance=ExtResource("5_ryxee")]
-visible = false
 position = Vector2(10152, 181)
 scale = Vector2(0.26893523, 0.26217192)
 monitoring = false
@@ -715,6 +760,7 @@ shape = SubResource("RectangleShape2D_1obna")
 [node name="Area2D2" type="Area2D" parent="Player" unique_id=1474394775]
 
 [node name="Area2" type="CollisionShape2D" parent="Player/Area2D2" unique_id=285069609]
+visible = false
 position = Vector2(5678.3906, 94.25)
 shape = SubResource("RectangleShape2D_b7mqo")
 

@@ -7,6 +7,7 @@ const MENSAJE_NIVEL_COMPLETO := "La puerta se abrio. El nivel base ya esta compl
 const MENSAJE_CHECKPOINT_ACTIVADO := "Checkpoint activado. Si caes, volveras despues de la puerta."
 const MENSAJE_CHECKPOINT_PUERTA_DISPONIBLE := "Nueva zona alcanzada. Pisa el punto verde para guardar tu avance."
 const MENSAJE_CHECKPOINT_GAFAS_ACTIVADO := "Checkpoint activado. Activa las gafas para revelar el parkour oculto."
+const MENSAJE_CHECKPOINT_PRE_PARKOUR_ACTIVADO := "Checkpoint activado. El parkour oculto empieza adelante. Usa las gafas con cuidado."
 const MENSAJE_PUZZLE_GAFAS_COMPLETADO := "Reto de gafas superado. La puerta hacia la arena del jefe ya esta activa."
 const MENSAJE_CHECKPOINT_ALTAR_DISPONIBLE := "El altar respondio. Pisa el punto azul para guardar este avance."
 const MENSAJE_GAFAS_REQUERIDAS := "Activa las gafas antes de tocar el altar. Solo asi podras leer sus glifos."
@@ -90,6 +91,8 @@ const PENSAMIENTO_JEFE_DERROTADO := "Pude moldear mi mente."
 @onready var puerta_mundo_2_destino = get_node_or_null("Objetos/PuertaMundo2Destino")
 @onready var checkpoint_puerta: Marker2D = $Objetos/CheckpointPuerta
 @onready var checkpoint_puerta_activador = $Objetos/CheckpointPuerta/Activador
+@onready var checkpoint_pre_parkour: Marker2D = get_node_or_null("Objetos/CheckpointPreParkour") as Marker2D
+@onready var checkpoint_pre_parkour_activador = get_node_or_null("Objetos/CheckpointPreParkour/Activador")
 @onready var altar_gafas = $Objetos/AltarGafas
 @onready var checkpoint_puzzle_gafas: Marker2D = $Objetos/CheckpointPuzzleGafas
 @onready var checkpoint_puzzle_gafas_activador = $Objetos/CheckpointPuzzleGafas/Activador
@@ -356,6 +359,9 @@ func _configurar_checkpoints() -> void:
 	if checkpoint_puerta_activador != null and checkpoint_puerta_activador.has_signal("checkpoint_alcanzado"):
 		checkpoint_puerta_activador.checkpoint_alcanzado.connect(_on_checkpoint_puerta_alcanzado)
 
+	if checkpoint_pre_parkour_activador != null and checkpoint_pre_parkour_activador.has_signal("checkpoint_alcanzado"):
+		checkpoint_pre_parkour_activador.checkpoint_alcanzado.connect(_on_checkpoint_pre_parkour_alcanzado)
+
 	if checkpoint_puzzle_gafas_activador != null and checkpoint_puzzle_gafas_activador.has_signal("checkpoint_alcanzado"):
 		checkpoint_puzzle_gafas_activador.checkpoint_alcanzado.connect(_on_checkpoint_puzzle_gafas_alcanzado)
 
@@ -549,6 +555,10 @@ func _on_puerta_teletransporte_realizado(_jugador: Node2D, destino: Node2D) -> v
 
 func _on_checkpoint_puerta_alcanzado(posicion: Vector2, _mensaje: String) -> void:
 	_activar_checkpoint(posicion, MENSAJE_CHECKPOINT_GAFAS_ACTIVADO)
+
+
+func _on_checkpoint_pre_parkour_alcanzado(posicion: Vector2, _mensaje: String) -> void:
+	_activar_checkpoint(posicion, MENSAJE_CHECKPOINT_PRE_PARKOUR_ACTIVADO)
 
 
 func _on_checkpoint_puzzle_gafas_alcanzado(posicion: Vector2, _mensaje: String) -> void:
