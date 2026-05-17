@@ -26,6 +26,7 @@
 [ext_resource type="Script" uid="uid://cweddlayqf442" path="res://Scripts/fondo_mundo_1.gd" id="24_fondo"]
 [ext_resource type="Script" uid="uid://pd6punsgvi5p" path="res://Scripts/sombras_plataformas.gd" id="25_sombras"]
 [ext_resource type="PackedScene" path="res://Escenas/FarolDecorativo.tscn" id="26_farol"]
+[ext_resource type="PackedScene" path="res://Escenas/AmbienteMundo1.tscn" id="28_ambiente"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_n7y03"]
 
@@ -402,6 +403,8 @@ size = Vector2(1241, 481)
 [node name="Node2D" type="Node2D" unique_id=291629533]
 script = ExtResource("1_h1l5c")
 
+[node name="AmbienteMundo1" parent="." instance=ExtResource("28_ambiente")]
+
 [node name="FondoMundo1" type="Node2D" parent="." unique_id=46584655]
 script = ExtResource("24_fondo")
 
@@ -619,9 +622,18 @@ scale = Vector2(0.82, 0.82)
 [node name="CheckpointPuerta" type="Marker2D" parent="Objetos" unique_id=829114517]
 position = Vector2(1551, 291)
 
-[node name="PuntoVisible" type="Polygon2D" parent="Objetos/CheckpointPuerta" unique_id=127510834]
-color = Color(0.215686, 0.964706, 0.537255, 0.95)
-polygon = PackedVector2Array(0, -6, 6, 0, 0, 6, -6, 0)
+[node name="AuraCheckpoint" type="Sprite2D" parent="Objetos/CheckpointPuerta" unique_id=277771011]
+position = Vector2(-22, -20)
+z_index = -1
+texture_filter = 1
+scale = Vector2(0.42, 0.42)
+modulate = Color(0.62, 0.84, 1, 0.08)
+
+[node name="PuntoVisible" type="Sprite2D" parent="Objetos/CheckpointPuerta" unique_id=127510834]
+position = Vector2(-22, -18)
+texture_filter = 1
+scale = Vector2(1.1, 1.1)
+modulate = Color(0.88, 0.92, 0.96, 0.95)
 
 [node name="Activador" type="Area2D" parent="Objetos/CheckpointPuerta" unique_id=1829978677]
 script = ExtResource("20_checkpoint")
@@ -643,9 +655,18 @@ escala_aura = 0.9
 [node name="CheckpointPreParkour" type="Marker2D" parent="Objetos" unique_id=1049821103]
 position = Vector2(5815, 205)
 
-[node name="PuntoVisible" type="Polygon2D" parent="Objetos/CheckpointPreParkour" unique_id=495855037]
-color = Color(0.321569, 0.854902, 1, 0.95)
-polygon = PackedVector2Array(0, -7, 7, 0, 0, 7, -7, 0)
+[node name="AuraCheckpoint" type="Sprite2D" parent="Objetos/CheckpointPreParkour" unique_id=630435316]
+position = Vector2(-22, -20)
+z_index = -1
+texture_filter = 1
+scale = Vector2(0.42, 0.42)
+modulate = Color(0.62, 0.84, 1, 0.08)
+
+[node name="PuntoVisible" type="Sprite2D" parent="Objetos/CheckpointPreParkour" unique_id=495855037]
+position = Vector2(-22, -18)
+texture_filter = 1
+scale = Vector2(1.1, 1.1)
+modulate = Color(0.88, 0.92, 0.96, 0.95)
 
 [node name="Activador" type="Area2D" parent="Objetos/CheckpointPreParkour" unique_id=1672728190]
 script = ExtResource("20_checkpoint")
@@ -683,9 +704,18 @@ escala_aura = 0.82
 [node name="CheckpointPuzzleGafas" type="Marker2D" parent="Objetos" unique_id=2004459046]
 position = Vector2(10072, 69)
 
-[node name="PuntoVisible" type="Polygon2D" parent="Objetos/CheckpointPuzzleGafas" unique_id=1976305317]
-color = Color(0.392157, 0.764706, 1, 0.95)
-polygon = PackedVector2Array(0, -6, 6, 0, 0, 6, -6, 0)
+[node name="AuraCheckpoint" type="Sprite2D" parent="Objetos/CheckpointPuzzleGafas" unique_id=684529306]
+position = Vector2(-22, -20)
+z_index = -1
+texture_filter = 1
+scale = Vector2(0.42, 0.42)
+modulate = Color(0.62, 0.84, 1, 0.08)
+
+[node name="PuntoVisible" type="Sprite2D" parent="Objetos/CheckpointPuzzleGafas" unique_id=1976305317]
+position = Vector2(-22, -18)
+texture_filter = 1
+scale = Vector2(1.1, 1.1)
+modulate = Color(0.88, 0.92, 0.96, 0.95)
 
 [node name="Activador" type="Area2D" parent="Objetos/CheckpointPuzzleGafas" unique_id=215361368]
 script = ExtResource("20_checkpoint")
