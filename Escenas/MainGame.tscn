@@ -601,20 +601,20 @@ position = Vector2(6648, 261)
 
 [node name="Puerta" parent="Objetos" unique_id=413627468 instance=ExtResource("5_ryxee")]
 position = Vector2(1235.0001, 280.99997)
-scale = Vector2(0.26893523, 0.26217192)
+scale = Vector2(0.82, 0.82)
 
 [node name="Puerta3" parent="Objetos" unique_id=1165641711 instance=ExtResource("5_ryxee")]
 visible = false
 position = Vector2(9912, 52.99994)
-scale = Vector2(0.26893523, 0.26217192)
+scale = Vector2(0.82, 0.82)
 
 [node name="Puerta4" parent="Objetos" unique_id=496472609 instance=ExtResource("5_ryxee")]
 position = Vector2(10024.001, 52.999996)
-scale = Vector2(0.26893523, 0.26217192)
+scale = Vector2(0.82, 0.82)
 
 [node name="Puerta2" parent="Objetos" unique_id=692291154 instance=ExtResource("6_door_tp")]
 position = Vector2(1406.0001, 282.99997)
-scale = Vector2(0.26893523, 0.26217192)
+scale = Vector2(0.82, 0.82)
 
 [node name="CheckpointPuerta" type="Marker2D" parent="Objetos" unique_id=829114517]
 position = Vector2(1551, 291)
@@ -632,7 +632,6 @@ shape = SubResource("CircleShape2D_checkpoint_puerta")
 
 [node name="FarolPuerta" parent="Objetos" unique_id=1948360616 instance=ExtResource("26_farol")]
 position = Vector2(1368, 190)
-rotation = 1.574099
 intensidad_luz = 0.9
 escala_aura = 0.95
 
@@ -708,7 +707,7 @@ position = Vector2(10744, -75)
 
 [node name="PuertaMundo2" parent="Objetos" unique_id=1300687901 instance=ExtResource("5_ryxee")]
 position = Vector2(10152, 181)
-scale = Vector2(0.26893523, 0.26217192)
+scale = Vector2(0.82, 0.82)
 monitoring = false
 monitorable = false
 

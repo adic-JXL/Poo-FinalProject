@@ -19,6 +19,7 @@ func abrir() -> void:
 
 	_abierta = true
 	establecer_transporte_habilitado(true)
+	reproducir_animacion_apertura()
 	_cambiar_rango_interaccion(false)
 	mensaje_interaccion = "La puerta ya esta abierta."
 

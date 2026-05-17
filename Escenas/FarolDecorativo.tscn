@@ -20,6 +20,13 @@ polygon = PackedVector2Array(10, -25, 16, -25, 16, -6, 10, -6)
 [node name="Lampara" type="Node2D" parent="."]
 position = Vector2(13, -8)
 
+[node name="SombraEntorno" type="Sprite2D" parent="Lampara"]
+z_index = -5
+position = Vector2(0, -12)
+texture_filter = 1
+scale = Vector2(1.42, 1.42)
+modulate = Color(0.02, 0.03, 0.05, 0.18)
+
 [node name="AuraExterior" type="Sprite2D" parent="Lampara"]
 z_index = -4
 texture_filter = 1
@@ -62,3 +69,13 @@ polygon = PackedVector2Array(0, -6, 3, -1, 2, 5, 0, 7, -2, 5, -3, -1)
 position = Vector2(0, -24)
 color = Color(1, 0.98, 0.82, 0.86)
 polygon = PackedVector2Array(0, -2, 2, 0, 0, 3, -2, 0)
+
+[node name="Chispas" type="CPUParticles2D" parent="Lampara"]
+position = Vector2(0, -18)
+z_index = -1
+emitting = false
+
+[node name="Humo" type="CPUParticles2D" parent="Lampara"]
+position = Vector2(0, -21)
+z_index = -2
+emitting = false
