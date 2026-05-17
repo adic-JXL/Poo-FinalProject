@@ -637,7 +637,7 @@ intensidad_luz = 0.9
 escala_aura = 0.95
 
 [node name="FarolRutaMedia" parent="Objetos" unique_id=1051042579 instance=ExtResource("26_farol")]
-position = Vector2(5185, 226)
+position = Vector2(5184, 229)
 intensidad_luz = 0.85
 escala_aura = 0.9
 
@@ -658,11 +658,11 @@ color_activo = Color(0.996078, 0.921569, 0.380392, 1)
 shape = SubResource("CircleShape2D_checkpoint_puerta")
 
 [node name="FarolPreParkourA" parent="Objetos" unique_id=1393301661 instance=ExtResource("26_farol")]
-position = Vector2(5651, 229)
+position = Vector2(5651, 234)
 escala_aura = 1.05
 
 [node name="FarolPreParkourB" parent="Objetos" unique_id=1854044345 instance=ExtResource("26_farol")]
-position = Vector2(5917, 226)
+position = Vector2(5911, 234)
 escala_aura = 1.05
 
 [node name="FarolPreParkourC" parent="Objetos" unique_id=269303098 instance=ExtResource("26_farol")]

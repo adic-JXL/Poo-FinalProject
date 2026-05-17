@@ -9,8 +9,10 @@ signal teletransporte_realizado(jugador: Node2D, destino: Node2D)
 @export var permite_interaccion: bool = false
 @export var duracion_animacion_entrada: float = 0.24
 @export var offset_animacion_entrada: Vector2 = Vector2(0, 10)
-@export var color_inactiva: Color = Color(0.76, 0.82, 0.88, 1)
-@export var color_activa: Color = Color(0.67, 1, 0.78, 1)
+@export var color_inactiva: Color = Color(1, 1, 1, 1)
+@export var color_activa: Color = Color(1, 1, 1, 1)
+@export var textura_cerrada: Texture2D
+@export var textura_abierta: Texture2D
 
 var _puerta_destino_ref: Node = null
 
@@ -104,5 +106,12 @@ func teletransportar_jugador(jugador: Node2D) -> void:
 func _actualizar_visual() -> void:
 	if sprite == null:
 		return
+
+	if transporte_habilitado and textura_abierta != null:
+		sprite.texture = textura_abierta
+	elif not transporte_habilitado and textura_cerrada != null:
+		sprite.texture = textura_cerrada
+	elif textura_cerrada != null:
+		sprite.texture = textura_cerrada
 
 	sprite.modulate = color_activa if transporte_habilitado else color_inactiva

@@ -5,51 +5,60 @@
 [node name="FarolDecorativo" type="Node2D"]
 script = ExtResource("1_farol")
 
-[node name="Poste" type="Polygon2D" parent="."]
-color = Color(0.23, 0.28, 0.27, 1)
-polygon = PackedVector2Array(-3, 0, 3, 0, 3, -40, -3, -40)
+[node name="SoporteMuro" type="Polygon2D" parent="."]
+color = Color(0.24, 0.28, 0.28, 1)
+polygon = PackedVector2Array(-5, -31, 3, -31, 3, -23, -5, -23)
 
 [node name="Brazo" type="Polygon2D" parent="."]
-color = Color(0.27, 0.33, 0.31, 1)
-polygon = PackedVector2Array(-1, -40, 17, -40, 17, -35, -1, -35)
+color = Color(0.31, 0.35, 0.34, 1)
+polygon = PackedVector2Array(0, -29, 14, -29, 14, -25, 0, -25)
 
-[node name="Remate" type="Polygon2D" parent="."]
-color = Color(0.34, 0.4, 0.33, 1)
-polygon = PackedVector2Array(-5, -43, 5, -43, 5, -39, -5, -39)
+[node name="MangoAntorcha" type="Polygon2D" parent="."]
+color = Color(0.46, 0.31, 0.17, 1)
+polygon = PackedVector2Array(10, -25, 16, -25, 16, -6, 10, -6)
 
 [node name="Lampara" type="Node2D" parent="."]
-position = Vector2(16, -28)
+position = Vector2(13, -8)
 
-[node name="GlowExterior" type="Polygon2D" parent="Lampara"]
+[node name="AuraExterior" type="Sprite2D" parent="Lampara"]
+z_index = -4
+texture_filter = 1
+scale = Vector2(0.72, 0.72)
+modulate = Color(1, 0.76, 0.32, 0.26)
+
+[node name="PointLight2D" type="PointLight2D" parent="Lampara"]
+position = Vector2(0, -16)
+color = Color(1, 0.78, 0.42, 1)
+energy = 0.88
+texture_scale = 1.28
+
+[node name="AuraInterior" type="Sprite2D" parent="Lampara"]
 z_index = -3
-color = Color(0.38, 0.83, 0.95, 0.12)
-polygon = PackedVector2Array(0, -30, 18, -22, 30, -8, 34, 8, 24, 24, 0, 34, -24, 24, -34, 8, -30, -8, -18, -22)
+texture_filter = 1
+position = Vector2(0, -14)
+scale = Vector2(0.42, 0.42)
+modulate = Color(1, 0.94, 0.64, 0.34)
 
-[node name="GlowInterior" type="Polygon2D" parent="Lampara"]
-z_index = -2
-color = Color(0.97, 0.92, 0.58, 0.26)
-polygon = PackedVector2Array(0, -18, 10, -13, 18, -4, 20, 6, 14, 16, 0, 22, -14, 16, -20, 6, -18, -4, -10, -13)
+[node name="CabezaMetal" type="Polygon2D" parent="Lampara"]
+color = Color(0.22, 0.26, 0.25, 1)
+polygon = PackedVector2Array(-5, -14, 5, -14, 4, -10, -4, -10)
 
-[node name="TapaSuperior" type="Polygon2D" parent="Lampara"]
-color = Color(0.24, 0.31, 0.3, 1)
-polygon = PackedVector2Array(-10, -14, 10, -14, 6, -10, -6, -10)
+[node name="Brasa" type="Polygon2D" parent="Lampara"]
+position = Vector2(0, -12)
+color = Color(0.95, 0.44, 0.14, 0.9)
+polygon = PackedVector2Array(-4, 0, 4, 0, 3, 5, -3, 5)
 
-[node name="MarcoExterior" type="Polygon2D" parent="Lampara"]
-color = Color(0.26, 0.33, 0.32, 1)
-polygon = PackedVector2Array(-9, -10, 9, -10, 9, 11, -9, 11)
+[node name="LlamaExterior" type="Polygon2D" parent="Lampara"]
+position = Vector2(0, -18)
+color = Color(1, 0.64, 0.22, 0.95)
+polygon = PackedVector2Array(0, -9, 5, -1, 4, 7, 0, 10, -4, 7, -5, -1)
 
-[node name="Cristal" type="Polygon2D" parent="Lampara"]
-color = Color(0.84, 0.8, 0.46, 0.9)
-polygon = PackedVector2Array(-6, -8, 6, -8, 6, 8, -6, 8)
+[node name="LlamaInterior" type="Polygon2D" parent="Lampara"]
+position = Vector2(0, -18)
+color = Color(1, 0.95, 0.7, 0.98)
+polygon = PackedVector2Array(0, -6, 3, -1, 2, 5, 0, 7, -2, 5, -3, -1)
 
-[node name="Llama" type="Polygon2D" parent="Lampara"]
-color = Color(1, 0.97, 0.7, 0.95)
-polygon = PackedVector2Array(0, -8, 3, -2, 0, 5, -3, -2)
-
-[node name="Reflejo" type="Polygon2D" parent="Lampara"]
-color = Color(1, 1, 1, 0.16)
-polygon = PackedVector2Array(-4, -6, -1, -8, 2, -1, -1, 6, -4, 3)
-
-[node name="BaseInferior" type="Polygon2D" parent="Lampara"]
-color = Color(0.24, 0.31, 0.3, 1)
-polygon = PackedVector2Array(-8, 11, 8, 11, 5, 15, -5, 15)
+[node name="Chispa" type="Polygon2D" parent="Lampara"]
+position = Vector2(0, -24)
+color = Color(1, 0.98, 0.82, 0.86)
+polygon = PackedVector2Array(0, -2, 2, 0, 0, 3, -2, 0)
