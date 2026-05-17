@@ -139,7 +139,7 @@ func _on_temporizador_ataque_timeout() -> void:
 
 
 func _intentar_atacar_cuerpos_superpuestos() -> void:
-	if not _puede_atacar:
+	if not _puede_atacar or area_ataque == null or not area_ataque.monitoring:
 		return
 
 	for body in area_ataque.get_overlapping_bodies():
