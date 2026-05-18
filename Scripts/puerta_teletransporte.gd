@@ -5,6 +5,7 @@ static var _stream_apertura_cache: AudioStreamWAV
 signal teletransporte_realizado(jugador: Node2D, destino: Node2D)
 
 @export_node_path("Area2D") var puerta_destino: NodePath
+@export_file("*.tscn") var ruta_escena_destino: String = ""
 @export var transporte_habilitado: bool = false
 @export var teletransporta_al_tocar: bool = true
 @export var permite_interaccion: bool = false
@@ -94,7 +95,9 @@ func puede_interactuar() -> bool:
 
 func puede_teletransportar() -> bool:
 	var destino := obtener_puerta_destino()
-	return transporte_habilitado and teletransporta_al_tocar and destino != null and destino.has_method("obtener_punto_salida")
+	var tiene_destino_local := destino != null and destino.has_method("obtener_punto_salida")
+	var tiene_escena_destino := not ruta_escena_destino.is_empty()
+	return transporte_habilitado and teletransporta_al_tocar and (tiene_destino_local or tiene_escena_destino)
 
 
 func _on_body_entered_teletransporte(body: Node) -> void:
@@ -116,11 +119,19 @@ func _on_body_entered_teletransporte(body: Node) -> void:
 func _teletransportar_jugador(body: Node) -> void:
 	var jugador := body as Node2D
 	var destino := obtener_puerta_destino()
-	if jugador == null or destino == null:
+	if jugador == null:
+		return
+
+	if ruta_escena_destino.is_empty() and destino == null:
 		return
 
 	if jugador.has_method("animar_entrada_puerta"):
 		await jugador.animar_entrada_puerta(global_position + offset_animacion_entrada, duracion_animacion_entrada)
+
+	if not ruta_escena_destino.is_empty():
+		emit_signal("teletransporte_realizado", jugador, null)
+		get_tree().change_scene_to_file(ruta_escena_destino)
+		return
 
 	jugador.set_meta("puerta_ignorada", destino.get_instance_id())
 	jugador.global_position = destino.obtener_punto_salida()

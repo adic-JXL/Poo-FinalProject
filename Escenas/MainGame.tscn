@@ -746,6 +746,7 @@ position = Vector2(10152, 181)
 scale = Vector2(0.82, 0.82)
 monitoring = false
 monitorable = false
+ruta_escena_destino = "res://Escenas/Mundo2.tscn"
 
 [node name="Player" type="Node2D" parent="." unique_id=1906555285]
 

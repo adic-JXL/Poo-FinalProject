@@ -1,0 +1,87 @@
+[gd_scene format=3 uid="uid://co8wmdp28n50v"]
+
+[ext_resource type="Script" path="res://Scripts/mundo_2.gd" id="1_mundo2"]
+[ext_resource type="PackedScene" uid="uid://sh8mxgnkcji2" path="res://Escenas/Personaje.tscn" id="2_jugador"]
+[ext_resource type="PackedScene" path="res://Escenas/HUD.tscn" id="3_hud"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_suelo"]
+size = Vector2(1700, 92)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_plataforma"]
+size = Vector2(246, 36)
+
+[node name="Mundo2" type="Node2D"]
+script = ExtResource("1_mundo2")
+
+[node name="FondoCielo" type="Polygon2D" parent="."]
+color = Color(0.156863, 0.25098, 0.337255, 1)
+polygon = PackedVector2Array(-240, -220, 1680, -220, 1680, 980, -240, 980)
+
+[node name="FondoLejano" type="Polygon2D" parent="."]
+color = Color(0.101961, 0.180392, 0.243137, 0.9)
+polygon = PackedVector2Array(-160, 256, 86, 158, 266, 244, 420, 132, 640, 250, 852, 124, 1084, 244, 1324, 162, 1528, 258, 1528, 660, -160, 660)
+
+[node name="FondoFrontal" type="Polygon2D" parent="."]
+color = Color(0.0823529, 0.12549, 0.176471, 0.94)
+polygon = PackedVector2Array(-160, 352, 60, 258, 220, 328, 388, 224, 544, 346, 742, 230, 944, 342, 1138, 236, 1328, 356, 1328, 712, -160, 712)
+
+[node name="SpawnJugador" type="Marker2D" parent="."]
+position = Vector2(176, 366)
+
+[node name="Suelo" type="StaticBody2D" parent="."]
+position = Vector2(690, 454)
+
+[node name="Visual" type="Polygon2D" parent="Suelo"]
+color = Color(0.286275, 0.239216, 0.341176, 1)
+polygon = PackedVector2Array(-850, -44, 850, -44, 850, 44, -850, 44)
+
+[node name="Cesped" type="Polygon2D" parent="Suelo"]
+color = Color(0.470588, 0.682353, 0.231373, 1)
+polygon = PackedVector2Array(-850, -44, 850, -44, 850, -24, -850, -24)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Suelo"]
+shape = SubResource("RectangleShape2D_suelo")
+
+[node name="PlataformaA" type="StaticBody2D" parent="."]
+position = Vector2(520, 330)
+
+[node name="Visual" type="Polygon2D" parent="PlataformaA"]
+color = Color(0.286275, 0.239216, 0.341176, 1)
+polygon = PackedVector2Array(-123, -18, 123, -18, 123, 18, -123, 18)
+
+[node name="Cesped" type="Polygon2D" parent="PlataformaA"]
+color = Color(0.470588, 0.682353, 0.231373, 1)
+polygon = PackedVector2Array(-123, -18, 123, -18, 123, -8, -123, -8)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PlataformaA"]
+shape = SubResource("RectangleShape2D_plataforma")
+
+[node name="PlataformaB" type="StaticBody2D" parent="."]
+position = Vector2(912, 276)
+
+[node name="Visual" type="Polygon2D" parent="PlataformaB"]
+color = Color(0.286275, 0.239216, 0.341176, 1)
+polygon = PackedVector2Array(-123, -18, 123, -18, 123, 18, -123, 18)
+
+[node name="Cesped" type="Polygon2D" parent="PlataformaB"]
+color = Color(0.470588, 0.682353, 0.231373, 1)
+polygon = PackedVector2Array(-123, -18, 123, -18, 123, -8, -123, -8)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PlataformaB"]
+shape = SubResource("RectangleShape2D_plataforma")
+
+[node name="Canvas" type="CanvasLayer" parent="."]
+
+[node name="HUD" parent="Canvas" instance=ExtResource("3_hud")]
+
+[node name="Player" type="Node2D" parent="."]
+
+[node name="Jugador" parent="Player" instance=ExtResource("2_jugador")]
+position = Vector2(176, 366)
+velocidad_base = 112.0
+fuerza_salto = 318.0
+aceleracion = 1100.0
+
+[node name="Camara" type="Camera2D" parent="Player"]
+zoom = Vector2(2, 2)
+enabled = true
