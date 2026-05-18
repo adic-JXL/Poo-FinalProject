@@ -132,6 +132,12 @@ func establecer_activo_en_arena(activo: bool) -> void:
 	area_ataque.monitoring = _activo_en_arena and not _congelado
 
 	if _activo_en_arena:
+		_estado_jefe = EstadoJefe.ACECHO
+		_temporizador_estado = 0.0
+		velocity = Vector2.ZERO
+		_limitar_a_arena()
+		_separar_del_borde_arena()
+		_actualizar_linea_carga(false)
 		return
 
 	_estado_jefe = EstadoJefe.ACECHO
@@ -296,3 +302,8 @@ func _limitar_a_arena() -> void:
 
 	if not is_equal_approx(posicion_anterior.y, global_position.y):
 		velocity.y = 0.0
+
+
+func _separar_del_borde_arena() -> void:
+	global_position.x = clampf(global_position.x, arena_min.x + 10.0, arena_max.x - 10.0)
+	global_position.y = clampf(global_position.y, arena_min.y + 10.0, arena_max.y - 10.0)
