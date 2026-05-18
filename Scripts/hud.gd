@@ -349,7 +349,7 @@ func _configurar_stamina_visual() -> void:
 	stamina_vbox.move_child(titulo, 0)
 
 	var holder := Control.new()
-	holder.custom_minimum_size = Vector2(250, 38)
+	holder.custom_minimum_size = Vector2(250, 46)
 	holder.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	stamina_vbox.add_child(holder)
 	stamina_vbox.move_child(holder, 1)
@@ -358,12 +358,19 @@ func _configurar_stamina_visual() -> void:
 	marco.set_anchors_preset(Control.PRESET_FULL_RECT)
 	holder.add_child(marco)
 
-	_stamina_fill_rect = _crear_texture_rect(_textura_relleno_stamina, Vector2(164, 14), TextureRect.STRETCH_SCALE)
-	_stamina_fill_rect.position = Vector2(20, 7)
-	_stamina_fill_rect.size = Vector2(164, 14)
-	holder.add_child(_stamina_fill_rect)
-	holder.move_child(_stamina_fill_rect, 0)
-	_stamina_fill_ancho_max = 164.0
+	var fill_holder := Control.new()
+	fill_holder.position = Vector2(17, 9)
+	fill_holder.custom_minimum_size = Vector2(216, 15)
+	fill_holder.size = Vector2(216, 15)
+	fill_holder.clip_contents = true
+	fill_holder.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	holder.add_child(fill_holder)
+
+	_stamina_fill_rect = _crear_texture_rect(_textura_relleno_stamina, fill_holder.size, TextureRect.STRETCH_SCALE)
+	_stamina_fill_rect.position = Vector2.ZERO
+	_stamina_fill_rect.size = fill_holder.size
+	fill_holder.add_child(_stamina_fill_rect)
+	_stamina_fill_ancho_max = fill_holder.size.x
 
 
 func _configurar_gafas_visual() -> void:
@@ -499,7 +506,7 @@ func _cargar_texturas_hud() -> void:
 	_textura_corazon_lleno = _cargar_textura_desde_archivo(RUTA_TEXTURA_CORAZON_LLENO)
 	_textura_corazon_vacio = _cargar_textura_desde_archivo(RUTA_TEXTURA_CORAZON_VACIO)
 	_textura_stamina = _cargar_textura_desde_archivo(RUTA_TEXTURA_STAMINA)
-	_textura_marco_stamina = _cargar_textura_desde_archivo(RUTA_TEXTURA_MARCO_STAMINA)
+	_textura_marco_stamina = _cargar_textura_recortada_desde_archivo(RUTA_TEXTURA_MARCO_STAMINA, Rect2i(0, 0, 388, 78))
 	_textura_relleno_stamina = _cargar_textura_desde_archivo(RUTA_TEXTURA_RELLENO_STAMINA)
 	_textura_caja_item = _cargar_textura_desde_archivo(RUTA_TEXTURA_CAJA_ITEM)
 	_textura_llave = _cargar_textura_desde_archivo(RUTA_TEXTURA_LLAVE)
@@ -511,6 +518,21 @@ func _cargar_textura_desde_archivo(ruta: String) -> Texture2D:
 	if imagen == null or imagen.is_empty():
 		return null
 	return ImageTexture.create_from_image(imagen)
+
+
+func _cargar_textura_recortada_desde_archivo(ruta: String, region: Rect2i) -> Texture2D:
+	var imagen := Image.load_from_file(ProjectSettings.globalize_path(ruta))
+	if imagen == null or imagen.is_empty():
+		return null
+
+	var region_ajustada := Rect2i(
+		clampi(region.position.x, 0, imagen.get_width() - 1),
+		clampi(region.position.y, 0, imagen.get_height() - 1),
+		clampi(region.size.x, 1, imagen.get_width() - region.position.x),
+		clampi(region.size.y, 1, imagen.get_height() - region.position.y)
+	)
+	var recorte := imagen.get_region(region_ajustada)
+	return ImageTexture.create_from_image(recorte)
 
 
 func _cargar_secuencia_desde_archivo(rutas: Array) -> Array[Texture2D]:

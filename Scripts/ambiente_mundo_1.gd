@@ -85,8 +85,8 @@ func _llenar_buffer() -> void:
 		_ruido_r = lerpf(_ruido_r, ruido_objetivo_r, 0.025)
 		var viento_l := _ruido_l * (0.54 + (0.28 * lfo))
 		var viento_r := _ruido_r * (0.54 + (0.28 * (1.0 - lfo)))
-		var brillo := sin((TAU * (178.0 + (7.0 * sin(TAU * 0.02 * t)))) * t) * 0.025
-		var aire_agudo := sin(TAU * 236.0 * t + (sin(TAU * 0.12 * t) * 0.55)) * 0.018
+		var brillo := sin((TAU * (122.0 + (5.0 * sin(TAU * 0.02 * t)))) * t) * 0.009
+		var aire_agudo := sin(TAU * 164.0 * t + (sin(TAU * 0.09 * t) * 0.32)) * 0.005
 		var pulso_jefe := maxf(0.0, sin(TAU * 1.3 * t)) * 0.08 * _mezcla_jefe
 		var latido_jefe := sin(TAU * 0.62 * t) * 0.06 * _mezcla_jefe
 		var hum := lerpf(hum_normal, hum_jefe, _mezcla_jefe)

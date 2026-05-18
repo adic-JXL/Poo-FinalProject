@@ -12,12 +12,14 @@ script = ExtResource("1_llave")
 mensaje_interaccion = "Presiona E para reclamar la llave del jefe."
 rutas_frames = PackedStringArray("res://Imagenes/Objetos/llave_jefe_animada/llave_jefe_00.png", "res://Imagenes/Objetos/llave_jefe_animada/llave_jefe_01.png", "res://Imagenes/Objetos/llave_jefe_animada/llave_jefe_02.png")
 fps_animacion = 7.0
+amplitud_flotacion = 0.8
+velocidad_flotacion = 1.15
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_llave_jefe")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-position = Vector2(0, -12)
-scale = Vector2(0.28, 0.28)
+position = Vector2(0, -3)
+scale = Vector2(0.34, 0.34)
 texture_filter = 1
 texture = ExtResource("2_key")

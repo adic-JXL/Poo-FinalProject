@@ -12,12 +12,14 @@ script = ExtResource("1_llave")
 mensaje_interaccion = "Presiona E para investigar la llave."
 rutas_frames = PackedStringArray("res://Imagenes/Objetos/llave_animada/llave_00.png", "res://Imagenes/Objetos/llave_animada/llave_01.png", "res://Imagenes/Objetos/llave_animada/llave_02.png")
 fps_animacion = 7.0
+amplitud_flotacion = 0.8
+velocidad_flotacion = 1.15
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=4533101]
 shape = SubResource("CircleShape2D_llave")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1734941850]
-position = Vector2(0, -12)
-scale = Vector2(0.28, 0.28)
+position = Vector2(0, -3)
+scale = Vector2(0.34, 0.34)
 texture_filter = 1
 texture = ExtResource("2_key")

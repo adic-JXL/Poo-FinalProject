@@ -1,5 +1,6 @@
 extends "res://Scripts/interactivo_base.gd"
 class_name PuertaTeletransporte
+static var _stream_apertura_cache: AudioStreamWAV
 
 signal teletransporte_realizado(jugador: Node2D, destino: Node2D)
 
@@ -23,6 +24,7 @@ var _tween_apertura: Tween = null
 
 @onready var sprite: Sprite2D = $Puerta
 @onready var marker_salida: Marker2D = $Marker2D
+@onready var audio_apertura: AudioStreamPlayer2D = get_node_or_null("AudioApertura") as AudioStreamPlayer2D
 
 
 func _ready() -> void:
@@ -30,6 +32,7 @@ func _ready() -> void:
 	body_entered.connect(_on_body_entered_teletransporte)
 	if sprite != null:
 		_escala_base_sprite = sprite.scale
+	_configurar_audio()
 	_actualizar_visual()
 
 
@@ -70,6 +73,7 @@ func reproducir_animacion_apertura() -> void:
 		sprite.texture = textura_cerrada
 	sprite.modulate = Color(1, 1, 1, 1)
 	sprite.scale = _escala_base_sprite
+	_reproducir_sonido_apertura()
 	_tween_apertura = create_tween()
 	_tween_apertura.set_ignore_time_scale(true)
 	_tween_apertura.set_trans(Tween.TRANS_CUBIC)
@@ -148,3 +152,52 @@ func _actualizar_visual() -> void:
 		sprite.texture = textura_cerrada
 
 	sprite.modulate = color_activa if transporte_habilitado else color_inactiva
+
+
+func _configurar_audio() -> void:
+	if audio_apertura == null:
+		return
+
+	audio_apertura.bus = &"Master"
+	audio_apertura.volume_db = -6.8
+	audio_apertura.max_distance = 900.0
+	audio_apertura.attenuation = 1.15
+	audio_apertura.stream = _obtener_stream_apertura()
+
+
+func _reproducir_sonido_apertura() -> void:
+	if audio_apertura == null:
+		return
+
+	audio_apertura.pitch_scale = randf_range(0.97, 1.03)
+	audio_apertura.stop()
+	audio_apertura.play()
+
+
+func _obtener_stream_apertura() -> AudioStreamWAV:
+	if _stream_apertura_cache != null:
+		return _stream_apertura_cache
+
+	var sample_rate := 22050
+	var duracion := 0.48
+	var total_samples := int(sample_rate * duracion)
+	var data := PackedByteArray()
+	data.resize(total_samples * 2)
+	for i in range(total_samples):
+		var t := float(i) / float(sample_rate)
+		var envelope := exp(-4.2 * t)
+		var grave := sin(TAU * 86.0 * t) * 0.34
+		var crujido := sin(TAU * 202.0 * t + sin(TAU * 13.0 * t) * 0.45) * 0.18
+		var brillo := sin(TAU * 520.0 * t) * 0.06
+		var muestra := (grave + crujido + brillo) * envelope * 0.88
+		var valor := int(clampf(muestra, -1.0, 1.0) * 32767.0)
+		data[i * 2] = valor & 0xFF
+		data[(i * 2) + 1] = (valor >> 8) & 0xFF
+
+	_stream_apertura_cache = AudioStreamWAV.new()
+	_stream_apertura_cache.format = AudioStreamWAV.FORMAT_16_BITS
+	_stream_apertura_cache.mix_rate = sample_rate
+	_stream_apertura_cache.stereo = false
+	_stream_apertura_cache.loop_mode = AudioStreamWAV.LOOP_DISABLED
+	_stream_apertura_cache.data = data
+	return _stream_apertura_cache
