@@ -20,16 +20,23 @@ const COLOR_TEXTO_CLARO := Color(0.95, 0.93, 0.72, 1.0)
 const COLOR_TEXTO_SUAVE := Color(0.79, 0.84, 0.68, 1.0)
 const COLOR_MENSAJE_FONDO := Color(0.10, 0.10, 0.11, 0.76)
 const COLOR_MENSAJE_BORDE := Color(0.34, 0.34, 0.29, 0.85)
-const COLOR_PENSAMIENTO_FONDO := Color(0.025, 0.028, 0.035, 0.82)
-const COLOR_PENSAMIENTO_BORDE := Color(0.52, 0.56, 0.48, 0.58)
+const COLOR_PENSAMIENTO_FONDO := Color(0.92, 0.94, 0.89, 0.94)
+const COLOR_PENSAMIENTO_BORDE := Color(0.18, 0.21, 0.18, 0.82)
 const COLOR_PENSAMIENTO_POSITIVO := Color(0.86, 1.0, 0.62, 1.0)
 const COLOR_HUD_LISTO := Color(1.0, 1.0, 1.0, 1.0)
 const COLOR_HUD_ACTIVO := Color(1.0, 0.96, 0.66, 1.0)
 const COLOR_HUD_ENFRIANDO := Color(0.62, 0.64, 0.74, 0.95)
+const OFFSET_PENSAMIENTO_PERSONAJE := Vector2(0.0, -14.0)
+const DESPLAZAMIENTO_PANEL_PENSAMIENTO := Vector2(0.0, -10.0)
+const MARGEN_HORIZONTAL_PENSAMIENTO := 20.0
+const MARGEN_SUPERIOR_PENSAMIENTO := 34.0
 
 var _gafas_duracion_max: float = 10.0
 var _gafas_cooldown_max: float = 10.0
 var _vida_maxima: int = 3
+var _jugador_objetivo: Node2D
+var _pensamiento_ancho_actual: float = 320.0
+var _pensamiento_altura_actual: float = 48.0
 
 var _textura_vidas: Texture2D
 var _textura_corazon_lleno: Texture2D
@@ -51,8 +58,10 @@ var _llave_icono: TextureRect
 var _frames_gafas: Array[Texture2D] = []
 var _indice_frame_gafas: int = 0
 var _tiempo_animacion_gafas: float = 0.0
+var _pensamiento_root: Control
 var _pensamiento_panel: PanelContainer
 var _pensamiento_label: Label
+var _pensamiento_burbujas: Array[Panel] = []
 var _tween_pensamiento: Tween
 
 @onready var mensaje_panel: PanelContainer = $Control/MensajePanel
@@ -88,19 +97,12 @@ func _ready() -> void:
 
 
 func _process(delta: float) -> void:
-	if _gafas_icono == null or _frames_gafas.is_empty():
-		return
-
-	_tiempo_animacion_gafas += delta
-	if _tiempo_animacion_gafas < 0.16:
-		return
-
-	_tiempo_animacion_gafas = 0.0
-	_indice_frame_gafas = (_indice_frame_gafas + 1) % _frames_gafas.size()
-	_gafas_icono.texture = _frames_gafas[_indice_frame_gafas]
+	_actualizar_animacion_gafas(delta)
+	_actualizar_posicion_pensamiento()
 
 
 func configurar_jugador(jugador) -> void:
+	_jugador_objetivo = jugador
 	_gafas_duracion_max = jugador.gafas_duracion
 	_gafas_cooldown_max = jugador.gafas_cooldown_maximo
 	_vida_maxima = max(jugador.obtener_vida_inicial(), 1)
@@ -139,19 +141,21 @@ func mostrar_pensamiento(texto: String, positivo: bool = false) -> void:
 
 	_aplicar_estilo_pensamiento(positivo)
 	_pensamiento_label.text = texto
-	_pensamiento_label.add_theme_color_override("font_color", COLOR_PENSAMIENTO_POSITIVO if positivo else COLOR_TEXTO_CLARO)
-	_pensamiento_panel.modulate = Color(1, 1, 1, 0)
-	_pensamiento_panel.show()
+	_pensamiento_label.add_theme_color_override("font_color", Color(0.11, 0.13, 0.12, 1.0) if positivo else Color(0.12, 0.14, 0.16, 1.0))
+	_ajustar_layout_pensamiento(texto)
+	_actualizar_posicion_pensamiento()
+	_pensamiento_root.modulate = Color(1, 1, 1, 0)
+	_pensamiento_root.show()
 
 	_tween_pensamiento = create_tween()
 	_tween_pensamiento.set_ignore_time_scale(true)
 	_tween_pensamiento.set_trans(Tween.TRANS_SINE)
 	_tween_pensamiento.set_ease(Tween.EASE_OUT)
-	_tween_pensamiento.tween_property(_pensamiento_panel, "modulate:a", 1.0, 0.28)
-	_tween_pensamiento.tween_interval(4.9)
+	_tween_pensamiento.tween_property(_pensamiento_root, "modulate:a", 1.0, 0.24)
+	_tween_pensamiento.tween_interval(4.2)
 	_tween_pensamiento.set_ease(Tween.EASE_IN)
-	_tween_pensamiento.tween_property(_pensamiento_panel, "modulate:a", 0.0, 0.45)
-	_tween_pensamiento.tween_callback(_pensamiento_panel.hide)
+	_tween_pensamiento.tween_property(_pensamiento_root, "modulate:a", 0.0, 0.35)
+	_tween_pensamiento.tween_callback(_pensamiento_root.hide)
 
 
 func actualizar_vida(vida_actual: int) -> void:
@@ -239,40 +243,56 @@ func _aplicar_estilo_mensaje() -> void:
 
 
 func _configurar_pensamiento_visual() -> void:
-	if _pensamiento_panel != null:
+	if _pensamiento_root != null:
 		return
+
+	_pensamiento_root = Control.new()
+	_pensamiento_root.name = "PensamientoRoot"
+	_pensamiento_root.anchor_left = 0.0
+	_pensamiento_root.anchor_top = 0.0
+	_pensamiento_root.anchor_right = 0.0
+	_pensamiento_root.anchor_bottom = 0.0
+	_pensamiento_root.offset_left = 0.0
+	_pensamiento_root.offset_top = 0.0
+	_pensamiento_root.offset_right = 0.0
+	_pensamiento_root.offset_bottom = 0.0
+	_pensamiento_root.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	$Control.add_child(_pensamiento_root)
 
 	_pensamiento_panel = PanelContainer.new()
 	_pensamiento_panel.name = "PensamientoPanel"
-	_pensamiento_panel.anchor_left = 0.5
-	_pensamiento_panel.anchor_top = 1.0
-	_pensamiento_panel.anchor_right = 0.5
-	_pensamiento_panel.anchor_bottom = 1.0
-	_pensamiento_panel.offset_left = -340.0
-	_pensamiento_panel.offset_top = -96.0
-	_pensamiento_panel.offset_right = 340.0
-	_pensamiento_panel.offset_bottom = -28.0
+	_pensamiento_panel.offset_left = -160.0
+	_pensamiento_panel.offset_top = -70.0
+	_pensamiento_panel.offset_right = 160.0
+	_pensamiento_panel.offset_bottom = -22.0
 	_pensamiento_panel.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_aplicar_estilo_pensamiento(false)
-	$Control.add_child(_pensamiento_panel)
+	_pensamiento_root.add_child(_pensamiento_panel)
 
 	var margen := MarginContainer.new()
-	margen.add_theme_constant_override("margin_left", 20)
-	margen.add_theme_constant_override("margin_top", 12)
-	margen.add_theme_constant_override("margin_right", 20)
-	margen.add_theme_constant_override("margin_bottom", 12)
+	margen.add_theme_constant_override("margin_left", 18)
+	margen.add_theme_constant_override("margin_top", 11)
+	margen.add_theme_constant_override("margin_right", 18)
+	margen.add_theme_constant_override("margin_bottom", 11)
 	_pensamiento_panel.add_child(margen)
 
 	_pensamiento_label = Label.new()
 	_pensamiento_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	_pensamiento_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	_pensamiento_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	_pensamiento_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	_pensamiento_label.add_theme_font_override("font", FUENTE_PIXEL)
-	_pensamiento_label.add_theme_color_override("font_color", COLOR_TEXTO_CLARO)
+	_pensamiento_label.add_theme_color_override("font_color", Color(0.12, 0.14, 0.16, 1.0))
 	_pensamiento_label.add_theme_font_size_override("font_size", 12)
+	_pensamiento_label.add_theme_color_override("font_outline_color", Color(1.0, 1.0, 1.0, 0.18))
+	_pensamiento_label.add_theme_constant_override("outline_size", 1)
 	margen.add_child(_pensamiento_label)
 
-	_pensamiento_panel.hide()
+	_agregar_burbuja_pensamiento(Vector2(14.0, 14.0), Vector2(-12.0, -18.0))
+	_agregar_burbuja_pensamiento(Vector2(10.0, 10.0), Vector2(-2.0, -8.0))
+	_agregar_burbuja_pensamiento(Vector2(7.0, 7.0), Vector2(8.0, 0.0))
+
+	_pensamiento_root.hide()
 
 
 func _aplicar_estilo_pensamiento(positivo: bool) -> void:
@@ -280,17 +300,99 @@ func _aplicar_estilo_pensamiento(positivo: bool) -> void:
 		return
 
 	var fondo := StyleBoxFlat.new()
-	fondo.bg_color = COLOR_PENSAMIENTO_FONDO if not positivo else Color(0.055, 0.075, 0.045, 0.86)
-	fondo.corner_radius_top_left = 8
-	fondo.corner_radius_top_right = 8
-	fondo.corner_radius_bottom_right = 8
-	fondo.corner_radius_bottom_left = 8
-	fondo.border_width_left = 1
-	fondo.border_width_top = 1
-	fondo.border_width_right = 1
-	fondo.border_width_bottom = 1
-	fondo.border_color = COLOR_PENSAMIENTO_BORDE if not positivo else Color(0.64, 0.82, 0.38, 0.72)
+	fondo.bg_color = COLOR_PENSAMIENTO_FONDO if not positivo else Color(0.86, 0.92, 0.74, 0.96)
+	fondo.corner_radius_top_left = 18
+	fondo.corner_radius_top_right = 18
+	fondo.corner_radius_bottom_right = 16
+	fondo.corner_radius_bottom_left = 16
+	fondo.border_width_left = 2
+	fondo.border_width_top = 2
+	fondo.border_width_right = 2
+	fondo.border_width_bottom = 2
+	fondo.border_color = COLOR_PENSAMIENTO_BORDE if not positivo else Color(0.28, 0.38, 0.20, 0.86)
+	fondo.shadow_color = Color(0.0, 0.0, 0.0, 0.22)
+	fondo.shadow_size = 2
 	_pensamiento_panel.add_theme_stylebox_override("panel", fondo)
+	for burbuja in _pensamiento_burbujas:
+		var estilo_burbuja := StyleBoxFlat.new()
+		estilo_burbuja.bg_color = fondo.bg_color
+		estilo_burbuja.border_color = fondo.border_color
+		estilo_burbuja.border_width_left = 2
+		estilo_burbuja.border_width_top = 2
+		estilo_burbuja.border_width_right = 2
+		estilo_burbuja.border_width_bottom = 2
+		estilo_burbuja.corner_radius_top_left = 32
+		estilo_burbuja.corner_radius_top_right = 32
+		estilo_burbuja.corner_radius_bottom_right = 32
+		estilo_burbuja.corner_radius_bottom_left = 32
+		burbuja.add_theme_stylebox_override("panel", estilo_burbuja)
+
+
+func _agregar_burbuja_pensamiento(tamano: Vector2, offset: Vector2) -> void:
+	var burbuja := Panel.new()
+	burbuja.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	burbuja.offset_left = offset.x
+	burbuja.offset_top = offset.y
+	burbuja.offset_right = offset.x + tamano.x
+	burbuja.offset_bottom = offset.y + tamano.y
+	_pensamiento_root.add_child(burbuja)
+	_pensamiento_burbujas.append(burbuja)
+
+
+func _actualizar_animacion_gafas(delta: float) -> void:
+	if _gafas_icono == null or _frames_gafas.is_empty():
+		return
+
+	_tiempo_animacion_gafas += delta
+	if _tiempo_animacion_gafas < 0.16:
+		return
+
+	_tiempo_animacion_gafas = 0.0
+	_indice_frame_gafas = (_indice_frame_gafas + 1) % _frames_gafas.size()
+	_gafas_icono.texture = _frames_gafas[_indice_frame_gafas]
+
+
+func _ajustar_layout_pensamiento(texto: String) -> void:
+	if _pensamiento_panel == null or _pensamiento_label == null:
+		return
+
+	var font_size := 12
+	if texto.length() >= 58:
+		font_size = 10
+	elif texto.length() >= 40:
+		font_size = 11
+
+	_pensamiento_label.add_theme_font_size_override("font_size", font_size)
+
+	var ancho_texto: float = FUENTE_PIXEL.get_string_size(texto, HORIZONTAL_ALIGNMENT_LEFT, -1, font_size).x
+	var ancho_panel := clampf(ancho_texto + 46.0, 230.0, 352.0)
+	var ancho_interno := maxf(ancho_panel - 36.0, 1.0)
+	var lineas_estimadas := maxi(1, int(ceili(ancho_texto / ancho_interno)))
+	var altura_panel := clampf(34.0 + (lineas_estimadas * float(font_size + 7)), 42.0, 86.0)
+
+	_pensamiento_ancho_actual = ancho_panel
+	_pensamiento_altura_actual = altura_panel
+	_pensamiento_panel.offset_left = -ancho_panel * 0.5
+	_pensamiento_panel.offset_right = ancho_panel * 0.5
+	_pensamiento_panel.offset_bottom = -22.0
+	_pensamiento_panel.offset_top = _pensamiento_panel.offset_bottom - altura_panel
+
+
+func _actualizar_posicion_pensamiento() -> void:
+	if _pensamiento_root == null or not _pensamiento_root.visible:
+		return
+
+	if _jugador_objetivo == null or not is_instance_valid(_jugador_objetivo):
+		return
+
+	var transformacion_canvas := get_viewport().get_canvas_transform()
+	var posicion_pantalla: Vector2 = transformacion_canvas * (_jugador_objetivo.global_position + OFFSET_PENSAMIENTO_PERSONAJE)
+	var viewport_rect := get_viewport().get_visible_rect()
+	var margen_horizontal_actual := maxf(MARGEN_HORIZONTAL_PENSAMIENTO, (_pensamiento_ancho_actual * 0.5) + 8.0)
+	var margen_superior_actual := maxf(MARGEN_SUPERIOR_PENSAMIENTO, _pensamiento_altura_actual + 8.0)
+	posicion_pantalla.x = clampf(posicion_pantalla.x, margen_horizontal_actual, viewport_rect.size.x - margen_horizontal_actual)
+	posicion_pantalla.y = clampf(posicion_pantalla.y, margen_superior_actual, viewport_rect.size.y - 60.0)
+	_pensamiento_root.position = posicion_pantalla + DESPLAZAMIENTO_PANEL_PENSAMIENTO
 
 
 func _configurar_fuentes_colores() -> void:
