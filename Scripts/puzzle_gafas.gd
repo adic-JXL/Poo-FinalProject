@@ -95,7 +95,8 @@ func _habilitar_entrada() -> void:
 	patron_label.text = _texto_progreso()
 	feedback_label.text = "Marca el primer glifo."
 	_establecer_botones_habilitados(true)
-
+	if _botones.size() > 0:
+		_botones[0].grab_focus()
 
 func _procesar_simbolo(indice: int) -> void:
 	if not _aceptando_entrada:

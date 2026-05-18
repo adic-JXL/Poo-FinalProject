@@ -1,7 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://cr3wwcude65ay"]
+[gd_scene format=3 uid="uid://cr3wwcude65ay"]
 
 [ext_resource type="Script" uid="uid://d0h2om1h6mfxg" path="res://Scripts/puzzle_secuencia.gd" id="1_puzzle"]
-[ext_resource type="Texture2D" path="res://Imagenes/HUD/key_icon.png" id="2_key_icon"]
+[ext_resource type="Texture2D" uid="uid://vxtxpgo1vdxv" path="res://Imagenes/HUD/key_icon.png" id="2_key_icon"]
 
 [node name="PuzzleSecuencia" type="CanvasLayer" unique_id=1508424944]
 layer = 2
@@ -40,7 +40,7 @@ layout_mode = 2
 layout_mode = 2
 theme_override_constants/separation = 10
 
-[node name="Emblema" type="TextureRect" parent="Control/CenterContainer/PanelContainer/VBoxContainer"]
+[node name="Emblema" type="TextureRect" parent="Control/CenterContainer/PanelContainer/VBoxContainer" unique_id=333756186]
 custom_minimum_size = Vector2(0, 54)
 layout_mode = 2
 texture = ExtResource("2_key_icon")
@@ -74,6 +74,8 @@ autowrap_mode = 3
 
 [node name="GridContainer" type="GridContainer" parent="Control/CenterContainer/PanelContainer/VBoxContainer" unique_id=1480478919]
 layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
 theme_override_constants/h_separation = 12
 theme_override_constants/v_separation = 12
 columns = 2

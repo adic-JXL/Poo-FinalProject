@@ -99,6 +99,8 @@ func _habilitar_entrada() -> void:
 	secuencia_label.text = _texto_progreso()
 	feedback_label.text = "Ingresa el primer simbolo."
 	_establecer_botones_habilitados(true)
+	if _botones.size() > 0:
+		_botones[0].grab_focus()
 
 
 func _procesar_simbolo(indice: int) -> void:
