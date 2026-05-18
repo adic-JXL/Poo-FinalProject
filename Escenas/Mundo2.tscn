@@ -4,7 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://epu5x41hq3f0" path="res://Escenas/plataforma_gafas.tscn" id="2_38hnj"]
 [ext_resource type="PackedScene" uid="uid://cfqkuepi47a1d" path="res://Escenas/Plataforma.tscn" id="3_f2g44"]
 [ext_resource type="PackedScene" uid="uid://dkdpa48nrjkq3" path="res://Escenas/Puerta.tscn" id="4_2oaxk"]
-[ext_resource type="Script" path="res://Scripts/mundo_2.gd" id="5_mundo2"]
+[ext_resource type="Script" uid="uid://cnx4uyhdhmi2v" path="res://Scripts/mundo_2.gd" id="5_mundo2"]
 [ext_resource type="PackedScene" uid="uid://sh8mxgnkcji2" path="res://Escenas/Personaje.tscn" id="6_personaje"]
 [ext_resource type="PackedScene" path="res://Escenas/HUD.tscn" id="7_hud"]
 
@@ -386,7 +386,7 @@ position = Vector2(11728, 560)
 position = Vector2(12496, 560)
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=866506310]
-zoom = Vector2(2.5, 2.5)
+zoom = Vector2(5, 5)
 limit_left = 0
 limit_top = 0
 limit_right = 11824
@@ -411,14 +411,14 @@ limit_bottom = 656
 position = Vector2(13288, 324)
 shape = SubResource("RectangleShape2D_frq32")
 
-[node name="SpawnJugador" type="Marker2D" parent="."]
+[node name="SpawnJugador" type="Marker2D" parent="." unique_id=1232477109]
 position = Vector2(144, 520)
 
-[node name="Player" type="Node2D" parent="."]
+[node name="Player" type="Node2D" parent="." unique_id=1706526955]
 
-[node name="Jugador" parent="Player" instance=ExtResource("6_personaje")]
+[node name="Jugador" parent="Player" unique_id=779067318 instance=ExtResource("6_personaje")]
 position = Vector2(144, 520)
 
-[node name="Canvas" type="CanvasLayer" parent="."]
+[node name="Canvas" type="CanvasLayer" parent="." unique_id=1687639113]
 
-[node name="HUD" parent="Canvas" instance=ExtResource("7_hud")]
+[node name="HUD" parent="Canvas" unique_id=750660049 instance=ExtResource("7_hud")]
