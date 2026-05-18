@@ -26,3 +26,5 @@ position = Vector2(0, 8)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=950529764]
 shape = SubResource("1_capsula")
+
+[node name="AudioApertura" type="AudioStreamPlayer2D" parent="."]

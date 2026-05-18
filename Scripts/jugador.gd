@@ -13,6 +13,25 @@ const RUTAS_TEXTURAS_IDLE := [
 	"res://Imagenes/Personaje/idle_02.png",
 	"res://Imagenes/Personaje/idle_03.png",
 ]
+const RUTAS_TEXTURAS_CAMINAR := [
+	"res://Imagenes/Personaje/walk_00.png",
+	"res://Imagenes/Personaje/walk_01.png",
+	"res://Imagenes/Personaje/walk_02.png",
+	"res://Imagenes/Personaje/walk_03.png",
+]
+const RUTAS_TEXTURAS_CORRER := [
+	"res://Imagenes/Personaje/run_00.png",
+	"res://Imagenes/Personaje/run_01.png",
+	"res://Imagenes/Personaje/run_02.png",
+	"res://Imagenes/Personaje/run_03.png",
+]
+const RUTAS_TEXTURAS_SALTAR := [
+	"res://Imagenes/Personaje/jump_00.png",
+	"res://Imagenes/Personaje/jump_01.png",
+	"res://Imagenes/Personaje/jump_02.png",
+	"res://Imagenes/Personaje/jump_03.png",
+	"res://Imagenes/Personaje/jump_04.png",
+]
 const RUTAS_TEXTURAS_DANIO := [
 	"res://Imagenes/Personaje/hurt_00.png",
 	"res://Imagenes/Personaje/hurt_01.png",
@@ -24,6 +43,8 @@ const RUTAS_TEXTURAS_MUERTE := [
 	"res://Imagenes/Personaje/death_02.png",
 	"res://Imagenes/Personaje/death_03.png",
 ]
+static var _stream_pisada_cache: AudioStreamWAV
+static var _stream_gafas_cache: AudioStreamWAV
 
 signal estado_cambiado(nuevo_estado: StringName)
 signal vida_cambiada(vida_actual: int)
@@ -69,8 +90,12 @@ signal gafas_actualizadas(activa: bool, duracion_restante: float, cooldown_resta
 @export var intervalo_particulas_sprint: float = 0.055
 @export var velocidad_animacion_idle: float = 5.0
 @export var velocidad_animacion_movimiento: float = 10.0
+@export var velocidad_animacion_correr: float = 13.5
+@export var velocidad_animacion_salto: float = 9.0
 @export var duracion_animacion_muerte: float = 0.9
 @export var espera_respawn_muerte: float = 0.8
+@export var intervalo_pisadas_caminar: float = 0.34
+@export var intervalo_pisadas_correr: float = 0.22
 @export var color_polvo_sprint: Color = Color(0.58, 0.52, 0.39, 0.72)
 @export var color_chispa_gafas: Color = Color(0.73, 1.0, 0.55, 0.95)
 @export var color_chispa_danio: Color = Color(1.0, 0.36, 0.2, 0.9)
@@ -95,14 +120,21 @@ var _tiempo_aturdimiento_restante: float = 0.0
 var _animacion_puerta_activa: bool = false
 var _muerte_activa: bool = false
 var _tiempo_particula_sprint: float = 0.0
+var _tiempo_pisada_restante: float = 0.0
 var _tiempo_animacion_visual: float = 0.0
 var _indice_frame_visual: int = 0
+var _animacion_visual_actual: StringName = &"idle"
 var _frames_idle: Array[Texture2D] = []
+var _frames_caminar: Array[Texture2D] = []
+var _frames_correr: Array[Texture2D] = []
+var _frames_saltar: Array[Texture2D] = []
 var _texturas_jugador_danio: Array[Texture2D] = []
 var _frames_muerte: Array[Texture2D] = []
 
 @onready var visual: Node2D = $Visual
 @onready var sprite_visual: Sprite2D = get_node_or_null("Visual/Sprite2D") as Sprite2D
+@onready var audio_pisadas: AudioStreamPlayer = get_node_or_null("AudioPisadas") as AudioStreamPlayer
+@onready var audio_gafas: AudioStreamPlayer = get_node_or_null("AudioGafas") as AudioStreamPlayer
 
 
 func _ready() -> void:
@@ -114,6 +146,7 @@ func _ready() -> void:
 	_posicion_visual_original = visual.position
 	_modulate_visual_original = visual.modulate
 	_cargar_texturas_jugador()
+	_configurar_audio()
 	_establecer_textura_jugador(_obtener_frame_idle_actual())
 
 	sistema_estamina = SistemaEstaminaClass.new(estamina_maxima)
@@ -155,6 +188,7 @@ func _physics_process(delta: float) -> void:
 	if _controles_habilitados and not is_zero_approx(direccion):
 		_actualizar_orientacion(direccion)
 
+	_actualizar_pisadas(delta, direccion)
 	_actualizar_particulas_sprint(delta)
 	_actualizar_animacion_visual(delta, direccion)
 
@@ -288,6 +322,7 @@ func activar_gafas() -> bool:
 	var activada: bool = habilidad_gafas.intentar_activar()
 	if activada:
 		_emitir_chispas_gafas()
+		_reproducir_sonido_gafas()
 	return activada
 
 
@@ -331,7 +366,10 @@ func reproducir_muerte() -> void:
 	velocity = Vector2.ZERO
 	_tiempo_invulnerable_restante = 0.0
 	_tiempo_aturdimiento_restante = 0.0
+	_tiempo_pisada_restante = 0.0
 	cambiar_a_estado(&"bloqueado")
+	if audio_pisadas != null:
+		audio_pisadas.stop()
 	visual.modulate = _modulate_visual_original
 	visual.rotation = 0.0
 	visual.position = _posicion_visual_original
@@ -385,6 +423,7 @@ func restaurar_para_respawn(posicion: Vector2) -> void:
 	habilidad_gafas.reiniciar()
 	establecer_sprint_activo(false)
 	_tiempo_particula_sprint = 0.0
+	_tiempo_pisada_restante = 0.0
 	estado_actual = &"sin_estado"
 	_estado_instancia_actual = null
 	cambiar_a_estado(&"normal")
@@ -466,6 +505,9 @@ func _aplicar_retroceso(direccion: float) -> void:
 
 
 func _restaurar_visual_base() -> void:
+	_animacion_visual_actual = &"idle"
+	_indice_frame_visual = 0
+	_tiempo_animacion_visual = 0.0
 	visual.scale = Vector2(_direccion_actual * absf(_escala_visual_original.x), _escala_visual_original.y)
 	visual.position = _posicion_visual_original
 	visual.rotation = 0.0
@@ -500,28 +542,93 @@ func _actualizar_animacion_visual(delta: float, direccion: float) -> void:
 	if sprite_visual == null or _frames_idle.is_empty() or esta_invulnerable():
 		return
 
-	var moviendose := absf(direccion) > 0.05 and absf(velocity.x) > 5.0
-	var velocidad_frames := velocidad_animacion_movimiento if moviendose else velocidad_animacion_idle
-	_tiempo_animacion_visual += delta
-	if _tiempo_animacion_visual >= 1.0 / max(velocidad_frames, 0.1):
-		_tiempo_animacion_visual = 0.0
-		_indice_frame_visual = (_indice_frame_visual + 1) % _frames_idle.size()
+	var en_suelo := is_on_floor()
+	var moviendose := en_suelo and absf(direccion) > 0.05 and absf(velocity.x) > 5.0
+	var animacion_objetivo: StringName = &"idle"
+	if not en_suelo:
+		animacion_objetivo = &"jump"
+	elif moviendose:
+		animacion_objetivo = &"run" if _sprint_activo else &"walk"
 
-	sprite_visual.texture = _frames_idle[_indice_frame_visual]
+	if _animacion_visual_actual != animacion_objetivo:
+		_animacion_visual_actual = animacion_objetivo
+		_indice_frame_visual = 0
+		_tiempo_animacion_visual = 0.0
+
+	var frames := _obtener_frames_animacion(animacion_objetivo)
+	if frames.is_empty():
+		frames = _frames_idle
+
+	if animacion_objetivo == &"jump":
+		_aplicar_frame_salto(frames)
+	elif not frames.is_empty():
+		var velocidad_frames := velocidad_animacion_idle
+		if animacion_objetivo == &"walk":
+			velocidad_frames = velocidad_animacion_movimiento
+		elif animacion_objetivo == &"run":
+			velocidad_frames = velocidad_animacion_correr
+
+		_tiempo_animacion_visual += delta
+		if _tiempo_animacion_visual >= 1.0 / max(velocidad_frames, 0.1):
+			_tiempo_animacion_visual = 0.0
+			_indice_frame_visual = (_indice_frame_visual + 1) % frames.size()
+		sprite_visual.texture = frames[_indice_frame_visual]
+
 	if moviendose:
 		var pulso := sin(Time.get_ticks_msec() * 0.025)
 		var compresion := absf(pulso)
+		var intensidad := 1.28 if _sprint_activo else 1.0
 		visual.position = _posicion_visual_original + Vector2(0, pulso * 2.4)
-		visual.rotation = deg_to_rad(pulso * (3.0 if _sprint_activo else 1.7))
+		visual.rotation = deg_to_rad(pulso * (3.4 if _sprint_activo else 1.8))
 		visual.scale = Vector2(
-			_direccion_actual * absf(_escala_visual_original.x) * (1.0 - (compresion * 0.025)),
-			_escala_visual_original.y * (1.0 + (compresion * 0.035))
+			_direccion_actual * absf(_escala_visual_original.x) * (1.0 - (compresion * 0.028 * intensidad)),
+			_escala_visual_original.y * (1.0 + (compresion * 0.038 * intensidad))
+		)
+		return
+
+	if animacion_objetivo == &"jump":
+		var torsion := clampf(velocity.y / max(obtener_fuerza_salto_actual(), 1.0), -1.0, 1.0)
+		visual.position = _posicion_visual_original + Vector2(0.0, clampf(velocity.y * 0.012, -4.0, 3.0))
+		visual.rotation = deg_to_rad(torsion * 3.4)
+		visual.scale = Vector2(
+			_direccion_actual * absf(_escala_visual_original.x) * (1.0 + (maxf(-torsion, 0.0) * 0.03)),
+			_escala_visual_original.y * (1.0 - (maxf(-torsion, 0.0) * 0.035))
 		)
 		return
 
 	visual.position = _posicion_visual_original
 	visual.rotation = 0.0
 	visual.scale = Vector2(_direccion_actual * absf(_escala_visual_original.x), _escala_visual_original.y)
+
+
+func _obtener_frames_animacion(animacion: StringName) -> Array[Texture2D]:
+	match animacion:
+		&"walk":
+			return _frames_caminar
+		&"run":
+			return _frames_correr
+		&"jump":
+			return _frames_saltar
+		_:
+			return _frames_idle
+
+
+func _aplicar_frame_salto(frames: Array[Texture2D]) -> void:
+	if frames.is_empty():
+		return
+
+	var indice := frames.size() - 1
+	if velocity.y < -170.0:
+		indice = 0
+	elif velocity.y < -50.0:
+		indice = min(1, frames.size() - 1)
+	elif absf(velocity.y) <= 45.0:
+		indice = min(2, frames.size() - 1)
+	elif velocity.y < 180.0:
+		indice = min(3, frames.size() - 1)
+
+	_indice_frame_visual = indice
+	sprite_visual.texture = frames[_indice_frame_visual]
 
 
 func _actualizar_particulas_sprint(delta: float) -> void:
@@ -539,6 +646,19 @@ func _actualizar_particulas_sprint(delta: float) -> void:
 	_crear_particula(origen, desplazamiento, color_polvo_sprint, randf_range(2.2, 3.8), 0.34)
 
 
+func _actualizar_pisadas(delta: float, direccion: float) -> void:
+	if _muerte_activa or _animacion_puerta_activa or not is_on_floor() or absf(direccion) <= 0.05 or absf(velocity.x) < 32.0:
+		_tiempo_pisada_restante = 0.0
+		return
+
+	_tiempo_pisada_restante = max(_tiempo_pisada_restante - delta, 0.0)
+	if _tiempo_pisada_restante > 0.0:
+		return
+
+	_reproducir_sonido_pisada()
+	_tiempo_pisada_restante = intervalo_pisadas_correr if _sprint_activo else intervalo_pisadas_caminar
+
+
 func _emitir_chispas_gafas() -> void:
 	for i in range(12):
 		var angulo := (TAU / 12.0) * float(i) + randf_range(-0.22, 0.22)
@@ -546,6 +666,36 @@ func _emitir_chispas_gafas() -> void:
 		var origen := global_position + Vector2(randf_range(-4.0, 4.0), randf_range(-12.0, 8.0))
 		var color := color_chispa_gafas.lerp(Color(0.35, 0.95, 1.0, 0.95), randf())
 		_crear_particula(origen, desplazamiento, color, randf_range(2.0, 4.0), randf_range(0.22, 0.38))
+
+
+func _configurar_audio() -> void:
+	if audio_pisadas != null:
+		audio_pisadas.bus = &"Master"
+		audio_pisadas.volume_db = -13.0
+		audio_pisadas.stream = _obtener_stream_pisada()
+
+	if audio_gafas != null:
+		audio_gafas.bus = &"Master"
+		audio_gafas.volume_db = -8.5
+		audio_gafas.stream = _obtener_stream_gafas()
+
+
+func _reproducir_sonido_pisada() -> void:
+	if audio_pisadas == null:
+		return
+
+	audio_pisadas.pitch_scale = randf_range(0.985, 1.015) + (0.02 if _sprint_activo else 0.0)
+	audio_pisadas.stop()
+	audio_pisadas.play()
+
+
+func _reproducir_sonido_gafas() -> void:
+	if audio_gafas == null:
+		return
+
+	audio_gafas.pitch_scale = randf_range(0.99, 1.03)
+	audio_gafas.stop()
+	audio_gafas.play()
 
 
 func _emitir_chispas_danio(direccion_danio: float) -> void:
@@ -586,12 +736,21 @@ func _crear_particula(origen_global: Vector2, desplazamiento: Vector2, color_par
 
 func _cargar_texturas_jugador() -> void:
 	_frames_idle = _cargar_secuencia_png(RUTAS_TEXTURAS_IDLE)
+	_frames_caminar = _cargar_secuencia_png(RUTAS_TEXTURAS_CAMINAR)
+	_frames_correr = _cargar_secuencia_png(RUTAS_TEXTURAS_CORRER)
+	_frames_saltar = _cargar_secuencia_png(RUTAS_TEXTURAS_SALTAR)
 	_texturas_jugador_danio.clear()
 	_texturas_jugador_danio = _cargar_secuencia_png(RUTAS_TEXTURAS_DANIO)
 	_frames_muerte = _cargar_secuencia_png(RUTAS_TEXTURAS_MUERTE)
 
 	if _frames_idle.is_empty():
 		_frames_idle.append(_cargar_textura_png("res://Imagenes/Personaje/player_idle.png"))
+	if _frames_caminar.is_empty():
+		_frames_caminar = _frames_idle.duplicate()
+	if _frames_correr.is_empty():
+		_frames_correr = _frames_caminar.duplicate()
+	if _frames_saltar.is_empty():
+		_frames_saltar = _frames_caminar.duplicate()
 
 
 func _cargar_secuencia_png(rutas: Array) -> Array[Texture2D]:
@@ -617,3 +776,66 @@ func _cargar_textura_png(ruta: String) -> Texture2D:
 		return null
 
 	return ImageTexture.create_from_image(imagen)
+
+
+func _obtener_stream_pisada() -> AudioStreamWAV:
+	if _stream_pisada_cache != null:
+		return _stream_pisada_cache
+
+	var sample_rate := 22050
+	var duracion := 0.12
+	var total_samples := int(sample_rate * duracion)
+	var data := PackedByteArray()
+	data.resize(total_samples * 2)
+	var ruido := 0.0
+	var rng := RandomNumberGenerator.new()
+	rng.seed = 84129
+	for i in range(total_samples):
+		var t := float(i) / float(sample_rate)
+		var envelope := exp(-20.0 * t)
+		var golpe := sin(TAU * 74.0 * t) * 0.22 * exp(-26.0 * t)
+		var objetivo_ruido := (rng.randf() * 2.0 - 1.0) * 0.34
+		ruido = lerpf(ruido, objetivo_ruido, 0.18)
+		var crujido_pasto := ruido * (0.52 + (0.18 * sin(TAU * 34.0 * t)))
+		var muestra := (golpe + crujido_pasto) * envelope * 0.92
+		var valor := int(clampf(muestra, -1.0, 1.0) * 32767.0)
+		data[i * 2] = valor & 0xFF
+		data[(i * 2) + 1] = (valor >> 8) & 0xFF
+
+	_stream_pisada_cache = AudioStreamWAV.new()
+	_stream_pisada_cache.format = AudioStreamWAV.FORMAT_16_BITS
+	_stream_pisada_cache.mix_rate = sample_rate
+	_stream_pisada_cache.stereo = false
+	_stream_pisada_cache.loop_mode = AudioStreamWAV.LOOP_DISABLED
+	_stream_pisada_cache.data = data
+	return _stream_pisada_cache
+
+
+func _obtener_stream_gafas() -> AudioStreamWAV:
+	if _stream_gafas_cache != null:
+		return _stream_gafas_cache
+
+	var sample_rate := 22050
+	var duracion := 0.46
+	var total_samples := int(sample_rate * duracion)
+	var data := PackedByteArray()
+	data.resize(total_samples * 2)
+	for i in range(total_samples):
+		var t := float(i) / float(sample_rate)
+		var envelope := exp(-5.6 * t)
+		var tono_a := sin(TAU * 420.0 * t)
+		var tono_b := sin(TAU * 640.0 * t + 0.18)
+		var brillo := sin(TAU * 920.0 * t + sin(TAU * 5.0 * t) * 0.18) * 0.12
+		var shimmer := sin(TAU * 8.5 * t) * 0.05
+		var muestra := (tono_a * 0.30 + tono_b * 0.20 + brillo * 0.08 + shimmer) * envelope * 0.88
+		var valor := int(clampf(muestra, -1.0, 1.0) * 32767.0)
+		data[i * 2] = valor & 0xFF
+		data[(i * 2) + 1] = (valor >> 8) & 0xFF
+
+	_stream_gafas_cache = AudioStreamWAV.new()
+	_stream_gafas_cache.format = AudioStreamWAV.FORMAT_16_BITS
+	_stream_gafas_cache.mix_rate = sample_rate
+	_stream_gafas_cache.stereo = false
+	_stream_gafas_cache.loop_mode = AudioStreamWAV.LOOP_DISABLED
+	_stream_gafas_cache.data = data
+	return _stream_gafas_cache

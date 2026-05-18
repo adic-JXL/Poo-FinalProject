@@ -13,10 +13,14 @@ position = Vector2(0, 4)
 shape = SubResource("RectangleShape2D_jugador")
 
 [node name="Visual" type="Node2D" parent="." unique_id=1133481450]
-position = Vector2(0, 8)
+position = Vector2(0, 10)
 scale = Vector2(1.35, 1.35)
 
 [node name="Sprite2D" type="Sprite2D" parent="Visual"]
 texture_filter = 1
 
 [node name="Efectos" type="Node2D" parent="."]
+
+[node name="AudioPisadas" type="AudioStreamPlayer" parent="."]
+
+[node name="AudioGafas" type="AudioStreamPlayer" parent="."]

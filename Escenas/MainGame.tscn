@@ -626,13 +626,13 @@ position = Vector2(1554, 314)
 modulate = Color(0.62, 0.84, 1, 0.08)
 z_index = -1
 texture_filter = 1
-position = Vector2(-22, -20)
+position = Vector2(-22, -12)
 scale = Vector2(0.42, 0.42)
 
 [node name="PuntoVisible" type="Sprite2D" parent="Objetos/CheckpointPuerta" unique_id=127510834]
 modulate = Color(0.88, 0.92, 0.96, 0.95)
 texture_filter = 1
-position = Vector2(-22, -18)
+position = Vector2(-22, -10)
 scale = Vector2(1.1, 1.1)
 
 [node name="Activador" type="Area2D" parent="Objetos/CheckpointPuerta" unique_id=1829978677]
@@ -661,13 +661,13 @@ position = Vector2(5815, 205)
 modulate = Color(0.62, 0.84, 1, 0.08)
 z_index = -1
 texture_filter = 1
-position = Vector2(-22, -20)
+position = Vector2(-22, -12)
 scale = Vector2(0.42, 0.42)
 
 [node name="PuntoVisible" type="Sprite2D" parent="Objetos/CheckpointPreParkour" unique_id=495855037]
 modulate = Color(0.88, 0.92, 0.96, 0.95)
 texture_filter = 1
-position = Vector2(-22, -18)
+position = Vector2(-22, -10)
 scale = Vector2(1.1, 1.1)
 
 [node name="Activador" type="Area2D" parent="Objetos/CheckpointPreParkour" unique_id=1672728190]
@@ -696,7 +696,6 @@ escala_aura = 0.96
 
 [node name="Llave" parent="Objetos" unique_id=183524802 instance=ExtResource("7_llave")]
 position = Vector2(1024, 195)
-rutas_frames = []
 
 [node name="AltarGafas" parent="Objetos" unique_id=707470456 instance=ExtResource("18_altar")]
 position = Vector2(9816, 69)
@@ -713,13 +712,13 @@ position = Vector2(10072, 69)
 modulate = Color(0.62, 0.84, 1, 0.08)
 z_index = -1
 texture_filter = 1
-position = Vector2(-22, -20)
+position = Vector2(-22, -12)
 scale = Vector2(0.42, 0.42)
 
 [node name="PuntoVisible" type="Sprite2D" parent="Objetos/CheckpointPuzzleGafas" unique_id=1976305317]
 modulate = Color(0.88, 0.92, 0.96, 0.95)
 texture_filter = 1
-position = Vector2(-22, -18)
+position = Vector2(-22, -10)
 scale = Vector2(1.1, 1.1)
 
 [node name="Activador" type="Area2D" parent="Objetos/CheckpointPuzzleGafas" unique_id=215361368]
