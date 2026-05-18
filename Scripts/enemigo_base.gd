@@ -8,6 +8,9 @@ signal vida_cambiada(vida_actual: int)
 @export var vida: int = 1
 @export var danio_contacto: int = 1
 @export var tiempo_recarga_ataque: float = 1.0
+@export var fuerza_retroceso_post_ataque_x: float = 72.0
+@export var fuerza_retroceso_post_ataque_y: float = 20.0
+@export var duracion_retroceso_post_ataque: float = 0.18
 
 @export_group("Movimiento")
 @export var velocidad: float = 70.0
@@ -20,6 +23,7 @@ var _congelado: bool = false
 var _posicion_inicial: Vector2 = Vector2.ZERO
 var _vida_inicial: int = 1
 var _multiplicador_velocidad_temporal: float = 1.0
+var _tiempo_retroceso_post_ataque_restante: float = 0.0
 
 @onready var visual: Node2D = $Visual
 @onready var area_ataque: Area2D = $AreaAtaque
@@ -44,6 +48,12 @@ func _physics_process(delta: float) -> void:
 
 	if usa_gravedad and not is_on_floor():
 		velocity.y += _gravedad * delta
+
+	if _tiempo_retroceso_post_ataque_restante > 0.0:
+		_tiempo_retroceso_post_ataque_restante = max(_tiempo_retroceso_post_ataque_restante - delta, 0.0)
+		move_and_slide()
+		_post_procesar_movimiento()
+		return
 
 	_procesar_comportamiento(delta)
 	move_and_slide()
@@ -99,6 +109,7 @@ func reiniciar_enemigo() -> void:
 	_puede_atacar = true
 	_congelado = false
 	_multiplicador_velocidad_temporal = 1.0
+	_tiempo_retroceso_post_ataque_restante = 0.0
 	temporizador_ataque.stop()
 	_inicializar_enemigo()
 	emit_signal("vida_cambiada", vida)
@@ -124,6 +135,7 @@ func _atacar_objetivo(objetivo: Node) -> void:
 	if not objetivo.recibir_danio(danio_contacto, global_position.x):
 		return
 
+	_aplicar_retroceso_post_ataque(objetivo)
 	_puede_atacar = false
 	temporizador_ataque.start(tiempo_recarga_ataque)
 	emit_signal("jugador_danado", danio_contacto)
@@ -159,3 +171,18 @@ func _intentar_atacar_colisiones_directas() -> void:
 		if _puede_danar_objetivo(collider):
 			_atacar_objetivo(collider)
 			return
+
+
+func _aplicar_retroceso_post_ataque(objetivo: Node) -> void:
+	if duracion_retroceso_post_ataque <= 0.0 or fuerza_retroceso_post_ataque_x <= 0.0:
+		return
+
+	var objetivo_2d := objetivo as Node2D
+	var direccion := -signf((objetivo_2d.global_position.x if objetivo_2d != null else global_position.x) - global_position.x)
+	if is_zero_approx(direccion):
+		direccion = -signf(velocity.x) if not is_zero_approx(velocity.x) else -1.0
+
+	velocity.x = direccion * fuerza_retroceso_post_ataque_x
+	if usa_gravedad and fuerza_retroceso_post_ataque_y > 0.0 and is_on_floor():
+		velocity.y = -fuerza_retroceso_post_ataque_y
+	_tiempo_retroceso_post_ataque_restante = duracion_retroceso_post_ataque

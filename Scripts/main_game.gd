@@ -990,9 +990,10 @@ func _actualizar_estado_zona_jefe(forzar: bool = false) -> void:
 	var estaba_en_zona := _jugador_en_zona_jefe
 	var dentro_area := _area_contiene_posicion(area_camara_3, jugador.global_position)
 	if not dentro_area and puerta_4 != null and jefe_sombras != null:
+		var margen_entrada_jaula := 42.0
 		dentro_area = (
-			jugador.global_position.x >= puerta_4.global_position.x - 48.0
-			and jugador.global_position.x <= jefe_sombras.arena_max.x + 96.0
+			jugador.global_position.x >= puerta_4.global_position.x + margen_entrada_jaula
+			and jugador.global_position.x <= jefe_sombras.arena_max.x + 48.0
 			and jugador.global_position.y >= jefe_sombras.arena_min.y - 96.0
 			and jugador.global_position.y <= jefe_sombras.arena_max.y + 160.0
 		)

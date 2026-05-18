@@ -45,6 +45,7 @@ const RUTAS_TEXTURAS_MUERTE := [
 ]
 static var _stream_pisada_cache: AudioStreamWAV
 static var _stream_gafas_cache: AudioStreamWAV
+static var _stream_danio_cache: AudioStreamWAV
 
 signal estado_cambiado(nuevo_estado: StringName)
 signal vida_cambiada(vida_actual: int)
@@ -135,6 +136,7 @@ var _frames_muerte: Array[Texture2D] = []
 @onready var sprite_visual: Sprite2D = get_node_or_null("Visual/Sprite2D") as Sprite2D
 @onready var audio_pisadas: AudioStreamPlayer = get_node_or_null("AudioPisadas") as AudioStreamPlayer
 @onready var audio_gafas: AudioStreamPlayer = get_node_or_null("AudioGafas") as AudioStreamPlayer
+@onready var audio_danio: AudioStreamPlayer = get_node_or_null("AudioDanio") as AudioStreamPlayer
 
 
 func _ready() -> void:
@@ -232,6 +234,7 @@ func recibir_danio(cantidad: int, origen_x: float = 0.0) -> bool:
 	vida = max(vida - cantidad, 0)
 	emit_signal("vida_cambiada", vida)
 	_emitir_chispas_danio(direccion_danio)
+	_reproducir_sonido_danio()
 	if vida <= 0:
 		velocity = Vector2.ZERO
 		cambiar_a_estado(&"bloqueado")
@@ -679,6 +682,11 @@ func _configurar_audio() -> void:
 		audio_gafas.volume_db = -8.5
 		audio_gafas.stream = _obtener_stream_gafas()
 
+	if audio_danio != null:
+		audio_danio.bus = &"Master"
+		audio_danio.volume_db = -7.2
+		audio_danio.stream = _obtener_stream_danio()
+
 
 func _reproducir_sonido_pisada() -> void:
 	if audio_pisadas == null:
@@ -696,6 +704,15 @@ func _reproducir_sonido_gafas() -> void:
 	audio_gafas.pitch_scale = randf_range(0.99, 1.03)
 	audio_gafas.stop()
 	audio_gafas.play()
+
+
+func _reproducir_sonido_danio() -> void:
+	if audio_danio == null:
+		return
+
+	audio_danio.pitch_scale = randf_range(0.97, 1.02)
+	audio_danio.stop()
+	audio_danio.play()
 
 
 func _emitir_chispas_danio(direccion_danio: float) -> void:
@@ -839,3 +856,32 @@ func _obtener_stream_gafas() -> AudioStreamWAV:
 	_stream_gafas_cache.loop_mode = AudioStreamWAV.LOOP_DISABLED
 	_stream_gafas_cache.data = data
 	return _stream_gafas_cache
+
+
+func _obtener_stream_danio() -> AudioStreamWAV:
+	if _stream_danio_cache != null:
+		return _stream_danio_cache
+
+	var sample_rate := 22050
+	var duracion := 0.22
+	var total_samples := int(sample_rate * duracion)
+	var data := PackedByteArray()
+	data.resize(total_samples * 2)
+	for i in range(total_samples):
+		var t := float(i) / float(sample_rate)
+		var envelope := exp(-10.5 * t)
+		var golpe := sin(TAU * 182.0 * t) * 0.34
+		var aspereza := sin(TAU * 318.0 * t + sin(TAU * 21.0 * t) * 0.35) * 0.18
+		var aire := sin(TAU * 640.0 * t) * 0.06
+		var muestra := (golpe + aspereza + aire) * envelope * 0.92
+		var valor := int(clampf(muestra, -1.0, 1.0) * 32767.0)
+		data[i * 2] = valor & 0xFF
+		data[(i * 2) + 1] = (valor >> 8) & 0xFF
+
+	_stream_danio_cache = AudioStreamWAV.new()
+	_stream_danio_cache.format = AudioStreamWAV.FORMAT_16_BITS
+	_stream_danio_cache.mix_rate = sample_rate
+	_stream_danio_cache.stereo = false
+	_stream_danio_cache.loop_mode = AudioStreamWAV.LOOP_DISABLED
+	_stream_danio_cache.data = data
+	return _stream_danio_cache

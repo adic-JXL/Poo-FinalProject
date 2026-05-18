@@ -41,7 +41,7 @@ var _textura_llave: Texture2D
 
 var _corazones: Array[TextureRect] = []
 var _corazones_container: HBoxContainer
-var _stamina_fill_rect: TextureRect
+var _stamina_fill_rect: Control
 var _stamina_fill_ancho_max: float = 0.0
 var _item_box_frame: TextureRect
 var _gafas_icono: TextureRect
@@ -359,18 +359,36 @@ func _configurar_stamina_visual() -> void:
 	holder.add_child(marco)
 
 	var fill_holder := Control.new()
-	fill_holder.position = Vector2(17, 9)
-	fill_holder.custom_minimum_size = Vector2(216, 15)
-	fill_holder.size = Vector2(216, 15)
+	fill_holder.position = Vector2(21, 11)
+	fill_holder.custom_minimum_size = Vector2(208, 12)
+	fill_holder.size = Vector2(208, 12)
 	fill_holder.clip_contents = true
 	fill_holder.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	holder.add_child(fill_holder)
 
-	_stamina_fill_rect = _crear_texture_rect(_textura_relleno_stamina, fill_holder.size, TextureRect.STRETCH_SCALE)
-	_stamina_fill_rect.position = Vector2.ZERO
-	_stamina_fill_rect.size = fill_holder.size
+	var stamina_fill := Panel.new()
+	stamina_fill.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	stamina_fill.position = Vector2.ZERO
+	stamina_fill.size = fill_holder.size
+	var fill_style := StyleBoxFlat.new()
+	fill_style.bg_color = Color(0.88, 0.88, 0.12, 0.98)
+	fill_style.corner_radius_top_left = 2
+	fill_style.corner_radius_bottom_left = 2
+	fill_style.corner_radius_top_right = 2
+	fill_style.corner_radius_bottom_right = 2
+	stamina_fill.add_theme_stylebox_override("panel", fill_style)
+	_stamina_fill_rect = stamina_fill
 	fill_holder.add_child(_stamina_fill_rect)
 	_stamina_fill_ancho_max = fill_holder.size.x
+
+	var brillo := ColorRect.new()
+	brillo.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	brillo.position = Vector2(2, 1)
+	brillo.size = Vector2(max(fill_holder.size.x - 4.0, 1.0), 4)
+	brillo.color = Color(1.0, 0.98, 0.72, 0.22)
+	stamina_fill.add_child(brillo)
+
+	holder.move_child(marco, holder.get_child_count() - 1)
 
 
 func _configurar_gafas_visual() -> void:

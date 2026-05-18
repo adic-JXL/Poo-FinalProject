@@ -398,7 +398,7 @@ size = Vector2(1334, 388)
 size = Vector2(8563.219, 594.5)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_yhne7"]
-size = Vector2(1241, 481)
+size = Vector2(1080, 481)
 
 [node name="Node2D" type="Node2D" unique_id=291629533]
 script = ExtResource("1_h1l5c")
@@ -515,10 +515,15 @@ direccion_inicial = -1
 
 [node name="JefeSombras" parent="Enemigos" unique_id=154374902 instance=ExtResource("21_jefe")]
 position = Vector2(10456, 21)
-arena_min = Vector2(10012, -118)
-arena_max = Vector2(11096, 208)
+collision_mask = 0
+arena_min = Vector2(9988, -126)
+arena_max = Vector2(11128, 216)
 tiempo_recarga_ataque = 1.15
-velocidad = 70.688
+velocidad = 68.56736
+fuerza_retroceso_post_ataque_x = 122.0
+fuerza_retroceso_post_ataque_y = 0.0
+duracion_retroceso_post_ataque = 0.3
+duracion_aturdimiento_post_embestida = 3.0
 
 [node name="Plataformas" type="Node2D" parent="." unique_id=483207205]
 
@@ -614,6 +619,9 @@ scale = Vector2(0.82, 0.82)
 [node name="Puerta4" parent="Objetos" unique_id=496472609 instance=ExtResource("5_ryxee")]
 position = Vector2(10024.001, 52.999996)
 scale = Vector2(0.82, 0.82)
+
+[node name="Marker2D" parent="Objetos/Puerta4"]
+position = Vector2(54, 8)
 
 [node name="Puerta2" parent="Objetos" unique_id=692291154 instance=ExtResource("6_door_tp")]
 position = Vector2(1406.0001, 282.99997)
@@ -746,6 +754,7 @@ position = Vector2(10152, 181)
 scale = Vector2(0.82, 0.82)
 monitoring = false
 monitorable = false
+ruta_escena_destino = "res://Escenas/Mundo2.tscn"
 
 [node name="Player" type="Node2D" parent="." unique_id=1906555285]
 
@@ -801,7 +810,7 @@ shape = SubResource("RectangleShape2D_b7mqo")
 [node name="Area2D3" type="Area2D" parent="Player" unique_id=29353213]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Player/Area2D3" unique_id=1184684050]
-position = Vector2(10587.5, 69)
+position = Vector2(10604, 69)
 shape = SubResource("RectangleShape2D_yhne7")
 
 [connection signal="body_entered" from="Player/Area2D" to="Player/Camara1" method="_on_area_2d_body_entered"]

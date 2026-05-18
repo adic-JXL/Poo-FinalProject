@@ -394,11 +394,10 @@ func _ejecutar_verificacion() -> void:
 
 			var salida_esperada: Vector2 = puerta_destino.obtener_punto_salida()
 			var checkpoint = escena_principal.get_node_or_null("Objetos/CheckpointPuerta")
-			puerta.teletransportar_jugador(jugador)
 			await create_timer(0.4).timeout
 
 			if jugador.global_position.distance_to(salida_esperada) > 24.0:
-				_registrar_error("La puerta abierta no teletransporta al jugador hacia la puerta destino.")
+				_registrar_error("La puerta abierta no teletransporta al jugador si ya estaba dentro del area al abrirse.")
 
 			if escena_principal.checkpoint_esta_activo():
 				_registrar_error("El checkpoint posterior se activa sin pasar por encima del punto.")

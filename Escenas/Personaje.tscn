@@ -24,3 +24,5 @@ texture_filter = 1
 [node name="AudioPisadas" type="AudioStreamPlayer" parent="."]
 
 [node name="AudioGafas" type="AudioStreamPlayer" parent="."]
+
+[node name="AudioDanio" type="AudioStreamPlayer" parent="."]

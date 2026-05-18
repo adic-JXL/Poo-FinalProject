@@ -5,6 +5,7 @@ static var _stream_apertura_cache: AudioStreamWAV
 signal teletransporte_realizado(jugador: Node2D, destino: Node2D)
 
 @export_node_path("Area2D") var puerta_destino: NodePath
+@export_file("*.tscn") var ruta_escena_destino: String = ""
 @export var transporte_habilitado: bool = false
 @export var teletransporta_al_tocar: bool = true
 @export var permite_interaccion: bool = false
@@ -21,6 +22,7 @@ signal teletransporte_realizado(jugador: Node2D, destino: Node2D)
 var _puerta_destino_ref: Node = null
 var _escala_base_sprite: Vector2 = Vector2.ONE
 var _tween_apertura: Tween = null
+var _teletransporte_en_curso: bool = false
 
 @onready var sprite: Sprite2D = $Puerta
 @onready var marker_salida: Marker2D = $Marker2D
@@ -59,6 +61,10 @@ func obtener_punto_salida() -> Vector2:
 func establecer_transporte_habilitado(activo: bool) -> void:
 	transporte_habilitado = activo
 	_actualizar_visual()
+	if transporte_habilitado:
+		call_deferred("_intentar_teletransportar_cuerpos_superpuestos")
+	else:
+		_teletransporte_en_curso = false
 
 
 func reproducir_animacion_apertura() -> void:
@@ -94,10 +100,15 @@ func puede_interactuar() -> bool:
 
 func puede_teletransportar() -> bool:
 	var destino := obtener_puerta_destino()
-	return transporte_habilitado and teletransporta_al_tocar and destino != null and destino.has_method("obtener_punto_salida")
+	var tiene_destino_local := destino != null and destino.has_method("obtener_punto_salida")
+	var tiene_escena_destino := not ruta_escena_destino.is_empty()
+	return transporte_habilitado and teletransporta_al_tocar and (tiene_destino_local or tiene_escena_destino)
 
 
 func _on_body_entered_teletransporte(body: Node) -> void:
+	if _teletransporte_en_curso:
+		return
+
 	if not body.is_in_group("jugador"):
 		return
 
@@ -116,11 +127,26 @@ func _on_body_entered_teletransporte(body: Node) -> void:
 func _teletransportar_jugador(body: Node) -> void:
 	var jugador := body as Node2D
 	var destino := obtener_puerta_destino()
-	if jugador == null or destino == null:
+	if jugador == null:
+		_teletransporte_en_curso = false
 		return
+
+	if ruta_escena_destino.is_empty() and destino == null:
+		_teletransporte_en_curso = false
+		return
+
+	if _teletransporte_en_curso:
+		return
+
+	_teletransporte_en_curso = true
 
 	if jugador.has_method("animar_entrada_puerta"):
 		await jugador.animar_entrada_puerta(global_position + offset_animacion_entrada, duracion_animacion_entrada)
+
+	if not ruta_escena_destino.is_empty():
+		emit_signal("teletransporte_realizado", jugador, null)
+		get_tree().change_scene_to_file(ruta_escena_destino)
+		return
 
 	jugador.set_meta("puerta_ignorada", destino.get_instance_id())
 	jugador.global_position = destino.obtener_punto_salida()
@@ -131,6 +157,7 @@ func _teletransportar_jugador(body: Node) -> void:
 		jugador.finalizar_animacion_puerta()
 
 	emit_signal("teletransporte_realizado", jugador, destino)
+	call_deferred("_liberar_teletransporte")
 
 
 func teletransportar_jugador(jugador: Node2D) -> void:
@@ -138,6 +165,20 @@ func teletransportar_jugador(jugador: Node2D) -> void:
 		return
 
 	_teletransportar_jugador(jugador)
+
+
+func _intentar_teletransportar_cuerpos_superpuestos() -> void:
+	if _teletransporte_en_curso or not puede_teletransportar() or not monitoring:
+		return
+
+	for body in get_overlapping_bodies():
+		if body != null and body.is_in_group("jugador"):
+			call_deferred("_teletransportar_jugador", body)
+			return
+
+
+func _liberar_teletransporte() -> void:
+	_teletransporte_en_curso = false
 
 
 func _actualizar_visual() -> void:
