@@ -145,7 +145,7 @@ func _teletransportar_jugador(body: Node) -> void:
 
 	if not ruta_escena_destino.is_empty():
 		emit_signal("teletransporte_realizado", jugador, null)
-		get_tree().change_scene_to_file(ruta_escena_destino)
+		call_deferred("_cambiar_a_escena_destino", ruta_escena_destino, jugador)
 		return
 
 	jugador.set_meta("puerta_ignorada", destino.get_instance_id())
@@ -179,6 +179,16 @@ func _intentar_teletransportar_cuerpos_superpuestos() -> void:
 
 func _liberar_teletransporte() -> void:
 	_teletransporte_en_curso = false
+
+
+func _cambiar_a_escena_destino(ruta: String, jugador: Node) -> void:
+	var error := get_tree().change_scene_to_file(ruta)
+	if error == OK:
+		return
+
+	if jugador != null and is_instance_valid(jugador) and jugador.has_method("finalizar_animacion_puerta"):
+		jugador.finalizar_animacion_puerta()
+	_liberar_teletransporte()
 
 
 func _actualizar_visual() -> void:

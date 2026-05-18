@@ -1,7 +1,9 @@
 extends Node2D
 class_name MainGame
 
+const SistemaGuardadoClass = preload("res://Scripts/sistema_guardado.gd")
 const MENU_SCENE := "res://Escenas/Menu.tscn"
+const SCENE_PATH := "res://Escenas/MainGame.tscn"
 const MENSAJE_PUERTA_CERRADA := "La puerta sigue cerrada. Resuelve el puzzle de la llave."
 const MENSAJE_NIVEL_COMPLETO := "La puerta se abrio. El nivel base ya esta completo."
 const MENSAJE_CHECKPOINT_ACTIVADO := "Checkpoint activado. Si caes, volveras despues de la puerta."
@@ -144,6 +146,7 @@ var _temporizador_pensamientos: Timer
 var _indice_pensamiento: int = 0
 var _indice_pensamiento_gafas: int = 0
 var _pensamiento_jefe_mostrado: bool = false
+var _transicionando_a_mundo_2: bool = false
 
 
 func _ready() -> void:
@@ -166,6 +169,7 @@ func _ready() -> void:
 	_configurar_totems_jefe()
 	_configurar_interactivo(puerta, _on_puerta_interaccion_solicitada)
 	_configurar_puzzles()
+	_cargar_progreso_guardado()
 	_estado_gafas_aplicado = false
 	_actualizar_estado_zona_jefe(true)
 	_aplicar_estado_gafas(false, true)
@@ -451,6 +455,7 @@ func _on_puzzle_completado() -> void:
 	_llave_obtenida = true
 	hud.actualizar_llave(_llave_obtenida)
 	llave.otorgar_llave()
+	_guardar_progreso_actual()
 	_cerrar_puzzle("Has obtenido la llave. Ahora vuelve a la puerta y presiona E.")
 
 
@@ -501,6 +506,7 @@ func _on_puzzle_gafas_completado() -> void:
 		altar_gafas.marcar_resuelto()
 
 	_actualizar_puerta_jefe(true, true)
+	_guardar_progreso_actual()
 	_cerrar_puzzle(MENSAJE_PUERTA_JEFE_REVELADA)
 
 
@@ -543,6 +549,7 @@ func _on_puerta_interaccion_solicitada() -> void:
 
 	_nivel_completado = true
 	puerta.abrir()
+	_guardar_progreso_actual()
 	hud.mostrar_mensaje(MENSAJE_NIVEL_COMPLETO)
 
 
@@ -579,6 +586,7 @@ func _on_jefe_sombras_derrotado() -> void:
 	_actualizar_puerta_mundo_2(true)
 	_aplicar_alpha_distorsion_actual(false)
 	_aplicar_perfil_distorsion(true)
+	_guardar_progreso_actual()
 	hud.mostrar_mensaje(MENSAJE_JEFE_DERROTADO)
 	if hud != null and hud.has_method("mostrar_pensamiento"):
 		hud.mostrar_pensamiento(PENSAMIENTO_JEFE_DERROTADO, true)
@@ -593,6 +601,7 @@ func _on_jefe_sombras_fase_cambiada(fase_actual: int, sellos_activados: int) -> 
 func _activar_checkpoint(posicion: Vector2, mensaje: String = MENSAJE_CHECKPOINT_ACTIVADO) -> void:
 	_establecer_checkpoint(posicion)
 	hud.actualizar_checkpoint(_checkpoint_activo)
+	_guardar_progreso_actual()
 	hud.mostrar_mensaje(mensaje)
 
 
@@ -646,6 +655,8 @@ func _on_jugador_gafas_actualizadas(activa: bool, _duracion_restante: float, _co
 
 
 func _on_puerta_mundo_2_teletransporte_realizado(_jugador: Node2D, destino: Node2D) -> void:
+	_transicionando_a_mundo_2 = true
+	_mundo_2_alcanzado = true
 	if destino == null or not destino.has_method("obtener_punto_salida"):
 		return
 
@@ -782,7 +793,7 @@ func _obtener_descripcion_checkpoint() -> String:
 	return "(%.0f, %.0f)" % [_posicion_respawn_actual.x, _posicion_respawn_actual.y]
 
 
-func _actualizar_puerta_mundo_2(activa: bool) -> void:
+func _actualizar_puerta_mundo_2(activa: bool, silencioso: bool = false) -> void:
 	if puerta_mundo_2 == null:
 		return
 
@@ -792,7 +803,7 @@ func _actualizar_puerta_mundo_2(activa: bool) -> void:
 
 	if activa:
 		if puerta_mundo_2.has_method("abrir"):
-			puerta_mundo_2.abrir()
+			puerta_mundo_2.abrir(silencioso)
 		elif puerta_mundo_2.has_method("establecer_transporte_habilitado"):
 			puerta_mundo_2.establecer_transporte_habilitado(true)
 		return
@@ -801,7 +812,7 @@ func _actualizar_puerta_mundo_2(activa: bool) -> void:
 		puerta_mundo_2.establecer_transporte_habilitado(false)
 
 
-func _actualizar_puerta_jefe(activa: bool, animar: bool = false) -> void:
+func _actualizar_puerta_jefe(activa: bool, animar: bool = false, silencioso: bool = false) -> void:
 	if puerta_3 == null:
 		return
 
@@ -832,15 +843,15 @@ func _actualizar_puerta_jefe(activa: bool, animar: bool = false) -> void:
 		return
 
 	puerta_3.modulate = Color(1, 1, 1, 1)
-	_habilitar_puerta_jefe()
+	_habilitar_puerta_jefe(false, silencioso)
 
 
-func _habilitar_puerta_jefe(_desde_animacion: bool = false) -> void:
+func _habilitar_puerta_jefe(_desde_animacion: bool = false, silencioso: bool = false) -> void:
 	if puerta_3 == null:
 		return
 
 	if puerta_3.has_method("abrir"):
-		puerta_3.abrir()
+		puerta_3.abrir(silencioso and not _desde_animacion)
 	elif puerta_3.has_method("establecer_transporte_habilitado"):
 		puerta_3.establecer_transporte_habilitado(true)
 
@@ -1144,6 +1155,70 @@ func _establecer_checkpoint(posicion: Vector2) -> void:
 	_posicion_respawn_actual = posicion
 
 
+func _cargar_progreso_guardado() -> void:
+	var datos_guardado := SistemaGuardadoClass.cargar_datos()
+	if String(datos_guardado.get("escena_actual", SCENE_PATH)) != SCENE_PATH:
+		return
+
+	var datos_main_game: Dictionary = Dictionary(datos_guardado.get("main_game", {}))
+	if datos_main_game.is_empty():
+		return
+
+	_llave_obtenida = bool(datos_main_game.get("llave_obtenida", false))
+	_nivel_completado = bool(datos_main_game.get("nivel_completado", false))
+	_checkpoint_activo = bool(datos_main_game.get("checkpoint_activo", false))
+	_puzzle_gafas_superado = bool(datos_main_game.get("puzzle_gafas_superado", false))
+	_mundo_2_desbloqueado = bool(datos_main_game.get("mundo_2_desbloqueado", false))
+	_mundo_2_alcanzado = bool(datos_main_game.get("mundo_2_alcanzado", false))
+	_jefe_derrotado = bool(datos_main_game.get("jefe_derrotado", _mundo_2_desbloqueado))
+	_pensamiento_jefe_mostrado = bool(datos_main_game.get("pensamiento_jefe_mostrado", false))
+	_totems_activados_jefe = 3 if _mundo_2_desbloqueado else 0
+
+	var posicion_guardada: Variant = datos_main_game.get("posicion_respawn", _posicion_inicial_jugador)
+	if posicion_guardada is Vector2:
+		_posicion_respawn_actual = posicion_guardada
+	elif posicion_guardada is Array and posicion_guardada.size() >= 2:
+		_posicion_respawn_actual = Vector2(float(posicion_guardada[0]), float(posicion_guardada[1]))
+
+	if _llave_obtenida and llave != null and llave.has_method("otorgar_llave"):
+		llave.otorgar_llave()
+
+	if _nivel_completado and puerta != null and puerta.has_method("abrir"):
+		puerta.abrir(true)
+
+	if _puzzle_gafas_superado and altar_gafas != null and altar_gafas.has_method("marcar_resuelto"):
+		altar_gafas.marcar_resuelto()
+
+	_actualizar_puerta_jefe(_puzzle_gafas_superado, false, true)
+	_actualizar_puerta_mundo_2(_mundo_2_desbloqueado, true)
+
+	if hud != null:
+		hud.actualizar_llave(_llave_obtenida)
+		hud.actualizar_checkpoint(_checkpoint_activo)
+
+	if jugador != null:
+		var posicion_inicio := _posicion_respawn_actual if _checkpoint_activo else _posicion_inicial_jugador
+		jugador.restaurar_para_respawn(posicion_inicio)
+
+
+func _guardar_progreso_actual() -> void:
+	if jugador == null:
+		return
+
+	var datos_main_game := {
+		"llave_obtenida": _llave_obtenida,
+		"nivel_completado": _nivel_completado,
+		"checkpoint_activo": _checkpoint_activo,
+		"puzzle_gafas_superado": _puzzle_gafas_superado,
+		"mundo_2_desbloqueado": _mundo_2_desbloqueado,
+		"mundo_2_alcanzado": _mundo_2_alcanzado,
+		"jefe_derrotado": _jefe_derrotado or _mundo_2_desbloqueado,
+		"pensamiento_jefe_mostrado": _pensamiento_jefe_mostrado,
+		"posicion_respawn": _posicion_respawn_actual if _checkpoint_activo else _posicion_inicial_jugador,
+	}
+	SistemaGuardadoClass.guardar_estado_main_game(datos_main_game)
+
+
 func _cerrar_overlay_puzzle_activo() -> void:
 	match _tipo_puzzle_activo:
 		&"llave":
@@ -1163,4 +1238,6 @@ func _preparar_canvas_runtime() -> void:
 
 
 func _exit_tree() -> void:
+	if not _transicionando_a_mundo_2:
+		_guardar_progreso_actual()
 	_restaurar_tiempo_normal()

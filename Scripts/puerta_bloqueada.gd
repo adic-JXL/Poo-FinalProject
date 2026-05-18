@@ -13,13 +13,16 @@ func puede_interactuar() -> bool:
 	return not _abierta
 
 
-func abrir() -> void:
+func abrir(silencioso: bool = false) -> void:
 	if _abierta:
 		return
 
 	_abierta = true
 	establecer_transporte_habilitado(true)
-	reproducir_animacion_apertura()
+	if silencioso:
+		_actualizar_visual()
+	else:
+		reproducir_animacion_apertura()
 	_cambiar_rango_interaccion(false)
 	mensaje_interaccion = "La puerta ya esta abierta."
 
