@@ -1,7 +1,7 @@
 extends "res://Scripts/puzzle_base.gd"
 class_name PuzzleSecuencia
 
-const SIMBOLOS := ["SOL", "LUNA", "OJO", "ECO"]
+const SIMBOLOS := ["MIRADA", "RISA", "APODO", "ECO"]
 
 @export var longitud_secuencia: int = 4
 @export var tiempo_memoria: float = 2.2
@@ -38,6 +38,7 @@ func _ready() -> void:
 	cancelar_button.pressed.connect(_on_boton_cancelar_pressed)
 	timer_memoria.timeout.connect(_on_timer_memoria_timeout)
 	_establecer_botones_habilitados(false)
+	titulo_label.text = "Eco del Pasillo"
 	aplicar_tema_puzzle(
 		overlay,
 		panel_container,
@@ -77,7 +78,7 @@ func resolver_automaticamente_para_prueba() -> void:
 		_procesar_simbolo(simbolo)
 
 
-func _preparar_nueva_ronda(mensaje: String = "Memoriza la secuencia.") -> void:
+func _preparar_nueva_ronda(mensaje: String = "Ordena el eco antes de que vuelva a pesar.") -> void:
 	_secuencia_actual.clear()
 	_respuesta_actual.clear()
 	_aceptando_entrada = false
@@ -85,7 +86,7 @@ func _preparar_nueva_ronda(mensaje: String = "Memoriza la secuencia.") -> void:
 	for _indice in range(max(longitud_secuencia, 1)):
 		_secuencia_actual.append(_rng.randi_range(0, SIMBOLOS.size() - 1))
 
-	instruccion_label.text = "Memoriza la secuencia y espera a que se oculte."
+	instruccion_label.text = "Memoriza el orden en que aparece el ruido y espera a que se oculte."
 	secuencia_label.text = "Secuencia: %s" % _texto_secuencia(_secuencia_actual)
 	feedback_label.text = mensaje
 	_establecer_botones_habilitados(false)
@@ -94,7 +95,7 @@ func _preparar_nueva_ronda(mensaje: String = "Memoriza la secuencia.") -> void:
 
 func _habilitar_entrada() -> void:
 	_aceptando_entrada = true
-	instruccion_label.text = "Repite la secuencia con los botones."
+	instruccion_label.text = "Repite la secuencia para romper el eco de la burla."
 	secuencia_label.text = _texto_progreso()
 	feedback_label.text = "Ingresa el primer simbolo."
 	_establecer_botones_habilitados(true)
@@ -108,17 +109,17 @@ func _procesar_simbolo(indice: int) -> void:
 	var posicion_actual := _respuesta_actual.size() - 1
 
 	if _secuencia_actual[posicion_actual] != indice:
-		_preparar_nueva_ronda("Orden incorrecto. Memoriza una nueva secuencia.")
-		return
-
-	if _respuesta_actual.size() == _secuencia_actual.size():
-		_aceptando_entrada = false
-		_establecer_botones_habilitados(false)
-		feedback_label.text = "Puzzle resuelto. La llave ya es tuya."
-		_emitir_completado()
+		_preparar_nueva_ronda("El eco te confundio. Respira y ordena otra vez lo que escuchaste.")
 		return
 
 	secuencia_label.text = _texto_progreso()
+	if _respuesta_actual.size() == _secuencia_actual.size():
+		_aceptando_entrada = false
+		_establecer_botones_habilitados(false)
+		feedback_label.text = "Rompiste el patron. La llave deja de temblar."
+		_emitir_completado()
+		return
+
 	feedback_label.text = "Bien. Sigue con el paso %d." % (_respuesta_actual.size() + 1)
 
 

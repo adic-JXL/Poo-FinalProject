@@ -8,6 +8,7 @@ signal jugador_alcanzado
 @export var velocidad_pulso: float = 1.55
 @export var adelanto_camara: float = 316.0
 @export var tamano_textura: Vector2i = Vector2i(52, 188)
+@export var volumen_rumble_db: float = -13.5
 
 var _jugador: Node2D = null
 var _activo: bool = true
@@ -18,6 +19,7 @@ var _posicion_inicio: Vector2 = Vector2.ZERO
 static var _textura_cuerpo_cache: Texture2D
 static var _textura_ojo_cache: Texture2D
 static var _textura_boca_cache: Texture2D
+static var _stream_rumble_cache: AudioStreamWAV
 
 @onready var visual: Node2D = $Visual
 @onready var cuerpo: Sprite2D = $Visual/Cuerpo
@@ -25,20 +27,25 @@ static var _textura_boca_cache: Texture2D
 @onready var ojo_derecho: Sprite2D = $Visual/OjoDerecho
 @onready var boca: Sprite2D = $Visual/Boca
 
+var _audio_rumble: AudioStreamPlayer2D = null
+
 
 func _ready() -> void:
 	add_to_group("muro_carne")
 	_posicion_inicio = global_position
 	body_entered.connect(_on_body_entered)
 	_configurar_visual()
+	_configurar_audio()
 
 
 func _physics_process(delta: float) -> void:
 	if not _activo or _congelado:
+		_actualizar_audio(false)
 		return
 
 	global_position.x += obtener_velocidad_actual() * delta
 	_animar_pulso()
+	_actualizar_audio(true)
 
 
 func configurar_objetivo(jugador: Node2D) -> void:
@@ -53,6 +60,8 @@ func establecer_activo(activo: bool) -> void:
 
 func establecer_congelado(congelado: bool) -> void:
 	_congelado = congelado
+	if _congelado:
+		_actualizar_audio(false)
 
 
 func establecer_multiplicador_velocidad(multiplicador: float) -> void:
@@ -68,6 +77,7 @@ func reiniciar(posicion_objetivo: Vector2 = Vector2.INF) -> void:
 	visual.scale = Vector2.ONE
 	establecer_activo(true)
 	establecer_congelado(false)
+	_actualizar_audio(true)
 
 
 func obtener_velocidad_actual() -> float:
@@ -112,6 +122,35 @@ func _configurar_visual() -> void:
 	if boca != null:
 		boca.texture = _obtener_textura_boca()
 		boca.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+
+
+func _configurar_audio() -> void:
+	_audio_rumble = AudioStreamPlayer2D.new()
+	_audio_rumble.name = "AudioRumble"
+	_audio_rumble.bus = &"Master"
+	_audio_rumble.volume_db = volumen_rumble_db
+	_audio_rumble.max_distance = 1400.0
+	_audio_rumble.attenuation = 1.05
+	_audio_rumble.stream = _obtener_stream_rumble()
+	add_child(_audio_rumble)
+
+
+func _actualizar_audio(activo: bool) -> void:
+	if _audio_rumble == null:
+		return
+
+	if not activo:
+		if _audio_rumble.playing:
+			_audio_rumble.stop()
+		return
+
+	if not _audio_rumble.playing:
+		_audio_rumble.play()
+
+	var factor_velocidad := clampf(obtener_velocidad_actual() / maxf(velocidad_base, 1.0), 0.75, 1.25)
+	var mezcla_factor := (factor_velocidad - 0.75) / 0.5
+	_audio_rumble.pitch_scale = lerpf(0.9, 1.08, clampf(mezcla_factor, 0.0, 1.0))
+	_audio_rumble.volume_db = volumen_rumble_db + ((factor_velocidad - 1.0) * 4.0)
 
 
 func _obtener_textura_cuerpo() -> Texture2D:
@@ -186,3 +225,33 @@ func _obtener_textura_boca() -> Texture2D:
 
 	_textura_boca_cache = ImageTexture.create_from_image(imagen)
 	return _textura_boca_cache
+
+
+func _obtener_stream_rumble() -> AudioStreamWAV:
+	if _stream_rumble_cache != null:
+		return _stream_rumble_cache
+
+	var sample_rate := 22050
+	var duracion := 0.92
+	var total_samples := int(sample_rate * duracion)
+	var data := PackedByteArray()
+	data.resize(total_samples * 2)
+	for i in range(total_samples):
+		var t := float(i) / float(sample_rate)
+		var grave := sin(TAU * 28.0 * t) * 0.46
+		var medio := sin(TAU * 47.0 * t + (sin(TAU * 0.9 * t) * 0.35)) * 0.18
+		var vibracion := sin(TAU * 82.0 * t) * 0.06
+		var muestra := (grave + medio + vibracion) * 0.52
+		var valor := int(clampf(muestra, -1.0, 1.0) * 32767.0)
+		data[i * 2] = valor & 0xFF
+		data[(i * 2) + 1] = (valor >> 8) & 0xFF
+
+	_stream_rumble_cache = AudioStreamWAV.new()
+	_stream_rumble_cache.format = AudioStreamWAV.FORMAT_16_BITS
+	_stream_rumble_cache.mix_rate = sample_rate
+	_stream_rumble_cache.stereo = false
+	_stream_rumble_cache.loop_mode = AudioStreamWAV.LOOP_FORWARD
+	_stream_rumble_cache.loop_begin = 0
+	_stream_rumble_cache.loop_end = total_samples
+	_stream_rumble_cache.data = data
+	return _stream_rumble_cache

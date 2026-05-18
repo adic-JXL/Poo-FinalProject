@@ -50,12 +50,12 @@ stretch_mode = 5
 [node name="TituloLabel" type="Label" parent="Control/CenterContainer/PanelContainer/VBoxContainer" unique_id=1606828692]
 layout_mode = 2
 theme_override_font_sizes/font_size = 26
-text = "Ritual de la Llave"
+text = "Eco del Pasillo"
 horizontal_alignment = 1
 
 [node name="InstruccionLabel" type="Label" parent="Control/CenterContainer/PanelContainer/VBoxContainer" unique_id=869919512]
 layout_mode = 2
-text = "Memoriza la secuencia."
+text = "Memoriza el orden del ruido."
 horizontal_alignment = 1
 autowrap_mode = 3
 
@@ -68,7 +68,7 @@ autowrap_mode = 3
 
 [node name="FeedbackLabel" type="Label" parent="Control/CenterContainer/PanelContainer/VBoxContainer" unique_id=431189525]
 layout_mode = 2
-text = "Observa con atencion."
+text = "Ordena el eco antes de que vuelva."
 horizontal_alignment = 1
 autowrap_mode = 3
 
@@ -81,17 +81,17 @@ columns = 2
 [node name="BotonSol" type="Button" parent="Control/CenterContainer/PanelContainer/VBoxContainer/GridContainer" unique_id=520193945]
 custom_minimum_size = Vector2(180, 54)
 layout_mode = 2
-text = "SOL"
+text = "MIRADA"
 
 [node name="BotonLuna" type="Button" parent="Control/CenterContainer/PanelContainer/VBoxContainer/GridContainer" unique_id=1938980801]
 custom_minimum_size = Vector2(180, 54)
 layout_mode = 2
-text = "LUNA"
+text = "RISA"
 
 [node name="BotonOjo" type="Button" parent="Control/CenterContainer/PanelContainer/VBoxContainer/GridContainer" unique_id=176774361]
 custom_minimum_size = Vector2(180, 54)
 layout_mode = 2
-text = "OJO"
+text = "APODO"
 
 [node name="BotonEco" type="Button" parent="Control/CenterContainer/PanelContainer/VBoxContainer/GridContainer" unique_id=352888481]
 custom_minimum_size = Vector2(180, 54)
