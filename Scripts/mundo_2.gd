@@ -12,7 +12,7 @@ const FACTOR_LENTITUD_GAFAS_MURO := 0.9
 
 @export_group("Flujo")
 @export var altura_caida_respawn: float = 760.0
-@export var offset_camara: Vector2 = Vector2(0, -52)
+@export var offset_camara: Vector2 = Vector2(0, -64)
 @export var posicion_spawn_defecto: Vector2 = Vector2(144, 520)
 @export var mensaje_llegada: String = "Mundo 2. Corre: el muro no se detendra, pero las gafas revelan la ruta."
 @export var mensaje_respawn: String = "Has vuelto al inicio del mundo 2."
@@ -24,11 +24,11 @@ const FACTOR_LENTITUD_GAFAS_MURO := 0.9
 @export var jugador_aceleracion: float = 1000.0
 
 @export_group("Camara")
-@export var zoom_base_mundo: Vector2 = Vector2(1.94, 1.94)
-@export var zoom_con_gafas: Vector2 = Vector2(1.62, 1.62)
+@export var zoom_base_mundo: Vector2 = Vector2(1.76, 1.76)
+@export var zoom_con_gafas: Vector2 = Vector2(1.48, 1.48)
 @export var suavizado_camara: float = 6.0
 @export var adelanto_camara_muro: float = 316.0
-@export var adelanto_camara_jugador: float = 34.0
+@export var adelanto_camara_jugador: float = 48.0
 
 @export_group("Muro")
 @export var posicion_inicial_muro: Vector2 = Vector2(-136, 326)
