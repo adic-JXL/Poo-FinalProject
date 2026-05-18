@@ -1,6 +1,7 @@
 extends CanvasLayer
 class_name HUD
 
+const FUENTE_PIXEL := preload("res://Fuentes/joystix monospace.otf")
 const RUTA_TEXTURA_VIDAS := "res://Imagenes/HUD/lives_text.png"
 const RUTA_TEXTURA_CORAZON_LLENO := "res://Imagenes/HUD/heart_full.png"
 const RUTA_TEXTURA_CORAZON_VACIO := "res://Imagenes/HUD/heart_empty.png"
@@ -233,8 +234,8 @@ func _aplicar_estilo_mensaje() -> void:
 	fondo.border_width_bottom = 1
 	fondo.border_color = COLOR_MENSAJE_BORDE
 	mensaje_panel.add_theme_stylebox_override("panel", fondo)
-	mensaje_panel.offset_right = 322.0
-	mensaje_panel.offset_bottom = 178.0
+	mensaje_panel.offset_right = 312.0
+	mensaje_panel.offset_bottom = 170.0
 
 
 func _configurar_pensamiento_visual() -> void:
@@ -266,8 +267,9 @@ func _configurar_pensamiento_visual() -> void:
 	_pensamiento_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	_pensamiento_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	_pensamiento_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	_pensamiento_label.add_theme_font_override("font", FUENTE_PIXEL)
 	_pensamiento_label.add_theme_color_override("font_color", COLOR_TEXTO_CLARO)
-	_pensamiento_label.add_theme_font_size_override("font_size", 16)
+	_pensamiento_label.add_theme_font_size_override("font_size", 12)
 	margen.add_child(_pensamiento_label)
 
 	_pensamiento_panel.hide()
@@ -292,14 +294,18 @@ func _aplicar_estilo_pensamiento(positivo: bool) -> void:
 
 
 func _configurar_fuentes_colores() -> void:
+	mensaje_label.add_theme_font_override("font", FUENTE_PIXEL)
 	mensaje_label.add_theme_color_override("font_color", COLOR_TEXTO_CLARO)
-	mensaje_label.add_theme_font_size_override("font_size", 14)
+	mensaje_label.add_theme_font_size_override("font_size", 11)
+	estado_label.add_theme_font_override("font", FUENTE_PIXEL)
 	estado_label.add_theme_color_override("font_color", COLOR_TEXTO_CLARO)
-	estado_label.add_theme_font_size_override("font_size", 12)
+	estado_label.add_theme_font_size_override("font_size", 10)
+	llave_label.add_theme_font_override("font", FUENTE_PIXEL)
 	llave_label.add_theme_color_override("font_color", COLOR_TEXTO_CLARO)
-	llave_label.add_theme_font_size_override("font_size", 12)
+	llave_label.add_theme_font_size_override("font_size", 10)
+	checkpoint_label.add_theme_font_override("font", FUENTE_PIXEL)
 	checkpoint_label.add_theme_color_override("font_color", COLOR_TEXTO_SUAVE)
-	checkpoint_label.add_theme_font_size_override("font_size", 12)
+	checkpoint_label.add_theme_font_size_override("font_size", 10)
 	estamina_label.add_theme_color_override("font_color", COLOR_TEXTO_CLARO)
 	estamina_label.add_theme_font_size_override("font_size", 11)
 	sprint_label.add_theme_color_override("font_color", COLOR_TEXTO_CLARO)
