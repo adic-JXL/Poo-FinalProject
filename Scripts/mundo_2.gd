@@ -5,10 +5,26 @@ const PERSONAJE_SCENE := preload("res://Escenas/Personaje.tscn")
 const HUD_SCENE := preload("res://Escenas/HUD.tscn")
 const MENU_PAUSA_SCENE := preload("res://Escenas/MenuPausa.tscn")
 const MURO_CARNE_SCENE := preload("res://Escenas/MuroCarne.tscn")
+const FONDO_MUNDO_FINAL_SCRIPT := preload("res://Scripts/fondo_mundo_final.gd")
+const AMBIENTE_MUNDO_2_SCRIPT := preload("res://Scripts/ambiente_mundo_2.gd")
+const DISTORSION_SHADER := preload("res://Shaders/vigneta_distorsion.gdshader")
 const MENU_SCENE := "res://Escenas/Menu.tscn"
 const SCENE_PATH := "res://Escenas/Mundo2.tscn"
 const ESCALA_TIEMPO_PAUSA := 0.000001
 const FACTOR_LENTITUD_GAFAS_MURO := 0.9
+const INTERVALO_PENSAMIENTOS := 20.0
+const PENSAMIENTOS_OSCUROS := [
+	"Si tropiezo otra vez, va a sonar igual que sus risas.",
+	"Corro, pero el ruido no deja de perseguirme.",
+	"Ni escapando siento que me quieren dejar en paz.",
+	"Si me alcanza, vuelvo a ser el chiste de siempre.",
+	"Cada salto se siente como intentar salir de sus burlas.",
+]
+const PENSAMIENTOS_GAFAS := [
+	"Con las gafas puestas, el camino deja de esconderse.",
+	"Si puedo verlo claro, tambien puedo seguir.",
+	"No todo lo que me persigue decide quien soy.",
+]
 
 @export_group("Flujo")
 @export var altura_caida_respawn: float = 760.0
@@ -17,6 +33,7 @@ const FACTOR_LENTITUD_GAFAS_MURO := 0.9
 @export var mensaje_llegada: String = "Mundo 2. Corre: el muro no se detendra, pero las gafas revelan la ruta."
 @export var mensaje_respawn: String = "Has vuelto al inicio del mundo 2."
 @export var mensaje_fallo_muro: String = "El muro te alcanzo. Respira y vuelve a correr."
+@export var duracion_restablecer_mensaje_llegada: float = 2.45
 
 @export_group("Jugador")
 @export var jugador_velocidad_base: float = 100.0
@@ -24,8 +41,8 @@ const FACTOR_LENTITUD_GAFAS_MURO := 0.9
 @export var jugador_aceleracion: float = 1000.0
 
 @export_group("Camara")
-@export var zoom_base_mundo: Vector2 = Vector2(1.76, 1.76)
-@export var zoom_con_gafas: Vector2 = Vector2(1.48, 1.48)
+@export var zoom_base_mundo: Vector2 = Vector2(1.9, 1.9)
+@export var zoom_con_gafas: Vector2 = Vector2(1.6, 1.6)
 @export var suavizado_camara: float = 6.0
 @export var adelanto_camara_muro: float = 316.0
 @export var adelanto_camara_jugador: float = 48.0
@@ -33,6 +50,23 @@ const FACTOR_LENTITUD_GAFAS_MURO := 0.9
 @export_group("Muro")
 @export var posicion_inicial_muro: Vector2 = Vector2(-136, 326)
 @export var velocidad_muro: float = 72.0
+
+@export_group("Distorsion")
+@export var alpha_distorsion_base: float = 0.72
+@export var alpha_distorsion_gafas: float = 0.0
+@export var duracion_transicion_gafas: float = 0.22
+@export var vignette_radius_base: float = 0.56
+@export var vignette_softness_base: float = 0.28
+@export var blur_strength_base: float = 2.2
+@export var edge_darkness_base: float = 0.6
+@export var tint_strength_base: float = 0.18
+@export var edge_desaturation_base: float = 0.22
+@export var aberration_strength_base: float = 1.2
+@export var pulse_strength_base: float = 0.02
+@export var pulse_speed_base: float = 0.8
+
+@export_group("Sonido")
+@export var distancia_peligro_maxima_muro: float = 620.0
 
 var jugador: Jugador = null
 var hud: HUD = null
@@ -43,12 +77,21 @@ var camara_1: Camera2D = null
 var camara_2: Camera2D = null
 var area_camara_1: Area2D = null
 var area_camara_2: Area2D = null
+var fondo_mundo_final: Node2D = null
+var ambiente_mundo_2: AudioStreamPlayer = null
+var distorsion_overlay: ColorRect = null
+var distorsion_material: ShaderMaterial = null
 var _camara_actual: Camera2D = null
 var _posicion_respawn_actual: Vector2 = Vector2.ZERO
 var _pausa_activa: bool = false
 var _respawn_activo: bool = false
 var _estado_gafas_aplicado: bool = false
 var _tween_zoom: Tween
+var _tween_alpha_distorsion: Tween
+var _temporizador_pensamientos: Timer = null
+var _indice_pensamiento: int = 0
+var _indice_pensamiento_gafas: int = 0
+var _token_restablecer_mensaje: int = 0
 
 
 func _ready() -> void:
@@ -57,13 +100,16 @@ func _ready() -> void:
 	_configurar_jugador_base()
 	_configurar_puertas_decorativas()
 	_configurar_menu_pausa()
+	_configurar_distorsion_visual()
 	_configurar_jugador()
 	_configurar_muro()
 	_configurar_camaras()
+	_configurar_pensamientos()
 	_cargar_guardado_mundo_2()
 	_configurar_hud()
 	_aplicar_estado_gafas(jugador.gafas_activas(), true)
 	_sincronizar_camara_con_jugador(true, 0.0)
+	_actualizar_presion_ambiente()
 	_guardar_progreso()
 
 
@@ -73,6 +119,7 @@ func _process(delta: float) -> void:
 
 	_actualizar_camara_por_posicion()
 	_sincronizar_camara_con_jugador(false, delta)
+	_actualizar_presion_ambiente()
 
 	if jugador.global_position.y > altura_caida_respawn:
 		call_deferred("_reiniciar_carrera", false, mensaje_respawn)
@@ -134,6 +181,12 @@ func volver_al_menu() -> void:
 
 
 func _asegurar_estructura_base() -> void:
+	if get_node_or_null("FondoMundoFinal") == null:
+		var fondo_instancia: Node2D = FONDO_MUNDO_FINAL_SCRIPT.new()
+		fondo_instancia.name = "FondoMundoFinal"
+		add_child(fondo_instancia)
+		move_child(fondo_instancia, 0)
+
 	if get_node_or_null("SpawnJugador") == null:
 		var spawn := Marker2D.new()
 		spawn.name = "SpawnJugador"
@@ -157,6 +210,26 @@ func _asegurar_estructura_base() -> void:
 		canvas.name = "Canvas"
 		add_child(canvas)
 
+	if canvas.get_node_or_null("DistorsionOverlay") == null:
+		var overlay := ColorRect.new()
+		overlay.name = "DistorsionOverlay"
+		overlay.anchor_left = 0.0
+		overlay.anchor_top = 0.0
+		overlay.anchor_right = 1.0
+		overlay.anchor_bottom = 1.0
+		overlay.offset_left = 0.0
+		overlay.offset_top = 0.0
+		overlay.offset_right = 0.0
+		overlay.offset_bottom = 0.0
+		overlay.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		overlay.color = Color(0.4, 0.72, 0.88, alpha_distorsion_base)
+		var material := ShaderMaterial.new()
+		material.shader = DISTORSION_SHADER
+		material.resource_local_to_scene = true
+		overlay.material = material
+		canvas.add_child(overlay)
+		canvas.move_child(overlay, 0)
+
 	if canvas.get_node_or_null("HUD") == null:
 		var hud_instancia := HUD_SCENE.instantiate()
 		hud_instancia.name = "HUD"
@@ -172,6 +245,11 @@ func _asegurar_estructura_base() -> void:
 		muro_instancia.name = "MuroCarne"
 		add_child(muro_instancia)
 
+	if get_node_or_null("AmbienteMundo2") == null:
+		var ambiente_instancia: AudioStreamPlayer = AMBIENTE_MUNDO_2_SCRIPT.new()
+		ambiente_instancia.name = "AmbienteMundo2"
+		add_child(ambiente_instancia)
+
 
 func _resolver_nodos() -> void:
 	jugador = get_node_or_null("Player/Jugador") as Jugador
@@ -183,6 +261,10 @@ func _resolver_nodos() -> void:
 	camara_2 = get_node_or_null("Camera2D2") as Camera2D
 	area_camara_1 = get_node_or_null("Area2D") as Area2D
 	area_camara_2 = get_node_or_null("Area2D2") as Area2D
+	fondo_mundo_final = get_node_or_null("FondoMundoFinal") as Node2D
+	ambiente_mundo_2 = get_node_or_null("AmbienteMundo2") as AudioStreamPlayer
+	distorsion_overlay = get_node_or_null("Canvas/DistorsionOverlay") as ColorRect
+	distorsion_material = distorsion_overlay.material as ShaderMaterial if distorsion_overlay != null else null
 	if punto_respawn != null and punto_respawn.position == Vector2.ZERO:
 		punto_respawn.position = posicion_spawn_defecto
 
@@ -217,6 +299,22 @@ func _configurar_menu_pausa() -> void:
 	if not menu_pausa.volver_menu_solicitado.is_connected(volver_al_menu):
 		menu_pausa.volver_menu_solicitado.connect(volver_al_menu)
 	menu_pausa.establecer_modo_carrera(true)
+
+
+func _configurar_distorsion_visual() -> void:
+	if distorsion_overlay == null:
+		return
+
+	if distorsion_overlay.material is ShaderMaterial:
+		distorsion_material = (distorsion_overlay.material as ShaderMaterial).duplicate()
+		distorsion_material.resource_local_to_scene = true
+		distorsion_overlay.material = distorsion_material
+
+	distorsion_overlay.show()
+	var color_base := distorsion_overlay.color
+	color_base = Color(0.4, 0.72, 0.88, _obtener_alpha_distorsion_objetivo(false))
+	distorsion_overlay.color = color_base
+	_aplicar_perfil_distorsion(true)
 
 
 func _configurar_jugador() -> void:
@@ -254,6 +352,19 @@ func _configurar_camaras() -> void:
 		camara.position_smoothing_enabled = false
 
 	_actualizar_camara_por_posicion()
+
+
+func _configurar_pensamientos() -> void:
+	if _temporizador_pensamientos != null:
+		return
+
+	_temporizador_pensamientos = Timer.new()
+	_temporizador_pensamientos.wait_time = INTERVALO_PENSAMIENTOS
+	_temporizador_pensamientos.one_shot = false
+	_temporizador_pensamientos.ignore_time_scale = true
+	_temporizador_pensamientos.timeout.connect(_on_temporizador_pensamientos_timeout)
+	add_child(_temporizador_pensamientos)
+	_temporizador_pensamientos.start()
 
 
 func _configurar_hud() -> void:
@@ -313,6 +424,9 @@ func _reiniciar_carrera(con_animacion_muerte: bool, mensaje: String) -> void:
 		return
 
 	_respawn_activo = true
+	_token_restablecer_mensaje += 1
+	var token_actual := _token_restablecer_mensaje
+
 	if _pausa_activa:
 		cerrar_menu_pausa()
 	_restaurar_tiempo_normal()
@@ -336,10 +450,15 @@ func _reiniciar_carrera(con_animacion_muerte: bool, mensaje: String) -> void:
 
 	_actualizar_camara_por_posicion()
 	_sincronizar_camara_con_jugador(true, 0.0)
+	_actualizar_presion_ambiente()
 	jugador.establecer_control_habilitado(true)
 	_guardar_progreso()
 	if hud != null:
 		hud.mostrar_mensaje(mensaje)
+
+	if mensaje == mensaje_fallo_muro:
+		_reiniciar_ciclo_pensamientos()
+		_programar_restablecer_mensaje_llegada(token_actual)
 
 	_respawn_activo = false
 
@@ -403,9 +522,16 @@ func _on_area_camara_2_body_entered(body: Node) -> void:
 
 
 func _on_jugador_gafas_actualizadas(activa: bool, _duracion_restante: float, _cooldown_restante: float, _cooldown_actual: float, _siguiente_cooldown: float) -> void:
+	if activa == _estado_gafas_aplicado:
+		_aplicar_alpha_distorsion_actual(false)
+		_aplicar_perfil_distorsion(false)
+		return
+
 	_aplicar_estado_gafas(activa)
-	if activa and hud != null and hud.has_method("mostrar_mensaje"):
-		hud.mostrar_mensaje("Las gafas revelan plataformas y ralentizan un poco el muro.")
+	if activa:
+		if hud != null and hud.has_method("mostrar_mensaje"):
+			hud.mostrar_mensaje("Las gafas revelan plataformas y te dan un instante de claridad.")
+		_mostrar_pensamiento_gafas()
 
 
 func _aplicar_estado_gafas(activa: bool, instantaneo: bool = false) -> void:
@@ -417,18 +543,24 @@ func _aplicar_estado_gafas(activa: bool, instantaneo: bool = false) -> void:
 		if plataforma != null and plataforma.has_method("establecer_revelada"):
 			plataforma.establecer_revelada(activa)
 
-	_animar_zoom_camaras(activa, instantaneo)
+	if ambiente_mundo_2 != null and ambiente_mundo_2.has_method("establecer_claridad_gafas"):
+		ambiente_mundo_2.establecer_claridad_gafas(activa)
+
+	_animar_transicion_gafas(activa, instantaneo)
 
 
-func _animar_zoom_camaras(activa: bool, instantaneo: bool) -> void:
+func _animar_transicion_gafas(activa: bool, instantaneo: bool) -> void:
 	var zoom_objetivo := zoom_con_gafas if activa else zoom_base_mundo
+	var alpha_objetivo := _obtener_alpha_distorsion_objetivo(activa)
 	if _tween_zoom != null and _tween_zoom.is_valid():
 		_tween_zoom.kill()
+	if _tween_alpha_distorsion != null and _tween_alpha_distorsion.is_valid():
+		_tween_alpha_distorsion.kill()
 
 	if instantaneo:
-		for camara in [camara_1, camara_2]:
-			if camara != null:
-				camara.zoom = zoom_objetivo
+		_aplicar_zoom_camaras(zoom_objetivo)
+		_aplicar_perfil_distorsion(true)
+		_aplicar_alpha_distorsion_actual(true)
 		return
 
 	_tween_zoom = create_tween()
@@ -438,11 +570,127 @@ func _animar_zoom_camaras(activa: bool, instantaneo: bool) -> void:
 	_tween_zoom.set_ease(Tween.EASE_IN_OUT)
 	for camara in [camara_1, camara_2]:
 		if camara != null:
-			_tween_zoom.tween_property(camara, "zoom", zoom_objetivo, 0.22)
+			_tween_zoom.tween_property(camara, "zoom", zoom_objetivo, duracion_transicion_gafas)
+
+	if distorsion_overlay != null:
+		var color_objetivo := distorsion_overlay.color
+		color_objetivo.a = alpha_objetivo
+		_tween_zoom.tween_property(distorsion_overlay, "color", color_objetivo, duracion_transicion_gafas)
+
+	_aplicar_perfil_distorsion(false)
+
+
+func _aplicar_zoom_camaras(zoom_objetivo: Vector2) -> void:
+	for camara in [camara_1, camara_2]:
+		if camara != null:
+			camara.zoom = zoom_objetivo
 
 
 func _on_muro_carne_jugador_alcanzado() -> void:
 	call_deferred("_reiniciar_carrera", true, mensaje_fallo_muro)
+
+
+func _configurar_peligro_ambiente(valor: float) -> void:
+	if ambiente_mundo_2 != null and ambiente_mundo_2.has_method("establecer_presion"):
+		ambiente_mundo_2.establecer_presion(valor)
+
+
+func _actualizar_presion_ambiente() -> void:
+	if ambiente_mundo_2 == null or jugador == null or muro_carne == null:
+		return
+
+	var distancia := maxf(jugador.global_position.x - muro_carne.global_position.x, 0.0)
+	var presion := 1.0 - clampf((distancia - 128.0) / maxf(distancia_peligro_maxima_muro, 64.0), 0.0, 1.0)
+	_configurar_peligro_ambiente(presion)
+
+
+func _on_temporizador_pensamientos_timeout() -> void:
+	if _pausa_activa or _respawn_activo or hud == null or not hud.has_method("mostrar_pensamiento"):
+		return
+
+	hud.mostrar_pensamiento(_obtener_pensamiento_siguiente())
+
+
+func _obtener_pensamiento_siguiente() -> String:
+	if PENSAMIENTOS_OSCUROS.is_empty():
+		return ""
+
+	var mensaje: String = PENSAMIENTOS_OSCUROS[_indice_pensamiento % PENSAMIENTOS_OSCUROS.size()]
+	_indice_pensamiento += 1
+	return mensaje
+
+
+func _mostrar_pensamiento_gafas() -> void:
+	if PENSAMIENTOS_GAFAS.is_empty() or hud == null or not hud.has_method("mostrar_pensamiento"):
+		return
+
+	var mensaje: String = PENSAMIENTOS_GAFAS[_indice_pensamiento_gafas % PENSAMIENTOS_GAFAS.size()]
+	_indice_pensamiento_gafas += 1
+	hud.mostrar_pensamiento(mensaje, true)
+	if _temporizador_pensamientos != null:
+		_temporizador_pensamientos.start(INTERVALO_PENSAMIENTOS)
+
+
+func _reiniciar_ciclo_pensamientos() -> void:
+	_indice_pensamiento = 0
+	if _temporizador_pensamientos != null:
+		_temporizador_pensamientos.start(INTERVALO_PENSAMIENTOS)
+
+
+func _programar_restablecer_mensaje_llegada(token_actual: int) -> void:
+	_restablecer_mensaje_llegada_async(token_actual)
+
+
+func _restablecer_mensaje_llegada_async(token_actual: int) -> void:
+	await get_tree().create_timer(duracion_restablecer_mensaje_llegada).timeout
+	if token_actual != _token_restablecer_mensaje:
+		return
+	if hud == null or not is_instance_valid(hud):
+		return
+	hud.mostrar_mensaje(mensaje_llegada)
+
+
+func _obtener_alpha_distorsion_objetivo(gafas_activas: bool) -> float:
+	return alpha_distorsion_gafas if gafas_activas else alpha_distorsion_base
+
+
+func _aplicar_perfil_distorsion(_instantaneo: bool) -> void:
+	if distorsion_material == null:
+		return
+
+	distorsion_material.set_shader_parameter("center", Vector2(0.5, 0.5))
+	distorsion_material.set_shader_parameter("vignette_radius", vignette_radius_base)
+	distorsion_material.set_shader_parameter("vignette_softness", vignette_softness_base)
+	distorsion_material.set_shader_parameter("blur_strength", blur_strength_base)
+	distorsion_material.set_shader_parameter("edge_darkness", edge_darkness_base)
+	distorsion_material.set_shader_parameter("tint_strength", tint_strength_base)
+	distorsion_material.set_shader_parameter("edge_desaturation", edge_desaturation_base)
+	distorsion_material.set_shader_parameter("aberration_strength", aberration_strength_base)
+	distorsion_material.set_shader_parameter("pulse_strength", pulse_strength_base)
+	distorsion_material.set_shader_parameter("pulse_speed", pulse_speed_base)
+
+
+func _aplicar_alpha_distorsion_actual(instantaneo: bool) -> void:
+	if distorsion_overlay == null:
+		return
+
+	var alpha_objetivo := _obtener_alpha_distorsion_objetivo(_estado_gafas_aplicado)
+	if _tween_alpha_distorsion != null and _tween_alpha_distorsion.is_valid():
+		_tween_alpha_distorsion.kill()
+
+	if instantaneo:
+		var color_actual := distorsion_overlay.color
+		color_actual.a = alpha_objetivo
+		distorsion_overlay.color = color_actual
+		return
+
+	var color_objetivo := distorsion_overlay.color
+	color_objetivo.a = alpha_objetivo
+	_tween_alpha_distorsion = create_tween()
+	_tween_alpha_distorsion.set_trans(Tween.TRANS_SINE)
+	_tween_alpha_distorsion.set_ease(Tween.EASE_IN_OUT)
+	_tween_alpha_distorsion.set_ignore_time_scale(true)
+	_tween_alpha_distorsion.tween_property(distorsion_overlay, "color", color_objetivo, duracion_transicion_gafas)
 
 
 func _actualizar_escala_tiempo() -> void:

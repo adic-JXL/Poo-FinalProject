@@ -4,10 +4,10 @@
 [ext_resource type="Script" path="res://Scripts/sprite_animado_frames.gd" id="2_anim"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_cuerpo"]
-size = Vector2(18, 30)
+size = Vector2(16, 28)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ataque"]
-size = Vector2(26, 34)
+size = Vector2(22, 30)
 
 [node name="EnemigoPatrulla" type="CharacterBody2D"]
 script = ExtResource("1_enemigo")
