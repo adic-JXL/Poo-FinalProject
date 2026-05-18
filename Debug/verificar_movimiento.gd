@@ -552,45 +552,31 @@ func _ejecutar_verificacion() -> void:
 				if not puerta_mundo_2.puede_teletransportar():
 					_registrar_error("La puerta final aparece, pero no queda lista para llevar al mundo 2.")
 
-				var salida_mundo_2: Vector2 = puerta_mundo_2_destino.obtener_punto_salida()
 				puerta_mundo_2.teletransportar_jugador(jugador)
-				await create_timer(0.4).timeout
-
-				if jugador.global_position.distance_to(salida_mundo_2) > 24.0:
-					_registrar_error("La puerta final no traslada al jugador hacia la base provisional del mundo 2.")
-
-				jugador.global_position = checkpoint_mundo_2_activador.global_position
-				jugador.velocity = Vector2.ZERO
+				await create_timer(0.55).timeout
 				for _cm2 in range(3):
 					await physics_frame
 
-				if not escena_principal.mundo_2_esta_alcanzado():
-					_registrar_error("El checkpoint del mundo 2 no marca la llegada a la nueva base.")
+				var escena_mundo_2 := current_scene
+				if escena_mundo_2 == null or escena_mundo_2.scene_file_path != "res://Escenas/Mundo2.tscn":
+					_registrar_error("La puerta final no cambia correctamente a la escena Mundo2.")
+				else:
+					var jugador_mundo_2 = escena_mundo_2.get_node_or_null("Player/Jugador")
+					var spawn_mundo_2 = escena_mundo_2.get_node_or_null("SpawnJugador")
+					var hud_mundo_2 = escena_mundo_2.get_node_or_null("Canvas/HUD")
+					if jugador_mundo_2 == null or spawn_mundo_2 == null or hud_mundo_2 == null:
+						_registrar_error("La escena Mundo2 no carga sus nodos base correctamente.")
+					else:
+						if jugador_mundo_2.global_position.distance_to(spawn_mundo_2.global_position) > 48.0:
+							_registrar_error("El jugador no aparece cerca del inicio esperado del mundo 2.")
 
-				var respawn_mundo_2: Vector2 = escena_principal.obtener_respawn_actual()
-				if respawn_mundo_2.distance_to(checkpoint_mundo_2.global_position) > 1.0:
-					_registrar_error("El checkpoint del mundo 2 no actualiza el respawn al inicio provisional.")
+						jugador_mundo_2.global_position = Vector2(1800, 1000)
+						jugador_mundo_2.velocity = Vector2.ZERO
+						for _resp in range(5):
+							await physics_frame
 
-				jugador.global_position = Vector2(1800, 1000)
-				jugador.velocity = Vector2.ZERO
-				escena_principal.reiniciar_nivel()
-				await process_frame
-				await physics_frame
-
-				if jugador.global_position.distance_to(respawn_mundo_2) > 2.0:
-					_registrar_error("Reiniciar el nivel no devuelve al jugador al checkpoint activo del mundo 2.")
-
-				if jugador.vida != jugador.obtener_vida_inicial():
-					_registrar_error("El respawn no restaura la vida inicial del jugador.")
-
-				if enemigo.global_position.distance_to(Vector2(522, 231)) > 2.0:
-					_registrar_error("El respawn no reinicia al enemigo patrulla a su posicion base.")
-
-				if not jefe_sombras.esta_derrotado():
-					_registrar_error("El respawn restablecio al jefe aun despues de abrir la salida al mundo 2.")
-
-				if not puerta_mundo_2.visible or not puerta_mundo_2.puede_teletransportar():
-					_registrar_error("La puerta final deja de estar disponible tras reiniciar el nivel.")
+						if jugador_mundo_2.global_position.distance_to(spawn_mundo_2.global_position) > 2.0:
+							_registrar_error("El respawn del mundo 2 no devuelve al jugador al inicio esperado.")
 			else:
 				jugador.global_position = Vector2(1800, 1000)
 				jugador.velocity = Vector2.ZERO
@@ -604,29 +590,30 @@ func _ejecutar_verificacion() -> void:
 				if enemigo.global_position.distance_to(Vector2(522, 231)) > 2.0:
 					_registrar_error("El respawn no reinicia al enemigo patrulla a su posicion base.")
 
-			escena_principal.abrir_menu_pausa()
-			await process_frame
+			if current_scene == escena_principal:
+				escena_principal.abrir_menu_pausa()
+				await process_frame
 
-			if not escena_principal.esta_pausa_activa():
-				_registrar_error("El menu de pausa no se activa al abrirlo.")
+				if not escena_principal.esta_pausa_activa():
+					_registrar_error("El menu de pausa no se activa al abrirlo.")
 
-			if Engine.time_scale > 0.00001:
-				_registrar_error("La pausa no reduce la velocidad global del mundo al minimo esperado.")
+				if Engine.time_scale > 0.00001:
+					_registrar_error("La pausa no reduce la velocidad global del mundo al minimo esperado.")
 
-			if jugador.tiene_control_habilitado():
-				_registrar_error("El jugador sigue con controles habilitados durante la pausa.")
+				if jugador.tiene_control_habilitado():
+					_registrar_error("El jugador sigue con controles habilitados durante la pausa.")
 
-			if not enemigo.esta_congelado():
-				_registrar_error("El enemigo patrulla no queda congelado al abrir la pausa.")
+				if not enemigo.esta_congelado():
+					_registrar_error("El enemigo patrulla no queda congelado al abrir la pausa.")
 
-			escena_principal.cerrar_menu_pausa()
-			await process_frame
+				escena_principal.cerrar_menu_pausa()
+				await process_frame
 
-			if escena_principal.esta_pausa_activa():
-				_registrar_error("El menu de pausa no se cierra correctamente.")
+				if escena_principal.esta_pausa_activa():
+					_registrar_error("El menu de pausa no se cierra correctamente.")
 
-			if not is_equal_approx(Engine.time_scale, 1.0):
-				_registrar_error("La velocidad global no vuelve a la normalidad despues de cerrar la pausa.")
+				if not is_equal_approx(Engine.time_scale, 1.0):
+					_registrar_error("La velocidad global no vuelve a la normalidad despues de cerrar la pausa.")
 
 	if _errores.is_empty():
 		print("MOVIMIENTO_OK")

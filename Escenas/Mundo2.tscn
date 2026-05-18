@@ -4,6 +4,9 @@
 [ext_resource type="PackedScene" uid="uid://epu5x41hq3f0" path="res://Escenas/plataforma_gafas.tscn" id="2_38hnj"]
 [ext_resource type="PackedScene" uid="uid://cfqkuepi47a1d" path="res://Escenas/Plataforma.tscn" id="3_f2g44"]
 [ext_resource type="PackedScene" uid="uid://dkdpa48nrjkq3" path="res://Escenas/Puerta.tscn" id="4_2oaxk"]
+[ext_resource type="Script" path="res://Scripts/mundo_2.gd" id="5_mundo2"]
+[ext_resource type="PackedScene" uid="uid://sh8mxgnkcji2" path="res://Escenas/Personaje.tscn" id="6_personaje"]
+[ext_resource type="PackedScene" path="res://Escenas/HUD.tscn" id="7_hud"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_x75q3"]
 texture = ExtResource("1_frq32")
@@ -311,6 +314,7 @@ size = Vector2(11834, 666)
 size = Vector2(1712, 664)
 
 [node name="Node2D" type="Node2D" unique_id=895375622]
+script = ExtResource("5_mundo2")
 
 [node name="TileMapLayer" type="TileMapLayer" parent="." unique_id=94634762]
 texture_filter = 1
@@ -406,3 +410,15 @@ limit_bottom = 656
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D2" unique_id=463013166]
 position = Vector2(13288, 324)
 shape = SubResource("RectangleShape2D_frq32")
+
+[node name="SpawnJugador" type="Marker2D" parent="."]
+position = Vector2(144, 520)
+
+[node name="Player" type="Node2D" parent="."]
+
+[node name="Jugador" parent="Player" instance=ExtResource("6_personaje")]
+position = Vector2(144, 520)
+
+[node name="Canvas" type="CanvasLayer" parent="."]
+
+[node name="HUD" parent="Canvas" instance=ExtResource("7_hud")]

@@ -12,6 +12,9 @@ var _respuesta_actual: Array[int] = []
 var _aceptando_entrada: bool = false
 var _botones: Array[Button] = []
 
+@onready var overlay: ColorRect = $Control/Overlay
+@onready var panel_container: PanelContainer = $Control/CenterContainer/PanelContainer
+@onready var titulo_label: Label = $Control/CenterContainer/PanelContainer/VBoxContainer/TituloLabel
 @onready var instruccion_label: Label = $Control/CenterContainer/PanelContainer/VBoxContainer/InstruccionLabel
 @onready var patron_label: Label = $Control/CenterContainer/PanelContainer/VBoxContainer/PatronLabel
 @onready var feedback_label: Label = $Control/CenterContainer/PanelContainer/VBoxContainer/FeedbackLabel
@@ -35,6 +38,16 @@ func _ready() -> void:
 	cancelar_button.pressed.connect(_on_boton_cancelar_pressed)
 	timer_revelacion.timeout.connect(_on_timer_revelacion_timeout)
 	_establecer_botones_habilitados(false)
+	aplicar_tema_puzzle(
+		overlay,
+		panel_container,
+		titulo_label,
+		[instruccion_label, patron_label, feedback_label],
+		_botones,
+		cancelar_button,
+		Color(0.48, 0.88, 0.82, 1.0)
+	)
+	patron_label.add_theme_color_override("font_color", Color(0.72, 0.98, 0.94, 1.0))
 
 
 func iniciar_puzzle() -> void:
