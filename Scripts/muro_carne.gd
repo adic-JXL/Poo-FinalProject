@@ -59,7 +59,10 @@ func establecer_multiplicador_velocidad(multiplicador: float) -> void:
 	_multiplicador_velocidad = max(multiplicador, 0.1)
 
 
-func reiniciar(posicion_objetivo: Vector2 = _posicion_inicio) -> void:
+func reiniciar(posicion_objetivo: Vector2 = Vector2.INF) -> void:
+	if posicion_objetivo == Vector2.INF:
+		posicion_objetivo = _posicion_inicio
+
 	global_position = posicion_objetivo
 	_posicion_inicio = posicion_objetivo
 	visual.scale = Vector2.ONE
@@ -115,8 +118,8 @@ func _obtener_textura_cuerpo() -> Texture2D:
 	if _textura_cuerpo_cache != null:
 		return _textura_cuerpo_cache
 
-	var ancho := max(tamano_textura.x, 24)
-	var alto := max(tamano_textura.y, 96)
+	var ancho: int = maxi(tamano_textura.x, 24)
+	var alto: int = maxi(tamano_textura.y, 96)
 	var imagen := Image.create(ancho, alto, false, Image.FORMAT_RGBA8)
 	var centro_x := float(ancho) * 0.5
 
