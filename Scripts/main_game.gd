@@ -7,6 +7,7 @@ const MENSAJE_NIVEL_COMPLETO := "La puerta se abrio. El nivel base ya esta compl
 const MENSAJE_CHECKPOINT_ACTIVADO := "Checkpoint activado. Si caes, volveras despues de la puerta."
 const MENSAJE_CHECKPOINT_PUERTA_DISPONIBLE := "Nueva zona alcanzada. Pisa el punto verde para guardar tu avance."
 const MENSAJE_CHECKPOINT_GAFAS_ACTIVADO := "Checkpoint activado. Activa las gafas para revelar el parkour oculto."
+const MENSAJE_CHECKPOINT_PRE_PARKOUR_ACTIVADO := "Checkpoint activado. El parkour oculto empieza adelante. Usa las gafas con cuidado."
 const MENSAJE_PUZZLE_GAFAS_COMPLETADO := "Reto de gafas superado. La puerta hacia la arena del jefe ya esta activa."
 const MENSAJE_CHECKPOINT_ALTAR_DISPONIBLE := "El altar respondio. Pisa el punto azul para guardar este avance."
 const MENSAJE_GAFAS_REQUERIDAS := "Activa las gafas antes de tocar el altar. Solo asi podras leer sus glifos."
@@ -90,6 +91,8 @@ const PENSAMIENTO_JEFE_DERROTADO := "Pude moldear mi mente."
 @onready var puerta_mundo_2_destino = get_node_or_null("Objetos/PuertaMundo2Destino")
 @onready var checkpoint_puerta: Marker2D = $Objetos/CheckpointPuerta
 @onready var checkpoint_puerta_activador = $Objetos/CheckpointPuerta/Activador
+@onready var checkpoint_pre_parkour: Marker2D = get_node_or_null("Objetos/CheckpointPreParkour") as Marker2D
+@onready var checkpoint_pre_parkour_activador = get_node_or_null("Objetos/CheckpointPreParkour/Activador")
 @onready var altar_gafas = $Objetos/AltarGafas
 @onready var checkpoint_puzzle_gafas: Marker2D = $Objetos/CheckpointPuzzleGafas
 @onready var checkpoint_puzzle_gafas_activador = $Objetos/CheckpointPuzzleGafas/Activador
@@ -113,6 +116,7 @@ const PENSAMIENTO_JEFE_DERROTADO := "Pude moldear mi mente."
 @onready var puzzle = $Canvas/PuzzleSecuencia
 @onready var puzzle_gafas = $Canvas/PuzzleGafas
 @onready var jefe_sombras = $Enemigos/JefeSombras
+@onready var ambiente_mundo_1 = get_node_or_null("AmbienteMundo1")
 
 var _posicion_inicial_jugador: Vector2
 var _posicion_respawn_actual: Vector2
@@ -165,6 +169,7 @@ func _ready() -> void:
 	_estado_gafas_aplicado = false
 	_actualizar_estado_zona_jefe(true)
 	_aplicar_estado_gafas(false, true)
+	_actualizar_ambiente_sonoro()
 	_sincronizar_camara_con_jugador()
 	_restaurar_mensaje_hud()
 
@@ -356,6 +361,9 @@ func _configurar_checkpoints() -> void:
 	if checkpoint_puerta_activador != null and checkpoint_puerta_activador.has_signal("checkpoint_alcanzado"):
 		checkpoint_puerta_activador.checkpoint_alcanzado.connect(_on_checkpoint_puerta_alcanzado)
 
+	if checkpoint_pre_parkour_activador != null and checkpoint_pre_parkour_activador.has_signal("checkpoint_alcanzado"):
+		checkpoint_pre_parkour_activador.checkpoint_alcanzado.connect(_on_checkpoint_pre_parkour_alcanzado)
+
 	if checkpoint_puzzle_gafas_activador != null and checkpoint_puzzle_gafas_activador.has_signal("checkpoint_alcanzado"):
 		checkpoint_puzzle_gafas_activador.checkpoint_alcanzado.connect(_on_checkpoint_puzzle_gafas_alcanzado)
 
@@ -373,6 +381,8 @@ func _configurar_enemigos() -> void:
 
 	if jefe_sombras != null and jefe_sombras.has_signal("fase_cambiada"):
 		jefe_sombras.fase_cambiada.connect(_on_jefe_sombras_fase_cambiada)
+
+	_actualizar_actividad_jefe()
 
 
 func _configurar_gafas() -> void:
@@ -549,6 +559,10 @@ func _on_checkpoint_puerta_alcanzado(posicion: Vector2, _mensaje: String) -> voi
 	_activar_checkpoint(posicion, MENSAJE_CHECKPOINT_GAFAS_ACTIVADO)
 
 
+func _on_checkpoint_pre_parkour_alcanzado(posicion: Vector2, _mensaje: String) -> void:
+	_activar_checkpoint(posicion, MENSAJE_CHECKPOINT_PRE_PARKOUR_ACTIVADO)
+
+
 func _on_checkpoint_puzzle_gafas_alcanzado(posicion: Vector2, _mensaje: String) -> void:
 	_activar_checkpoint(posicion, MENSAJE_PUZZLE_GAFAS_COMPLETADO)
 
@@ -561,6 +575,7 @@ func _on_checkpoint_mundo_2_alcanzado(posicion: Vector2, _mensaje: String) -> vo
 func _on_jefe_sombras_derrotado() -> void:
 	_jefe_derrotado = true
 	_mundo_2_desbloqueado = true
+	_actualizar_actividad_jefe()
 	_actualizar_puerta_mundo_2(true)
 	_aplicar_alpha_distorsion_actual(false)
 	_aplicar_perfil_distorsion(true)
@@ -643,6 +658,7 @@ func _on_puerta_jefe_teletransporte_realizado(_jugador: Node2D, destino: Node2D)
 		return
 
 	_jugador_en_zona_jefe = true
+	_actualizar_actividad_jefe()
 	_aplicar_alpha_distorsion_actual(true)
 	_aplicar_perfil_distorsion(true)
 	_sincronizar_camara_con_jugador()
@@ -982,6 +998,8 @@ func _actualizar_estado_zona_jefe(forzar: bool = false) -> void:
 		)
 
 	_jugador_en_zona_jefe = dentro_area
+	_actualizar_actividad_jefe()
+	_actualizar_ambiente_sonoro()
 	if not forzar and estaba_en_zona == _jugador_en_zona_jefe:
 		return
 
@@ -990,6 +1008,22 @@ func _actualizar_estado_zona_jefe(forzar: bool = false) -> void:
 
 	_aplicar_alpha_distorsion_actual(forzar)
 	_aplicar_perfil_distorsion(forzar)
+
+
+func _actualizar_actividad_jefe() -> void:
+	if jefe_sombras == null or not is_instance_valid(jefe_sombras):
+		return
+
+	if jefe_sombras.has_method("establecer_activo_en_arena"):
+		jefe_sombras.establecer_activo_en_arena(_jugador_en_zona_jefe and not _jefe_derrotado and not _mundo_2_desbloqueado)
+
+
+func _actualizar_ambiente_sonoro() -> void:
+	if ambiente_mundo_1 == null or not is_instance_valid(ambiente_mundo_1):
+		return
+
+	if ambiente_mundo_1.has_method("establecer_modo_jefe"):
+		ambiente_mundo_1.establecer_modo_jefe(_jugador_en_zona_jefe)
 
 
 func _obtener_alpha_distorsion_objetivo(gafas_activas: bool) -> float:

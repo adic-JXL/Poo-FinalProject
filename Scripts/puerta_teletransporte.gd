@@ -9,10 +9,17 @@ signal teletransporte_realizado(jugador: Node2D, destino: Node2D)
 @export var permite_interaccion: bool = false
 @export var duracion_animacion_entrada: float = 0.24
 @export var offset_animacion_entrada: Vector2 = Vector2(0, 10)
-@export var color_inactiva: Color = Color(0.76, 0.82, 0.88, 1)
-@export var color_activa: Color = Color(0.67, 1, 0.78, 1)
+@export var color_inactiva: Color = Color(1, 1, 1, 1)
+@export var color_activa: Color = Color(1, 1, 1, 1)
+@export var textura_cerrada: Texture2D
+@export var textura_abierta: Texture2D
+@export var duracion_animacion_apertura: float = 0.34
+@export var factor_compresion_apertura: float = 0.92
+@export var factor_expansion_apertura: float = 1.07
 
 var _puerta_destino_ref: Node = null
+var _escala_base_sprite: Vector2 = Vector2.ONE
+var _tween_apertura: Tween = null
 
 @onready var sprite: Sprite2D = $Puerta
 @onready var marker_salida: Marker2D = $Marker2D
@@ -21,6 +28,8 @@ var _puerta_destino_ref: Node = null
 func _ready() -> void:
 	super()
 	body_entered.connect(_on_body_entered_teletransporte)
+	if sprite != null:
+		_escala_base_sprite = sprite.scale
 	_actualizar_visual()
 
 
@@ -46,6 +55,32 @@ func obtener_punto_salida() -> Vector2:
 
 func establecer_transporte_habilitado(activo: bool) -> void:
 	transporte_habilitado = activo
+	_actualizar_visual()
+
+
+func reproducir_animacion_apertura() -> void:
+	if sprite == null:
+		_actualizar_visual()
+		return
+
+	if _tween_apertura != null and _tween_apertura.is_valid():
+		_tween_apertura.kill()
+
+	if textura_cerrada != null:
+		sprite.texture = textura_cerrada
+	sprite.modulate = Color(1, 1, 1, 1)
+	sprite.scale = _escala_base_sprite
+	_tween_apertura = create_tween()
+	_tween_apertura.set_ignore_time_scale(true)
+	_tween_apertura.set_trans(Tween.TRANS_CUBIC)
+	_tween_apertura.set_ease(Tween.EASE_IN_OUT)
+	_tween_apertura.tween_property(sprite, "scale", _escala_base_sprite * factor_compresion_apertura, duracion_animacion_apertura * 0.22)
+	_tween_apertura.tween_callback(_aplicar_estado_abierto_visual)
+	_tween_apertura.tween_property(sprite, "scale", _escala_base_sprite * factor_expansion_apertura, duracion_animacion_apertura * 0.42)
+	_tween_apertura.tween_property(sprite, "scale", _escala_base_sprite, duracion_animacion_apertura * 0.36)
+
+
+func _aplicar_estado_abierto_visual() -> void:
 	_actualizar_visual()
 
 
@@ -104,5 +139,12 @@ func teletransportar_jugador(jugador: Node2D) -> void:
 func _actualizar_visual() -> void:
 	if sprite == null:
 		return
+
+	if transporte_habilitado and textura_abierta != null:
+		sprite.texture = textura_abierta
+	elif not transporte_habilitado and textura_cerrada != null:
+		sprite.texture = textura_cerrada
+	elif textura_cerrada != null:
+		sprite.texture = textura_cerrada
 
 	sprite.modulate = color_activa if transporte_habilitado else color_inactiva

@@ -16,6 +16,7 @@ signal fase_cambiada(fase_actual: int, sellos_activados: int)
 @export var duracion_embestida: float = 0.24
 @export var multiplicador_embestida: float = 2.35
 @export var duracion_aturdimiento_sello: float = 0.95
+@export var duracion_aturdimiento_post_embestida: float = 0.65
 
 enum EstadoJefe {
 	ACECHO,
@@ -35,6 +36,7 @@ var _temporizador_estado: float = 0.0
 var _enfriamiento_embestida: float = 0.0
 var _direccion_embestida: Vector2 = Vector2.RIGHT
 var _radio_ataque_base: float = 34.0
+var _activo_en_arena: bool = false
 
 @onready var collision_shape: CollisionShape2D = $CollisionShape2D
 @onready var collision_ataque: CollisionShape2D = $AreaAtaque/CollisionShape2D
@@ -50,7 +52,8 @@ func _inicializar_enemigo() -> void:
 	_temporizador_estado = 0.0
 	_enfriamiento_embestida = enfriamiento_embestida_base
 	_escala_visual_original = visual.scale
-	area_ataque.monitoring = true
+	_activo_en_arena = false
+	area_ataque.monitoring = false
 	collision_shape.disabled = false
 	_preparar_shape_ataque()
 	visual.modulate = color_base
@@ -61,6 +64,11 @@ func _inicializar_enemigo() -> void:
 func _procesar_comportamiento(delta: float) -> void:
 	if _derrotado:
 		velocity = Vector2.ZERO
+		return
+
+	if not _activo_en_arena:
+		velocity = Vector2.ZERO
+		_actualizar_linea_carga(false)
 		return
 
 	if _jugador_objetivo == null or not is_instance_valid(_jugador_objetivo):
@@ -92,7 +100,7 @@ func _post_procesar_movimiento() -> void:
 
 
 func activar_sello() -> void:
-	if _derrotado:
+	if _derrotado or not _activo_en_arena:
 		return
 
 	_sellos_activados += 1
@@ -113,6 +121,25 @@ func activar_sello() -> void:
 
 func esta_derrotado() -> bool:
 	return _derrotado
+
+
+func establecer_activo_en_arena(activo: bool) -> void:
+	var nuevo_estado := activo and not _derrotado
+	if _activo_en_arena == nuevo_estado:
+		return
+
+	_activo_en_arena = nuevo_estado
+	area_ataque.monitoring = _activo_en_arena and not _congelado
+
+	if _activo_en_arena:
+		return
+
+	_estado_jefe = EstadoJefe.ACECHO
+	_temporizador_estado = 0.0
+	velocity = Vector2.ZERO
+	_actualizar_linea_carga(false)
+	visual.scale = _escala_visual_original
+	visual.modulate = color_base.lerp(color_debilitado, clampf(float(_sellos_activados) / float(max(sellos_necesarios, 1)), 0.0, 1.0))
 
 
 func obtener_sellos_activados() -> int:
@@ -177,7 +204,8 @@ func _procesar_embestida(delta: float) -> void:
 	_limitar_a_arena()
 
 	if _temporizador_estado == 0.0:
-		_estado_jefe = EstadoJefe.ACECHO
+		_estado_jefe = EstadoJefe.ATURDIDO
+		_temporizador_estado = duracion_aturdimiento_post_embestida
 		visual.scale = _escala_visual_original
 		visual.modulate = color_base.lerp(color_debilitado, clampf(float(_sellos_activados) / float(max(sellos_necesarios, 1)), 0.0, 1.0))
 		_enfriamiento_embestida = max(0.95, enfriamiento_embestida_base - (_fase_actual * 0.32))
@@ -197,6 +225,7 @@ func _procesar_aturdimiento(delta: float) -> void:
 
 func _derrotar() -> void:
 	_derrotado = true
+	_activo_en_arena = false
 	_estado_jefe = EstadoJefe.DERROTADO
 	velocity = Vector2.ZERO
 	area_ataque.monitoring = false
@@ -208,11 +237,19 @@ func _derrotar() -> void:
 
 
 func _empezar_carga() -> void:
+	if not _activo_en_arena:
+		return
+
 	var direccion := _jugador_objetivo.global_position - global_position
 	_direccion_embestida = direccion.normalized() if direccion.length() > 0.1 else Vector2.RIGHT
 	_estado_jefe = EstadoJefe.CARGA
 	_temporizador_estado = max(0.40, duracion_carga_base - (_fase_actual * 0.08))
 	_actualizar_linea_carga(true)
+
+
+func establecer_congelado(congelado: bool) -> void:
+	super.establecer_congelado(congelado)
+	area_ataque.monitoring = _activo_en_arena and not _congelado and not _derrotado
 
 
 func _obtener_velocidad_fase() -> float:

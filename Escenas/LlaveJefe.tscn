@@ -1,0 +1,23 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://Scripts/llave_interactiva.gd" id="1_llave"]
+[ext_resource type="Texture2D" path="res://Imagenes/Objetos/llave_jefe_animada/llave_jefe_00.png" id="2_key"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_llave_jefe"]
+radius = 14.0
+
+[node name="LlaveJefe" type="Area2D"]
+collision_layer = 0
+script = ExtResource("1_llave")
+mensaje_interaccion = "Presiona E para reclamar la llave del jefe."
+rutas_frames = PackedStringArray("res://Imagenes/Objetos/llave_jefe_animada/llave_jefe_00.png", "res://Imagenes/Objetos/llave_jefe_animada/llave_jefe_01.png", "res://Imagenes/Objetos/llave_jefe_animada/llave_jefe_02.png")
+fps_animacion = 7.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_llave_jefe")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(0, -12)
+scale = Vector2(0.28, 0.28)
+texture_filter = 1
+texture = ExtResource("2_key")
