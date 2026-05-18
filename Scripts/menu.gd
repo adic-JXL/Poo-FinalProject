@@ -7,8 +7,14 @@ const SistemaGuardadoClass = preload("res://Scripts/sistema_guardado.gd")
 
 
 func _ready() -> void:
+	# Modifica el texto si ya existe una partida guardada
 	if boton_jugar != null and SistemaGuardadoClass.existe_guardado():
 		boton_jugar.text = "Continuar"
+	
+	# Crucial para el control: Selecciona automáticamente el primer botón
+	# para que el jugador pueda empezar a moverse hacia arriba/abajo de inmediato
+	if boton_jugar != null:
+		boton_jugar.grab_focus()
 
 
 func _on_salir_pressed() -> void:

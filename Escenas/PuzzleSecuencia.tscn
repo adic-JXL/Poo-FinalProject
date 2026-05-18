@@ -83,21 +83,37 @@ columns = 2
 [node name="BotonSol" type="Button" parent="Control/CenterContainer/PanelContainer/VBoxContainer/GridContainer" unique_id=520193945]
 custom_minimum_size = Vector2(180, 54)
 layout_mode = 2
+focus_neighbor_left = NodePath("../BotonLuna")
+focus_neighbor_top = NodePath("../../BotonesAccion/BotonCancelar")
+focus_neighbor_right = NodePath("../BotonLuna")
+focus_neighbor_bottom = NodePath("../BotonOjo")
 text = "MIRADA"
 
 [node name="BotonLuna" type="Button" parent="Control/CenterContainer/PanelContainer/VBoxContainer/GridContainer" unique_id=1938980801]
 custom_minimum_size = Vector2(180, 54)
 layout_mode = 2
+focus_neighbor_left = NodePath("../BotonSol")
+focus_neighbor_top = NodePath("../../BotonesAccion/BotonCancelar")
+focus_neighbor_right = NodePath("../BotonSol")
+focus_neighbor_bottom = NodePath("../BotonEco")
 text = "RISA"
 
 [node name="BotonOjo" type="Button" parent="Control/CenterContainer/PanelContainer/VBoxContainer/GridContainer" unique_id=176774361]
 custom_minimum_size = Vector2(180, 54)
 layout_mode = 2
+focus_neighbor_left = NodePath("../BotonEco")
+focus_neighbor_top = NodePath("../BotonSol")
+focus_neighbor_right = NodePath("../BotonEco")
+focus_neighbor_bottom = NodePath("../../BotonesAccion/BotonCancelar")
 text = "APODO"
 
 [node name="BotonEco" type="Button" parent="Control/CenterContainer/PanelContainer/VBoxContainer/GridContainer" unique_id=352888481]
 custom_minimum_size = Vector2(180, 54)
 layout_mode = 2
+focus_neighbor_left = NodePath("../BotonOjo")
+focus_neighbor_top = NodePath("../BotonLuna")
+focus_neighbor_right = NodePath("../BotonOjo")
+focus_neighbor_bottom = NodePath("../../BotonesAccion/BotonCancelar")
 text = "ECO"
 
 [node name="BotonesAccion" type="HBoxContainer" parent="Control/CenterContainer/PanelContainer/VBoxContainer" unique_id=1681096314]
@@ -107,6 +123,10 @@ alignment = 1
 [node name="BotonCancelar" type="Button" parent="Control/CenterContainer/PanelContainer/VBoxContainer/BotonesAccion" unique_id=868980794]
 custom_minimum_size = Vector2(160, 42)
 layout_mode = 2
+focus_neighbor_left = NodePath("../../GridContainer/BotonOjo")
+focus_neighbor_top = NodePath("../../GridContainer/BotonOjo")
+focus_neighbor_right = NodePath("../../GridContainer/BotonEco")
+focus_neighbor_bottom = NodePath("../../GridContainer/BotonSol")
 text = "Volver al mundo"
 
 [node name="TimerMemoria" type="Timer" parent="." unique_id=1181535396]
