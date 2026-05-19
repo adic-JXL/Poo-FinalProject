@@ -5,9 +5,15 @@ const PERSONAJE_SCENE := preload("res://Escenas/Personaje.tscn")
 const HUD_SCENE := preload("res://Escenas/HUD.tscn")
 const MENU_PAUSA_SCENE := preload("res://Escenas/MenuPausa.tscn")
 const MURO_CARNE_SCENE := preload("res://Escenas/MuroCarne.tscn")
+const TOTEM_JEFE_SCENE := preload("res://Escenas/TotemJefe.tscn")
+const PLATAFORMA_GAFAS_SCENE := preload("res://Escenas/plataforma_gafas.tscn")
 const FONDO_MUNDO_FINAL_SCRIPT := preload("res://Scripts/fondo_mundo_final.gd")
 const AMBIENTE_MUNDO_2_SCRIPT := preload("res://Scripts/ambiente_mundo_2.gd")
+const CHECKPOINT_SCRIPT := preload("res://Scripts/checkpoint_activador.gd")
+const INTERACTIVO_BASE_SCRIPT := preload("res://Scripts/interactivo_base.gd")
 const DISTORSION_SHADER := preload("res://Shaders/vigneta_distorsion.gdshader")
+const FUENTE_PIXEL := preload("res://Fuentes/joystix monospace.otf")
+const TEXTURA_CARTEL := preload("res://Imagenes/Objetos/checkpoint_cartel_cc0.png")
 const MENU_SCENE := "res://Escenas/Menu.tscn"
 const SCENE_PATH := "res://Escenas/Mundo2.tscn"
 const ESCALA_TIEMPO_PAUSA := 0.000001
@@ -54,6 +60,14 @@ const PENSAMIENTOS_GAFAS := [
 @export var posicion_inicial_muro: Vector2 = Vector2(-136, 326)
 @export var velocidad_muro: float = 72.0
 
+@export_group("Progresion")
+@export var limite_escape_muro_x: float = 11072.0
+@export var umbral_escape_jugador_x: float = 11136.0
+@export var mensaje_escape_muro_1: String = "Por fin pude escapar de sus molestos insultos."
+@export var mensaje_escape_muro_2: String = "Parecian un muro gigante que me destrozaba la mente."
+@export var mensaje_puzzle_puerta: String = "Las grietas repiten un orden. Las gafas pueden leerlo."
+@export var mensaje_puzzle_final: String = "Estos ecos solo se ordenan si miras con las gafas."
+
 @export_group("Distorsion")
 @export var alpha_distorsion_base: float = 0.72
 @export var alpha_distorsion_gafas: float = 0.0
@@ -81,6 +95,8 @@ var camara_2: Camera2D = null
 var area_camara_1: Area2D = null
 var area_camara_2: Area2D = null
 var puerta_entrada_mundo_1: Node2D = null
+var puerta_puzzle: PuertaBloqueada = null
+var puerta_area_final: PuertaBloqueada = null
 var salida_entrada_mundo_1: Marker2D = null
 var fondo_mundo_final: Node2D = null
 var ambiente_mundo_2: AudioStreamPlayer = null
@@ -99,14 +115,35 @@ var _indice_pensamiento_gafas: int = 0
 var _token_restablecer_mensaje: int = 0
 var _datos_transicion_entrada: Dictionary = {}
 var _intro_persecucion_activa: bool = false
+var _checkpoint_activo: bool = false
+var _descripcion_checkpoint_actual: String = "Inicio del mundo 2"
+var _escape_muro_completado: bool = false
+var _pensamientos_escape_mostrados: bool = false
+var _puzzle_puerta_completado: bool = false
+var _puzzle_final_completado: bool = false
+var _progreso_puzzle_puerta: int = 0
+var _progreso_puzzle_final: int = 0
+var _checkpoints_mundo_2: Array[CheckpointActivador] = []
+var _interactivos_mundo_2: Array[InteractivoBase] = []
+var _totems_puerta: Array[TotemJefe] = []
+var _totems_finales: Array[TotemJefe] = []
+var _orden_puzzle_puerta: Array[int] = []
+var _orden_puzzle_final: Array[int] = []
+var _cartel_pista_puerta: InteractivoBase = null
+var _cartel_pista_final: InteractivoBase = null
+var _rng: RandomNumberGenerator = RandomNumberGenerator.new()
 
 
 func _ready() -> void:
 	_datos_transicion_entrada = SistemaGuardadoClass.consumir_transicion_pendiente()
+	_rng.randomize()
 	_asegurar_estructura_base()
 	_resolver_nodos()
 	_configurar_jugador_base()
 	_configurar_puertas_decorativas()
+	_configurar_interactivos_mundo_2()
+	_configurar_checkpoints_mundo_2()
+	_generar_ordenes_puzzle_mundo_2()
 	_configurar_menu_pausa()
 	_configurar_distorsion_visual()
 	_configurar_jugador()
@@ -115,6 +152,7 @@ func _ready() -> void:
 	_configurar_pensamientos()
 	_cargar_guardado_mundo_2()
 	_configurar_hud()
+	_aplicar_estado_progresion_mundo_2(true)
 	_aplicar_estado_gafas(jugador.gafas_activas(), true)
 	_sincronizar_camara_con_jugador(true, 0.0)
 	_actualizar_presion_ambiente()
@@ -129,6 +167,7 @@ func _process(delta: float) -> void:
 	if _pausa_activa or _respawn_activo or _intro_persecucion_activa or jugador == null or not is_instance_valid(jugador):
 		return
 
+	_actualizar_estado_escape_muro()
 	_actualizar_camara_por_posicion()
 	_sincronizar_camara_con_jugador(false, delta)
 	_actualizar_presion_ambiente()
@@ -140,6 +179,19 @@ func _process(delta: float) -> void:
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("pausa"):
 		alternar_pausa()
+		get_viewport().set_input_as_handled()
+		return
+
+	if _pausa_activa or _respawn_activo or _intro_persecucion_activa:
+		return
+
+	if event.is_action_pressed("reiniciar"):
+		reiniciar_nivel()
+		get_viewport().set_input_as_handled()
+		return
+
+	if event.is_action_pressed("interactuar"):
+		_procesar_interaccion_mundo_2()
 		get_viewport().set_input_as_handled()
 
 
@@ -165,7 +217,7 @@ func abrir_menu_pausa() -> void:
 		muro_carne.establecer_congelado(true)
 	_actualizar_escala_tiempo()
 	menu_pausa.establecer_modo_carrera(true)
-	menu_pausa.abrir(false, "Inicio del mundo 2")
+	menu_pausa.abrir(_checkpoint_activo, _descripcion_checkpoint_actual)
 
 
 func cerrar_menu_pausa() -> void:
@@ -270,6 +322,186 @@ func _asegurar_estructura_base() -> void:
 		ambiente_instancia.name = "AmbienteMundo2"
 		add_child(ambiente_instancia)
 
+	_asegurar_objetos_mundo_2()
+
+
+func _asegurar_objetos_mundo_2() -> void:
+	var objetos := get_node_or_null("ObjetosMundo2") as Node2D
+	if objetos == null:
+		objetos = Node2D.new()
+		objetos.name = "ObjetosMundo2"
+		add_child(objetos)
+
+	_asegurar_checkpoint_mundo_2(objetos, "CheckpointCarrera1", Vector2(2368, 520), "Checkpoint activado. El muro no se ha quedado atras todavia.")
+	_asegurar_checkpoint_mundo_2(objetos, "CheckpointCarrera2", Vector2(6208, 520), "Checkpoint activado. Sigue corriendo, no dejes que el ruido te alcance.")
+	_asegurar_checkpoint_mundo_2(objetos, "CheckpointCarrera3", Vector2(9728, 520), "Checkpoint activado. Ya casi sales del tramo mas opresivo.")
+	_asegurar_checkpoint_mundo_2(objetos, "CheckpointCarrera4", Vector2(11312, 520), "Checkpoint activado. Aqui el muro ya no puede tocarte.")
+
+	var puzzle_puerta := get_node_or_null("ObjetosMundo2/PuzzlePuerta") as Node2D
+	if puzzle_puerta == null:
+		puzzle_puerta = Node2D.new()
+		puzzle_puerta.name = "PuzzlePuerta"
+		objetos.add_child(puzzle_puerta)
+
+	_asegurar_totem_puzzle(puzzle_puerta, "Totem1", Vector2(11248, 520), 1)
+	_asegurar_totem_puzzle(puzzle_puerta, "Totem2", Vector2(11408, 520), 2)
+	_asegurar_totem_puzzle(puzzle_puerta, "Totem3", Vector2(11568, 520), 3)
+	_asegurar_cartel_pista(
+		puzzle_puerta,
+		"CartelPista",
+		Vector2(11672, 520),
+		"Presiona E para leer la grieta con las gafas."
+	)
+
+	var puzzle_final := get_node_or_null("ObjetosMundo2/PuzzleFinal") as Node2D
+	if puzzle_final == null:
+		puzzle_final = Node2D.new()
+		puzzle_final.name = "PuzzleFinal"
+		objetos.add_child(puzzle_final)
+
+	_asegurar_totem_puzzle(puzzle_final, "Totem1", Vector2(12688, 520), 1)
+	_asegurar_totem_puzzle(puzzle_final, "Totem2", Vector2(13040, 520), 2)
+	_asegurar_totem_puzzle(puzzle_final, "Totem3", Vector2(13392, 520), 3)
+	_asegurar_totem_puzzle(puzzle_final, "Totem4", Vector2(13744, 520), 4)
+
+	_asegurar_plataforma_pista(puzzle_final, "PlataformaPista1", Vector2(13072, 448))
+	_asegurar_plataforma_pista(puzzle_final, "PlataformaPista2", Vector2(13232, 416))
+	_asegurar_plataforma_pista(puzzle_final, "PlataformaPista3", Vector2(13392, 384))
+	_asegurar_cartel_pista(
+		puzzle_final,
+		"CartelPista",
+		Vector2(13552, 344),
+		"Presiona E para leer el eco del muro con las gafas."
+	)
+
+
+func _asegurar_checkpoint_mundo_2(objetos: Node2D, nombre: String, posicion: Vector2, mensaje: String) -> void:
+	var checkpoint := get_node_or_null("ObjetosMundo2/%s" % nombre) as Node2D
+	if checkpoint == null:
+		checkpoint = Marker2D.new()
+		checkpoint.name = nombre
+		objetos.add_child(checkpoint)
+	checkpoint.position = posicion
+
+	var punto_visible := checkpoint.get_node_or_null("PuntoVisible") as Sprite2D
+	if punto_visible == null:
+		punto_visible = Sprite2D.new()
+		punto_visible.name = "PuntoVisible"
+		checkpoint.add_child(punto_visible)
+	punto_visible.texture = TEXTURA_CARTEL
+	punto_visible.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+	punto_visible.position = Vector2(0, -32)
+	punto_visible.scale = Vector2(0.78, 0.78)
+
+	var aura := checkpoint.get_node_or_null("AuraCheckpoint") as Sprite2D
+	if aura == null:
+		aura = Sprite2D.new()
+		aura.name = "AuraCheckpoint"
+		checkpoint.add_child(aura)
+	aura.position = Vector2(0, -34)
+	aura.scale = Vector2(0.78, 0.78)
+
+	var activador := checkpoint.get_node_or_null("Activador") as CheckpointActivador
+	if activador == null:
+		var area := Area2D.new()
+		area.set_script(CHECKPOINT_SCRIPT)
+		activador = area as CheckpointActivador
+		activador.name = "Activador"
+		checkpoint.add_child(activador)
+	var shape := activador.get_node_or_null("CollisionShape2D") as CollisionShape2D
+	if shape == null:
+		shape = CollisionShape2D.new()
+		shape.name = "CollisionShape2D"
+		activador.add_child(shape)
+	var rect := RectangleShape2D.new()
+	rect.size = Vector2(64, 88)
+	shape.shape = rect
+	shape.position = Vector2(0, -34)
+	activador.mensaje_activacion = mensaje
+
+
+func _asegurar_totem_puzzle(padre: Node2D, nombre: String, posicion: Vector2, numero: int) -> void:
+	var totem := padre.get_node_or_null(nombre) as TotemJefe
+	if totem == null:
+		totem = TOTEM_JEFE_SCENE.instantiate() as TotemJefe
+		totem.name = nombre
+		padre.add_child(totem)
+	totem.position = posicion
+	totem.mensaje_interaccion = "Presiona E para enfocar el sello %d con las gafas." % numero
+	totem.color_inactivo = Color(0.29, 0.78, 0.92, 0.92)
+	totem.color_activo = Color(0.98, 0.91, 0.44, 1.0)
+	_asegurar_etiqueta_totem(totem, numero)
+
+
+func _asegurar_etiqueta_totem(totem: TotemJefe, numero: int) -> void:
+	var label := totem.get_node_or_null("NumeroLabel") as Label
+	if label == null:
+		label = Label.new()
+		label.name = "NumeroLabel"
+		totem.add_child(label)
+	label.text = str(numero)
+	label.position = Vector2(-9, -48)
+	label.add_theme_font_override("font", FUENTE_PIXEL)
+	label.add_theme_font_size_override("font_size", 14)
+	label.add_theme_color_override("font_color", Color(0.95, 0.95, 0.84, 1.0))
+	label.add_theme_color_override("font_outline_color", Color(0.08, 0.08, 0.09, 0.92))
+	label.add_theme_constant_override("outline_size", 2)
+
+
+func _asegurar_plataforma_pista(padre: Node2D, nombre: String, posicion: Vector2) -> void:
+	var plataforma := padre.get_node_or_null(nombre) as PlataformaGafas
+	if plataforma == null:
+		plataforma = PLATAFORMA_GAFAS_SCENE.instantiate() as PlataformaGafas
+		plataforma.name = nombre
+		padre.add_child(plataforma)
+	plataforma.position = posicion
+
+
+func _asegurar_cartel_pista(padre: Node2D, nombre: String, posicion: Vector2, mensaje_interaccion: String) -> void:
+	var cartel := padre.get_node_or_null(nombre) as InteractivoBase
+	if cartel == null:
+		var area := Area2D.new()
+		area.set_script(INTERACTIVO_BASE_SCRIPT)
+		cartel = area as InteractivoBase
+		cartel.name = nombre
+		padre.add_child(cartel)
+	cartel.position = posicion
+	cartel.mensaje_interaccion = mensaje_interaccion
+
+	var sprite := cartel.get_node_or_null("Sprite2D") as Sprite2D
+	if sprite == null:
+		sprite = Sprite2D.new()
+		sprite.name = "Sprite2D"
+		cartel.add_child(sprite)
+	sprite.texture = TEXTURA_CARTEL
+	sprite.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+	sprite.position = Vector2(0, -34)
+	sprite.scale = Vector2(0.82, 0.82)
+	sprite.modulate = Color(0.86, 0.95, 1.0, 0.96)
+
+	var label := cartel.get_node_or_null("HintLabel") as Label
+	if label == null:
+		label = Label.new()
+		label.name = "HintLabel"
+		cartel.add_child(label)
+	label.text = "?"
+	label.position = Vector2(-6, -52)
+	label.add_theme_font_override("font", FUENTE_PIXEL)
+	label.add_theme_font_size_override("font_size", 14)
+	label.add_theme_color_override("font_color", Color(0.94, 1.0, 0.82, 1.0))
+	label.add_theme_color_override("font_outline_color", Color(0.08, 0.08, 0.09, 0.92))
+	label.add_theme_constant_override("outline_size", 2)
+
+	var shape := cartel.get_node_or_null("CollisionShape2D") as CollisionShape2D
+	if shape == null:
+		shape = CollisionShape2D.new()
+		shape.name = "CollisionShape2D"
+		cartel.add_child(shape)
+	var rect := RectangleShape2D.new()
+	rect.size = Vector2(60, 92)
+	shape.shape = rect
+	shape.position = Vector2(0, -34)
+
 
 func _resolver_nodos() -> void:
 	jugador = get_node_or_null("Player/Jugador") as Jugador
@@ -282,11 +514,31 @@ func _resolver_nodos() -> void:
 	area_camara_1 = get_node_or_null("Area2D") as Area2D
 	area_camara_2 = get_node_or_null("Area2D2") as Area2D
 	puerta_entrada_mundo_1 = get_node_or_null("PuertaBloqueada") as Node2D
+	puerta_puzzle = get_node_or_null("PuertaBloqueada2") as PuertaBloqueada
+	puerta_area_final = get_node_or_null("PuertaBloqueada3") as PuertaBloqueada
 	salida_entrada_mundo_1 = get_node_or_null("SalidaEntradaMundo1") as Marker2D
 	fondo_mundo_final = get_node_or_null("FondoMundoFinal") as Node2D
 	ambiente_mundo_2 = get_node_or_null("AmbienteMundo2") as AudioStreamPlayer
 	distorsion_overlay = get_node_or_null("Canvas/DistorsionOverlay") as ColorRect
 	distorsion_material = distorsion_overlay.material as ShaderMaterial if distorsion_overlay != null else null
+	_checkpoints_mundo_2.clear()
+	for nombre_checkpoint in ["CheckpointCarrera1", "CheckpointCarrera2", "CheckpointCarrera3", "CheckpointCarrera4"]:
+		var checkpoint := get_node_or_null("ObjetosMundo2/%s/Activador" % nombre_checkpoint) as CheckpointActivador
+		if checkpoint != null:
+			_checkpoints_mundo_2.append(checkpoint)
+	_interactivos_mundo_2.clear()
+	_totems_puerta.clear()
+	_totems_finales.clear()
+	for indice in range(1, 4):
+		var totem_puerta := get_node_or_null("ObjetosMundo2/PuzzlePuerta/Totem%d" % indice) as TotemJefe
+		if totem_puerta != null:
+			_totems_puerta.append(totem_puerta)
+	for indice in range(1, 5):
+		var totem_final := get_node_or_null("ObjetosMundo2/PuzzleFinal/Totem%d" % indice) as TotemJefe
+		if totem_final != null:
+			_totems_finales.append(totem_final)
+	_cartel_pista_puerta = get_node_or_null("ObjetosMundo2/PuzzlePuerta/CartelPista") as InteractivoBase
+	_cartel_pista_final = get_node_or_null("ObjetosMundo2/PuzzleFinal/CartelPista") as InteractivoBase
 	if punto_respawn != null and punto_respawn.position == Vector2.ZERO:
 		punto_respawn.position = posicion_spawn_defecto
 
@@ -307,6 +559,65 @@ func _configurar_puertas_decorativas() -> void:
 
 		if child.has_method("desactivar_interaccion"):
 			child.desactivar_interaccion()
+
+	if puerta_puzzle != null and puerta_area_final != null:
+		puerta_puzzle.configurar_destino(puerta_area_final)
+		puerta_area_final.configurar_destino(puerta_puzzle)
+
+
+func _configurar_interactivos_mundo_2() -> void:
+	for interactivo in [_cartel_pista_puerta, _cartel_pista_final]:
+		if interactivo == null:
+			continue
+		_configurar_interactivo_mundo_2(interactivo, _on_cartel_pista_interaccion_solicitada.bind(interactivo))
+		_interactivos_mundo_2.append(interactivo)
+
+	for indice in range(_totems_puerta.size()):
+		var totem_puerta := _totems_puerta[indice]
+		if totem_puerta == null:
+			continue
+		_configurar_interactivo_mundo_2(totem_puerta, _on_totem_puerta_interaccion_solicitada.bind(indice))
+		_interactivos_mundo_2.append(totem_puerta)
+
+	for indice in range(_totems_finales.size()):
+		var totem_final := _totems_finales[indice]
+		if totem_final == null:
+			continue
+		_configurar_interactivo_mundo_2(totem_final, _on_totem_final_interaccion_solicitada.bind(indice))
+		_interactivos_mundo_2.append(totem_final)
+
+
+func _configurar_interactivo_mundo_2(interactivo: InteractivoBase, callback: Callable) -> void:
+	if interactivo == null:
+		return
+
+	if not interactivo.interaccion_solicitada.is_connected(callback):
+		interactivo.interaccion_solicitada.connect(callback)
+	if not interactivo.rango_interaccion_cambiado.is_connected(_on_rango_interaccion_mundo_2_cambiado):
+		interactivo.rango_interaccion_cambiado.connect(_on_rango_interaccion_mundo_2_cambiado)
+
+
+func _configurar_checkpoints_mundo_2() -> void:
+	var nombres_checkpoint := [
+		"Primer tramo",
+		"Mitad del pasillo",
+		"Ultimo empujon",
+		"Zona segura",
+	]
+	for indice in range(_checkpoints_mundo_2.size()):
+		var activador := _checkpoints_mundo_2[indice]
+		if activador == null:
+			continue
+		var descripcion: String = nombres_checkpoint[indice] if indice < nombres_checkpoint.size() else "Checkpoint"
+		if not activador.checkpoint_alcanzado.is_connected(_on_checkpoint_mundo_2_alcanzado.bind(descripcion)):
+			activador.checkpoint_alcanzado.connect(_on_checkpoint_mundo_2_alcanzado.bind(descripcion))
+
+
+func _generar_ordenes_puzzle_mundo_2() -> void:
+	_orden_puzzle_puerta = [0, 1, 2]
+	_orden_puzzle_final = [0, 1, 2, 3]
+	_orden_puzzle_puerta.shuffle()
+	_orden_puzzle_final.shuffle()
 
 
 func _configurar_menu_pausa() -> void:
@@ -396,8 +707,8 @@ func _configurar_hud() -> void:
 	hud.show()
 	hud.configurar_jugador(jugador)
 	hud.actualizar_llave(false)
-	hud.actualizar_checkpoint(false)
-	hud.mostrar_mensaje(mensaje_llegada)
+	hud.actualizar_checkpoint(_checkpoint_activo)
+	hud.mostrar_mensaje(_obtener_mensaje_base_hud())
 
 
 func _cargar_guardado_mundo_2() -> void:
@@ -412,9 +723,14 @@ func _cargar_guardado_mundo_2() -> void:
 			_posicion_respawn_actual = _parsear_vector2(datos_mundo_2.get("posicion_respawn", _posicion_respawn_actual), _posicion_respawn_actual)
 			posicion_jugador_objetivo = _parsear_vector2(datos_mundo_2.get("posicion_jugador", _posicion_respawn_actual), _posicion_respawn_actual)
 			posicion_muro_objetivo = _parsear_vector2(datos_mundo_2.get("posicion_muro", posicion_inicial_muro), posicion_inicial_muro)
+			_checkpoint_activo = bool(datos_mundo_2.get("checkpoint_activo", false))
+			_descripcion_checkpoint_actual = String(datos_mundo_2.get("checkpoint_descripcion", _descripcion_checkpoint_actual))
+			_escape_muro_completado = bool(datos_mundo_2.get("escape_muro_completado", false))
+			_puzzle_puerta_completado = bool(datos_mundo_2.get("puzzle_puerta_completado", false))
+			_puzzle_final_completado = bool(datos_mundo_2.get("puzzle_final_completado", false))
 
 	if punto_respawn != null:
-		punto_respawn.global_position = posicion_spawn_defecto
+		punto_respawn.global_position = _posicion_respawn_actual
 		_posicion_respawn_actual = punto_respawn.global_position
 
 	if jugador != null and jugador.has_method("restaurar_para_respawn"):
@@ -437,6 +753,11 @@ func _guardar_progreso() -> void:
 		"posicion_respawn": _posicion_respawn_actual,
 		"posicion_jugador": jugador.global_position,
 		"posicion_muro": muro_carne.global_position if muro_carne != null else posicion_inicial_muro,
+		"checkpoint_activo": _checkpoint_activo,
+		"checkpoint_descripcion": _descripcion_checkpoint_actual,
+		"escape_muro_completado": _escape_muro_completado,
+		"puzzle_puerta_completado": _puzzle_puerta_completado,
+		"puzzle_final_completado": _puzzle_final_completado,
 	}
 	SistemaGuardadoClass.guardar_estado_mundo_2(datos_mundo_2)
 
@@ -469,6 +790,7 @@ func _reiniciar_carrera(con_animacion_muerte: bool, mensaje: String) -> void:
 	if muro_carne != null:
 		muro_carne.reiniciar(posicion_inicial_muro)
 		muro_carne.establecer_multiplicador_velocidad(1.0)
+	_aplicar_estado_progresion_mundo_2(true)
 
 	_actualizar_camara_por_posicion()
 	_sincronizar_camara_con_jugador(true, 0.0)
@@ -541,6 +863,8 @@ func _on_area_camara_1_body_entered(body: Node) -> void:
 func _on_area_camara_2_body_entered(body: Node) -> void:
 	if body != null and body.is_in_group("jugador"):
 		_activar_camara(camara_2)
+		if hud != null and not _puzzle_final_completado:
+			hud.mostrar_mensaje(mensaje_puzzle_final)
 
 
 func _on_jugador_gafas_actualizadas(activa: bool, _duracion_restante: float, _cooldown_restante: float, _cooldown_actual: float, _siguiente_cooldown: float) -> void:
@@ -608,7 +932,247 @@ func _aplicar_zoom_camaras(zoom_objetivo: Vector2) -> void:
 			camara.zoom = zoom_objetivo
 
 
+func _procesar_interaccion_mundo_2() -> void:
+	for interactivo in _interactivos_mundo_2:
+		if interactivo != null and interactivo.esta_en_rango():
+			interactivo.interactuar()
+			return
+
+
+func _on_rango_interaccion_mundo_2_cambiado(activo: bool, mensaje: String) -> void:
+	if hud == null or _pausa_activa or _respawn_activo or _intro_persecucion_activa:
+		return
+
+	if activo:
+		hud.mostrar_mensaje(mensaje)
+		return
+
+	_restaurar_mensaje_hud()
+
+
+func _on_checkpoint_mundo_2_alcanzado(posicion: Vector2, mensaje: String, descripcion: String) -> void:
+	_checkpoint_activo = true
+	_descripcion_checkpoint_actual = descripcion
+	_posicion_respawn_actual = posicion
+	if punto_respawn != null:
+		punto_respawn.global_position = posicion
+	if hud != null:
+		hud.actualizar_checkpoint(true)
+		hud.mostrar_mensaje(mensaje)
+	_guardar_progreso()
+
+
+func _on_cartel_pista_interaccion_solicitada(cartel: InteractivoBase) -> void:
+	if hud == null:
+		return
+
+	if jugador == null or not jugador.gafas_activas():
+		hud.mostrar_mensaje("Sin las gafas, las grietas solo parecen ruido roto.")
+		return
+
+	if cartel == _cartel_pista_puerta:
+		hud.mostrar_mensaje("La grieta repite: %s." % _formatear_orden_para_pista(_orden_puzzle_puerta))
+		hud.mostrar_pensamiento("Si lo veo claro, puedo romper el patron.", true)
+		return
+
+	if cartel == _cartel_pista_final:
+		hud.mostrar_mensaje("El eco del muro responde: %s." % _formatear_orden_para_pista(_orden_puzzle_final))
+		hud.mostrar_pensamiento("El orden tambien puede aparecer dentro del ruido.", true)
+
+
+func _on_totem_puerta_interaccion_solicitada(indice_totem: int) -> void:
+	if hud == null or _puzzle_puerta_completado:
+		return
+
+	if jugador == null or not jugador.gafas_activas():
+		hud.mostrar_mensaje("Los sellos de la puerta solo reaccionan con las gafas activas.")
+		return
+
+	if indice_totem < 0 or indice_totem >= _totems_puerta.size():
+		return
+
+	var totem := _totems_puerta[indice_totem]
+	if totem == null or totem.esta_activado():
+		return
+
+	var esperado := _orden_puzzle_puerta[_progreso_puzzle_puerta]
+	if indice_totem != esperado:
+		hud.mostrar_mensaje("Las burlas se mezclaron otra vez. Empieza de nuevo la secuencia.")
+		_reiniciar_totems(_totems_puerta)
+		_progreso_puzzle_puerta = 0
+		return
+
+	totem.activar()
+	_progreso_puzzle_puerta += 1
+	if _progreso_puzzle_puerta >= _orden_puzzle_puerta.size():
+		_completar_puzzle_puerta()
+		return
+
+	hud.mostrar_mensaje("Sello correcto %d/%d." % [_progreso_puzzle_puerta, _orden_puzzle_puerta.size()])
+
+
+func _on_totem_final_interaccion_solicitada(indice_totem: int) -> void:
+	if hud == null or _puzzle_final_completado:
+		return
+
+	if jugador == null or not jugador.gafas_activas():
+		hud.mostrar_mensaje("Solo con las gafas puedes enfocar estos ecos.")
+		return
+
+	if indice_totem < 0 or indice_totem >= _totems_finales.size():
+		return
+
+	var totem := _totems_finales[indice_totem]
+	if totem == null or totem.esta_activado():
+		return
+
+	var esperado := _orden_puzzle_final[_progreso_puzzle_final]
+	if indice_totem != esperado:
+		hud.mostrar_mensaje("El eco se rompio. Debes reconstruir el orden desde cero.")
+		_reiniciar_totems(_totems_finales)
+		_progreso_puzzle_final = 0
+		return
+
+	totem.activar()
+	_progreso_puzzle_final += 1
+	if _progreso_puzzle_final >= _orden_puzzle_final.size():
+		_completar_puzzle_final()
+		return
+
+	hud.mostrar_mensaje("Eco correcto %d/%d." % [_progreso_puzzle_final, _orden_puzzle_final.size()])
+
+
+func _completar_puzzle_puerta() -> void:
+	_puzzle_puerta_completado = true
+	_aplicar_estado_puertas_puzzle(false)
+	if hud != null:
+		hud.mostrar_mensaje("La puerta reconocio el patron. Ya puedes cruzarla.")
+		hud.mostrar_pensamiento("No todas sus voces pueden seguir cerrandome el paso.", true)
+	_guardar_progreso()
+
+
+func _completar_puzzle_final() -> void:
+	_puzzle_final_completado = true
+	if hud != null:
+		hud.mostrar_mensaje("Los ecos quedaron ordenados. La sala por fin se aquieto.")
+		hud.mostrar_pensamiento("Hasta el ruido mas cruel termina cediendo cuando lo ordeno.", true)
+	_guardar_progreso()
+
+
+func _reiniciar_totems(totems: Array[TotemJefe]) -> void:
+	for totem in totems:
+		if totem != null and totem.has_method("reiniciar_totem"):
+			totem.reiniciar_totem()
+
+
+func _marcar_totems_completados(totems: Array[TotemJefe]) -> void:
+	for totem in totems:
+		if totem != null and not totem.esta_activado():
+			totem.activar()
+
+
+func _aplicar_estado_puertas_puzzle(silencioso: bool) -> void:
+	if puerta_puzzle != null and _puzzle_puerta_completado:
+		puerta_puzzle.abrir(silencioso)
+	if puerta_area_final != null and _puzzle_puerta_completado:
+		puerta_area_final.abrir(true)
+
+
+func _aplicar_estado_escape_muro() -> void:
+	if muro_carne == null:
+		return
+
+	if _escape_muro_completado:
+		muro_carne.global_position.x = limite_escape_muro_x
+		muro_carne.establecer_congelado(true)
+		muro_carne.establecer_activo(false)
+		return
+
+	muro_carne.global_position.x = minf(muro_carne.global_position.x, limite_escape_muro_x)
+	muro_carne.establecer_activo(true)
+	muro_carne.establecer_congelado(false)
+	muro_carne.establecer_multiplicador_velocidad(FACTOR_LENTITUD_GAFAS_MURO if jugador != null and jugador.gafas_activas() else 1.0)
+
+
+func _aplicar_estado_progresion_mundo_2(silencioso: bool) -> void:
+	if _puzzle_puerta_completado:
+		_progreso_puzzle_puerta = _orden_puzzle_puerta.size()
+		_marcar_totems_completados(_totems_puerta)
+	else:
+		_progreso_puzzle_puerta = 0
+		_reiniciar_totems(_totems_puerta)
+
+	if _puzzle_final_completado:
+		_progreso_puzzle_final = _orden_puzzle_final.size()
+		_marcar_totems_completados(_totems_finales)
+	else:
+		_progreso_puzzle_final = 0
+		_reiniciar_totems(_totems_finales)
+
+	_aplicar_estado_puertas_puzzle(silencioso)
+	_aplicar_estado_escape_muro()
+
+
+func _actualizar_estado_escape_muro() -> void:
+	if _escape_muro_completado or jugador == null:
+		return
+
+	if muro_carne != null and muro_carne.global_position.x >= limite_escape_muro_x:
+		muro_carne.global_position.x = limite_escape_muro_x
+
+	if jugador.global_position.x < umbral_escape_jugador_x:
+		return
+
+	_escape_muro_completado = true
+	_aplicar_estado_escape_muro()
+	if hud != null:
+		hud.mostrar_mensaje(mensaje_puzzle_puerta)
+	_mostrar_pensamientos_escape()
+	_guardar_progreso()
+
+
+func _mostrar_pensamientos_escape() -> void:
+	if _pensamientos_escape_mostrados or hud == null or not hud.has_method("mostrar_pensamiento"):
+		return
+
+	_pensamientos_escape_mostrados = true
+	_mostrar_pensamientos_escape_async()
+
+
+func _mostrar_pensamientos_escape_async() -> void:
+	hud.mostrar_pensamiento(mensaje_escape_muro_1)
+	await get_tree().create_timer(4.6, true, false, true).timeout
+	if hud == null or not is_instance_valid(hud) or not _escape_muro_completado:
+		return
+	hud.mostrar_pensamiento(mensaje_escape_muro_2)
+
+
+func _formatear_orden_para_pista(orden: Array[int]) -> String:
+	var partes: Array[String] = []
+	for indice in orden:
+		partes.append(str(int(indice) + 1))
+	return " - ".join(partes)
+
+
+func _obtener_mensaje_base_hud() -> String:
+	if _puzzle_final_completado:
+		return "Los ecos del muro ya no dominan esta sala."
+	if _puzzle_puerta_completado:
+		return "La puerta esta abierta. Cruza y sigue la nueva pista."
+	if _escape_muro_completado:
+		return mensaje_puzzle_puerta
+	return mensaje_llegada
+
+
+func _restaurar_mensaje_hud() -> void:
+	if hud == null:
+		return
+	hud.mostrar_mensaje(_obtener_mensaje_base_hud())
+
+
 func _on_muro_carne_jugador_alcanzado() -> void:
+	if _escape_muro_completado:
+		return
 	call_deferred("_reiniciar_carrera", true, mensaje_fallo_muro)
 
 
@@ -699,6 +1263,10 @@ func _actualizar_presion_ambiente() -> void:
 	if ambiente_mundo_2 == null or jugador == null or muro_carne == null:
 		return
 
+	if _escape_muro_completado:
+		_configurar_peligro_ambiente(0.0)
+		return
+
 	var distancia := maxf(jugador.global_position.x - muro_carne.global_position.x, 0.0)
 	var presion := 1.0 - clampf((distancia - 128.0) / maxf(distancia_peligro_maxima_muro, 64.0), 0.0, 1.0)
 	_configurar_peligro_ambiente(presion)
@@ -747,7 +1315,7 @@ func _restablecer_mensaje_llegada_async(token_actual: int) -> void:
 		return
 	if hud == null or not is_instance_valid(hud):
 		return
-	hud.mostrar_mensaje(mensaje_llegada)
+	_restaurar_mensaje_hud()
 
 
 func _obtener_alpha_distorsion_objetivo(gafas_activas: bool) -> float:

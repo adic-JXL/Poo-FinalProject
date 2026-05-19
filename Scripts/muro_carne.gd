@@ -129,7 +129,7 @@ func _configurar_visual() -> void:
 			cuerpo.texture = _frames_muro_verde_cache[0]
 			cuerpo.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
 			cuerpo.position = Vector2(0, -74)
-			cuerpo.scale = Vector2(1.72, 2.68)
+			cuerpo.scale = Vector2(-1.72, 2.68)
 			cuerpo.modulate = Color(1, 1, 1, 0.98)
 		if ojo_izquierdo != null:
 			ojo_izquierdo.hide()
