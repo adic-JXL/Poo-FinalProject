@@ -219,7 +219,8 @@ func _configurar_layout_base() -> void:
 	_aplicar_panel_transparente(gafas_panel)
 	_configurar_fuentes_colores()
 	_configurar_vida_visual()
-	stamina_panel.hide()
+	_configurar_stamina_visual()
+	stamina_panel.show()
 	_configurar_gafas_visual()
 	_configurar_llave_visual()
 	_configurar_pensamiento_visual()
@@ -443,60 +444,83 @@ func _configurar_vida_visual() -> void:
 
 
 func _configurar_stamina_visual() -> void:
-	stamina_panel.offset_left = -185.0
-	stamina_panel.offset_right = 185.0
-	stamina_panel.offset_top = 10.0
-	stamina_panel.offset_bottom = 88.0
+	stamina_panel.offset_left = -172.0
+	stamina_panel.offset_right = 172.0
+	stamina_panel.offset_top = 8.0
+	stamina_panel.offset_bottom = 66.0
 	stamina_vbox.alignment = BoxContainer.ALIGNMENT_CENTER
-	stamina_vbox.add_theme_constant_override("separation", 3)
+	stamina_vbox.add_theme_constant_override("separation", 1)
 	stamina_titulo_label.hide()
 	estamina_barra.hide()
+	estamina_label.hide()
+	sprint_label.hide()
 
-	var titulo := _crear_texture_rect(_textura_stamina, Vector2(170, 26), TextureRect.STRETCH_KEEP_ASPECT_CENTERED)
+	var titulo := Label.new()
+	titulo.text = "STAMINA"
+	titulo.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	titulo.add_theme_font_override("font", FUENTE_PIXEL)
+	titulo.add_theme_font_size_override("font_size", 13)
+	titulo.add_theme_color_override("font_color", Color(0.88, 0.94, 0.43, 1.0))
+	titulo.add_theme_color_override("font_outline_color", Color(0.02, 0.02, 0.03, 1.0))
+	titulo.add_theme_constant_override("outline_size", 4)
 	stamina_vbox.add_child(titulo)
 	stamina_vbox.move_child(titulo, 0)
 
-	var holder := Control.new()
-	holder.custom_minimum_size = Vector2(250, 46)
+	var holder := Panel.new()
+	holder.custom_minimum_size = Vector2(284, 30)
 	holder.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	var marco_style := StyleBoxFlat.new()
+	marco_style.bg_color = Color(0.055, 0.058, 0.065, 0.92)
+	marco_style.border_width_left = 3
+	marco_style.border_width_top = 3
+	marco_style.border_width_right = 3
+	marco_style.border_width_bottom = 3
+	marco_style.border_color = Color(0.55, 0.66, 0.48, 1.0)
+	holder.add_theme_stylebox_override("panel", marco_style)
 	stamina_vbox.add_child(holder)
 	stamina_vbox.move_child(holder, 1)
 
-	var marco := _crear_texture_rect(_textura_marco_stamina, holder.custom_minimum_size, TextureRect.STRETCH_SCALE)
-	marco.set_anchors_preset(Control.PRESET_FULL_RECT)
-	holder.add_child(marco)
+	var fondo_barra := ColorRect.new()
+	fondo_barra.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	fondo_barra.position = Vector2(14, 9)
+	fondo_barra.size = Vector2(256, 12)
+	fondo_barra.color = Color(0.18, 0.13, 0.20, 0.96)
+	holder.add_child(fondo_barra)
 
 	var fill_holder := Control.new()
-	fill_holder.position = Vector2(21, 11)
-	fill_holder.custom_minimum_size = Vector2(208, 12)
-	fill_holder.size = Vector2(208, 12)
+	fill_holder.position = fondo_barra.position
+	fill_holder.custom_minimum_size = fondo_barra.size
+	fill_holder.size = fondo_barra.size
 	fill_holder.clip_contents = true
 	fill_holder.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	holder.add_child(fill_holder)
 
-	var stamina_fill := Panel.new()
+	var stamina_fill := Control.new()
 	stamina_fill.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	stamina_fill.position = Vector2.ZERO
 	stamina_fill.size = fill_holder.size
-	var fill_style := StyleBoxFlat.new()
-	fill_style.bg_color = Color(0.88, 0.88, 0.12, 0.98)
-	fill_style.corner_radius_top_left = 2
-	fill_style.corner_radius_bottom_left = 2
-	fill_style.corner_radius_top_right = 2
-	fill_style.corner_radius_bottom_right = 2
-	stamina_fill.add_theme_stylebox_override("panel", fill_style)
+	stamina_fill.clip_contents = true
 	_stamina_fill_rect = stamina_fill
 	fill_holder.add_child(_stamina_fill_rect)
 	_stamina_fill_ancho_max = fill_holder.size.x
 
-	var brillo := ColorRect.new()
-	brillo.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	brillo.position = Vector2(2, 1)
-	brillo.size = Vector2(max(fill_holder.size.x - 4.0, 1.0), 4)
-	brillo.color = Color(1.0, 0.98, 0.72, 0.22)
-	stamina_fill.add_child(brillo)
+	var segmentos: int = 20
+	var separacion: float = 2.0
+	var ancho_segmento: float = floor((fill_holder.size.x - (float(segmentos - 1) * separacion)) / float(segmentos))
+	for indice in range(segmentos):
+		var bloque := ColorRect.new()
+		bloque.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		bloque.position = Vector2(float(indice) * (ancho_segmento + separacion), 0)
+		bloque.size = Vector2(ancho_segmento, fill_holder.size.y)
+		bloque.color = Color(0.86, 0.88, 0.10, 0.98)
+		stamina_fill.add_child(bloque)
 
-	holder.move_child(marco, holder.get_child_count() - 1)
+		var brillo := ColorRect.new()
+		brillo.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		brillo.position = bloque.position + Vector2(1, 1)
+		brillo.size = Vector2(max(ancho_segmento - 2.0, 1.0), 3)
+		brillo.color = Color(1.0, 0.98, 0.64, 0.30)
+		stamina_fill.add_child(brillo)
 
 
 func _configurar_gafas_visual() -> void:
