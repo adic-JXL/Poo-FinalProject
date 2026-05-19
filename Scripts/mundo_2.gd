@@ -35,7 +35,7 @@ const PENSAMIENTOS_GAFAS := [
 
 @export_group("Flujo")
 @export var altura_caida_respawn: float = 760.0
-@export var offset_camara: Vector2 = Vector2(0, -64)
+@export var offset_camara: Vector2 = Vector2(0, -8)
 @export var posicion_spawn_defecto: Vector2 = Vector2(144, 520)
 @export var mensaje_llegada: String = "Mundo 2. Corre: el muro no se detendra, pero las gafas revelan la ruta."
 @export var mensaje_respawn: String = "Has vuelto al inicio del mundo 2."
@@ -51,11 +51,11 @@ const PENSAMIENTOS_GAFAS := [
 @export var jugador_aceleracion: float = 1000.0
 
 @export_group("Camara")
-@export var zoom_base_mundo: Vector2 = Vector2(1.9, 1.9)
-@export var zoom_con_gafas: Vector2 = Vector2(1.6, 1.6)
+@export var zoom_base_mundo: Vector2 = Vector2(1.75, 1.75)
+@export var zoom_con_gafas: Vector2 = Vector2(1.48, 1.48)
 @export var suavizado_camara: float = 6.0
-@export var adelanto_camara_muro: float = 316.0
-@export var adelanto_camara_jugador: float = 48.0
+@export var adelanto_camara_muro: float = 196.0
+@export var adelanto_camara_jugador: float = 64.0
 @export var amplitud_temblor_camara: Vector2 = Vector2(4.5, 2.2)
 @export var frecuencia_temblor_camara: float = 8.5
 @export var distancia_temblor_maxima: float = 520.0
@@ -68,6 +68,7 @@ const PENSAMIENTOS_GAFAS := [
 @export_group("Progresion")
 @export var limite_escape_muro_x: float = 11072.0
 @export var umbral_escape_jugador_x: float = 11136.0
+@export var posicion_checkpoint_post_persecucion: Vector2 = Vector2(11232, 611)
 @export var mensaje_escape_muro_1: String = "Por fin pude escapar de sus molestos insultos."
 @export var mensaje_escape_muro_2: String = "Parecian un muro gigante que me destrozaba la mente."
 @export var mensaje_puzzle_puerta: String = "Las grietas repiten un orden. Las gafas pueden leerlo."
@@ -373,9 +374,10 @@ func _asegurar_objetos_mundo_2() -> void:
 	_asegurar_totem_puzzle(puzzle_final, "Totem3", Vector2(13392, 616), 3)
 	_asegurar_totem_puzzle(puzzle_final, "Totem4", Vector2(13744, 616), 4)
 
-	_asegurar_plataforma_pista(puzzle_final, "PlataformaPista1", Vector2(13072, 448))
-	_asegurar_plataforma_pista(puzzle_final, "PlataformaPista2", Vector2(13232, 416))
-	_asegurar_plataforma_pista(puzzle_final, "PlataformaPista3", Vector2(13392, 384))
+	for nombre_plataforma in ["PlataformaPista1", "PlataformaPista2", "PlataformaPista3"]:
+		var plataforma_sobrante := puzzle_final.get_node_or_null(nombre_plataforma)
+		if plataforma_sobrante != null:
+			plataforma_sobrante.queue_free()
 	_asegurar_cartel_pista(
 		puzzle_final,
 		"CartelPista",
@@ -762,8 +764,7 @@ func _cargar_guardado_mundo_2() -> void:
 			_puzzle_final_completado = bool(datos_mundo_2.get("puzzle_final_completado", false))
 
 	if _escape_muro_completado:
-		var checkpoint_final := get_node_or_null("ObjetosMundo2/CheckpointCarrera4") as Node2D
-		var posicion_segura := checkpoint_final.global_position if checkpoint_final != null else Vector2(12608, 520)
+		var posicion_segura := posicion_checkpoint_post_persecucion
 		_checkpoint_activo = true
 		if _descripcion_checkpoint_actual == "Inicio del mundo 2":
 			_descripcion_checkpoint_actual = "Zona segura"
@@ -1307,8 +1308,10 @@ func _aplicar_estado_escape_muro() -> void:
 		muro_carne.global_position.x = limite_escape_muro_x
 		muro_carne.establecer_congelado(true)
 		muro_carne.establecer_activo(false)
+		muro_carne.hide()
 		return
 
+	muro_carne.show()
 	muro_carne.global_position.x = minf(muro_carne.global_position.x, limite_escape_muro_x)
 	muro_carne.establecer_activo(true)
 	muro_carne.establecer_congelado(false)
@@ -1345,6 +1348,7 @@ func _actualizar_estado_escape_muro() -> void:
 		return
 
 	_escape_muro_completado = true
+	_activar_checkpoint_post_persecucion()
 	_aplicar_estado_escape_muro()
 	if hud != null:
 		hud.mostrar_mensaje(mensaje_puzzle_puerta)
@@ -1358,6 +1362,21 @@ func _mostrar_pensamientos_escape() -> void:
 
 	_pensamientos_escape_mostrados = true
 	_mostrar_pensamientos_escape_async()
+
+
+func _activar_checkpoint_post_persecucion() -> void:
+	var posicion_segura := posicion_checkpoint_post_persecucion
+	if jugador != null and is_instance_valid(jugador):
+		posicion_segura.x = maxf(posicion_segura.x, jugador.global_position.x + 48.0)
+
+	_checkpoint_activo = true
+	_descripcion_checkpoint_actual = "Zona segura"
+	_posicion_respawn_actual = posicion_segura
+	_posicion_muro_respawn_actual = Vector2(limite_escape_muro_x, posicion_inicial_muro.y)
+	if punto_respawn != null:
+		punto_respawn.global_position = posicion_segura
+	if hud != null:
+		hud.actualizar_checkpoint(true)
 
 
 func _mostrar_pensamientos_escape_async() -> void:

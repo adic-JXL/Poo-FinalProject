@@ -101,9 +101,9 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -115.0
-offset_top = -75.0
+offset_top = -112.0
 offset_right = 155.0
-offset_bottom = 100.0
+offset_bottom = 126.0
 grow_horizontal = 2
 grow_vertical = 2
 theme = SubResource("Theme_425bc")
@@ -130,6 +130,16 @@ theme_override_styles/hover = SubResource("StyleBoxTexture_ik8kc")
 theme_override_styles/focus = SubResource("StyleBoxTexture_bmckm")
 text = "Opciones"
 
+[node name="Creditos" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = SubResource("FontVariation_2ahv8")
+theme_override_font_sizes/font_size = 27
+theme_override_styles/normal = SubResource("StyleBoxTexture_8shpa")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_y57nq")
+theme_override_styles/hover = SubResource("StyleBoxTexture_ik8kc")
+theme_override_styles/focus = SubResource("StyleBoxTexture_bmckm")
+text = "Creditos"
+
 [node name="Salir" type="Button" parent="VBoxContainer" unique_id=1061567528]
 layout_mode = 2
 theme_override_fonts/font = SubResource("FontVariation_m10g6")
@@ -142,4 +152,5 @@ text = "Salir"
 
 [connection signal="pressed" from="VBoxContainer/Jugar" to="." method="_on_jugar_pressed"]
 [connection signal="pressed" from="VBoxContainer/Opciones" to="." method="_on_opciones_pressed"]
+[connection signal="pressed" from="VBoxContainer/Creditos" to="." method="_on_creditos_pressed"]
 [connection signal="pressed" from="VBoxContainer/Salir" to="." method="_on_salir_pressed"]
