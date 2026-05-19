@@ -45,6 +45,9 @@ var _material_accesibilidad: ShaderMaterial = null
 
 @onready var bus_index: int = AudioServer.get_bus_index("Master")
 @onready var panel_control: Control = $Control
+@onready var center_container: CenterContainer = $Control/CenterContainer
+@onready var marco_textura: TextureRect = $Control/CenterContainer/TextureRect
+@onready var panel_opciones: PanelContainer = $Control/CenterContainer/PanelContainer
 @onready var secciones: VBoxContainer = $Control/CenterContainer/PanelContainer/Secciones
 @onready var fila_volumen: HBoxContainer = $Control/CenterContainer/PanelContainer/Secciones/Volumen
 @onready var slider_volumen: HSlider = $Control/CenterContainer/PanelContainer/Secciones/Volumen/HSlider
@@ -63,10 +66,13 @@ func _ready() -> void:
 	_cargar_configuracion()
 	_sincronizar_controles_desde_configuracion()
 	_aplicar_configuracion(false)
+	if not get_viewport().size_changed.is_connected(_normalizar_layout_opciones):
+		get_viewport().size_changed.connect(_normalizar_layout_opciones)
 	panel_control.hide()
 
 
 func aparecer() -> void:
+	_normalizar_layout_opciones()
 	panel_control.show()
 	_sincronizar_controles_desde_configuracion()
 	slider_volumen.grab_focus()
@@ -96,19 +102,29 @@ func _unhandled_input(event: InputEvent) -> void:
 
 
 func _configurar_panel_opciones() -> void:
+	_normalizar_layout_opciones()
 	_estilizar_label(fila_volumen.get_node("Label") as Label, "VOLUMEN")
 	_estilizar_label(fila_probar_sonido.get_node("Label") as Label, "PROBAR SONIDO")
 	_estilizar_label(fila_modo_pantalla.get_node("Label") as Label, "MODO DE PANTALLA")
 	_estilizar_label(fila_resolucion.get_node("Label") as Label, "RESOLUCION")
+	_configurar_fila_base(fila_volumen, slider_volumen)
+	_configurar_fila_base(fila_probar_sonido, boton_probar_sonido)
+	_configurar_fila_base(fila_modo_pantalla, null)
+	_configurar_fila_base(fila_resolucion, opcion_resolucion)
 
 	slider_volumen.min_value = -36.0
 	slider_volumen.max_value = 6.0
 	slider_volumen.step = 1.0
+	slider_volumen.custom_minimum_size = Vector2(260, 22)
+	slider_volumen.size_flags_horizontal = Control.SIZE_SHRINK_END
 
 	boton_probar_sonido.text = "Probar"
+	boton_probar_sonido.custom_minimum_size = Vector2(118, 28)
+	boton_probar_sonido.size_flags_horizontal = Control.SIZE_SHRINK_END
 	_estilizar_boton_pixel(boton_probar_sonido, 11)
 	_estilizar_boton_pixel(boton_cerrar, 16)
 	boton_cerrar.text = "Cerrar"
+	boton_cerrar.custom_minimum_size = Vector2(132, 34)
 
 	_selector_modo_pantalla = _asegurar_selector_en_fila(
 		fila_modo_pantalla,
@@ -147,10 +163,65 @@ func _configurar_panel_opciones() -> void:
 		_selector_temblor.item_selected.connect(_on_selector_temblor_item_selected)
 
 
+func _normalizar_layout_opciones() -> void:
+	if panel_control == null or center_container == null or marco_textura == null or panel_opciones == null or secciones == null:
+		return
+
+	var visible_rect := get_viewport().get_visible_rect()
+	var ancho_marco: float = clampf(visible_rect.size.x * 0.82, 760.0, 960.0)
+	var alto_marco: float = clampf(visible_rect.size.y * 0.78, 500.0, 610.0)
+	center_container.anchor_left = 0.0
+	center_container.anchor_top = 0.0
+	center_container.anchor_right = 1.0
+	center_container.anchor_bottom = 1.0
+	center_container.offset_left = 0.0
+	center_container.offset_top = 0.0
+	center_container.offset_right = 0.0
+	center_container.offset_bottom = 0.0
+
+	marco_textura.custom_minimum_size = Vector2(ancho_marco, alto_marco)
+	panel_opciones.custom_minimum_size = Vector2(ancho_marco * 0.76, alto_marco * 0.47)
+	panel_opciones.clip_contents = false
+	panel_opciones.add_theme_stylebox_override("panel", _crear_estilo_panel_opciones())
+
+	secciones.add_theme_constant_override("separation", 20)
+	secciones.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+
+
+func _crear_estilo_panel_opciones() -> StyleBoxFlat:
+	var estilo := StyleBoxFlat.new()
+	estilo.bg_color = Color(0.18, 0.21, 0.22, 0.56)
+	estilo.border_width_left = 0
+	estilo.border_width_top = 0
+	estilo.border_width_right = 0
+	estilo.border_width_bottom = 0
+	estilo.set_content_margin(SIDE_LEFT, 30.0)
+	estilo.set_content_margin(SIDE_RIGHT, 30.0)
+	estilo.set_content_margin(SIDE_TOP, 24.0)
+	estilo.set_content_margin(SIDE_BOTTOM, 24.0)
+	return estilo
+
+
+func _configurar_fila_base(fila: HBoxContainer, control_derecha: Control) -> void:
+	if fila == null:
+		return
+
+	fila.add_theme_constant_override("separation", 22)
+	fila.alignment = BoxContainer.ALIGNMENT_BEGIN
+	var label := fila.get_node_or_null("Label") as Label
+	if label != null:
+		label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		label.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+
+	if control_derecha != null:
+		control_derecha.size_flags_horizontal = Control.SIZE_SHRINK_END
+		control_derecha.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+
+
 func _crear_fila_selector(nombre: String, texto_label: String) -> Dictionary:
 	var fila := HBoxContainer.new()
 	fila.name = nombre
-	fila.add_theme_constant_override("separation", 24)
+	fila.add_theme_constant_override("separation", 22)
 
 	var label := Label.new()
 	label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
@@ -173,9 +244,9 @@ func _asegurar_selector_en_fila(fila: HBoxContainer, nombre_selector: String, it
 	if selector == null:
 		selector = OptionButton.new()
 		selector.name = nombre_selector
-		selector.custom_minimum_size = Vector2(260, 34)
-		selector.size_flags_horizontal = Control.SIZE_SHRINK_END
 		fila.add_child(selector)
+	selector.custom_minimum_size = Vector2(260, 34)
+	selector.size_flags_horizontal = Control.SIZE_SHRINK_END
 	_configurar_selector_existente(selector)
 	selector.clear()
 	for indice in range(items.size()):
@@ -184,6 +255,9 @@ func _asegurar_selector_en_fila(fila: HBoxContainer, nombre_selector: String, it
 
 
 func _configurar_selector_existente(selector: OptionButton) -> void:
+	selector.custom_minimum_size = Vector2(260, 34)
+	selector.size_flags_horizontal = Control.SIZE_SHRINK_END
+	selector.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 	selector.add_theme_font_override("font", FUENTE_PIXEL)
 	selector.add_theme_font_size_override("font_size", 10)
 	selector.add_theme_color_override("font_color", Color(0.96, 0.97, 0.92, 1.0))

@@ -391,7 +391,7 @@ position = Vector2(6208, 520)
 position = Vector2(9728, 615)
 
 [node name="CheckpointCarrera4" type="Marker2D" parent="ObjetosMundo2" unique_id=342466764]
-position = Vector2(12618, 611)
+position = Vector2(12372, 611)
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=866506310]
 zoom = Vector2(5, 5)

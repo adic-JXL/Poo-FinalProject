@@ -10,7 +10,7 @@ func _ready() -> void:
 
 
 func puede_interactuar() -> bool:
-	return not _abierta
+	return not _abierta or permite_interaccion
 
 
 func abrir(silencioso: bool = false) -> void:
