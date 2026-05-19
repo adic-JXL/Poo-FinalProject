@@ -1,6 +1,7 @@
 extends Node2D
 
 const SistemaGuardadoClass = preload("res://Scripts/sistema_guardado.gd")
+const CUTSCENE_BASE_SCRIPT := preload("res://Scripts/cutscene_base.gd")
 const PERSONAJE_SCENE := preload("res://Escenas/Personaje.tscn")
 const HUD_SCENE := preload("res://Escenas/HUD.tscn")
 const MENU_PAUSA_SCENE := preload("res://Escenas/MenuPausa.tscn")
@@ -136,6 +137,9 @@ var _orden_puzzle_puerta: Array[int] = []
 var _orden_puzzle_final: Array[int] = []
 var _cartel_pista_puerta: InteractivoBase = null
 var _cartel_pista_final: InteractivoBase = null
+var _popup_pista_puzzle: PanelContainer = null
+var _tween_popup_pista: Tween = null
+var _cierre_final_mostrado: bool = false
 var _rng: RandomNumberGenerator = RandomNumberGenerator.new()
 
 
@@ -340,7 +344,7 @@ func _asegurar_objetos_mundo_2() -> void:
 	_asegurar_checkpoint_mundo_2(objetos, "CheckpointCarrera1", Vector2(2368, 520), "Checkpoint activado. El muro no se ha quedado atras todavia.")
 	_asegurar_checkpoint_mundo_2(objetos, "CheckpointCarrera2", Vector2(6208, 520), "Checkpoint activado. Sigue corriendo, no dejes que el ruido te alcance.")
 	_asegurar_checkpoint_mundo_2(objetos, "CheckpointCarrera3", Vector2(9728, 520), "Checkpoint activado. Ya casi sales del tramo mas opresivo.")
-	_asegurar_checkpoint_mundo_2(objetos, "CheckpointCarrera4", Vector2(12608, 520), "Checkpoint activado. La sala final ya no va a borrarte del mapa.")
+	_asegurar_checkpoint_mundo_2(objetos, "CheckpointCarrera4", Vector2(12608, 611), "Checkpoint activado. La sala final ya no va a borrarte del mapa.")
 
 	var puzzle_puerta := get_node_or_null("ObjetosMundo2/PuzzlePuerta") as Node2D
 	if puzzle_puerta == null:
@@ -375,7 +379,7 @@ func _asegurar_objetos_mundo_2() -> void:
 	_asegurar_cartel_pista(
 		puzzle_final,
 		"CartelPista",
-		Vector2(13552, 620),
+		Vector2(13320, 620),
 		"Presiona E para leer el eco del muro con las gafas."
 	)
 
@@ -578,16 +582,19 @@ func _configurar_puertas_decorativas() -> void:
 		puerta_puzzle.teletransporta_al_tocar = false
 		puerta_puzzle.permite_interaccion = true
 		puerta_puzzle.mensaje_interaccion = "Presiona E para cruzar la puerta."
-		puerta_area_final.configurar_destino(null)
+		puerta_area_final.configurar_destino(puerta_puzzle)
 		puerta_area_final.teletransporta_al_tocar = false
-		puerta_area_final.permite_interaccion = false
-		puerta_area_final.mensaje_interaccion = ""
+		puerta_area_final.permite_interaccion = true
+		puerta_area_final.mensaje_interaccion = "Presiona E para volver por la puerta."
 
 
 func _configurar_interactivos_mundo_2() -> void:
 	if puerta_puzzle != null:
 		_configurar_interactivo_mundo_2(puerta_puzzle, _on_puerta_puzzle_interaccion_solicitada)
 		_interactivos_mundo_2.append(puerta_puzzle)
+	if puerta_area_final != null:
+		_configurar_interactivo_mundo_2(puerta_area_final, _on_puerta_final_interaccion_solicitada)
+		_interactivos_mundo_2.append(puerta_area_final)
 
 	for interactivo in [_cartel_pista_puerta, _cartel_pista_final]:
 		if interactivo == null:
@@ -1038,7 +1045,10 @@ func _on_cartel_pista_interaccion_solicitada(cartel: InteractivoBase) -> void:
 		return
 
 	if cartel == _cartel_pista_final:
-		hud.mostrar_mensaje("El eco del muro responde: %s." % _formatear_orden_para_pista(_orden_puzzle_final))
+		_mostrar_popup_pista_puzzle(
+			"Eco del muro",
+			"Orden visible con las gafas:\n%s" % _formatear_orden_para_pista(_orden_puzzle_final)
+		)
 		hud.mostrar_pensamiento("El orden tambien puede aparecer dentro del ruido.", true)
 
 
@@ -1084,6 +1094,17 @@ func _on_puerta_puzzle_interaccion_solicitada() -> void:
 	puerta_puzzle.teletransportar_jugador(jugador)
 
 
+func _on_puerta_final_interaccion_solicitada() -> void:
+	if puerta_area_final == null or jugador == null or hud == null:
+		return
+
+	if not _puzzle_puerta_completado or not puerta_area_final.esta_abierta():
+		hud.mostrar_mensaje("La puerta aun no responde. Primero rompe el patron anterior.")
+		return
+
+	puerta_area_final.teletransportar_jugador(jugador)
+
+
 func _on_totem_final_interaccion_solicitada(indice_totem: int) -> void:
 	if hud == null or _puzzle_final_completado:
 		return
@@ -1126,10 +1147,137 @@ func _completar_puzzle_puerta() -> void:
 
 func _completar_puzzle_final() -> void:
 	_puzzle_final_completado = true
+	_aplicar_estado_puertas_puzzle(false)
 	if hud != null:
-		hud.mostrar_mensaje("Los ecos quedaron ordenados. La sala por fin se aquieto.")
+		hud.mostrar_mensaje("Los ecos quedaron ordenados. El camino por fin se aquieto.")
 		hud.mostrar_pensamiento("Hasta el ruido mas cruel termina cediendo cuando lo ordeno.", true)
 	_guardar_progreso()
+	call_deferred("_reproducir_cierre_provisional_mundo_2")
+
+
+func _mostrar_popup_pista_puzzle(titulo: String, cuerpo: String) -> void:
+	if _popup_pista_puzzle == null or not is_instance_valid(_popup_pista_puzzle):
+		_popup_pista_puzzle = _crear_popup_pista_puzzle()
+	if _popup_pista_puzzle == null:
+		return
+
+	var titulo_label := _popup_pista_puzzle.get_node_or_null("Margin/VBox/Titulo") as Label
+	var cuerpo_label := _popup_pista_puzzle.get_node_or_null("Margin/VBox/Cuerpo") as Label
+	if titulo_label != null:
+		titulo_label.text = titulo.to_upper()
+	if cuerpo_label != null:
+		cuerpo_label.text = cuerpo
+
+	if _tween_popup_pista != null and _tween_popup_pista.is_valid():
+		_tween_popup_pista.kill()
+
+	_popup_pista_puzzle.visible = true
+	_popup_pista_puzzle.modulate.a = 0.0
+	_popup_pista_puzzle.scale = Vector2(0.94, 0.94)
+	_popup_pista_puzzle.pivot_offset = _popup_pista_puzzle.size * 0.5
+	_tween_popup_pista = create_tween()
+	_tween_popup_pista.set_ignore_time_scale(true)
+	_tween_popup_pista.set_trans(Tween.TRANS_BACK)
+	_tween_popup_pista.set_ease(Tween.EASE_OUT)
+	_tween_popup_pista.tween_property(_popup_pista_puzzle, "modulate:a", 1.0, 0.18)
+	_tween_popup_pista.parallel().tween_property(_popup_pista_puzzle, "scale", Vector2.ONE, 0.22)
+	_tween_popup_pista.tween_interval(4.2)
+	_tween_popup_pista.set_trans(Tween.TRANS_SINE)
+	_tween_popup_pista.set_ease(Tween.EASE_IN)
+	_tween_popup_pista.tween_property(_popup_pista_puzzle, "modulate:a", 0.0, 0.24)
+	_tween_popup_pista.tween_callback(_popup_pista_puzzle.hide)
+
+
+func _crear_popup_pista_puzzle() -> PanelContainer:
+	var canvas := get_node_or_null("Canvas") as CanvasLayer
+	if canvas == null:
+		return null
+
+	var popup := PanelContainer.new()
+	popup.name = "PopupPistaPuzzle"
+	popup.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	popup.visible = false
+	popup.custom_minimum_size = Vector2(430, 126)
+	popup.anchor_left = 0.5
+	popup.anchor_top = 0.5
+	popup.anchor_right = 0.5
+	popup.anchor_bottom = 0.5
+	popup.offset_left = -215.0
+	popup.offset_top = -96.0
+	popup.offset_right = 215.0
+	popup.offset_bottom = 30.0
+	popup.add_theme_stylebox_override("panel", _crear_estilo_popup_pista())
+	canvas.add_child(popup)
+	canvas.move_child(popup, canvas.get_child_count() - 1)
+
+	var margin := MarginContainer.new()
+	margin.name = "Margin"
+	margin.add_theme_constant_override("margin_left", 20)
+	margin.add_theme_constant_override("margin_top", 16)
+	margin.add_theme_constant_override("margin_right", 20)
+	margin.add_theme_constant_override("margin_bottom", 16)
+	popup.add_child(margin)
+
+	var caja := VBoxContainer.new()
+	caja.name = "VBox"
+	caja.add_theme_constant_override("separation", 8)
+	margin.add_child(caja)
+
+	var titulo := Label.new()
+	titulo.name = "Titulo"
+	titulo.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	titulo.add_theme_font_override("font", FUENTE_PIXEL)
+	titulo.add_theme_font_size_override("font_size", 11)
+	titulo.add_theme_color_override("font_color", Color(0.82, 0.94, 0.46, 1.0))
+	caja.add_child(titulo)
+
+	var cuerpo := Label.new()
+	cuerpo.name = "Cuerpo"
+	cuerpo.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	cuerpo.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	cuerpo.add_theme_font_override("font", FUENTE_PIXEL)
+	cuerpo.add_theme_font_size_override("font_size", 10)
+	cuerpo.add_theme_color_override("font_color", Color(0.90, 0.98, 0.92, 1.0))
+	caja.add_child(cuerpo)
+	return popup
+
+
+func _crear_estilo_popup_pista() -> StyleBoxFlat:
+	var estilo := StyleBoxFlat.new()
+	estilo.bg_color = Color(0.045, 0.055, 0.065, 0.94)
+	estilo.border_width_left = 2
+	estilo.border_width_top = 2
+	estilo.border_width_right = 2
+	estilo.border_width_bottom = 2
+	estilo.border_color = Color(0.68, 0.86, 0.46, 0.92)
+	estilo.corner_radius_top_left = 10
+	estilo.corner_radius_top_right = 10
+	estilo.corner_radius_bottom_left = 10
+	estilo.corner_radius_bottom_right = 10
+	estilo.shadow_color = Color(0.0, 0.0, 0.0, 0.36)
+	estilo.shadow_size = 12
+	return estilo
+
+
+func _reproducir_cierre_provisional_mundo_2() -> void:
+	if _cierre_final_mostrado or jugador == null or not is_instance_valid(jugador):
+		return
+
+	_cierre_final_mostrado = true
+	jugador.establecer_control_habilitado(false)
+	if muro_carne != null:
+		muro_carne.establecer_congelado(true)
+
+	var cutscene := CUTSCENE_BASE_SCRIPT.new()
+	add_child(cutscene)
+	await cutscene.reproducir_final_provisional()
+	await cutscene.reproducir_pantalla_final_creditos()
+	cutscene.queue_free()
+
+	if jugador != null and is_instance_valid(jugador):
+		jugador.establecer_control_habilitado(true)
+	if muro_carne != null and not _escape_muro_completado:
+		muro_carne.establecer_congelado(false)
 
 
 func _reiniciar_totems(totems: Array[TotemJefe]) -> void:
@@ -1148,7 +1296,7 @@ func _aplicar_estado_puertas_puzzle(silencioso: bool) -> void:
 	if puerta_puzzle != null and _puzzle_puerta_completado:
 		puerta_puzzle.abrir(silencioso)
 	if puerta_area_final != null and _puzzle_puerta_completado:
-		puerta_area_final.abrir(true)
+		puerta_area_final.abrir(silencioso)
 
 
 func _aplicar_estado_escape_muro() -> void:
@@ -1291,6 +1439,10 @@ func _reproducir_intro_entrada_mundo_1() -> void:
 	tween.tween_property(overlay, "color:a", 0.0, 0.75)
 	await tween.finished
 	overlay.queue_free()
+	var cutscene := CUTSCENE_BASE_SCRIPT.new()
+	add_child(cutscene)
+	await cutscene.reproducir_transicion_mundo_2()
+	cutscene.queue_free()
 	await get_tree().create_timer(espera_inicio_persecucion, true, false, true).timeout
 
 	if muro_carne != null:
@@ -1496,6 +1648,7 @@ func _obtener_offset_temblor_camara() -> Vector2:
 		return Vector2.ZERO
 
 	var intensidad := 1.0 - clampf(distancia / maxf(distancia_temblor_maxima, 1.0), 0.0, 1.0)
+	intensidad *= _obtener_factor_temblor_configurado()
 	if intensidad <= 0.01:
 		return Vector2.ZERO
 
@@ -1504,6 +1657,13 @@ func _obtener_offset_temblor_camara() -> Vector2:
 		sin(tiempo * 1.13) * amplitud_temblor_camara.x * intensidad,
 		cos(tiempo * 1.67) * amplitud_temblor_camara.y * intensidad
 	)
+
+
+func _obtener_factor_temblor_configurado() -> float:
+	var menu_opciones := get_node_or_null("/root/MenuOpciones")
+	if menu_opciones != null and menu_opciones.has_method("obtener_factor_temblor_camara"):
+		return float(menu_opciones.call("obtener_factor_temblor_camara"))
+	return 1.0
 
 
 func _shape_contiene_posicion(shape_node: CollisionShape2D, posicion_global: Vector2) -> bool:

@@ -44,13 +44,15 @@ func cerrar() -> void:
 
 
 func actualizar_contexto(tiene_checkpoint: bool, descripcion_checkpoint: String) -> void:
+	continuar_boton.text = "CONTINUAR"
+	menu_boton.text = "VOLVER AL MENU"
 	if _modo_carrera:
 		contexto_label.text = "Persecucion activa. El muro avanza sin detenerse."
 		estado_partida_label.text = "Si caes o el muro te toca, vuelves al inicio del mundo 2."
-		reiniciar_boton.text = "Reiniciar carrera"
+		reiniciar_boton.text = "REINICIAR CARRERA"
 		return
 
-	reiniciar_boton.text = "Reiniciar desde checkpoint"
+	reiniciar_boton.text = "REINICIAR CHECKPOINT"
 	if tiene_checkpoint:
 		contexto_label.text = "Checkpoint activo: %s" % descripcion_checkpoint
 		estado_partida_label.text = "Progreso protegido. Puedes reiniciar sin volver al comienzo."
@@ -109,6 +111,8 @@ func establecer_modo_carrera(activo: bool) -> void:
 
 
 func _aplicar_estetica_pixel() -> void:
+	panel_container.custom_minimum_size = Vector2(488, 0)
+
 	for label in [titulo_label, subtitulo_label, contexto_label, estado_partida_label]:
 		label.add_theme_font_override("font", FUENTE_PIXEL)
 
@@ -119,4 +123,6 @@ func _aplicar_estetica_pixel() -> void:
 
 	for boton in [continuar_boton, reiniciar_boton, menu_boton]:
 		boton.add_theme_font_override("font", FUENTE_PIXEL)
-		boton.add_theme_font_size_override("font_size", 11)
+		boton.add_theme_font_size_override("font_size", 10)
+		boton.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
+		boton.custom_minimum_size = Vector2(0, 40)

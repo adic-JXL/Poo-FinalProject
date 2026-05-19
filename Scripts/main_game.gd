@@ -2,6 +2,7 @@ extends Node2D
 class_name MainGame
 
 const SistemaGuardadoClass = preload("res://Scripts/sistema_guardado.gd")
+const CUTSCENE_BASE_SCRIPT := preload("res://Scripts/cutscene_base.gd")
 const MENU_SCENE := "res://Escenas/Menu.tscn"
 const SCENE_PATH := "res://Escenas/MainGame.tscn"
 const MENSAJE_PUERTA_CERRADA := "La puerta sigue cerrada. Resuelve el puzzle de la llave."
@@ -1505,30 +1506,14 @@ func _reproducir_intro_nueva_partida() -> void:
 		return
 
 	jugador.establecer_control_habilitado(false)
-	var overlay := ColorRect.new()
-	overlay.anchor_left = 0.0
-	overlay.anchor_top = 0.0
-	overlay.anchor_right = 1.0
-	overlay.anchor_bottom = 1.0
-	overlay.offset_left = 0.0
-	overlay.offset_top = 0.0
-	overlay.offset_right = 0.0
-	overlay.offset_bottom = 0.0
-	overlay.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	overlay.color = Color(0.01, 0.01, 0.02, 1.0)
-	$Canvas.add_child(overlay)
-	$Canvas.move_child(overlay, $Canvas.get_child_count() - 1)
 	hud.mostrar_mensaje("Respira. Solo cruza el pasillo una vez mas.")
 	if hud.has_method("mostrar_pensamiento"):
 		hud.mostrar_pensamiento("Otra vez esas miradas. Solo sigue.", false)
 
-	var tween := create_tween()
-	tween.set_ignore_time_scale(true)
-	tween.set_trans(Tween.TRANS_SINE)
-	tween.set_ease(Tween.EASE_OUT)
-	tween.tween_property(overlay, "color:a", 0.0, 1.05)
-	await tween.finished
-	overlay.queue_free()
+	var cutscene := CUTSCENE_BASE_SCRIPT.new()
+	add_child(cutscene)
+	await cutscene.reproducir_intro_inicio()
+	cutscene.queue_free()
 	await get_tree().create_timer(0.2, true, false, true).timeout
 	jugador.establecer_control_habilitado(true)
 	_restaurar_mensaje_hud()
