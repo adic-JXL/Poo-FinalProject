@@ -219,7 +219,7 @@ func _configurar_layout_base() -> void:
 	_aplicar_panel_transparente(gafas_panel)
 	_configurar_fuentes_colores()
 	_configurar_vida_visual()
-	_configurar_stamina_visual()
+	stamina_panel.hide()
 	_configurar_gafas_visual()
 	_configurar_llave_visual()
 	_configurar_pensamiento_visual()
