@@ -55,10 +55,14 @@ const PENSAMIENTOS_GAFAS := [
 @export var suavizado_camara: float = 6.0
 @export var adelanto_camara_muro: float = 316.0
 @export var adelanto_camara_jugador: float = 48.0
+@export var amplitud_temblor_camara: Vector2 = Vector2(4.5, 2.2)
+@export var frecuencia_temblor_camara: float = 8.5
+@export var distancia_temblor_maxima: float = 520.0
 
 @export_group("Muro")
 @export var posicion_inicial_muro: Vector2 = Vector2(-136, 326)
 @export var velocidad_muro: float = 72.0
+@export var distancia_retroceso_muro_checkpoint: float = 448.0
 
 @export_group("Progresion")
 @export var limite_escape_muro_x: float = 11072.0
@@ -104,6 +108,7 @@ var distorsion_overlay: ColorRect = null
 var distorsion_material: ShaderMaterial = null
 var _camara_actual: Camera2D = null
 var _posicion_respawn_actual: Vector2 = Vector2.ZERO
+var _posicion_muro_respawn_actual: Vector2 = Vector2.ZERO
 var _pausa_activa: bool = false
 var _respawn_activo: bool = false
 var _estado_gafas_aplicado: bool = false
@@ -377,11 +382,14 @@ func _asegurar_objetos_mundo_2() -> void:
 
 func _asegurar_checkpoint_mundo_2(objetos: Node2D, nombre: String, posicion: Vector2, mensaje: String) -> void:
 	var checkpoint := get_node_or_null("ObjetosMundo2/%s" % nombre) as Node2D
+	var recien_creado := false
 	if checkpoint == null:
 		checkpoint = Marker2D.new()
 		checkpoint.name = nombre
 		objetos.add_child(checkpoint)
-	checkpoint.position = posicion
+		recien_creado = true
+	if recien_creado or checkpoint.position == Vector2.ZERO:
+		checkpoint.position = posicion
 
 	var punto_visible := checkpoint.get_node_or_null("PuntoVisible") as Sprite2D
 	if punto_visible == null:
@@ -556,16 +564,31 @@ func _configurar_puertas_decorativas() -> void:
 	for child in get_children():
 		if child == null or not String(child.name).begins_with("PuertaBloqueada"):
 			continue
+		if child is Area2D:
+			(child as Area2D).monitoring = true
+			(child as Area2D).monitorable = true
 
-		if child.has_method("desactivar_interaccion"):
-			child.desactivar_interaccion()
+	if puerta_entrada_mundo_1 != null and puerta_entrada_mundo_1 is PuertaBloqueada:
+		var puerta_inicio := puerta_entrada_mundo_1 as PuertaBloqueada
+		puerta_inicio.teletransporta_al_tocar = false
+		puerta_inicio.permite_interaccion = false
 
 	if puerta_puzzle != null and puerta_area_final != null:
 		puerta_puzzle.configurar_destino(puerta_area_final)
-		puerta_area_final.configurar_destino(puerta_puzzle)
+		puerta_puzzle.teletransporta_al_tocar = false
+		puerta_puzzle.permite_interaccion = true
+		puerta_puzzle.mensaje_interaccion = "Presiona E para cruzar la puerta."
+		puerta_area_final.configurar_destino(null)
+		puerta_area_final.teletransporta_al_tocar = false
+		puerta_area_final.permite_interaccion = false
+		puerta_area_final.mensaje_interaccion = ""
 
 
 func _configurar_interactivos_mundo_2() -> void:
+	if puerta_puzzle != null:
+		_configurar_interactivo_mundo_2(puerta_puzzle, _on_puerta_puzzle_interaccion_solicitada)
+		_interactivos_mundo_2.append(puerta_puzzle)
+
 	for interactivo in [_cartel_pista_puerta, _cartel_pista_final]:
 		if interactivo == null:
 			continue
@@ -714,6 +737,7 @@ func _configurar_hud() -> void:
 func _cargar_guardado_mundo_2() -> void:
 	var datos_guardado := SistemaGuardadoClass.cargar_datos()
 	_posicion_respawn_actual = punto_respawn.global_position if punto_respawn != null else posicion_spawn_defecto
+	_posicion_muro_respawn_actual = posicion_inicial_muro
 	var posicion_jugador_objetivo := _posicion_respawn_actual
 	var posicion_muro_objetivo := posicion_inicial_muro
 
@@ -723,11 +747,25 @@ func _cargar_guardado_mundo_2() -> void:
 			_posicion_respawn_actual = _parsear_vector2(datos_mundo_2.get("posicion_respawn", _posicion_respawn_actual), _posicion_respawn_actual)
 			posicion_jugador_objetivo = _parsear_vector2(datos_mundo_2.get("posicion_jugador", _posicion_respawn_actual), _posicion_respawn_actual)
 			posicion_muro_objetivo = _parsear_vector2(datos_mundo_2.get("posicion_muro", posicion_inicial_muro), posicion_inicial_muro)
+			_posicion_muro_respawn_actual = _parsear_vector2(datos_mundo_2.get("posicion_muro_respawn", _calcular_posicion_muro_checkpoint(_posicion_respawn_actual)), _calcular_posicion_muro_checkpoint(_posicion_respawn_actual))
 			_checkpoint_activo = bool(datos_mundo_2.get("checkpoint_activo", false))
 			_descripcion_checkpoint_actual = String(datos_mundo_2.get("checkpoint_descripcion", _descripcion_checkpoint_actual))
 			_escape_muro_completado = bool(datos_mundo_2.get("escape_muro_completado", false))
 			_puzzle_puerta_completado = bool(datos_mundo_2.get("puzzle_puerta_completado", false))
 			_puzzle_final_completado = bool(datos_mundo_2.get("puzzle_final_completado", false))
+
+	if _escape_muro_completado:
+		var checkpoint_final := get_node_or_null("ObjetosMundo2/CheckpointCarrera4") as Node2D
+		var posicion_segura := checkpoint_final.global_position if checkpoint_final != null else Vector2(12608, 520)
+		_checkpoint_activo = true
+		if _descripcion_checkpoint_actual == "Inicio del mundo 2":
+			_descripcion_checkpoint_actual = "Zona segura"
+		if _posicion_respawn_actual.x < umbral_escape_jugador_x:
+			_posicion_respawn_actual = posicion_segura
+		if posicion_jugador_objetivo.x < umbral_escape_jugador_x:
+			posicion_jugador_objetivo = _posicion_respawn_actual
+		posicion_muro_objetivo = Vector2(limite_escape_muro_x, posicion_inicial_muro.y)
+		_posicion_muro_respawn_actual = _calcular_posicion_muro_checkpoint(_posicion_respawn_actual)
 
 	if punto_respawn != null:
 		punto_respawn.global_position = _posicion_respawn_actual
@@ -753,6 +791,7 @@ func _guardar_progreso() -> void:
 		"posicion_respawn": _posicion_respawn_actual,
 		"posicion_jugador": jugador.global_position,
 		"posicion_muro": muro_carne.global_position if muro_carne != null else posicion_inicial_muro,
+		"posicion_muro_respawn": _posicion_muro_respawn_actual,
 		"checkpoint_activo": _checkpoint_activo,
 		"checkpoint_descripcion": _descripcion_checkpoint_actual,
 		"escape_muro_completado": _escape_muro_completado,
@@ -788,7 +827,7 @@ func _reiniciar_carrera(con_animacion_muerte: bool, mensaje: String) -> void:
 	_aplicar_estado_gafas(false, true)
 
 	if muro_carne != null:
-		muro_carne.reiniciar(posicion_inicial_muro)
+		muro_carne.reiniciar(_posicion_muro_respawn_actual)
 		muro_carne.establecer_multiplicador_velocidad(1.0)
 	_aplicar_estado_progresion_mundo_2(true)
 
@@ -843,10 +882,11 @@ func _sincronizar_camara_con_jugador(forzar: bool = false, delta: float = 0.0) -
 		return
 
 	var objetivo_x := jugador.global_position.x + adelanto_camara_jugador
-	if muro_carne != null:
+	if muro_carne != null and not _escape_muro_completado:
 		objetivo_x = maxf(objetivo_x, muro_carne.obtener_x_impulso_camara())
 
 	var objetivo := Vector2(objetivo_x, jugador.global_position.y + offset_camara.y)
+	objetivo += _obtener_offset_temblor_camara()
 	if forzar or delta <= 0.0:
 		_camara_actual.global_position = objetivo
 		return
@@ -957,6 +997,7 @@ func _on_checkpoint_mundo_2_alcanzado(posicion: Vector2, mensaje: String, descri
 	_posicion_respawn_actual = posicion
 	if punto_respawn != null:
 		punto_respawn.global_position = posicion
+	_actualizar_resguardo_muro_checkpoint(posicion, true)
 	if hud != null:
 		hud.actualizar_checkpoint(true)
 		hud.mostrar_mensaje(mensaje)
@@ -977,6 +1018,7 @@ func _asegurar_respawn_seguro_final() -> void:
 	_posicion_respawn_actual = posicion_segura
 	if punto_respawn != null:
 		punto_respawn.global_position = posicion_segura
+	_actualizar_resguardo_muro_checkpoint(posicion_segura, false)
 	if hud != null:
 		hud.actualizar_checkpoint(true)
 	_guardar_progreso()
@@ -1029,6 +1071,17 @@ func _on_totem_puerta_interaccion_solicitada(indice_totem: int) -> void:
 		return
 
 	hud.mostrar_mensaje("Sello correcto %d/%d." % [_progreso_puzzle_puerta, _orden_puzzle_puerta.size()])
+
+
+func _on_puerta_puzzle_interaccion_solicitada() -> void:
+	if puerta_puzzle == null or jugador == null or hud == null:
+		return
+
+	if not _puzzle_puerta_completado or not puerta_puzzle.esta_abierta():
+		hud.mostrar_mensaje("La puerta sigue sellada. Primero debes romper el patron correcto.")
+		return
+
+	puerta_puzzle.teletransportar_jugador(jugador)
 
 
 func _on_totem_final_interaccion_solicitada(indice_totem: int) -> void:
@@ -1414,6 +1467,43 @@ func _debe_usar_camara_2(posicion_global: Vector2) -> bool:
 	if _area_contiene_posicion(area_camara_2, posicion_global):
 		return true
 	return posicion_global.x >= float(camara_2.limit_left) - 24.0
+
+
+func _actualizar_resguardo_muro_checkpoint(posicion_checkpoint: Vector2, aplicar_inmediatamente: bool) -> void:
+	_posicion_muro_respawn_actual = _calcular_posicion_muro_checkpoint(posicion_checkpoint)
+	if not aplicar_inmediatamente or muro_carne == null or _escape_muro_completado:
+		return
+
+	muro_carne.reiniciar(_posicion_muro_respawn_actual)
+	muro_carne.establecer_multiplicador_velocidad(FACTOR_LENTITUD_GAFAS_MURO if jugador != null and jugador.gafas_activas() else 1.0)
+
+
+func _calcular_posicion_muro_checkpoint(posicion_checkpoint: Vector2) -> Vector2:
+	if _escape_muro_completado:
+		return Vector2(limite_escape_muro_x, posicion_inicial_muro.y)
+
+	var objetivo_x := maxf(posicion_inicial_muro.x, posicion_checkpoint.x - distancia_retroceso_muro_checkpoint)
+	objetivo_x = minf(objetivo_x, limite_escape_muro_x - 96.0)
+	return Vector2(objetivo_x, posicion_inicial_muro.y)
+
+
+func _obtener_offset_temblor_camara() -> Vector2:
+	if _escape_muro_completado or muro_carne == null or jugador == null:
+		return Vector2.ZERO
+
+	var distancia := jugador.global_position.x - muro_carne.global_position.x
+	if distancia <= 0.0:
+		return Vector2.ZERO
+
+	var intensidad := 1.0 - clampf(distancia / maxf(distancia_temblor_maxima, 1.0), 0.0, 1.0)
+	if intensidad <= 0.01:
+		return Vector2.ZERO
+
+	var tiempo := Time.get_ticks_msec() * 0.001 * frecuencia_temblor_camara
+	return Vector2(
+		sin(tiempo * 1.13) * amplitud_temblor_camara.x * intensidad,
+		cos(tiempo * 1.67) * amplitud_temblor_camara.y * intensidad
+	)
 
 
 func _shape_contiene_posicion(shape_node: CollisionShape2D, posicion_global: Vector2) -> bool:

@@ -98,14 +98,21 @@ func _aplicar_estado_abierto_visual() -> void:
 
 
 func puede_interactuar() -> bool:
-	return permite_interaccion and transporte_habilitado
+	return permite_interaccion and puede_usarse()
 
 
 func puede_teletransportar() -> bool:
+	if not teletransporta_al_tocar:
+		return false
+
+	return puede_usarse()
+
+
+func puede_usarse() -> bool:
 	var destino := obtener_puerta_destino()
 	var tiene_destino_local := destino != null and destino.has_method("obtener_punto_salida")
 	var tiene_escena_destino := not ruta_escena_destino.is_empty()
-	return transporte_habilitado and teletransporta_al_tocar and (tiene_destino_local or tiene_escena_destino)
+	return transporte_habilitado and (tiene_destino_local or tiene_escena_destino)
 
 
 func _on_body_entered_teletransporte(body: Node) -> void:
@@ -153,19 +160,22 @@ func _teletransportar_jugador(body: Node) -> void:
 		return
 
 	jugador.set_meta("puerta_ignorada", destino.get_instance_id())
-	jugador.global_position = destino.obtener_punto_salida()
-	if jugador is CharacterBody2D:
-		(jugador as CharacterBody2D).velocity = Vector2.ZERO
-
-	if jugador.has_method("finalizar_animacion_puerta"):
-		jugador.finalizar_animacion_puerta()
+	var punto_salida: Vector2 = destino.obtener_punto_salida()
+	if jugador.has_method("animar_salida_puerta") and destino is Node2D:
+		await jugador.animar_salida_puerta((destino as Node2D).global_position + offset_animacion_entrada, punto_salida, maxf(duracion_animacion_entrada + 0.1, 0.28))
+	else:
+		jugador.global_position = punto_salida
+		if jugador is CharacterBody2D:
+			(jugador as CharacterBody2D).velocity = Vector2.ZERO
+		if jugador.has_method("finalizar_animacion_puerta"):
+			jugador.finalizar_animacion_puerta()
 
 	emit_signal("teletransporte_realizado", jugador, destino)
 	call_deferred("_liberar_teletransporte")
 
 
 func teletransportar_jugador(jugador: Node2D) -> void:
-	if not puede_teletransportar():
+	if not puede_usarse():
 		return
 
 	_teletransportar_jugador(jugador)

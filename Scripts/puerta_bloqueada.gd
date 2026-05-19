@@ -24,7 +24,12 @@ func abrir(silencioso: bool = false) -> void:
 	else:
 		reproducir_animacion_apertura()
 	_cambiar_rango_interaccion(false)
-	mensaje_interaccion = "La puerta ya esta abierta."
+	mensaje_interaccion = "Presiona E para cruzar la puerta." if permite_interaccion else "La puerta ya esta abierta."
+	if permite_interaccion and monitoring:
+		for body in get_overlapping_bodies():
+			if body != null and body.is_in_group("jugador"):
+				_cambiar_rango_interaccion(true)
+				break
 
 
 func esta_abierta() -> bool:
