@@ -344,7 +344,7 @@ func _asegurar_objetos_mundo_2() -> void:
 	_asegurar_checkpoint_mundo_2(objetos, "CheckpointCarrera1", Vector2(2368, 520), "Checkpoint activado. El muro no se ha quedado atras todavia.")
 	_asegurar_checkpoint_mundo_2(objetos, "CheckpointCarrera2", Vector2(6208, 520), "Checkpoint activado. Sigue corriendo, no dejes que el ruido te alcance.")
 	_asegurar_checkpoint_mundo_2(objetos, "CheckpointCarrera3", Vector2(9728, 520), "Checkpoint activado. Ya casi sales del tramo mas opresivo.")
-	_asegurar_checkpoint_mundo_2(objetos, "CheckpointCarrera4", Vector2(12608, 520), "Checkpoint activado. La sala final ya no va a borrarte del mapa.")
+	_asegurar_checkpoint_mundo_2(objetos, "CheckpointCarrera4", Vector2(12608, 611), "Checkpoint activado. La sala final ya no va a borrarte del mapa.")
 
 	var puzzle_puerta := get_node_or_null("ObjetosMundo2/PuzzlePuerta") as Node2D
 	if puzzle_puerta == null:
@@ -582,10 +582,10 @@ func _configurar_puertas_decorativas() -> void:
 		puerta_puzzle.teletransporta_al_tocar = false
 		puerta_puzzle.permite_interaccion = true
 		puerta_puzzle.mensaje_interaccion = "Presiona E para cruzar la puerta."
-		puerta_area_final.configurar_destino(null)
+		puerta_area_final.configurar_destino(puerta_puzzle)
 		puerta_area_final.teletransporta_al_tocar = false
 		puerta_area_final.permite_interaccion = true
-		puerta_area_final.mensaje_interaccion = "Presiona E para salir cuando ordenes los ecos."
+		puerta_area_final.mensaje_interaccion = "Presiona E para volver por la puerta."
 
 
 func _configurar_interactivos_mundo_2() -> void:
@@ -1098,11 +1098,11 @@ func _on_puerta_final_interaccion_solicitada() -> void:
 	if puerta_area_final == null or jugador == null or hud == null:
 		return
 
-	if not _puzzle_final_completado or not puerta_area_final.esta_abierta():
-		hud.mostrar_mensaje("La salida sigue cerrada. Ordena los ecos del muro antes de cruzar.")
+	if not _puzzle_puerta_completado or not puerta_area_final.esta_abierta():
+		hud.mostrar_mensaje("La puerta aun no responde. Primero rompe el patron anterior.")
 		return
 
-	call_deferred("_cruzar_puerta_final_mundo_2")
+	puerta_area_final.teletransportar_jugador(jugador)
 
 
 func _on_totem_final_interaccion_solicitada(indice_totem: int) -> void:
@@ -1149,9 +1149,10 @@ func _completar_puzzle_final() -> void:
 	_puzzle_final_completado = true
 	_aplicar_estado_puertas_puzzle(false)
 	if hud != null:
-		hud.mostrar_mensaje("Los ecos quedaron ordenados. La puerta final ya puede abrirse.")
+		hud.mostrar_mensaje("Los ecos quedaron ordenados. El camino por fin se aquieto.")
 		hud.mostrar_pensamiento("Hasta el ruido mas cruel termina cediendo cuando lo ordeno.", true)
 	_guardar_progreso()
+	call_deferred("_reproducir_cierre_provisional_mundo_2")
 
 
 func _mostrar_popup_pista_puzzle(titulo: String, cuerpo: String) -> void:
@@ -1270,34 +1271,13 @@ func _reproducir_cierre_provisional_mundo_2() -> void:
 	var cutscene := CUTSCENE_BASE_SCRIPT.new()
 	add_child(cutscene)
 	await cutscene.reproducir_final_provisional()
+	await cutscene.reproducir_pantalla_final_creditos()
 	cutscene.queue_free()
 
 	if jugador != null and is_instance_valid(jugador):
 		jugador.establecer_control_habilitado(true)
 	if muro_carne != null and not _escape_muro_completado:
 		muro_carne.establecer_congelado(false)
-
-
-func _cruzar_puerta_final_mundo_2() -> void:
-	if _cierre_final_mostrado or jugador == null or not is_instance_valid(jugador):
-		return
-
-	_intro_persecucion_activa = true
-	jugador.establecer_control_habilitado(false)
-	if muro_carne != null:
-		muro_carne.establecer_congelado(true)
-		muro_carne.establecer_activo(false)
-
-	if puerta_area_final != null and jugador.has_method("animar_entrada_puerta"):
-		await jugador.animar_entrada_puerta(puerta_area_final.global_position + Vector2(0, 10), 0.34)
-
-	await _reproducir_cierre_provisional_mundo_2()
-
-	if jugador != null and is_instance_valid(jugador):
-		jugador.finalizar_animacion_puerta()
-		jugador.establecer_control_habilitado(true)
-	_intro_persecucion_activa = false
-	_guardar_progreso()
 
 
 func _reiniciar_totems(totems: Array[TotemJefe]) -> void:
@@ -1315,7 +1295,7 @@ func _marcar_totems_completados(totems: Array[TotemJefe]) -> void:
 func _aplicar_estado_puertas_puzzle(silencioso: bool) -> void:
 	if puerta_puzzle != null and _puzzle_puerta_completado:
 		puerta_puzzle.abrir(silencioso)
-	if puerta_area_final != null and _puzzle_final_completado:
+	if puerta_area_final != null and _puzzle_puerta_completado:
 		puerta_area_final.abrir(silencioso)
 
 
