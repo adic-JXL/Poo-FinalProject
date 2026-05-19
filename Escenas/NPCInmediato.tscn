@@ -14,6 +14,8 @@ height = 44.0
 collision_layer = 0
 script = ExtResource("1_fn44f")
 mensaje_interaccion = "Presiona E para hablar."
+activar_automaticamente = true
+solo_una_vez = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1378721025]
 shape = SubResource("CircleShape2D_interaccion")

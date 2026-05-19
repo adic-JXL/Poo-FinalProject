@@ -9,7 +9,7 @@ signal dialogo_finalizado(nombre: String)
 
 # Dialogo automatico al entrar por primera vez
 @export_group("Dialogo Automatico")
-@export var activar_automaticamente: bool = true
+@export var activar_automaticamente: bool = false
 @export var solo_una_vez: bool = true
 
 @export var lineas_dialogo: PackedStringArray = [
@@ -90,4 +90,4 @@ func _on_dialogo_cerrado() -> void:
 
 	_jugador_dialogando = null
 
-	emit_signal("dialogo_finalizado", nombre_npc
+	emit_signal("dialogo_finalizado", nombre_npc)

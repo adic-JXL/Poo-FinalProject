@@ -45,6 +45,10 @@ const PENSAMIENTOS_GAFAS := [
 ]
 const PENSAMIENTO_ZONA_JEFE := "La mente es como un slime, moldeable."
 const PENSAMIENTO_JEFE_DERROTADO := "Pude moldear mi mente."
+const PENSAMIENTO_NPCS_MOLESTIA := "Esos chicos siempre me molestan. Estoy harto, quiero irme lejos."
+const PENSAMIENTO_NPCS_PATIO := "Voy a tomar un pequeño descanso en el patio."
+const PENSAMIENTO_NPC_VALOR := "Ojala algun dia saque el valor para decirles como me siento."
+const PENSAMIENTO_PATIO_DIFERENTE := "Wow el patio se ve diferente."
 
 @export var limite_caida_y: float = 700.0
 @export var escala_tiempo_golpe: float = 0.45
@@ -89,6 +93,8 @@ const PENSAMIENTO_JEFE_DERROTADO := "Pude moldear mi mente."
 @onready var puerta_salida = get_node_or_null("Objetos/Puerta2")
 @onready var puerta_3 = get_node_or_null("Objetos/PuertaJefe")
 @onready var puerta_4 = get_node_or_null("Objetos/PuertaJefeDestino")
+@onready var puerta_7 = get_node_or_null("Objetos/Puerta7")
+@onready var puerta_8 = get_node_or_null("Objetos/Puerta8")
 @onready var puerta_mundo_2 = get_node_or_null("Objetos/PuertaMundo2")
 @onready var puerta_mundo_2_destino = get_node_or_null("Objetos/PuertaMundo2Destino")
 @onready var checkpoint_puerta: Marker2D = $Objetos/CheckpointPuerta
@@ -100,6 +106,8 @@ const PENSAMIENTO_JEFE_DERROTADO := "Pude moldear mi mente."
 @onready var checkpoint_puzzle_gafas_activador = $Objetos/CheckpointPuzzleGafas/Activador
 @onready var checkpoint_mundo_2_inicio: Marker2D = get_node_or_null("Objetos/CheckpointMundo2Inicio") as Marker2D
 @onready var checkpoint_mundo_2_inicio_activador = get_node_or_null("Objetos/CheckpointMundo2Inicio/Activador")
+@onready var punto_salon_npc_2: Marker2D = get_node_or_null("Objetos/PuntoSalonNPC2") as Marker2D
+@onready var punto_regreso_npc_2: Marker2D = get_node_or_null("Objetos/PuntoRegresoNPC2") as Marker2D
 @onready var totem_jefe_a = $Objetos/TotemJefeA
 @onready var totem_jefe_b = $Objetos/TotemJefeB
 @onready var totem_jefe_c = $Objetos/TotemJefeC
@@ -117,8 +125,13 @@ const PENSAMIENTO_JEFE_DERROTADO := "Pude moldear mi mente."
 @onready var intro_canvas: CanvasLayer = get_node_or_null("IntroCanvas") as CanvasLayer
 @onready var intro_video: VideoStreamPlayer = get_node_or_null("IntroCanvas/IntroVideo") as VideoStreamPlayer
 @onready var llave = $Objetos/Llave
+@onready var puzzle_salon_npc_2 = get_node_or_null("Objetos/PuzzleSalonNPC2")
 @onready var puzzle = $Canvas/PuzzleSecuencia
 @onready var puzzle_gafas = $Canvas/PuzzleGafas
+@onready var npc_2: NPCDialogo = get_node_or_null("NPC/NPC_2") as NPCDialogo
+@onready var npc_3: NPCDialogo = get_node_or_null("NPC/NPC_3") as NPCDialogo
+@onready var npc_4: NPCDialogo = get_node_or_null("NPC/NPC_4") as NPCDialogo
+@onready var npc_5: NPCDialogo = get_node_or_null("NPC/NPC_5") as NPCDialogo
 @onready var jefe_sombras = get_node_or_null("Enemigos/JefeSombras")
 @onready var ambiente_mundo_1 = get_node_or_null("AmbienteMundo1")
 
@@ -150,6 +163,10 @@ var _indice_pensamiento_gafas: int = 0
 var _pensamiento_jefe_mostrado: bool = false
 var _transicionando_a_mundo_2: bool = false
 var _intro_activa: bool = false
+var _teletransporte_salon_npc_2_realizado: bool = false
+var _puzzle_salon_npc_2_resuelto: bool = false
+var _npcs_post_puzzle_dialogados := {}
+var _pensamiento_patio_mostrado: bool = false
 
 
 func _ready() -> void:
@@ -167,8 +184,10 @@ func _ready() -> void:
 	_configurar_gafas()
 	_configurar_menu_pausa()
 	_configurar_intro_video()
+	_configurar_npcs()
 	_preparar_canvas_runtime()
 	_configurar_interactivo(llave, _on_llave_interaccion_solicitada)
+	_configurar_interactivo(puzzle_salon_npc_2, _on_puzzle_salon_npc_2_interaccion_solicitada)
 	_configurar_interactivo(altar_gafas, _on_altar_gafas_interaccion_solicitada)
 	_configurar_totems_jefe()
 	_configurar_interactivo(puerta, _on_puerta_interaccion_solicitada)
@@ -220,6 +239,10 @@ func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("interactuar"):
 		if llave != null and llave.esta_en_rango():
 			llave.interactuar()
+			return
+
+		if puzzle_salon_npc_2 != null and puzzle_salon_npc_2.has_method("esta_en_rango") and puzzle_salon_npc_2.esta_en_rango():
+			puzzle_salon_npc_2.interactuar()
 			return
 
 		if altar_gafas != null and altar_gafas.esta_en_rango():
@@ -377,6 +400,9 @@ func _configurar_puertas() -> void:
 	if puerta_3 != null and puerta_3.has_signal("teletransporte_realizado"):
 		puerta_3.teletransporte_realizado.connect(_on_puerta_jefe_teletransporte_realizado)
 
+	if puerta_7 != null and puerta_7.has_signal("teletransporte_realizado"):
+		puerta_7.teletransporte_realizado.connect(_on_puerta_7_teletransporte_realizado)
+
 	if puerta_mundo_2 != null and puerta_mundo_2_destino != null and puerta_mundo_2.has_method("configurar_destino"):
 		puerta_mundo_2.configurar_destino(puerta_mundo_2_destino)
 
@@ -443,6 +469,56 @@ func _configurar_intro_video() -> void:
 	intro_canvas.hide()
 	if not intro_video.finished.is_connected(_on_intro_video_finished):
 		intro_video.finished.connect(_on_intro_video_finished)
+
+
+func _configurar_npcs() -> void:
+	if npc_2 == null:
+		_establecer_npcs_post_puzzle_disponibles(false)
+		return
+
+	if not npc_2.dialogo_finalizado.is_connected(_on_npc_2_dialogo_finalizado):
+		npc_2.dialogo_finalizado.connect(_on_npc_2_dialogo_finalizado)
+
+	_conectar_pensamiento_npc_post_puzzle(npc_3, &"npc_3")
+	_conectar_pensamiento_npc_post_puzzle(npc_4, &"npc_4")
+	_conectar_pensamiento_npc_post_puzzle(npc_5, &"npc_5")
+	_establecer_npcs_post_puzzle_disponibles(false)
+
+
+func _conectar_pensamiento_npc_post_puzzle(npc: NPCDialogo, id_npc: StringName) -> void:
+	if npc == null:
+		return
+
+	var callback := _on_npc_post_puzzle_dialogo_finalizado.bind(id_npc)
+	if not npc.dialogo_finalizado.is_connected(callback):
+		npc.dialogo_finalizado.connect(callback)
+
+
+func _establecer_npcs_post_puzzle_disponibles(disponibles: bool) -> void:
+	_establecer_npc_disponible(npc_3, disponibles)
+	_establecer_npc_disponible(npc_4, disponibles)
+	_establecer_npc_disponible(npc_5, disponibles)
+
+
+func _establecer_npc_disponible(npc: NPCDialogo, disponible: bool) -> void:
+	if npc == null:
+		return
+
+	npc.visible = disponible
+	npc.monitoring = disponible
+	npc.monitorable = disponible
+	if not disponible and npc.has_method("_cambiar_rango_interaccion"):
+		npc._cambiar_rango_interaccion(false)
+	elif disponible and npc.activar_automaticamente:
+		call_deferred("_intentar_dialogo_automatico_npc", npc)
+
+
+func _intentar_dialogo_automatico_npc(npc: NPCDialogo) -> void:
+	if npc == null or not is_instance_valid(npc):
+		return
+
+	if npc.esta_en_rango():
+		npc.interactuar()
 
 
 func _reproducir_intro_video() -> void:
@@ -527,7 +603,23 @@ func _on_llave_interaccion_solicitada() -> void:
 	puzzle.iniciar_puzzle()
 
 
+func _on_puzzle_salon_npc_2_interaccion_solicitada() -> void:
+	if _puzzle_salon_npc_2_resuelto or _puzzle_activo:
+		return
+
+	_puzzle_activo = true
+	_tipo_puzzle_activo = &"salon_npc_2"
+	jugador.establecer_control_habilitado(false)
+	_establecer_enemigos_congelados(true)
+	hud.mostrar_mensaje("El cubo del salon responde. Resuelve la secuencia para volver.")
+	puzzle.iniciar_puzzle()
+
+
 func _on_puzzle_completado() -> void:
+	if _tipo_puzzle_activo == &"salon_npc_2":
+		_on_puzzle_salon_npc_2_completado()
+		return
+
 	_llave_obtenida = true
 	hud.actualizar_llave(_llave_obtenida)
 	llave.otorgar_llave()
@@ -536,7 +628,22 @@ func _on_puzzle_completado() -> void:
 
 
 func _on_puzzle_cancelado() -> void:
+	if _tipo_puzzle_activo == &"salon_npc_2":
+		_cerrar_puzzle("El cubo espera en silencio. Puedes reintentarlo cuando quieras.")
+		return
+
 	_cerrar_puzzle("Saliste del puzzle. Puedes volver a intentarlo cuando quieras.")
+
+
+func _on_puzzle_salon_npc_2_completado() -> void:
+	_puzzle_salon_npc_2_resuelto = true
+	if puzzle_salon_npc_2 != null and puzzle_salon_npc_2.has_method("desactivar_interaccion"):
+		puzzle_salon_npc_2.desactivar_interaccion()
+
+	_desaparecer_npc_2()
+	_establecer_npcs_post_puzzle_disponibles(true)
+	_cerrar_puzzle("La secuencia se resolvio. Volviendo al pasillo.")
+	call_deferred("_teletransportar_jugador_desde_salon_npc_2")
 
 
 func _on_altar_gafas_interaccion_solicitada() -> void:
@@ -638,6 +745,14 @@ func _on_puerta_teletransporte_realizado(_jugador: Node2D, destino: Node2D) -> v
 	hud.mostrar_mensaje(MENSAJE_CHECKPOINT_PUERTA_DISPONIBLE)
 
 
+func _on_puerta_7_teletransporte_realizado(_jugador: Node2D, destino: Node2D) -> void:
+	if _pensamiento_patio_mostrado or destino != puerta_8:
+		return
+
+	_pensamiento_patio_mostrado = true
+	_mostrar_pensamiento_interno(PENSAMIENTO_PATIO_DIFERENTE)
+
+
 func _on_checkpoint_puerta_alcanzado(posicion: Vector2, _mensaje: String) -> void:
 	_activar_checkpoint(posicion, MENSAJE_CHECKPOINT_GAFAS_ACTIVADO)
 
@@ -653,6 +768,78 @@ func _on_checkpoint_puzzle_gafas_alcanzado(posicion: Vector2, _mensaje: String) 
 func _on_checkpoint_mundo_2_alcanzado(posicion: Vector2, _mensaje: String) -> void:
 	_mundo_2_alcanzado = true
 	_activar_checkpoint(posicion, MENSAJE_CHECKPOINT_MUNDO_2_ACTIVADO)
+
+
+func _on_npc_2_dialogo_finalizado(_nombre: String) -> void:
+	if _teletransporte_salon_npc_2_realizado:
+		return
+
+	_teletransporte_salon_npc_2_realizado = true
+	call_deferred("_teletransportar_jugador_a_salon_npc_2")
+
+
+func _on_npc_post_puzzle_dialogo_finalizado(_nombre: String, id_npc: StringName) -> void:
+	if not _puzzle_salon_npc_2_resuelto or _npcs_post_puzzle_dialogados.has(id_npc):
+		return
+
+	_npcs_post_puzzle_dialogados[id_npc] = true
+	if id_npc == &"npc_5":
+		_mostrar_pensamiento_interno(PENSAMIENTO_NPC_VALOR)
+		return
+
+	var dialogos_burla := (1 if _npcs_post_puzzle_dialogados.has(&"npc_3") else 0) + (1 if _npcs_post_puzzle_dialogados.has(&"npc_4") else 0)
+	if dialogos_burla == 1:
+		_mostrar_pensamiento_interno(PENSAMIENTO_NPCS_MOLESTIA)
+	elif dialogos_burla == 2:
+		_mostrar_pensamiento_interno(PENSAMIENTO_NPCS_PATIO)
+
+
+func _mostrar_pensamiento_interno(texto: String) -> void:
+	if hud == null or not hud.has_method("mostrar_pensamiento"):
+		return
+
+	hud.mostrar_pensamiento(texto)
+	if _temporizador_pensamientos != null:
+		_temporizador_pensamientos.start(INTERVALO_PENSAMIENTOS)
+
+
+func _teletransportar_jugador_a_salon_npc_2() -> void:
+	if jugador == null:
+		return
+
+	var destino := punto_salon_npc_2.global_position if punto_salon_npc_2 != null else Vector2(1399, -1900)
+	jugador.global_position = destino
+	jugador.velocity = Vector2.ZERO
+	if jugador.has_method("establecer_control_habilitado"):
+		jugador.establecer_control_habilitado(true)
+
+	_actualizar_estado_zona_jefe(true)
+	_sincronizar_camara_con_jugador()
+
+
+func _teletransportar_jugador_desde_salon_npc_2() -> void:
+	if jugador == null:
+		return
+
+	var destino := punto_regreso_npc_2.global_position if punto_regreso_npc_2 != null else Vector2(1399, -1538)
+	jugador.global_position = destino
+	jugador.velocity = Vector2.ZERO
+	if jugador.has_method("establecer_control_habilitado"):
+		jugador.establecer_control_habilitado(true)
+
+	_actualizar_estado_zona_jefe(true)
+	_sincronizar_camara_con_jugador()
+
+
+func _desaparecer_npc_2() -> void:
+	if npc_2 == null or not is_instance_valid(npc_2):
+		return
+
+	if npc_2.has_method("desactivar_interaccion"):
+		npc_2.desactivar_interaccion()
+	npc_2.hide()
+	npc_2.queue_free()
+	npc_2 = null
 
 
 func _on_jefe_sombras_derrotado() -> void:
