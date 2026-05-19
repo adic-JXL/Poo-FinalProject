@@ -1496,6 +1496,7 @@ func _obtener_offset_temblor_camara() -> Vector2:
 		return Vector2.ZERO
 
 	var intensidad := 1.0 - clampf(distancia / maxf(distancia_temblor_maxima, 1.0), 0.0, 1.0)
+	intensidad *= _obtener_factor_temblor_configurado()
 	if intensidad <= 0.01:
 		return Vector2.ZERO
 
@@ -1504,6 +1505,13 @@ func _obtener_offset_temblor_camara() -> Vector2:
 		sin(tiempo * 1.13) * amplitud_temblor_camara.x * intensidad,
 		cos(tiempo * 1.67) * amplitud_temblor_camara.y * intensidad
 	)
+
+
+func _obtener_factor_temblor_configurado() -> float:
+	var menu_opciones := get_node_or_null("/root/MenuOpciones")
+	if menu_opciones != null and menu_opciones.has_method("obtener_factor_temblor_camara"):
+		return float(menu_opciones.call("obtener_factor_temblor_camara"))
+	return 1.0
 
 
 func _shape_contiene_posicion(shape_node: CollisionShape2D, posicion_global: Vector2) -> bool:
