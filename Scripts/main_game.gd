@@ -85,10 +85,10 @@ const PENSAMIENTO_JEFE_DERROTADO := "Pude moldear mi mente."
 @export var pulse_speed_extra_por_fase_jefe: float = 0.18
 
 @onready var tile_map: TileMapLayer = $Mapa/TileMapLayer
-@onready var puerta = $Objetos/Puerta
-@onready var puerta_salida = $Objetos/Puerta2
-@onready var puerta_3 = get_node_or_null("Objetos/Puerta3")
-@onready var puerta_4 = get_node_or_null("Objetos/Puerta4")
+@onready var puerta = _obtener_nodo_primero(["Objetos/Puerta", "Objetos/Puerta1"])
+@onready var puerta_salida = get_node_or_null("Objetos/Puerta2")
+@onready var puerta_3 = get_node_or_null("Objetos/PuertaJefe")
+@onready var puerta_4 = get_node_or_null("Objetos/PuertaJefeDestino")
 @onready var puerta_mundo_2 = get_node_or_null("Objetos/PuertaMundo2")
 @onready var puerta_mundo_2_destino = get_node_or_null("Objetos/PuertaMundo2Destino")
 @onready var checkpoint_puerta: Marker2D = $Objetos/CheckpointPuerta
@@ -106,20 +106,20 @@ const PENSAMIENTO_JEFE_DERROTADO := "Pude moldear mi mente."
 @onready var jugador: CharacterBody2D = $Player/Jugador
 @onready var camara_1: Camera2D = $Player/Camara1
 @onready var camara_2: Camera2D = $Player/Camara2
-@onready var camara_3: Camera2D = $Player/Camara3
+@onready var camara_3: Camera2D = get_node_or_null("Player/Camara3") as Camera2D
 @onready var area_camara_1: Area2D = $Player/Area2D
 @onready var area_camara_2: Area2D = $Player/Area2D2
-@onready var area_camara_3: Area2D = $Player/Area2D3
+@onready var area_camara_3: Area2D = get_node_or_null("Player/Area2D3") as Area2D
 @onready var hud = $Canvas/HUD
 @onready var menu_pausa = $Canvas/MenuPausa
 @onready var distorsion_overlay: ColorRect = $Canvas/DistorsionOverlay
-@onready var distorsion_material: ShaderMaterial = distorsion_overlay.material as ShaderMaterial
+@onready var distorsion_material: ShaderMaterial = distorsion_overlay.material as ShaderMaterial if distorsion_overlay != null else null
 @onready var intro_canvas: CanvasLayer = get_node_or_null("IntroCanvas") as CanvasLayer
 @onready var intro_video: VideoStreamPlayer = get_node_or_null("IntroCanvas/IntroVideo") as VideoStreamPlayer
 @onready var llave = $Objetos/Llave
 @onready var puzzle = $Canvas/PuzzleSecuencia
 @onready var puzzle_gafas = $Canvas/PuzzleGafas
-@onready var jefe_sombras = $Enemigos/JefeSombras
+@onready var jefe_sombras = get_node_or_null("Enemigos/JefeSombras")
 @onready var ambiente_mundo_1 = get_node_or_null("AmbienteMundo1")
 
 var _posicion_inicial_jugador: Vector2
@@ -267,6 +267,15 @@ func obtener_spawn_jugador() -> Vector2:
 
 func obtener_respawn_actual() -> Vector2:
 	return _posicion_respawn_actual
+
+
+func _obtener_nodo_primero(rutas: Array[String]) -> Node:
+	for ruta in rutas:
+		var nodo := get_node_or_null(ruta)
+		if nodo != null:
+			return nodo
+
+	return null
 
 
 func tiene_llave() -> bool:
