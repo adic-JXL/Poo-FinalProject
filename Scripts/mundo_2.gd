@@ -34,6 +34,9 @@ const PENSAMIENTOS_GAFAS := [
 @export var mensaje_respawn: String = "Has vuelto al inicio del mundo 2."
 @export var mensaje_fallo_muro: String = "El muro te alcanzo. Respira y vuelve a correr."
 @export var duracion_restablecer_mensaje_llegada: float = 2.45
+@export var duracion_intro_entrada_puerta: float = 0.46
+@export var desplazamiento_salida_puerta: Vector2 = Vector2(72, 0)
+@export var espera_inicio_persecucion: float = 0.5
 
 @export_group("Jugador")
 @export var jugador_velocidad_base: float = 100.0
@@ -77,6 +80,8 @@ var camara_1: Camera2D = null
 var camara_2: Camera2D = null
 var area_camara_1: Area2D = null
 var area_camara_2: Area2D = null
+var puerta_entrada_mundo_1: Node2D = null
+var salida_entrada_mundo_1: Marker2D = null
 var fondo_mundo_final: Node2D = null
 var ambiente_mundo_2: AudioStreamPlayer = null
 var distorsion_overlay: ColorRect = null
@@ -92,9 +97,12 @@ var _temporizador_pensamientos: Timer = null
 var _indice_pensamiento: int = 0
 var _indice_pensamiento_gafas: int = 0
 var _token_restablecer_mensaje: int = 0
+var _datos_transicion_entrada: Dictionary = {}
+var _intro_persecucion_activa: bool = false
 
 
 func _ready() -> void:
+	_datos_transicion_entrada = SistemaGuardadoClass.consumir_transicion_pendiente()
 	_asegurar_estructura_base()
 	_resolver_nodos()
 	_configurar_jugador_base()
@@ -110,11 +118,15 @@ func _ready() -> void:
 	_aplicar_estado_gafas(jugador.gafas_activas(), true)
 	_sincronizar_camara_con_jugador(true, 0.0)
 	_actualizar_presion_ambiente()
+	if _debe_reproducir_entrada_desde_mundo_1():
+		_intro_persecucion_activa = true
+		call_deferred("_reproducir_intro_entrada_mundo_1")
+		return
 	_guardar_progreso()
 
 
 func _process(delta: float) -> void:
-	if _pausa_activa or _respawn_activo or jugador == null or not is_instance_valid(jugador):
+	if _pausa_activa or _respawn_activo or _intro_persecucion_activa or jugador == null or not is_instance_valid(jugador):
 		return
 
 	_actualizar_camara_por_posicion()
@@ -193,6 +205,14 @@ func _asegurar_estructura_base() -> void:
 		spawn.position = posicion_spawn_defecto
 		add_child(spawn)
 
+	if get_node_or_null("SalidaEntradaMundo1") == null:
+		var puerta_inicio := get_node_or_null("PuertaBloqueada") as Node2D
+		if puerta_inicio != null:
+			var salida := Marker2D.new()
+			salida.name = "SalidaEntradaMundo1"
+			salida.position = puerta_inicio.position + desplazamiento_salida_puerta
+			add_child(salida)
+
 	var player_root := get_node_or_null("Player") as Node2D
 	if player_root == null:
 		player_root = Node2D.new()
@@ -261,6 +281,8 @@ func _resolver_nodos() -> void:
 	camara_2 = get_node_or_null("Camera2D2") as Camera2D
 	area_camara_1 = get_node_or_null("Area2D") as Area2D
 	area_camara_2 = get_node_or_null("Area2D2") as Area2D
+	puerta_entrada_mundo_1 = get_node_or_null("PuertaBloqueada") as Node2D
+	salida_entrada_mundo_1 = get_node_or_null("SalidaEntradaMundo1") as Marker2D
 	fondo_mundo_final = get_node_or_null("FondoMundoFinal") as Node2D
 	ambiente_mundo_2 = get_node_or_null("AmbienteMundo2") as AudioStreamPlayer
 	distorsion_overlay = get_node_or_null("Canvas/DistorsionOverlay") as ColorRect
@@ -384,7 +406,7 @@ func _cargar_guardado_mundo_2() -> void:
 	var posicion_jugador_objetivo := _posicion_respawn_actual
 	var posicion_muro_objetivo := posicion_inicial_muro
 
-	if String(datos_guardado.get("escena_actual", SCENE_PATH)) == SCENE_PATH:
+	if not _debe_reproducir_entrada_desde_mundo_1() and String(datos_guardado.get("escena_actual", SCENE_PATH)) == SCENE_PATH:
 		var datos_mundo_2: Dictionary = Dictionary(datos_guardado.get("mundo_2", {}))
 		if not datos_mundo_2.is_empty():
 			_posicion_respawn_actual = _parsear_vector2(datos_mundo_2.get("posicion_respawn", _posicion_respawn_actual), _posicion_respawn_actual)
@@ -403,7 +425,7 @@ func _cargar_guardado_mundo_2() -> void:
 
 
 func _guardar_progreso() -> void:
-	if jugador == null or not is_instance_valid(jugador):
+	if _intro_persecucion_activa or jugador == null or not is_instance_valid(jugador):
 		return
 
 	if punto_respawn == null:
@@ -588,6 +610,84 @@ func _aplicar_zoom_camaras(zoom_objetivo: Vector2) -> void:
 
 func _on_muro_carne_jugador_alcanzado() -> void:
 	call_deferred("_reiniciar_carrera", true, mensaje_fallo_muro)
+
+
+func _debe_reproducir_entrada_desde_mundo_1() -> bool:
+	return String(_datos_transicion_entrada.get("escena_destino", "")) == SCENE_PATH and String(_datos_transicion_entrada.get("id_entrada", "")) == "entrada_mundo_1"
+
+
+func _reproducir_intro_entrada_mundo_1() -> void:
+	if jugador == null:
+		_guardar_progreso()
+		return
+
+	_intro_persecucion_activa = true
+	if hud != null:
+		hud.mostrar_mensaje("No mires atras. Solo corre.")
+		if hud.has_method("mostrar_pensamiento"):
+			hud.mostrar_pensamiento("Otra puerta, otro pasillo. No te detengas.", false)
+
+	if muro_carne != null:
+		muro_carne.establecer_congelado(true)
+		muro_carne.establecer_activo(false)
+		muro_carne.reiniciar(posicion_inicial_muro - Vector2(124, 0))
+
+	jugador.establecer_control_habilitado(false)
+	var destino := salida_entrada_mundo_1.global_position if salida_entrada_mundo_1 != null else posicion_spawn_defecto
+	var origen := (puerta_entrada_mundo_1.global_position + Vector2(0, 8)) if puerta_entrada_mundo_1 != null else destino
+	_posicion_respawn_actual = destino
+	jugador.restaurar_para_respawn(destino)
+	jugador.establecer_control_habilitado(false)
+	if puerta_entrada_mundo_1 != null and puerta_entrada_mundo_1.has_method("abrir"):
+		puerta_entrada_mundo_1.abrir()
+
+	var overlay := _crear_overlay_intro()
+	await jugador.animar_salida_puerta(origen, destino, duracion_intro_entrada_puerta)
+	jugador.establecer_control_habilitado(false)
+	_actualizar_camara_por_posicion()
+	_sincronizar_camara_con_jugador(true, 0.0)
+
+	var tween := create_tween()
+	tween.set_ignore_time_scale(true)
+	tween.set_trans(Tween.TRANS_SINE)
+	tween.set_ease(Tween.EASE_OUT)
+	tween.tween_property(overlay, "color:a", 0.0, 0.75)
+	await tween.finished
+	overlay.queue_free()
+	await get_tree().create_timer(espera_inicio_persecucion, true, false, true).timeout
+
+	if muro_carne != null:
+		var tween_muro := create_tween()
+		tween_muro.set_ignore_time_scale(true)
+		tween_muro.set_trans(Tween.TRANS_CUBIC)
+		tween_muro.set_ease(Tween.EASE_OUT)
+		tween_muro.tween_property(muro_carne, "global_position", posicion_inicial_muro, 0.55)
+		await tween_muro.finished
+		muro_carne.establecer_activo(true)
+		muro_carne.establecer_congelado(false)
+		muro_carne.establecer_multiplicador_velocidad(FACTOR_LENTITUD_GAFAS_MURO if jugador.gafas_activas() else 1.0)
+
+	jugador.establecer_control_habilitado(true)
+	_intro_persecucion_activa = false
+	_actualizar_presion_ambiente()
+	_guardar_progreso()
+
+
+func _crear_overlay_intro() -> ColorRect:
+	var overlay := ColorRect.new()
+	overlay.anchor_left = 0.0
+	overlay.anchor_top = 0.0
+	overlay.anchor_right = 1.0
+	overlay.anchor_bottom = 1.0
+	overlay.offset_left = 0.0
+	overlay.offset_top = 0.0
+	overlay.offset_right = 0.0
+	overlay.offset_bottom = 0.0
+	overlay.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	overlay.color = Color(0.01, 0.02, 0.03, 0.62)
+	$Canvas.add_child(overlay)
+	$Canvas.move_child(overlay, $Canvas.get_child_count() - 1)
+	return overlay
 
 
 func _configurar_peligro_ambiente(valor: float) -> void:

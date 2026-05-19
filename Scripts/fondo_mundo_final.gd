@@ -3,11 +3,11 @@ class_name FondoMundoFinal
 
 @export var inicio_x: float = -2048.0
 @export var fin_x: float = 22000.0
-@export var posicion_y: float = -276.0
-@export var escala_base: float = 4.8
-@export var escala_vertical: float = 5.6
-@export var margen_vertical_superior: float = -1450.0
-@export var margen_vertical_inferior: float = 1800.0
+@export var posicion_y: float = -338.0
+@export var escala_base: float = 4.95
+@export var escala_vertical: float = 7.25
+@export var margen_vertical_superior: float = -1900.0
+@export var margen_vertical_inferior: float = 1900.0
 @export var color_cielo_base: Color = Color(0.17, 0.27, 0.37, 1.0)
 
 const CAPAS := [
@@ -15,43 +15,43 @@ const CAPAS := [
 		"ruta": "res://Imagenes/Fondos/MundoFinal/fondo_01_base.png",
 		"z": -360,
 		"modulate": Color(0.78, 0.86, 0.92, 0.92),
-		"offset_y": -16.0,
+		"offset_y": -42.0,
 	},
 	{
 		"ruta": "res://Imagenes/Fondos/MundoFinal/fondo_03_nubes.png",
 		"z": -350,
 		"modulate": Color(0.84, 0.9, 0.95, 0.28),
-		"offset_y": -22.0,
+		"offset_y": -56.0,
 	},
 	{
 		"ruta": "res://Imagenes/Fondos/MundoFinal/fondo_02_montanas.png",
 		"z": -340,
 		"modulate": Color(0.36, 0.48, 0.58, 0.52),
-		"offset_y": 8.0,
+		"offset_y": -12.0,
 	},
 	{
 		"ruta": "res://Imagenes/Fondos/MundoFinal/fondo_04_montanas_2.png",
 		"z": -332,
 		"modulate": Color(0.24, 0.34, 0.43, 0.68),
-		"offset_y": 18.0,
+		"offset_y": -4.0,
 	},
 	{
 		"ruta": "res://Imagenes/Fondos/MundoFinal/fondo_05_pilares.png",
 		"z": -324,
 		"modulate": Color(0.24, 0.3, 0.39, 0.58),
-		"offset_y": 18.0,
+		"offset_y": 6.0,
 	},
 	{
 		"ruta": "res://Imagenes/Fondos/MundoFinal/fondo_06_pilares_2.png",
 		"z": -316,
 		"modulate": Color(0.18, 0.22, 0.29, 0.76),
-		"offset_y": 24.0,
+		"offset_y": 10.0,
 	},
 	{
 		"ruta": "res://Imagenes/Fondos/MundoFinal/fondo_07_frontal.png",
 		"z": -308,
 		"modulate": Color(0.1, 0.13, 0.17, 0.9),
-		"offset_y": 30.0,
+		"offset_y": 14.0,
 	},
 ]
 

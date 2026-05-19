@@ -1,11 +1,14 @@
 extends "res://Scripts/interactivo_base.gd"
 class_name PuertaTeletransporte
+
+const SistemaGuardadoClass = preload("res://Scripts/sistema_guardado.gd")
 static var _stream_apertura_cache: AudioStreamWAV
 
 signal teletransporte_realizado(jugador: Node2D, destino: Node2D)
 
 @export_node_path("Area2D") var puerta_destino: NodePath
 @export_file("*.tscn") var ruta_escena_destino: String = ""
+@export var id_entrada_escena_destino: String = ""
 @export var transporte_habilitado: bool = false
 @export var teletransporta_al_tocar: bool = true
 @export var permite_interaccion: bool = false
@@ -145,6 +148,7 @@ func _teletransportar_jugador(body: Node) -> void:
 
 	if not ruta_escena_destino.is_empty():
 		emit_signal("teletransporte_realizado", jugador, null)
+		SistemaGuardadoClass.preparar_transicion_escena(ruta_escena_destino, id_entrada_escena_destino, true)
 		call_deferred("_cambiar_a_escena_destino", ruta_escena_destino, jugador)
 		return
 

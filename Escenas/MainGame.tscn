@@ -743,6 +743,7 @@ scale = Vector2(0.82, 0.82)
 monitoring = false
 monitorable = false
 ruta_escena_destino = "res://Escenas/Mundo2.tscn"
+id_entrada_escena_destino = "entrada_mundo_1"
 
 [node name="Player" type="Node2D" parent="." unique_id=1906555285]
 
