@@ -335,7 +335,7 @@ func _asegurar_objetos_mundo_2() -> void:
 	_asegurar_checkpoint_mundo_2(objetos, "CheckpointCarrera1", Vector2(2368, 520), "Checkpoint activado. El muro no se ha quedado atras todavia.")
 	_asegurar_checkpoint_mundo_2(objetos, "CheckpointCarrera2", Vector2(6208, 520), "Checkpoint activado. Sigue corriendo, no dejes que el ruido te alcance.")
 	_asegurar_checkpoint_mundo_2(objetos, "CheckpointCarrera3", Vector2(9728, 520), "Checkpoint activado. Ya casi sales del tramo mas opresivo.")
-	_asegurar_checkpoint_mundo_2(objetos, "CheckpointCarrera4", Vector2(11312, 520), "Checkpoint activado. Aqui el muro ya no puede tocarte.")
+	_asegurar_checkpoint_mundo_2(objetos, "CheckpointCarrera4", Vector2(12608, 520), "Checkpoint activado. La sala final ya no va a borrarte del mapa.")
 
 	var puzzle_puerta := get_node_or_null("ObjetosMundo2/PuzzlePuerta") as Node2D
 	if puzzle_puerta == null:
@@ -343,13 +343,13 @@ func _asegurar_objetos_mundo_2() -> void:
 		puzzle_puerta.name = "PuzzlePuerta"
 		objetos.add_child(puzzle_puerta)
 
-	_asegurar_totem_puzzle(puzzle_puerta, "Totem1", Vector2(11248, 520), 1)
-	_asegurar_totem_puzzle(puzzle_puerta, "Totem2", Vector2(11408, 520), 2)
-	_asegurar_totem_puzzle(puzzle_puerta, "Totem3", Vector2(11568, 520), 3)
+	_asegurar_totem_puzzle(puzzle_puerta, "Totem1", Vector2(11248, 616), 1)
+	_asegurar_totem_puzzle(puzzle_puerta, "Totem2", Vector2(11408, 616), 2)
+	_asegurar_totem_puzzle(puzzle_puerta, "Totem3", Vector2(11568, 616), 3)
 	_asegurar_cartel_pista(
 		puzzle_puerta,
 		"CartelPista",
-		Vector2(11672, 520),
+		Vector2(11672, 620),
 		"Presiona E para leer la grieta con las gafas."
 	)
 
@@ -359,10 +359,10 @@ func _asegurar_objetos_mundo_2() -> void:
 		puzzle_final.name = "PuzzleFinal"
 		objetos.add_child(puzzle_final)
 
-	_asegurar_totem_puzzle(puzzle_final, "Totem1", Vector2(12688, 520), 1)
-	_asegurar_totem_puzzle(puzzle_final, "Totem2", Vector2(13040, 520), 2)
-	_asegurar_totem_puzzle(puzzle_final, "Totem3", Vector2(13392, 520), 3)
-	_asegurar_totem_puzzle(puzzle_final, "Totem4", Vector2(13744, 520), 4)
+	_asegurar_totem_puzzle(puzzle_final, "Totem1", Vector2(12688, 616), 1)
+	_asegurar_totem_puzzle(puzzle_final, "Totem2", Vector2(13040, 616), 2)
+	_asegurar_totem_puzzle(puzzle_final, "Totem3", Vector2(13392, 616), 3)
+	_asegurar_totem_puzzle(puzzle_final, "Totem4", Vector2(13744, 616), 4)
 
 	_asegurar_plataforma_pista(puzzle_final, "PlataformaPista1", Vector2(13072, 448))
 	_asegurar_plataforma_pista(puzzle_final, "PlataformaPista2", Vector2(13232, 416))
@@ -370,7 +370,7 @@ func _asegurar_objetos_mundo_2() -> void:
 	_asegurar_cartel_pista(
 		puzzle_final,
 		"CartelPista",
-		Vector2(13552, 344),
+		Vector2(13552, 620),
 		"Presiona E para leer el eco del muro con las gafas."
 	)
 
@@ -390,7 +390,7 @@ func _asegurar_checkpoint_mundo_2(objetos: Node2D, nombre: String, posicion: Vec
 		checkpoint.add_child(punto_visible)
 	punto_visible.texture = TEXTURA_CARTEL
 	punto_visible.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
-	punto_visible.position = Vector2(0, -32)
+	punto_visible.position = Vector2(0, -18)
 	punto_visible.scale = Vector2(0.78, 0.78)
 
 	var aura := checkpoint.get_node_or_null("AuraCheckpoint") as Sprite2D
@@ -398,7 +398,7 @@ func _asegurar_checkpoint_mundo_2(objetos: Node2D, nombre: String, posicion: Vec
 		aura = Sprite2D.new()
 		aura.name = "AuraCheckpoint"
 		checkpoint.add_child(aura)
-	aura.position = Vector2(0, -34)
+	aura.position = Vector2(0, -20)
 	aura.scale = Vector2(0.78, 0.78)
 
 	var activador := checkpoint.get_node_or_null("Activador") as CheckpointActivador
@@ -416,7 +416,7 @@ func _asegurar_checkpoint_mundo_2(objetos: Node2D, nombre: String, posicion: Vec
 	var rect := RectangleShape2D.new()
 	rect.size = Vector2(64, 88)
 	shape.shape = rect
-	shape.position = Vector2(0, -34)
+	shape.position = Vector2(0, -18)
 	activador.mensaje_activacion = mensaje
 
 
@@ -440,7 +440,7 @@ func _asegurar_etiqueta_totem(totem: TotemJefe, numero: int) -> void:
 		label.name = "NumeroLabel"
 		totem.add_child(label)
 	label.text = str(numero)
-	label.position = Vector2(-9, -48)
+	label.position = Vector2(-7, -38)
 	label.add_theme_font_override("font", FUENTE_PIXEL)
 	label.add_theme_font_size_override("font_size", 14)
 	label.add_theme_color_override("font_color", Color(0.95, 0.95, 0.84, 1.0))
@@ -475,7 +475,7 @@ func _asegurar_cartel_pista(padre: Node2D, nombre: String, posicion: Vector2, me
 		cartel.add_child(sprite)
 	sprite.texture = TEXTURA_CARTEL
 	sprite.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
-	sprite.position = Vector2(0, -34)
+	sprite.position = Vector2(0, -16)
 	sprite.scale = Vector2(0.82, 0.82)
 	sprite.modulate = Color(0.86, 0.95, 1.0, 0.96)
 
@@ -485,7 +485,7 @@ func _asegurar_cartel_pista(padre: Node2D, nombre: String, posicion: Vector2, me
 		label.name = "HintLabel"
 		cartel.add_child(label)
 	label.text = "?"
-	label.position = Vector2(-6, -52)
+	label.position = Vector2(-6, -32)
 	label.add_theme_font_override("font", FUENTE_PIXEL)
 	label.add_theme_font_size_override("font_size", 14)
 	label.add_theme_color_override("font_color", Color(0.94, 1.0, 0.82, 1.0))
@@ -500,7 +500,7 @@ func _asegurar_cartel_pista(padre: Node2D, nombre: String, posicion: Vector2, me
 	var rect := RectangleShape2D.new()
 	rect.size = Vector2(60, 92)
 	shape.shape = rect
-	shape.position = Vector2(0, -34)
+	shape.position = Vector2(0, -18)
 
 
 func _resolver_nodos() -> void:
@@ -812,9 +812,9 @@ func _actualizar_camara_por_posicion() -> void:
 		return
 
 	var camara_objetivo := camara_1
-	if _area_contiene_posicion(area_camara_2, jugador.global_position) and camara_2 != null:
+	if _debe_usar_camara_2(jugador.global_position) and camara_2 != null:
 		camara_objetivo = camara_2
-	elif _area_contiene_posicion(area_camara_1, jugador.global_position) and camara_1 != null:
+	elif _debe_usar_camara_1(jugador.global_position) and camara_1 != null:
 		camara_objetivo = camara_1
 	elif camara_2 != null and camara_1 == null:
 		camara_objetivo = camara_2
@@ -862,6 +862,7 @@ func _on_area_camara_1_body_entered(body: Node) -> void:
 
 func _on_area_camara_2_body_entered(body: Node) -> void:
 	if body != null and body.is_in_group("jugador"):
+		_asegurar_respawn_seguro_final()
 		_activar_camara(camara_2)
 		if hud != null and not _puzzle_final_completado:
 			hud.mostrar_mensaje(mensaje_puzzle_final)
@@ -959,6 +960,25 @@ func _on_checkpoint_mundo_2_alcanzado(posicion: Vector2, mensaje: String, descri
 	if hud != null:
 		hud.actualizar_checkpoint(true)
 		hud.mostrar_mensaje(mensaje)
+	_guardar_progreso()
+
+
+func _asegurar_respawn_seguro_final() -> void:
+	var checkpoint_final := get_node_or_null("ObjetosMundo2/CheckpointCarrera4") as Node2D
+	if checkpoint_final == null:
+		return
+
+	var posicion_segura := checkpoint_final.global_position
+	if _posicion_respawn_actual.is_equal_approx(posicion_segura) and _descripcion_checkpoint_actual == "Zona segura":
+		return
+
+	_checkpoint_activo = true
+	_descripcion_checkpoint_actual = "Zona segura"
+	_posicion_respawn_actual = posicion_segura
+	if punto_respawn != null:
+		punto_respawn.global_position = posicion_segura
+	if hud != null:
+		hud.actualizar_checkpoint(true)
 	_guardar_progreso()
 
 
@@ -1378,6 +1398,22 @@ func _area_contiene_posicion(area: Area2D, posicion_global: Vector2) -> bool:
 			return true
 
 	return false
+
+
+func _debe_usar_camara_1(posicion_global: Vector2) -> bool:
+	if camara_1 == null:
+		return false
+	if _area_contiene_posicion(area_camara_1, posicion_global):
+		return true
+	return posicion_global.x <= float(camara_1.limit_right) + 24.0
+
+
+func _debe_usar_camara_2(posicion_global: Vector2) -> bool:
+	if camara_2 == null:
+		return false
+	if _area_contiene_posicion(area_camara_2, posicion_global):
+		return true
+	return posicion_global.x >= float(camara_2.limit_left) - 24.0
 
 
 func _shape_contiene_posicion(shape_node: CollisionShape2D, posicion_global: Vector2) -> bool:
