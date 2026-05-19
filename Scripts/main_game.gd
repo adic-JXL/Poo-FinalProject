@@ -42,6 +42,8 @@ const FACTOR_LENTITUD_GAFAS_ENEMIGOS := 0.90
 @onready var hud = $Canvas/HUD
 @onready var menu_pausa = $Canvas/MenuPausa
 @onready var distorsion_overlay: ColorRect = $Canvas/DistorsionOverlay
+@onready var intro_canvas: CanvasLayer = $IntroCanvas
+@onready var intro_video: VideoStreamPlayer = $IntroCanvas/IntroVideo
 @onready var llave = $Objetos/Llave
 @onready var puzzle = $Canvas/PuzzleSecuencia
 @onready var puzzle_gafas = $Canvas/PuzzleGafas
@@ -63,6 +65,7 @@ var _estado_gafas_aplicado: bool = false
 var _totems_jefe: Array = []
 var _totems_activados_jefe: int = 0
 var _jefe_derrotado: bool = false
+var _intro_activa: bool = false
 
 
 func _ready() -> void:
@@ -78,6 +81,7 @@ func _ready() -> void:
 	_configurar_enemigos()
 	_configurar_gafas()
 	_configurar_menu_pausa()
+	_configurar_intro_video()
 	_preparar_canvas_runtime()
 	_configurar_interactivo(llave, _on_llave_interaccion_solicitada)
 	_configurar_interactivo(altar_gafas, _on_altar_gafas_interaccion_solicitada)
@@ -87,9 +91,13 @@ func _ready() -> void:
 	_estado_gafas_aplicado = false
 	_aplicar_estado_gafas(false, true)
 	_restaurar_mensaje_hud()
+	_reproducir_intro_video()
 
 
 func _physics_process(_delta: float) -> void:
+	if _intro_activa:
+		return
+
 	if _pausa_activa:
 		return
 
@@ -98,6 +106,10 @@ func _physics_process(_delta: float) -> void:
 
 
 func _unhandled_input(event: InputEvent) -> void:
+	if _intro_activa:
+		get_viewport().set_input_as_handled()
+		return
+
 	if event.is_action_pressed("pausa"):
 		alternar_pausa()
 		get_viewport().set_input_as_handled()
@@ -279,6 +291,43 @@ func _configurar_menu_pausa() -> void:
 	menu_pausa.continuar_solicitado.connect(cerrar_menu_pausa)
 	menu_pausa.reiniciar_solicitado.connect(reiniciar_nivel)
 	menu_pausa.volver_menu_solicitado.connect(volver_al_menu)
+
+
+func _configurar_intro_video() -> void:
+	if intro_canvas == null or intro_video == null:
+		return
+
+	intro_canvas.hide()
+	intro_video.finished.connect(_on_intro_video_finished)
+
+
+func _reproducir_intro_video() -> void:
+	if intro_canvas == null or intro_video == null or intro_video.stream == null:
+		return
+
+	_intro_activa = true
+	jugador.establecer_control_habilitado(false)
+	_establecer_enemigos_congelados(true)
+	intro_canvas.show()
+	intro_video.play()
+
+
+func _finalizar_intro_video() -> void:
+	if not _intro_activa:
+		return
+
+	_intro_activa = false
+	if intro_video != null:
+		intro_video.stop()
+	if intro_canvas != null:
+		intro_canvas.hide()
+	if not _pausa_activa and not _puzzle_activo:
+		jugador.establecer_control_habilitado(true)
+	_establecer_enemigos_congelados(false)
+
+
+func _on_intro_video_finished() -> void:
+	_finalizar_intro_video()
 
 
 func _configurar_interactivo(interactivo: Node, callback: Callable) -> void:
