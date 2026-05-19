@@ -1,17 +1,28 @@
-[gd_scene format=3 uid="uid://sh8mxgnkcji2"]
+[gd_scene load_steps=2 format=3 uid="uid://sh8mxgnkcji2"]
 
 [ext_resource type="Script" uid="uid://b24dfgh61mn5l" path="res://Scripts/jugador.gd" id="1_qg4o5"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_jugador"]
-size = Vector2(18, 38)
+size = Vector2(15, 30)
 
 [node name="Jugador" type="CharacterBody2D" unique_id=271189426]
 script = ExtResource("1_qg4o5")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=527354952]
+position = Vector2(0, 4)
 shape = SubResource("RectangleShape2D_jugador")
 
-[node name="Visual" type="Polygon2D" parent="." unique_id=1133481450]
-scale = Vector2(0.40625, 0.5416667)
-color = Color(0.0509804, 0.87451, 0.752941, 1)
-polygon = PackedVector2Array(-24, -36, 24, -36, 24, -17.058325, 24, 0.48428345, 24, 36, -24, 36)
+[node name="Visual" type="Node2D" parent="." unique_id=1133481450]
+position = Vector2(0, 10)
+scale = Vector2(1.35, 1.35)
+
+[node name="Sprite2D" type="Sprite2D" parent="Visual"]
+texture_filter = 1
+
+[node name="Efectos" type="Node2D" parent="."]
+
+[node name="AudioPisadas" type="AudioStreamPlayer" parent="."]
+
+[node name="AudioGafas" type="AudioStreamPlayer" parent="."]
+
+[node name="AudioDanio" type="AudioStreamPlayer" parent="."]

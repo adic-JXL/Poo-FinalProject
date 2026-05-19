@@ -1,16 +1,25 @@
-[gd_scene format=3 uid="uid://y3yoa2fcfb6n"]
+[gd_scene load_steps=3 format=3 uid="uid://y3yoa2fcfb6n"]
 
 [ext_resource type="Script" uid="uid://debhc155w8swb" path="res://Scripts/llave_interactiva.gd" id="1_llave"]
+[ext_resource type="Texture2D" path="res://Imagenes/Objetos/llave_animada/llave_00.png" id="2_key"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_llave"]
-radius = 18.0
+radius = 14.0
 
 [node name="Llave" type="Area2D" unique_id=377218663]
 collision_layer = 0
 script = ExtResource("1_llave")
 mensaje_interaccion = "Presiona E para investigar la llave."
+rutas_frames = PackedStringArray("res://Imagenes/Objetos/llave_animada/llave_00.png", "res://Imagenes/Objetos/llave_animada/llave_01.png", "res://Imagenes/Objetos/llave_animada/llave_02.png")
+fps_animacion = 7.0
+amplitud_flotacion = 0.8
+velocidad_flotacion = 1.15
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=4533101]
 shape = SubResource("CircleShape2D_llave")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1734941850]
+position = Vector2(0, -3)
+scale = Vector2(0.44, 0.44)
+texture_filter = 1
+texture = ExtResource("2_key")

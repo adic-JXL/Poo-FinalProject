@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://cr3wwcude65ay"]
 
 [ext_resource type="Script" uid="uid://d0h2om1h6mfxg" path="res://Scripts/puzzle_secuencia.gd" id="1_puzzle"]
+[ext_resource type="Texture2D" uid="uid://vxtxpgo1vdxv" path="res://Imagenes/HUD/key_icon.png" id="2_key_icon"]
 
 [node name="PuzzleSecuencia" type="CanvasLayer" unique_id=1508424944]
 layer = 2
@@ -39,15 +40,22 @@ layout_mode = 2
 layout_mode = 2
 theme_override_constants/separation = 10
 
+[node name="Emblema" type="TextureRect" parent="Control/CenterContainer/PanelContainer/VBoxContainer" unique_id=333756186]
+custom_minimum_size = Vector2(0, 54)
+layout_mode = 2
+texture = ExtResource("2_key_icon")
+expand_mode = 1
+stretch_mode = 5
+
 [node name="TituloLabel" type="Label" parent="Control/CenterContainer/PanelContainer/VBoxContainer" unique_id=1606828692]
 layout_mode = 2
 theme_override_font_sizes/font_size = 26
-text = "Ritual de la Llave"
+text = "Eco del Pasillo"
 horizontal_alignment = 1
 
 [node name="InstruccionLabel" type="Label" parent="Control/CenterContainer/PanelContainer/VBoxContainer" unique_id=869919512]
 layout_mode = 2
-text = "Memoriza la secuencia."
+text = "Memoriza el orden del ruido."
 horizontal_alignment = 1
 autowrap_mode = 3
 
@@ -60,12 +68,14 @@ autowrap_mode = 3
 
 [node name="FeedbackLabel" type="Label" parent="Control/CenterContainer/PanelContainer/VBoxContainer" unique_id=431189525]
 layout_mode = 2
-text = "Observa con atencion."
+text = "Ordena el eco antes de que vuelva."
 horizontal_alignment = 1
 autowrap_mode = 3
 
 [node name="GridContainer" type="GridContainer" parent="Control/CenterContainer/PanelContainer/VBoxContainer" unique_id=1480478919]
 layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
 theme_override_constants/h_separation = 12
 theme_override_constants/v_separation = 12
 columns = 2
@@ -73,21 +83,37 @@ columns = 2
 [node name="BotonSol" type="Button" parent="Control/CenterContainer/PanelContainer/VBoxContainer/GridContainer" unique_id=520193945]
 custom_minimum_size = Vector2(180, 54)
 layout_mode = 2
-text = "SOL"
+focus_neighbor_left = NodePath("../BotonLuna")
+focus_neighbor_top = NodePath("../../BotonesAccion/BotonCancelar")
+focus_neighbor_right = NodePath("../BotonLuna")
+focus_neighbor_bottom = NodePath("../BotonOjo")
+text = "MIRADA"
 
 [node name="BotonLuna" type="Button" parent="Control/CenterContainer/PanelContainer/VBoxContainer/GridContainer" unique_id=1938980801]
 custom_minimum_size = Vector2(180, 54)
 layout_mode = 2
-text = "LUNA"
+focus_neighbor_left = NodePath("../BotonSol")
+focus_neighbor_top = NodePath("../../BotonesAccion/BotonCancelar")
+focus_neighbor_right = NodePath("../BotonSol")
+focus_neighbor_bottom = NodePath("../BotonEco")
+text = "RISA"
 
 [node name="BotonOjo" type="Button" parent="Control/CenterContainer/PanelContainer/VBoxContainer/GridContainer" unique_id=176774361]
 custom_minimum_size = Vector2(180, 54)
 layout_mode = 2
-text = "OJO"
+focus_neighbor_left = NodePath("../BotonEco")
+focus_neighbor_top = NodePath("../BotonSol")
+focus_neighbor_right = NodePath("../BotonEco")
+focus_neighbor_bottom = NodePath("../../BotonesAccion/BotonCancelar")
+text = "APODO"
 
 [node name="BotonEco" type="Button" parent="Control/CenterContainer/PanelContainer/VBoxContainer/GridContainer" unique_id=352888481]
 custom_minimum_size = Vector2(180, 54)
 layout_mode = 2
+focus_neighbor_left = NodePath("../BotonOjo")
+focus_neighbor_top = NodePath("../BotonLuna")
+focus_neighbor_right = NodePath("../BotonOjo")
+focus_neighbor_bottom = NodePath("../../BotonesAccion/BotonCancelar")
 text = "ECO"
 
 [node name="BotonesAccion" type="HBoxContainer" parent="Control/CenterContainer/PanelContainer/VBoxContainer" unique_id=1681096314]
@@ -97,6 +123,10 @@ alignment = 1
 [node name="BotonCancelar" type="Button" parent="Control/CenterContainer/PanelContainer/VBoxContainer/BotonesAccion" unique_id=868980794]
 custom_minimum_size = Vector2(160, 42)
 layout_mode = 2
+focus_neighbor_left = NodePath("../../GridContainer/BotonOjo")
+focus_neighbor_top = NodePath("../../GridContainer/BotonOjo")
+focus_neighbor_right = NodePath("../../GridContainer/BotonEco")
+focus_neighbor_bottom = NodePath("../../GridContainer/BotonSol")
 text = "Volver al mundo"
 
 [node name="TimerMemoria" type="Timer" parent="." unique_id=1181535396]

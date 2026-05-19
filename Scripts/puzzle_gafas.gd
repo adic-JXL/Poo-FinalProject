@@ -1,7 +1,7 @@
 extends "res://Scripts/puzzle_base.gd"
 class_name PuzzleGafas
 
-const SIMBOLOS := ["[]", "/\\", "<>", "OO"]
+const SIMBOLOS := ["RUIDO", "DUDA", "VALOR", "CLARIDAD"]
 
 @export var longitud_patron: int = 5
 @export var tiempo_revelacion: float = 2.8
@@ -12,6 +12,9 @@ var _respuesta_actual: Array[int] = []
 var _aceptando_entrada: bool = false
 var _botones: Array[Button] = []
 
+@onready var overlay: ColorRect = $Control/Overlay
+@onready var panel_container: PanelContainer = $Control/CenterContainer/PanelContainer
+@onready var titulo_label: Label = $Control/CenterContainer/PanelContainer/VBoxContainer/TituloLabel
 @onready var instruccion_label: Label = $Control/CenterContainer/PanelContainer/VBoxContainer/InstruccionLabel
 @onready var patron_label: Label = $Control/CenterContainer/PanelContainer/VBoxContainer/PatronLabel
 @onready var feedback_label: Label = $Control/CenterContainer/PanelContainer/VBoxContainer/FeedbackLabel
@@ -35,6 +38,17 @@ func _ready() -> void:
 	cancelar_button.pressed.connect(_on_boton_cancelar_pressed)
 	timer_revelacion.timeout.connect(_on_timer_revelacion_timeout)
 	_establecer_botones_habilitados(false)
+	titulo_label.text = "Patron de Claridad"
+	aplicar_tema_puzzle(
+		overlay,
+		panel_container,
+		titulo_label,
+		[instruccion_label, patron_label, feedback_label],
+		_botones,
+		cancelar_button,
+		Color(0.48, 0.88, 0.82, 1.0)
+	)
+	patron_label.add_theme_color_override("font_color", Color(0.72, 0.98, 0.94, 1.0))
 
 
 func iniciar_puzzle() -> void:
@@ -60,7 +74,7 @@ func resolver_automaticamente_para_prueba() -> void:
 		_procesar_simbolo(simbolo)
 
 
-func _preparar_nuevo_patron(mensaje: String = "Las gafas revelan los glifos por unos instantes.") -> void:
+func _preparar_nuevo_patron(mensaje: String = "Las gafas revelan por un instante lo que el ruido escondia.") -> void:
 	_patron_actual.clear()
 	_respuesta_actual.clear()
 	_aceptando_entrada = false
@@ -68,7 +82,7 @@ func _preparar_nuevo_patron(mensaje: String = "Las gafas revelan los glifos por 
 	for _indice in range(max(longitud_patron, 1)):
 		_patron_actual.append(_rng.randi_range(0, SIMBOLOS.size() - 1))
 
-	instruccion_label.text = "Observa los glifos mientras la vision esta clara."
+	instruccion_label.text = "Observa el patron mientras la vision se aclara."
 	patron_label.text = "Glifos: %s" % _texto_patron(_patron_actual)
 	feedback_label.text = mensaje
 	_establecer_botones_habilitados(false)
@@ -77,11 +91,12 @@ func _preparar_nuevo_patron(mensaje: String = "Las gafas revelan los glifos por 
 
 func _habilitar_entrada() -> void:
 	_aceptando_entrada = true
-	instruccion_label.text = "La vision se disipa. Repite el patron en orden."
+	instruccion_label.text = "Cuando el mundo vuelva a nublarse, repite el patron."
 	patron_label.text = _texto_progreso()
 	feedback_label.text = "Marca el primer glifo."
 	_establecer_botones_habilitados(true)
-
+	if _botones.size() > 0:
+		_botones[0].grab_focus()
 
 func _procesar_simbolo(indice: int) -> void:
 	if not _aceptando_entrada:
@@ -91,17 +106,17 @@ func _procesar_simbolo(indice: int) -> void:
 	var posicion_actual := _respuesta_actual.size() - 1
 
 	if _patron_actual[posicion_actual] != indice:
-		_preparar_nuevo_patron("El patron se rompio. Las gafas revelan una nueva combinacion.")
-		return
-
-	if _respuesta_actual.size() == _patron_actual.size():
-		_aceptando_entrada = false
-		_establecer_botones_habilitados(false)
-		feedback_label.text = "Los glifos responden. El altar queda estabilizado."
-		_emitir_completado()
+		_preparar_nuevo_patron("El ruido se metio otra vez. Las gafas muestran una nueva combinacion.")
 		return
 
 	patron_label.text = _texto_progreso()
+	if _respuesta_actual.size() == _patron_actual.size():
+		_aceptando_entrada = false
+		_establecer_botones_habilitados(false)
+		feedback_label.text = "La claridad se impone. El altar deja de deformarse."
+		_emitir_completado()
+		return
+
 	feedback_label.text = "Correcto. Continua con el siguiente glifo."
 
 

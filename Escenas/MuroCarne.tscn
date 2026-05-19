@@ -1,0 +1,32 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://Scripts/muro_carne.gd" id="1_muro"]
+
+[sub_resource type="RectangleShape2D" id="1_shape"]
+size = Vector2(172, 820)
+
+[node name="MuroCarne" type="Area2D"]
+collision_mask = 1
+script = ExtResource("1_muro")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -2)
+shape = SubResource("1_shape")
+
+[node name="Visual" type="Node2D" parent="."]
+
+[node name="Cuerpo" type="Sprite2D" parent="Visual"]
+position = Vector2(0, -28)
+scale = Vector2(3.2, 3.8)
+
+[node name="OjoIzquierdo" type="Sprite2D" parent="Visual"]
+position = Vector2(-24, -112)
+scale = Vector2(2.4, 2.4)
+
+[node name="OjoDerecho" type="Sprite2D" parent="Visual"]
+position = Vector2(24, -112)
+scale = Vector2(2.4, 2.4)
+
+[node name="Boca" type="Sprite2D" parent="Visual"]
+position = Vector2(0, -62)
+scale = Vector2(2.8, 2.6)

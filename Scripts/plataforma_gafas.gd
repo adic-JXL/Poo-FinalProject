@@ -17,7 +17,8 @@ func _ready() -> void:
 
 
 func establecer_revelada(activa: bool) -> void:
-	collision_shape.set_deferred("disabled", not activa)
+	if collision_shape != null:
+		collision_shape.set_deferred("disabled", not activa)
 	_animar_alpha(alpha_revelada if activa else alpha_oculta)
 
 

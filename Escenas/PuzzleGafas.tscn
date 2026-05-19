@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3]
+[gd_scene load_steps=3 format=3]
 
 [ext_resource type="Script" path="res://Scripts/puzzle_gafas.gd" id="1_puzzle_gafas"]
+[ext_resource type="Texture2D" path="res://Imagenes/Objetos/gafas_00.png" id="2_gafas_icon"]
 
 [node name="PuzzleGafas" type="CanvasLayer"]
 layer = 3
@@ -39,15 +40,22 @@ layout_mode = 2
 layout_mode = 2
 theme_override_constants/separation = 12
 
+[node name="Emblema" type="TextureRect" parent="Control/CenterContainer/PanelContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 56)
+layout_mode = 2
+texture = ExtResource("2_gafas_icon")
+expand_mode = 1
+stretch_mode = 5
+
 [node name="TituloLabel" type="Label" parent="Control/CenterContainer/PanelContainer/VBoxContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 26
-text = "Altar de Vision"
+text = "Patron de Claridad"
 horizontal_alignment = 1
 
 [node name="InstruccionLabel" type="Label" parent="Control/CenterContainer/PanelContainer/VBoxContainer"]
 layout_mode = 2
-text = "Observa los glifos mientras las gafas revelan el patron."
+text = "Observa el patron mientras la vision se aclara."
 horizontal_alignment = 1
 autowrap_mode = 3
 
@@ -60,7 +68,7 @@ autowrap_mode = 3
 
 [node name="FeedbackLabel" type="Label" parent="Control/CenterContainer/PanelContainer/VBoxContainer"]
 layout_mode = 2
-text = "Respira y memoriza el patron."
+text = "Las gafas revelan por un instante lo que el ruido escondia."
 horizontal_alignment = 1
 autowrap_mode = 3
 
@@ -73,22 +81,22 @@ theme_override_constants/v_separation = 12
 [node name="BotonA" type="Button" parent="Control/CenterContainer/PanelContainer/VBoxContainer/GridContainer"]
 custom_minimum_size = Vector2(180, 54)
 layout_mode = 2
-text = "[]"
+text = "RUIDO"
 
 [node name="BotonB" type="Button" parent="Control/CenterContainer/PanelContainer/VBoxContainer/GridContainer"]
 custom_minimum_size = Vector2(180, 54)
 layout_mode = 2
-text = "/\\"
+text = "DUDA"
 
 [node name="BotonC" type="Button" parent="Control/CenterContainer/PanelContainer/VBoxContainer/GridContainer"]
 custom_minimum_size = Vector2(180, 54)
 layout_mode = 2
-text = "<>"
+text = "VALOR"
 
 [node name="BotonD" type="Button" parent="Control/CenterContainer/PanelContainer/VBoxContainer/GridContainer"]
 custom_minimum_size = Vector2(180, 54)
 layout_mode = 2
-text = "OO"
+text = "CLARIDAD"
 
 [node name="BotonesAccion" type="HBoxContainer" parent="Control/CenterContainer/PanelContainer/VBoxContainer"]
 layout_mode = 2
