@@ -176,6 +176,8 @@ func _ready() -> void:
 	_actualizar_ambiente_sonoro()
 	_sincronizar_camara_con_jugador()
 	_restaurar_mensaje_hud()
+	if SistemaGuardadoClass.consumir_intro_nueva_partida():
+		call_deferred("_reproducir_intro_nueva_partida")
 
 
 func _physics_process(_delta: float) -> void:
@@ -1235,6 +1237,40 @@ func _cerrar_overlay_puzzle_activo() -> void:
 func _preparar_canvas_runtime() -> void:
 	if menu_pausa != null:
 		menu_pausa.hide()
+
+
+func _reproducir_intro_nueva_partida() -> void:
+	if jugador == null or hud == null:
+		return
+
+	jugador.establecer_control_habilitado(false)
+	var overlay := ColorRect.new()
+	overlay.anchor_left = 0.0
+	overlay.anchor_top = 0.0
+	overlay.anchor_right = 1.0
+	overlay.anchor_bottom = 1.0
+	overlay.offset_left = 0.0
+	overlay.offset_top = 0.0
+	overlay.offset_right = 0.0
+	overlay.offset_bottom = 0.0
+	overlay.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	overlay.color = Color(0.01, 0.01, 0.02, 1.0)
+	$Canvas.add_child(overlay)
+	$Canvas.move_child(overlay, $Canvas.get_child_count() - 1)
+	hud.mostrar_mensaje("Respira. Solo cruza el pasillo una vez mas.")
+	if hud.has_method("mostrar_pensamiento"):
+		hud.mostrar_pensamiento("Otra vez esas miradas. Solo sigue.", false)
+
+	var tween := create_tween()
+	tween.set_ignore_time_scale(true)
+	tween.set_trans(Tween.TRANS_SINE)
+	tween.set_ease(Tween.EASE_OUT)
+	tween.tween_property(overlay, "color:a", 0.0, 1.05)
+	await tween.finished
+	overlay.queue_free()
+	await get_tree().create_timer(0.2, true, false, true).timeout
+	jugador.establecer_control_habilitado(true)
+	_restaurar_mensaje_hud()
 
 
 func _exit_tree() -> void:

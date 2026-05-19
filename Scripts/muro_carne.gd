@@ -1,6 +1,17 @@
 extends Area2D
 class_name MuroCarne
 
+const RUTAS_FRAMES_MURO_VERDE := [
+	"res://Imagenes/Enemigos/muro_verde/muro_verde_00.png",
+	"res://Imagenes/Enemigos/muro_verde/muro_verde_01.png",
+	"res://Imagenes/Enemigos/muro_verde/muro_verde_02.png",
+	"res://Imagenes/Enemigos/muro_verde/muro_verde_03.png",
+	"res://Imagenes/Enemigos/muro_verde/muro_verde_04.png",
+	"res://Imagenes/Enemigos/muro_verde/muro_verde_05.png",
+	"res://Imagenes/Enemigos/muro_verde/muro_verde_06.png",
+	"res://Imagenes/Enemigos/muro_verde/muro_verde_07.png",
+]
+
 signal jugador_alcanzado
 
 @export var velocidad_base: float = 72.0
@@ -9,6 +20,7 @@ signal jugador_alcanzado
 @export var adelanto_camara: float = 316.0
 @export var tamano_textura: Vector2i = Vector2i(52, 188)
 @export var volumen_rumble_db: float = -13.5
+@export var fps_animacion_verde: float = 7.0
 
 var _jugador: Node2D = null
 var _activo: bool = true
@@ -20,6 +32,7 @@ static var _textura_cuerpo_cache: Texture2D
 static var _textura_ojo_cache: Texture2D
 static var _textura_boca_cache: Texture2D
 static var _stream_rumble_cache: AudioStreamWAV
+static var _frames_muro_verde_cache: Array[Texture2D] = []
 
 @onready var visual: Node2D = $Visual
 @onready var cuerpo: Sprite2D = $Visual/Cuerpo
@@ -103,10 +116,29 @@ func _animar_pulso() -> void:
 		return
 
 	var pulso := sin(Time.get_ticks_msec() * 0.001 * velocidad_pulso)
+	if not _frames_muro_verde_cache.is_empty() and cuerpo != null:
+		var indice := int(floor(Time.get_ticks_msec() * 0.001 * fps_animacion_verde)) % _frames_muro_verde_cache.size()
+		cuerpo.texture = _frames_muro_verde_cache[indice]
 	visual.scale = Vector2(1.0 + (pulso * amplitud_pulso * 0.55), 1.0 + (absf(pulso) * amplitud_pulso))
 
 
 func _configurar_visual() -> void:
+	_frames_muro_verde_cache = _cargar_frames_muro_verde()
+	if not _frames_muro_verde_cache.is_empty():
+		if cuerpo != null:
+			cuerpo.texture = _frames_muro_verde_cache[0]
+			cuerpo.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+			cuerpo.position = Vector2(0, -74)
+			cuerpo.scale = Vector2(1.72, 2.68)
+			cuerpo.modulate = Color(1, 1, 1, 0.98)
+		if ojo_izquierdo != null:
+			ojo_izquierdo.hide()
+		if ojo_derecho != null:
+			ojo_derecho.hide()
+		if boca != null:
+			boca.hide()
+		return
+
 	if cuerpo != null:
 		cuerpo.texture = _obtener_textura_cuerpo()
 		cuerpo.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
@@ -255,3 +287,17 @@ func _obtener_stream_rumble() -> AudioStreamWAV:
 	_stream_rumble_cache.loop_end = total_samples
 	_stream_rumble_cache.data = data
 	return _stream_rumble_cache
+
+
+func _cargar_frames_muro_verde() -> Array[Texture2D]:
+	if not _frames_muro_verde_cache.is_empty():
+		return _frames_muro_verde_cache
+
+	var frames: Array[Texture2D] = []
+	for ruta in RUTAS_FRAMES_MURO_VERDE:
+		if not ResourceLoader.exists(ruta):
+			continue
+		var textura := load(ruta) as Texture2D
+		if textura != null:
+			frames.append(textura)
+	return frames

@@ -285,10 +285,15 @@ func esta_aturdido() -> bool:
 
 
 func puede_activar_sprint(direccion: float) -> bool:
-	return not is_zero_approx(direccion) and sistema_estamina.actual > 0.0 and _controles_habilitados
+	return not is_zero_approx(direccion) and _controles_habilitados and (gafas_activas() or sistema_estamina.actual > 0.0)
 
 
 func consumir_estamina_sprint(delta: float) -> bool:
+	if gafas_activas():
+		if sistema_estamina.actual < sistema_estamina.maxima:
+			sistema_estamina.reiniciar()
+		return true
+
 	var costo: float = costo_sprint_por_segundo * delta
 	return sistema_estamina.consumir(costo)
 
@@ -404,6 +409,30 @@ func animar_entrada_puerta(posicion_objetivo: Vector2, duracion: float = 0.24) -
 	tween.tween_property(visual, "scale", escala_destino, duracion)
 	tween.tween_property(visual, "modulate", color_destino, duracion)
 	await tween.finished
+
+
+func animar_salida_puerta(posicion_origen: Vector2, posicion_objetivo: Vector2, duracion: float = 0.34) -> void:
+	_animacion_puerta_activa = true
+	velocity = Vector2.ZERO
+	global_position = posicion_origen
+	cambiar_a_estado(&"bloqueado")
+
+	var escala_origen := Vector2(signf(_direccion_actual if not is_zero_approx(_direccion_actual) else 1.0) * absf(_escala_visual_original.x) * 0.22, _escala_visual_original.y * 0.22)
+	var color_origen := _modulate_visual_original
+	color_origen.a = 0.08
+	visual.scale = escala_origen
+	visual.modulate = color_origen
+
+	var tween := create_tween()
+	tween.set_parallel(true)
+	tween.set_trans(Tween.TRANS_BACK)
+	tween.set_ease(Tween.EASE_OUT)
+	tween.set_ignore_time_scale(true)
+	tween.tween_property(self, "global_position", posicion_objetivo, duracion)
+	tween.tween_property(visual, "scale", _escala_visual_original, duracion)
+	tween.tween_property(visual, "modulate", _modulate_visual_original, duracion * 0.82)
+	await tween.finished
+	finalizar_animacion_puerta()
 
 
 func finalizar_animacion_puerta() -> void:
