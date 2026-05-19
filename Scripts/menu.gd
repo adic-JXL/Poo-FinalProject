@@ -28,7 +28,9 @@ func _on_jugar_pressed() -> void:
 
 
 func _on_opciones_pressed() -> void:
-	MenuOpciones.aparecer()
+	var menu_opciones := get_node_or_null("/root/MenuOpciones")
+	if menu_opciones != null and menu_opciones.has_method("aparecer"):
+		menu_opciones.call("aparecer")
 
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -95,7 +97,7 @@ func _crear_selector_slots() -> void:
 	vbox.add_child(titulo)
 
 	var subtitulo := Label.new()
-	subtitulo.text = "Elige un espacio para empezar de cero o cargar tu avance."
+	subtitulo.text = "Elige un espacio para empezar, cargar o eliminar una partida."
 	subtitulo.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	subtitulo.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	subtitulo.add_theme_font_override("font", FUENTE_PIXEL)
@@ -149,10 +151,17 @@ func _crear_fila_slot(slot: int) -> Dictionary:
 
 	var boton_cargar := Button.new()
 	boton_cargar.text = "Cargar"
-	boton_cargar.custom_minimum_size = Vector2(118, 40)
+	boton_cargar.custom_minimum_size = Vector2(96, 40)
 	_estilizar_boton_selector(boton_cargar, Color(0.32, 0.48, 0.62, 1.0))
 	boton_cargar.pressed.connect(_on_cargar_partida_slot_pressed.bind(slot))
 	hbox.add_child(boton_cargar)
+
+	var boton_eliminar := Button.new()
+	boton_eliminar.text = "Eliminar"
+	boton_eliminar.custom_minimum_size = Vector2(96, 40)
+	_estilizar_boton_selector(boton_eliminar, Color(0.62, 0.34, 0.32, 1.0))
+	boton_eliminar.pressed.connect(_on_eliminar_partida_slot_pressed.bind(slot))
+	hbox.add_child(boton_eliminar)
 
 	return {
 		"slot": slot,
@@ -160,6 +169,7 @@ func _crear_fila_slot(slot: int) -> Dictionary:
 		"info": info,
 		"nueva": boton_nueva,
 		"cargar": boton_cargar,
+		"eliminar": boton_eliminar,
 	}
 
 
@@ -186,16 +196,19 @@ func _actualizar_selector_slots() -> void:
 		var slot := int(fila["slot"])
 		var info := fila["info"] as Label
 		var boton_cargar := fila["cargar"] as Button
+		var boton_eliminar := fila["eliminar"] as Button
 		var resumen := SistemaGuardadoClass.obtener_resumen_slot(slot)
 		var escena := String(resumen.get("escena_actual", MAIN_GAME_SCENE))
 		if not bool(resumen.get("existe", false)):
 			info.text = "Slot %d  |  Vacio. Ideal para una partida nueva." % slot
 			boton_cargar.disabled = true
+			boton_eliminar.disabled = true
 			continue
 
 		var nombre_escena := "Mundo 2" if escena == "res://Escenas/Mundo2.tscn" else "Mundo 1"
 		info.text = "Slot %d  |  Guardado disponible en %s." % [slot, nombre_escena]
 		boton_cargar.disabled = false
+		boton_eliminar.disabled = false
 
 
 func _on_nueva_partida_slot_pressed(slot: int) -> void:
@@ -213,6 +226,14 @@ func _on_cargar_partida_slot_pressed(slot: int) -> void:
 	SistemaGuardadoClass.establecer_slot_activo(slot)
 	SistemaGuardadoClass.limpiar_transicion_pendiente()
 	get_tree().change_scene_to_file(SistemaGuardadoClass.obtener_escena_inicio(slot))
+
+
+func _on_eliminar_partida_slot_pressed(slot: int) -> void:
+	if not SistemaGuardadoClass.existe_guardado(slot):
+		return
+
+	SistemaGuardadoClass.borrar_guardado_slot(slot)
+	_actualizar_selector_slots()
 
 
 func _actualizar_texto_boton_principal() -> void:

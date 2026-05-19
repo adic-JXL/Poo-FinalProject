@@ -379,19 +379,19 @@ position = Vector2(11728, 560)
 [node name="PuertaBloqueada3" parent="." unique_id=245053351 instance=ExtResource("4_2oaxk")]
 position = Vector2(12496, 560)
 
-[node name="ObjetosMundo2" type="Node2D" parent="."]
+[node name="ObjetosMundo2" type="Node2D" parent="." unique_id=1158251764]
 
-[node name="CheckpointCarrera1" type="Marker2D" parent="ObjetosMundo2"]
-position = Vector2(2368, 520)
+[node name="CheckpointCarrera1" type="Marker2D" parent="ObjetosMundo2" unique_id=1176637546]
+position = Vector2(2417, 472)
 
-[node name="CheckpointCarrera2" type="Marker2D" parent="ObjetosMundo2"]
+[node name="CheckpointCarrera2" type="Marker2D" parent="ObjetosMundo2" unique_id=1470762291]
 position = Vector2(6208, 520)
 
-[node name="CheckpointCarrera3" type="Marker2D" parent="ObjetosMundo2"]
-position = Vector2(9728, 520)
+[node name="CheckpointCarrera3" type="Marker2D" parent="ObjetosMundo2" unique_id=170572480]
+position = Vector2(9728, 615)
 
-[node name="CheckpointCarrera4" type="Marker2D" parent="ObjetosMundo2"]
-position = Vector2(12608, 520)
+[node name="CheckpointCarrera4" type="Marker2D" parent="ObjetosMundo2" unique_id=342466764]
+position = Vector2(12618, 611)
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=866506310]
 zoom = Vector2(5, 5)
