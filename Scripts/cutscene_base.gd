@@ -48,10 +48,10 @@ const TEXTURA_PUERTA_ABIERTA := "res://Imagenes/Objetos/puerta_abierta_final.png
 const TEXTURA_FONDO_MUNDO_1 := "res://Imagenes/Fondos/Mundo1/fondo_frontal.png"
 const TEXTURA_FONDO_MUNDO_2 := "res://Imagenes/Fondos/MundoFinal/fondo_05_pilares.png"
 const CREDITOS := [
-	{"nombre": "Cafusa", "rol": "Programacion, sistemas y arquitectura POO"},
-	{"nombre": "CristianFuentesSanchez", "rol": "Arte, mundo visual y direccion de UI"},
-	{"nombre": "issa", "rol": "Diseno de niveles, puzzles y narrativa"},
-	{"nombre": "ManuJei", "rol": "Gameplay, balance, pruebas e integracion"},
+	{"nombre": "Cafusa", "rol": "Programacion y arquitectura POO"},
+	{"nombre": "CristianFuentesSanchez", "rol": "Arte visual y UI"},
+	{"nombre": "issa", "rol": "Niveles, puzzles y narrativa"},
+	{"nombre": "ManuJei", "rol": "Gameplay, balance e integracion"},
 ]
 
 var _root: Control
@@ -142,6 +142,17 @@ func reproducir_pantalla_final_creditos() -> void:
 		Color(0.86, 0.94, 0.43, 1.0),
 		Callable(self, "_montar_enhorabuena")
 	)
+	await _mostrar_cinematica(
+		"CREDITOS",
+		"Deep Shadow - Proyecto final de Programacion Orientada a Objetos.",
+		"Equipo",
+		7.0,
+		Color(0.50, 0.84, 0.90, 1.0),
+		Callable(self, "_montar_creditos")
+	)
+
+
+func reproducir_creditos_menu() -> void:
 	await _mostrar_cinematica(
 		"CREDITOS",
 		"Deep Shadow - Proyecto final de Programacion Orientada a Objetos.",
@@ -313,17 +324,17 @@ func _montar_controles() -> void:
 	var titulo := _agregar_label(_stage, "GUIA RAPIDA", Vector2(0, 14), Vector2(760, 28), 14, Color(0.86, 0.94, 0.43, 1.0))
 	titulo.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	var cartas := [
-		{"tecla": "A / D", "texto": "Moverte", "ayuda": "Tambien flechas", "tipo": "walk"},
-		{"tecla": "ESPACIO", "texto": "Saltar", "ayuda": "Supera huecos", "tipo": "jump"},
-		{"tecla": "SHIFT", "texto": "Sprint", "ayuda": "Corre en tramos largos", "tipo": "run"},
-		{"tecla": "Q", "texto": "Gafas", "ayuda": "Revela rutas ocultas", "tipo": "gafas"},
-		{"tecla": "E", "texto": "Interactuar", "ayuda": "Puertas, pistas y totems", "tipo": "door"},
-		{"tecla": "P / ESC", "texto": "Pausa", "ayuda": "Menu y reinicio", "tipo": "pause"},
+		{"tecla": "A / D", "texto": "Moverte", "ayuda": "Tambien sirven las flechas.", "tipo": "walk"},
+		{"tecla": "ESPACIO", "texto": "Saltar", "ayuda": "Supera huecos y plataformas.", "tipo": "jump"},
+		{"tecla": "SHIFT", "texto": "Sprint", "ayuda": "Corre en tramos largos.", "tipo": "run"},
+		{"tecla": "Q", "texto": "Gafas", "ayuda": "Revela rutas ocultas.", "tipo": "gafas"},
+		{"tecla": "E", "texto": "Interactuar", "ayuda": "Puertas, pistas y totems.", "tipo": "door"},
+		{"tecla": "P / ESC", "texto": "Pausa", "ayuda": "Menu, opciones y reinicio.", "tipo": "pause"},
 	]
 	for i in range(cartas.size()):
 		var columna := i % 3
 		var fila := int(i / 3)
-		_crear_tarjeta_control(Vector2(44 + columna * 232, 58 + fila * 100), Dictionary(cartas[i]), i)
+		_crear_tarjeta_control(Vector2(36 + columna * 236, 54 + fila * 92), Dictionary(cartas[i]), i)
 	_agregar_caption("Tip: con las gafas activas aparecen rutas ocultas y el mundo se vuelve mas claro.")
 
 
@@ -407,12 +418,14 @@ func _montar_creditos() -> void:
 
 	for i in range(CREDITOS.size()):
 		var datos: Dictionary = Dictionary(CREDITOS[i])
-		var y := 92 + i * 38
-		var nombre := _agregar_label(_stage, String(datos["nombre"]), Vector2(72, y), Vector2(238, 24), 10, Color(0.92, 0.96, 0.82, 1.0))
+		var y := 88 + i * 38
+		var fondo_fila := _agregar_rect(_stage, Vector2(68, y - 4), Vector2(624, 32), Color(0.06, 0.08, 0.09, 0.55), "FilaCredito")
+		fondo_fila.color = Color(0.06, 0.08, 0.09, 0.55)
+		var nombre := _agregar_label(_stage, String(datos["nombre"]), Vector2(90, y + 3), Vector2(236, 20), 9, Color(0.92, 0.96, 0.82, 1.0))
 		nombre.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
-		var rol := _agregar_label(_stage, String(datos["rol"]), Vector2(328, y), Vector2(350, 30), 8, Color(0.62, 0.80, 0.80, 1.0))
+		var rol := _agregar_label(_stage, String(datos["rol"]), Vector2(354, y + 1), Vector2(306, 24), 8, Color(0.62, 0.80, 0.80, 1.0))
 		rol.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-		var punto := _agregar_rect(_stage, Vector2(314, y + 8), Vector2(6, 6), Color(0.86, 0.94, 0.43, 1.0), "PuntoCredito")
+		var punto := _agregar_rect(_stage, Vector2(338, y + 10), Vector2(6, 6), Color(0.86, 0.94, 0.43, 1.0), "PuntoCredito")
 		_animar_pulso(punto, Vector2.ONE, Vector2(1.28, 1.28), 0.7 + i * 0.05)
 
 	var cierre := _agregar_label(_stage, "Gracias por jugar.", Vector2(0, 252), Vector2(760, 24), 11, Color(0.86, 0.94, 0.43, 1.0))
@@ -420,42 +433,55 @@ func _montar_creditos() -> void:
 
 
 func _crear_tarjeta_control(posicion: Vector2, datos: Dictionary, indice: int) -> void:
-	var tarjeta := PanelContainer.new()
+	var tarjeta := Panel.new()
 	tarjeta.position = posicion
-	tarjeta.size = Vector2(210, 92)
+	tarjeta.size = Vector2(216, 84)
 	tarjeta.add_theme_stylebox_override("panel", _crear_estilo_tarjeta())
 	_stage.add_child(tarjeta)
 
-	var caja_tecla := _agregar_rect(tarjeta, Vector2(10, 8), Vector2(80, 26), Color(0.035, 0.045, 0.052, 0.92), "CajaTecla")
+	var caja_tecla := _agregar_rect(tarjeta, Vector2(12, 8), Vector2(72, 24), Color(0.035, 0.045, 0.052, 0.95), "CajaTecla")
 	caja_tecla.color = Color(0.035, 0.045, 0.052, 0.92)
-	var tecla := _agregar_label(tarjeta, String(datos.get("tecla", "")), Vector2(10, 13), Vector2(80, 18), 9, Color(0.88, 0.94, 0.43, 1.0))
+	var tecla_texto := String(datos.get("tecla", ""))
+	var tecla := _agregar_label(tarjeta, tecla_texto, Vector2(12, 11), Vector2(72, 18), _tamano_fuente_tecla(tecla_texto), Color(0.88, 0.94, 0.43, 1.0))
 	tecla.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	var texto := _agregar_label(tarjeta, String(datos.get("texto", "")), Vector2(98, 10), Vector2(96, 22), 9, Color(0.90, 0.96, 0.86, 1.0))
-	texto.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	tecla.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	var texto := _agregar_label(tarjeta, String(datos.get("texto", "")), Vector2(92, 12), Vector2(108, 20), 9, Color(0.90, 0.96, 0.86, 1.0))
+	texto.horizontal_alignment = HORIZONTAL_ALIGNMENT_LEFT
 	texto.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	var ayuda := _agregar_label(tarjeta, String(datos.get("ayuda", "")), Vector2(76, 42), Vector2(122, 38), 7, Color(0.66, 0.82, 0.78, 1.0))
+	var ayuda := _agregar_label(tarjeta, String(datos.get("ayuda", "")), Vector2(92, 36), Vector2(108, 38), 7, Color(0.66, 0.82, 0.78, 1.0))
 	ayuda.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 
 	match String(datos.get("tipo", "")):
 		"walk":
-			_crear_sprite_animado(tarjeta, FRAMES_WALK, Vector2(20, 42), Vector2(42, 38), 6.0, "IconWalk")
+			_crear_sprite_animado(tarjeta, FRAMES_WALK, Vector2(22, 35), Vector2(44, 42), 6.0, "IconWalk")
 		"jump":
-			var saltar := _crear_sprite_animado(tarjeta, FRAMES_IDLE, Vector2(22, 40), Vector2(40, 40), 4.0, "IconJump")
+			var saltar := _crear_sprite_animado(tarjeta, FRAMES_IDLE, Vector2(24, 36), Vector2(40, 40), 4.0, "IconJump")
 			_animar_salto(saltar)
 		"run":
-			_crear_sprite_animado(tarjeta, FRAMES_RUN, Vector2(18, 42), Vector2(46, 38), 10.0, "IconRun")
+			_crear_sprite_animado(tarjeta, FRAMES_RUN, Vector2(20, 36), Vector2(48, 40), 10.0, "IconRun")
 		"gafas":
-			var gafas := _crear_sprite_animado(tarjeta, FRAMES_GAFAS, Vector2(18, 50), Vector2(48, 26), 7.0, "IconGafas")
-			_animar_pulso(gafas, Vector2.ONE, Vector2(1.18, 1.18), 0.65)
+			var gafas := _crear_sprite_animado(tarjeta, FRAMES_GAFAS, Vector2(18, 48), Vector2(52, 28), 7.0, "IconGafas")
+			_animar_pulso(gafas, Vector2.ONE, Vector2(1.12, 1.12), 0.65)
 		"door":
-			_crear_sprite_estatico(tarjeta, TEXTURA_PUERTA_ABIERTA, Vector2(24, 36), Vector2(36, 48), "IconPuerta")
+			_crear_sprite_estatico(tarjeta, TEXTURA_PUERTA_ABIERTA, Vector2(28, 34), Vector2(36, 48), "IconPuerta")
 		_:
 			_agregar_label(tarjeta, "||", Vector2(28, 44), Vector2(32, 28), 16, Color(0.88, 0.94, 0.43, 1.0))
+
+	var separador := _agregar_rect(tarjeta, Vector2(82, 38), Vector2(2, 32), Color(0.58, 0.72, 0.44, 0.40), "Separador")
+	separador.mouse_filter = Control.MOUSE_FILTER_IGNORE
 
 	tarjeta.modulate.a = 0.0
 	var tween := create_tween()
 	tween.set_ignore_time_scale(true)
 	tween.tween_property(tarjeta, "modulate:a", 1.0, 0.25).set_delay(0.18 * indice)
+
+
+func _tamano_fuente_tecla(texto: String) -> int:
+	if texto.length() >= 7:
+		return 8
+	if texto.length() >= 5:
+		return 10
+	return 16
 
 
 func _crear_estilo_tarjeta() -> StyleBoxFlat:
