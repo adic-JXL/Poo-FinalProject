@@ -737,7 +737,7 @@ monitoring = false
 monitorable = false
 nombre_npc = "Esteban"
 activar_automaticamente = true
-lineas_dialogo = ["JAJAJA cule hueva"]
+lineas_dialogo = ["JAJAJA cule bruto"]
 
 [node name="Sprite2D" type="Sprite2D" parent="NPC/NPC_5" unique_id=1298645433]
 position = Vector2(0, -3.07)
