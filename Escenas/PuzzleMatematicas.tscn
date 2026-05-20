@@ -1,0 +1,130 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" uid="uid://lhpej6oj53oo" path="res://Scripts/puzzle_matematicas.gd" id="1_puzzle_mate"]
+[ext_resource type="Texture2D" path="res://Imagenes/Cuaderno.png" id="2_cuaderno"]
+
+[node name="PuzzleMatematicas" type="CanvasLayer"]
+layer = 2
+script = ExtResource("1_puzzle_mate")
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Overlay" type="ColorRect" parent="Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.027451, 0.0352941, 0.054902, 0.86)
+
+[node name="CenterContainer" type="CenterContainer" parent="Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="Control/CenterContainer"]
+custom_minimum_size = Vector2(520, 0)
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Control/CenterContainer/PanelContainer"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Emblema" type="TextureRect" parent="Control/CenterContainer/PanelContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 54)
+layout_mode = 2
+texture = ExtResource("2_cuaderno")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="TituloLabel" type="Label" parent="Control/CenterContainer/PanelContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 26
+text = "Quiz del Salon"
+horizontal_alignment = 1
+
+[node name="InstruccionLabel" type="Label" parent="Control/CenterContainer/PanelContainer/VBoxContainer"]
+layout_mode = 2
+text = "Resuelve la suma para calmar el cubo del salon."
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="SecuenciaLabel" type="Label" parent="Control/CenterContainer/PanelContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+text = "00 + 00 = ?"
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="FeedbackLabel" type="Label" parent="Control/CenterContainer/PanelContainer/VBoxContainer"]
+layout_mode = 2
+text = "Pregunta 1 / 4"
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="GridContainer" type="GridContainer" parent="Control/CenterContainer/PanelContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_constants/h_separation = 12
+theme_override_constants/v_separation = 12
+columns = 2
+
+[node name="BotonSol" type="Button" parent="Control/CenterContainer/PanelContainer/VBoxContainer/GridContainer"]
+custom_minimum_size = Vector2(180, 54)
+layout_mode = 2
+focus_neighbor_left = NodePath("../BotonLuna")
+focus_neighbor_top = NodePath("../../BotonesAccion/BotonCancelar")
+focus_neighbor_right = NodePath("../BotonLuna")
+focus_neighbor_bottom = NodePath("../BotonOjo")
+text = "42"
+
+[node name="BotonLuna" type="Button" parent="Control/CenterContainer/PanelContainer/VBoxContainer/GridContainer"]
+custom_minimum_size = Vector2(180, 54)
+layout_mode = 2
+focus_neighbor_left = NodePath("../BotonSol")
+focus_neighbor_top = NodePath("../../BotonesAccion/BotonCancelar")
+focus_neighbor_right = NodePath("../BotonSol")
+focus_neighbor_bottom = NodePath("../BotonEco")
+text = "47"
+
+[node name="BotonOjo" type="Button" parent="Control/CenterContainer/PanelContainer/VBoxContainer/GridContainer"]
+custom_minimum_size = Vector2(180, 54)
+layout_mode = 2
+focus_neighbor_left = NodePath("../BotonEco")
+focus_neighbor_top = NodePath("../BotonSol")
+focus_neighbor_right = NodePath("../BotonEco")
+focus_neighbor_bottom = NodePath("../../BotonesAccion/BotonCancelar")
+text = "51"
+
+[node name="BotonEco" type="Button" parent="Control/CenterContainer/PanelContainer/VBoxContainer/GridContainer"]
+custom_minimum_size = Vector2(180, 54)
+layout_mode = 2
+focus_neighbor_left = NodePath("../BotonOjo")
+focus_neighbor_top = NodePath("../BotonLuna")
+focus_neighbor_right = NodePath("../BotonOjo")
+focus_neighbor_bottom = NodePath("../../BotonesAccion/BotonCancelar")
+text = "56"
+
+[node name="BotonesAccion" type="HBoxContainer" parent="Control/CenterContainer/PanelContainer/VBoxContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="BotonCancelar" type="Button" parent="Control/CenterContainer/PanelContainer/VBoxContainer/BotonesAccion"]
+custom_minimum_size = Vector2(160, 42)
+layout_mode = 2
+focus_neighbor_left = NodePath("../../GridContainer/BotonOjo")
+focus_neighbor_top = NodePath("../../GridContainer/BotonOjo")
+focus_neighbor_right = NodePath("../../GridContainer/BotonEco")
+focus_neighbor_bottom = NodePath("../../GridContainer/BotonSol")
+text = "Volver al mundo"
