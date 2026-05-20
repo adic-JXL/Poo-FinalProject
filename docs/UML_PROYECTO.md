@@ -1,6 +1,6 @@
-# UML propuesto para Deep Shadow
+# UML para Deep Shadow
 
-## Cambios clave frente al UML base
+## Cambios frente al UML base
 
 - Separar logica del juego de nodos visuales de Godot.
 - Evitar una clase `Juego` demasiado grande.
@@ -19,7 +19,7 @@
 
 Los nodos como `Sprite2D`, `CollisionShape2D` y `AnimationPlayer` no deben ser atributos centrales del modelo UML. Esos son detalles de la vista/escena en Godot.
 
-## UML recomendado
+## UML
 
 ```mermaid
 classDiagram
@@ -162,7 +162,7 @@ Puzzle <|-- PuzzleAleatorio
 FabricaObstaculos --> Obstaculo
 ```
 
-## Patrones sugeridos
+## Patrones
 
 ### 1. State
 
