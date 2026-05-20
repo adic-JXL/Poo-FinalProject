@@ -50,6 +50,7 @@ const PENSAMIENTO_NPCS_MOLESTIA := "Esos chicos siempre me molestan. Estoy harto
 const PENSAMIENTO_NPCS_PATIO := "Voy a tomar un pequeño descanso en el patio."
 const PENSAMIENTO_NPC_VALOR := "Ojala algun dia saque el valor para decirles como me siento."
 const PENSAMIENTO_PATIO_DIFERENTE := "Wow el patio se ve diferente."
+const LIMITE_Y_PROLOGO := -500.0
 
 @export var limite_caida_y: float = 700.0
 @export var escala_tiempo_golpe: float = 0.45
@@ -92,8 +93,8 @@ const PENSAMIENTO_PATIO_DIFERENTE := "Wow el patio se ve diferente."
 @onready var tile_map: TileMapLayer = $Mapa/TileMapLayer
 @onready var puerta = _obtener_nodo_primero(["Objetos/Puerta", "Objetos/Puerta1"])
 @onready var puerta_salida = get_node_or_null("Objetos/Puerta2")
-@onready var puerta_3 = get_node_or_null("Objetos/PuertaJefe")
-@onready var puerta_4 = get_node_or_null("Objetos/PuertaJefeDestino")
+@onready var puerta_3 = _obtener_nodo_primero(["Objetos/PuertaJefe", "Objetos/Puerta3"])
+@onready var puerta_4 = _obtener_nodo_primero(["Objetos/PuertaJefeDestino", "Objetos/Puerta4"])
 @onready var puerta_7 = get_node_or_null("Objetos/Puerta7")
 @onready var puerta_8 = get_node_or_null("Objetos/Puerta8")
 @onready var puerta_mundo_2 = get_node_or_null("Objetos/PuertaMundo2")
@@ -113,6 +114,7 @@ const PENSAMIENTO_PATIO_DIFERENTE := "Wow el patio se ve diferente."
 @onready var totem_jefe_b = $Objetos/TotemJefeB
 @onready var totem_jefe_c = $Objetos/TotemJefeC
 @onready var jugador: CharacterBody2D = $Player/Jugador
+@onready var camara_intro: Camera2D = get_node_or_null("Player/CamaraIntro") as Camera2D
 @onready var camara_1: Camera2D = $Player/Camara1
 @onready var camara_2: Camera2D = $Player/Camara2
 @onready var camara_3: Camera2D = get_node_or_null("Player/Camara3") as Camera2D
@@ -747,6 +749,8 @@ func _on_puerta_teletransporte_realizado(_jugador: Node2D, destino: Node2D) -> v
 
 
 func _on_puerta_7_teletransporte_realizado(_jugador: Node2D, destino: Node2D) -> void:
+	_sincronizar_camara_con_jugador()
+
 	if _pensamiento_patio_mostrado or destino != puerta_8:
 		return
 
@@ -1175,6 +1179,9 @@ func _animar_transicion_gafas(activa: bool, instantaneo: bool) -> void:
 	_tween_transicion_gafas.set_ease(Tween.EASE_IN_OUT)
 	_tween_transicion_gafas.set_ignore_time_scale(true)
 
+	if camara_intro != null:
+		_tween_transicion_gafas.tween_property(camara_intro, "zoom", zoom_objetivo, duracion_transicion_actual)
+
 	if camara_1 != null:
 		_tween_transicion_gafas.tween_property(camara_1, "zoom", zoom_objetivo, duracion_transicion_actual)
 
@@ -1193,6 +1200,9 @@ func _animar_transicion_gafas(activa: bool, instantaneo: bool) -> void:
 
 
 func _aplicar_zoom_camaras(zoom_objetivo: Vector2) -> void:
+	if camara_intro != null:
+		camara_intro.zoom = zoom_objetivo
+
 	if camara_1 != null:
 		camara_1.zoom = zoom_objetivo
 
@@ -1207,13 +1217,15 @@ func _sincronizar_camara_con_jugador() -> void:
 	if jugador == null:
 		return
 
-	var camara_objetivo: Camera2D = camara_1
-	if _jugador_en_zona_jefe:
-		camara_objetivo = camara_3
-	elif _area_contiene_posicion(area_camara_2, jugador.global_position):
-		camara_objetivo = camara_2
-	elif _area_contiene_posicion(area_camara_1, jugador.global_position):
-		camara_objetivo = camara_1
+	var en_prologo := camara_intro != null and jugador.global_position.y < LIMITE_Y_PROLOGO
+	var camara_objetivo: Camera2D = camara_intro if en_prologo else camara_1
+	if not en_prologo:
+		if _jugador_en_zona_jefe:
+			camara_objetivo = camara_3
+		elif _area_contiene_posicion(area_camara_2, jugador.global_position):
+			camara_objetivo = camara_2
+		elif _area_contiene_posicion(area_camara_1, jugador.global_position):
+			camara_objetivo = camara_1
 
 	_activar_camara(camara_objetivo)
 
@@ -1222,7 +1234,7 @@ func _activar_camara(camara_objetivo: Camera2D) -> void:
 	if camara_objetivo == null:
 		return
 
-	for camara in [camara_1, camara_2, camara_3]:
+	for camara in [camara_intro, camara_1, camara_2, camara_3]:
 		if camara == null:
 			continue
 		camara.enabled = camara == camara_objetivo
