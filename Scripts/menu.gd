@@ -13,6 +13,7 @@ var _panel_slots: PanelContainer = null
 var _filas_slots: Array[Dictionary] = []
 var _boton_cancelar_slots: Button = null
 var _creditos_en_reproduccion: bool = false
+var _controles_en_reproduccion: bool = false
 
 
 func _ready() -> void:
@@ -326,4 +327,17 @@ func _estilizar_boton_selector(boton: Button, color_borde: Color) -> void:
 
 
 func _on_controles_pressed() -> void:
-	get_tree().change_scene_to_file("res://Escenas/Manuel de usuario.tscn")
+	if _controles_en_reproduccion:
+		return
+
+	if _overlay_slots != null and _overlay_slots.visible:
+		_cerrar_selector_slots()
+
+	_controles_en_reproduccion = true
+	var cutscene := CUTSCENE_BASE_SCRIPT.new()
+	add_child(cutscene)
+	await cutscene.reproducir_controles()
+	cutscene.queue_free()
+	_controles_en_reproduccion = false
+	if boton_jugar != null:
+		boton_jugar.grab_focus()
