@@ -77,7 +77,7 @@ func _preparar_pregunta(mensaje: String = "", avanzar: bool = true) -> void:
 	var b := _rng.randi_range(minimo_sumando, maximo_sumando)
 	_respuesta_correcta = a + b
 
-	instruccion_label.text = "Resuelve la suma para calmar el cubo del salon."
+	instruccion_label.text = "Resuelve la suma para avanzar en el quiz del salon."
 	pregunta_label.text = "%d + %d = ?" % [a, b]
 	feedback_label.text = mensaje if not mensaje.is_empty() else "Pregunta %d / %d" % [_pregunta_actual, max(cantidad_preguntas, 1)]
 	_colocar_opciones()
