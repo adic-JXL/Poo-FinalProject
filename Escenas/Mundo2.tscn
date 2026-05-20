@@ -313,7 +313,7 @@ size = Vector2(11834, 666)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_frq32"]
 size = Vector2(1696, 664)
 
-[node name="Node2D" type="Node2D" unique_id=895375622]
+[node name="Node2D2" type="Node2D" unique_id=895375622]
 script = ExtResource("5_mundo2")
 
 [node name="TileMapLayer" type="TileMapLayer" parent="." unique_id=94634762]
@@ -408,7 +408,7 @@ shape = SubResource("RectangleShape2D_kyqwx")
 
 [node name="Camera2D2" type="Camera2D" parent="." unique_id=2140804628]
 zoom = Vector2(2.5, 2.5)
-limit_left = 12432
+limit_left = 12448
 limit_top = 0
 limit_right = 14128
 limit_bottom = 656
