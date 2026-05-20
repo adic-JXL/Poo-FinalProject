@@ -2,11 +2,12 @@
 \usepackage[utf8]{inputenc}
 \usepackage[spanish]{babel}
 \usepackage{graphicx}
-\usepackage{url}
+\usepackage{xurl}
 \usepackage{cite}
 \usepackage{booktabs}
 \usepackage{array}
 \usepackage{tabularx}
+\usepackage{placeins}
 
 \newcommand{\placeholderfigure}[2]{%
 \begin{center}
@@ -200,62 +201,66 @@ Patrones & Se evidencian \textit{State} en los estados del jugador y \textit{Obs
 \end{tabularx}
 \end{table*}
 
-\subsection{Evidencias Visuales}
-Las Figuras \ref{fig:menu} a \ref{fig:puzzle-eco} muestran evidencias visuales del prototipo. \textbf{[COMPLETAR]} Para que estas figuras aparezcan al compilar, se deben guardar las capturas en la carpeta \textit{docs/figuras} con los nombres indicados en cada bloque.
+\FloatBarrier
 
-\begin{figure}[t]
+\subsection{Evidencias Visuales}
+Las Figuras \ref{fig:menu} a \ref{fig:puzzle-eco} muestran evidencias visuales del prototipo, incluyendo menús, controles, sistema de partidas, escenario inicial y puzzles.
+
+\begin{figure}[!htbp]
 \centering
 \IfFileExists{figuras/menu_principal.png}{\includegraphics[width=\linewidth]{figuras/menu_principal.png}}{\placeholderfigure{3.1cm}{Guardar captura como figuras/menu\_principal.png}}
 \caption{Menú principal de \textit{Deep Shadows}.}
 \label{fig:menu}
 \end{figure}
 
-\begin{figure}[t]
+\begin{figure}[!htbp]
 \centering
 \IfFileExists{figuras/opciones.png}{\includegraphics[width=\linewidth]{figuras/opciones.png}}{\placeholderfigure{3.1cm}{Guardar captura como figuras/opciones.png}}
 \caption{Menú de opciones con volumen, pantalla, resolución, accesibilidad y sacudida de cámara.}
 \label{fig:opciones}
 \end{figure}
 
-\begin{figure}[t]
+\begin{figure}[!htbp]
 \centering
 \IfFileExists{figuras/controles.png}{\includegraphics[width=\linewidth]{figuras/controles.png}}{\placeholderfigure{3.1cm}{Guardar captura como figuras/controles.png}}
 \caption{Manual de usuario con controles principales del juego.}
 \label{fig:controles}
 \end{figure}
 
-\begin{figure}[t]
+\begin{figure}[!htbp]
 \centering
 \IfFileExists{figuras/slots_partidas.png}{\includegraphics[width=\linewidth]{figuras/slots_partidas.png}}{\placeholderfigure{3.1cm}{Guardar captura como figuras/slots\_partidas.png}}
 \caption{Selector de partidas con opciones para crear, cargar o eliminar guardados.}
 \label{fig:slots}
 \end{figure}
 
-\begin{figure}[t]
+\begin{figure}[!htbp]
 \centering
 \IfFileExists{figuras/primer_escenario.png}{\includegraphics[width=\linewidth]{figuras/primer_escenario.png}}{\placeholderfigure{3.1cm}{Guardar captura como figuras/primer\_escenario.png}}
 \caption{Primer escenario jugable con HUD, estamina, vidas y mensajes de orientación.}
 \label{fig:escenario}
 \end{figure}
 
-\begin{figure}[t]
+\begin{figure}[!htbp]
 \centering
 \IfFileExists{figuras/puzzle_salon.png}{\includegraphics[width=\linewidth]{figuras/puzzle_salon.png}}{\placeholderfigure{3.1cm}{Guardar captura como figuras/puzzle\_salon.png}}
 \caption{Primer puzzle: quiz del salón con sumas aleatorias.}
 \label{fig:puzzle-salon}
 \end{figure}
 
-\begin{figure}[t]
+\begin{figure}[!htbp]
 \centering
 \IfFileExists{figuras/puzzle_eco.png}{\includegraphics[width=\linewidth]{figuras/puzzle_eco.png}}{\placeholderfigure{3.1cm}{Guardar captura como figuras/puzzle\_eco.png}}
 \caption{Segundo puzzle: eco del pasillo basado en memoria y secuencia.}
 \label{fig:puzzle-eco}
 \end{figure}
 
+\FloatBarrier
+
 \subsection{Prueba de Usabilidad}
 La consigna exige realizar una prueba de usabilidad con al menos cinco usuarios. Para esta evaluación se propone un protocolo breve basado en pruebas con tareas representativas, como recomienda Nielsen Norman Group para estudios cualitativos con cinco usuarios \cite{nielsen2012}. Cada participante debe jugar el prototipo y completar las tareas de la Tabla \ref{tab:tareas-usabilidad}.
 
-\begin{table}[t]
+\begin{table}[!htbp]
 \caption{Tareas propuestas para la prueba de usabilidad}
 \label{tab:tareas-usabilidad}
 \centering
@@ -275,25 +280,28 @@ T6 & Modificar una opción de accesibilidad o pantalla y volver al menú. \\
 
 Al finalizar, se debe aplicar una encuesta corta con escala de 1 a 5 para medir claridad de controles, comprensión del objetivo, dificultad, atractivo visual, utilidad de mensajes, estabilidad y percepción del tema tratado. La Tabla \ref{tab:resultados-usabilidad} queda preparada para completar con los resultados reales.
 
-\begin{table*}[t]
+\begin{table}[!htbp]
 \caption{Resultados de la prueba de usabilidad}
 \label{tab:resultados-usabilidad}
 \centering
-\begin{tabularx}{\textwidth}{>{\raggedright\arraybackslash}p{1.4cm}>{\raggedright\arraybackslash}p{2.4cm}>{\raggedright\arraybackslash}p{2.4cm}X}
+\scriptsize
+\begin{tabularx}{\linewidth}{>{\raggedright\arraybackslash}p{0.55cm}>{\raggedright\arraybackslash}p{1.15cm}>{\raggedright\arraybackslash}p{1.15cm}X}
 \toprule
-\textbf{Usuario} & \textbf{Tareas completadas} & \textbf{Dificultad percibida} & \textbf{Observaciones principales} \\
+\textbf{Usuario} & \textbf{Tareas} & \textbf{Dificultad} & \textbf{Observaciones principales} \\
 \midrule
-U1 & \textbf{[COMPLETAR]} & \textbf{[COMPLETAR]} & \textbf{[COMPLETAR]} \\
-U2 & \textbf{[COMPLETAR]} & \textbf{[COMPLETAR]} & \textbf{[COMPLETAR]} \\
-U3 & \textbf{[COMPLETAR]} & \textbf{[COMPLETAR]} & \textbf{[COMPLETAR]} \\
-U4 & \textbf{[COMPLETAR]} & \textbf{[COMPLETAR]} & \textbf{[COMPLETAR]} \\
-U5 & \textbf{[COMPLETAR]} & \textbf{[COMPLETAR]} & \textbf{[COMPLETAR]} \\
+U1 & \textbf{[ ]/6} & \textbf{[ ]/5} & \textbf{[COMPLETAR]} \\
+U2 & \textbf{[ ]/6} & \textbf{[ ]/5} & \textbf{[COMPLETAR]} \\
+U3 & \textbf{[ ]/6} & \textbf{[ ]/5} & \textbf{[COMPLETAR]} \\
+U4 & \textbf{[ ]/6} & \textbf{[ ]/5} & \textbf{[COMPLETAR]} \\
+U5 & \textbf{[ ]/6} & \textbf{[ ]/5} & \textbf{[COMPLETAR]} \\
 \bottomrule
 \end{tabularx}
-\end{table*}
+\end{table}
 
 \subsection{Análisis de Usabilidad}
 \textbf{[COMPLETAR DESPUÉS DE LA PRUEBA]} A partir de los resultados, se debe reportar cuántos usuarios completaron cada tarea, qué errores fueron más frecuentes, qué mensajes no se entendieron, qué partes generaron mayor dificultad y qué ajustes se realizaron después de observar a los participantes. También se recomienda incluir una gráfica sencilla con el promedio de calificación por criterio.
+
+\FloatBarrier
 
 \section{Conclusiones}
 \textit{Deep Shadows} permitió desarrollar una solución interactiva relacionada con el bullying mediante un videojuego 2D de plataformas. El prototipo cumplió con requisitos centrales de la consigna: creación propia, componente aleatorio, interfaz gráfica, más de cinco clases de autoría propia y uso de patrones de diseño. La mecánica de visión distorsionada y gafas permitió representar de forma simbólica la dificultad de percibir el entorno después de experiencias de acoso, mientras que los mensajes internos del protagonista reforzaron el componente narrativo.
@@ -302,6 +310,10 @@ Desde el punto de vista técnico, el uso de Godot y GDScript facilitó una arqui
 
 Como trabajo futuro, se mejorará el balance de dificultad, se ampliarán los mundos, se incluirán más eventos narrativos relacionados con apoyo emocional y se pulirá la accesibilidad del juego para que más usuarios puedan interactuar con la experiencia de manera cómoda.
 
+\FloatBarrier
+
+\begingroup
+\sloppy
 \begin{thebibliography}{00}
 
 \bibitem{calvo2021}
@@ -347,5 +359,6 @@ R. B. Grady, \textit{Practical Software Metrics for Project Management and Proce
 E. Gamma, R. Helm, R. Johnson, and J. Vlissides, \textit{Design Patterns: Elements of Reusable Object-Oriented Software}. Reading, MA, USA: Addison-Wesley, 1994.
 
 \end{thebibliography}
+\endgroup
 
 \end{document}
