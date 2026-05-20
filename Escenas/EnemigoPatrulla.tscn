@@ -1,0 +1,37 @@
+[gd_scene load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://Scripts/enemigo_patrulla.gd" id="1_enemigo"]
+[ext_resource type="Script" path="res://Scripts/sprite_animado_frames.gd" id="2_anim"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_cuerpo"]
+size = Vector2(16, 28)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ataque"]
+size = Vector2(22, 30)
+
+[node name="EnemigoPatrulla" type="CharacterBody2D"]
+script = ExtResource("1_enemigo")
+collision_mask = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_cuerpo")
+
+[node name="Visual" type="Node2D" parent="."]
+position = Vector2(0, 8)
+scale = Vector2(1.45, 1.45)
+script = ExtResource("2_anim")
+rutas_frames = PackedStringArray("res://Imagenes/Enemigos/esqueleto/esqueleto_00.png", "res://Imagenes/Enemigos/esqueleto/esqueleto_01.png", "res://Imagenes/Enemigos/esqueleto/esqueleto_02.png", "res://Imagenes/Enemigos/esqueleto/esqueleto_03.png")
+fps = 6.0
+
+[node name="Sprite2D" type="Sprite2D" parent="Visual"]
+texture_filter = 1
+
+[node name="AreaAtaque" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AreaAtaque"]
+shape = SubResource("RectangleShape2D_ataque")
+
+[node name="TemporizadorAtaque" type="Timer" parent="."]
+one_shot = true

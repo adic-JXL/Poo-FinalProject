@@ -1,0 +1,84 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://Scripts/farol_decorativo.gd" id="1_farol"]
+
+[node name="FarolDecorativo" type="Node2D"]
+script = ExtResource("1_farol")
+
+[node name="SoporteMuro" type="Polygon2D" parent="."]
+color = Color(0.24, 0.28, 0.28, 1)
+polygon = PackedVector2Array(-5, -31, 3, -31, 3, -23, -5, -23)
+
+[node name="Brazo" type="Polygon2D" parent="."]
+color = Color(0.31, 0.35, 0.34, 1)
+polygon = PackedVector2Array(0, -29, 14, -29, 14, -25, 0, -25)
+
+[node name="MangoAntorcha" type="Polygon2D" parent="."]
+color = Color(0.46, 0.31, 0.17, 1)
+polygon = PackedVector2Array(10, -25, 16, -25, 16, -6, 10, -6)
+
+[node name="Lampara" type="Node2D" parent="."]
+position = Vector2(13, -8)
+
+[node name="SombraEntorno" type="Sprite2D" parent="Lampara"]
+z_index = -5
+position = Vector2(0, -12)
+texture_filter = 1
+scale = Vector2(1.42, 1.42)
+modulate = Color(0.02, 0.03, 0.05, 0.18)
+
+[node name="AuraExterior" type="Sprite2D" parent="Lampara"]
+z_index = -4
+texture_filter = 1
+scale = Vector2(0.72, 0.72)
+modulate = Color(1, 0.76, 0.32, 0.26)
+
+[node name="PointLight2D" type="PointLight2D" parent="Lampara"]
+position = Vector2(0, -16)
+color = Color(1, 0.78, 0.42, 1)
+energy = 0.88
+texture_scale = 1.28
+
+[node name="AuraInterior" type="Sprite2D" parent="Lampara"]
+z_index = -3
+texture_filter = 1
+position = Vector2(0, -14)
+scale = Vector2(0.42, 0.42)
+modulate = Color(1, 0.94, 0.64, 0.34)
+
+[node name="CabezaMetal" type="Polygon2D" parent="Lampara"]
+color = Color(0.22, 0.26, 0.25, 1)
+polygon = PackedVector2Array(-5, -14, 5, -14, 4, -10, -4, -10)
+
+[node name="Brasa" type="Polygon2D" parent="Lampara"]
+position = Vector2(0, -12)
+color = Color(0.95, 0.44, 0.14, 0.9)
+polygon = PackedVector2Array(-4, 0, 4, 0, 3, 5, -3, 5)
+
+[node name="LlamaExterior" type="Polygon2D" parent="Lampara"]
+position = Vector2(0, -18)
+color = Color(1, 0.64, 0.22, 0.95)
+polygon = PackedVector2Array(0, -9, 5, -1, 4, 7, 0, 10, -4, 7, -5, -1)
+
+[node name="LlamaInterior" type="Polygon2D" parent="Lampara"]
+position = Vector2(0, -18)
+color = Color(1, 0.95, 0.7, 0.98)
+polygon = PackedVector2Array(0, -6, 3, -1, 2, 5, 0, 7, -2, 5, -3, -1)
+
+[node name="Chispa" type="Polygon2D" parent="Lampara"]
+position = Vector2(0, -24)
+color = Color(1, 0.98, 0.82, 0.86)
+polygon = PackedVector2Array(0, -2, 2, 0, 0, 3, -2, 0)
+
+[node name="Chispas" type="CPUParticles2D" parent="Lampara"]
+position = Vector2(0, -18)
+z_index = -1
+emitting = false
+
+[node name="Humo" type="CPUParticles2D" parent="Lampara"]
+position = Vector2(0, -21)
+z_index = -2
+emitting = false
+
+[node name="AudioCrepitar" type="AudioStreamPlayer2D" parent="Lampara"]
+position = Vector2(0, -16)

@@ -51,27 +51,21 @@ color = Color(0.20784314, 0.6392157, 0.5803922, 0.07450981)
 
 [node name="CenterContainer" type="CenterContainer" parent="Control" unique_id=553521146]
 layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -550.0
-offset_top = -350.0
-offset_right = 550.0
-offset_bottom = 350.0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
 [node name="TextureRect" type="TextureRect" parent="Control/CenterContainer" unique_id=1656043906]
-custom_minimum_size = Vector2(1144.225, 700)
+custom_minimum_size = Vector2(920, 560)
 layout_mode = 2
 texture = ExtResource("2_62exa")
 expand_mode = 1
 
 [node name="PanelContainer" type="PanelContainer" parent="Control/CenterContainer" unique_id=1893666239]
-clip_contents = true
-custom_minimum_size = Vector2(0, 350)
+clip_contents = false
+custom_minimum_size = Vector2(700, 280)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_kq6o1")
 
@@ -81,7 +75,7 @@ theme_override_constants/separation = 30
 
 [node name="Volumen" type="HBoxContainer" parent="Control/CenterContainer/PanelContainer/Secciones" unique_id=83648160]
 layout_mode = 2
-theme_override_constants/separation = 546
+theme_override_constants/separation = 22
 
 [node name="Label" type="Label" parent="Control/CenterContainer/PanelContainer/Secciones/Volumen" unique_id=2039945084]
 layout_mode = 2
@@ -97,7 +91,7 @@ max_value = 10.0
 
 [node name="ProbarSonido" type="HBoxContainer" parent="Control/CenterContainer/PanelContainer/Secciones" unique_id=1534959382]
 layout_mode = 2
-theme_override_constants/separation = 467
+theme_override_constants/separation = 22
 
 [node name="Label" type="Label" parent="Control/CenterContainer/PanelContainer/Secciones/ProbarSonido" unique_id=1738415090]
 layout_mode = 2
@@ -115,7 +109,7 @@ theme_override_styles/hover = SubResource("StyleBoxTexture_xrsg2")
 
 [node name="Dificultad" type="HBoxContainer" parent="Control/CenterContainer/PanelContainer/Secciones" unique_id=215035003]
 layout_mode = 2
-theme_override_constants/separation = 516
+theme_override_constants/separation = 22
 
 [node name="Label" type="Label" parent="Control/CenterContainer/PanelContainer/Secciones/Dificultad" unique_id=743328190]
 layout_mode = 2
@@ -124,7 +118,7 @@ text = "Dificultad"
 
 [node name="Resolucion" type="HBoxContainer" parent="Control/CenterContainer/PanelContainer/Secciones" unique_id=88965520]
 layout_mode = 2
-theme_override_constants/separation = 593
+theme_override_constants/separation = 22
 
 [node name="Label" type="Label" parent="Control/CenterContainer/PanelContainer/Secciones/Resolucion" unique_id=326322994]
 layout_mode = 2

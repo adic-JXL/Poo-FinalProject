@@ -1,0 +1,502 @@
+[gd_scene format=3 uid="uid://ca87ph4p56hfk"]
+
+[ext_resource type="Texture2D" uid="uid://c43trjfm8288w" path="res://Imagenes/ImagenInicio.png" id="1_3hk4y"]
+[ext_resource type="FontFile" uid="uid://b2xtlft3jq2bi" path="res://Fuentes/joystix monospace.otf" id="2_vm4t0"]
+[ext_resource type="Texture2D" uid="uid://udnqdoiywkbx" path="res://Imagenes/PersoDer.png" id="3_yv3x2"]
+[ext_resource type="Script" uid="uid://c52icbwcbgw25" path="res://Scripts/perso_der.gd" id="4_51et0"]
+[ext_resource type="Texture2D" uid="uid://cl7w420jlj6ka" path="res://Imagenes/PersoIZQ.png" id="4_nyh0w"]
+[ext_resource type="Texture2D" uid="uid://bu7s13orhwmr7" path="res://Imagenes/Personaje/walk_00.png" id="4_vf0ka"]
+[ext_resource type="Texture2D" uid="uid://cqy28rh3qg85" path="res://Imagenes/Personaje/walk_01.png" id="5_0mjay"]
+[ext_resource type="Texture2D" uid="uid://bs73cuutwmos8" path="res://Imagenes/A.png" id="5_xasxs"]
+[ext_resource type="Texture2D" uid="uid://dem1f0pw0hbek" path="res://Imagenes/D.png" id="6_fx0lq"]
+[ext_resource type="Texture2D" uid="uid://bkwidknc2sw2c" path="res://Imagenes/Personaje/walk_03.png" id="6_kqs1a"]
+[ext_resource type="Texture2D" uid="uid://bqld2r26x211q" path="res://Imagenes/Objetos/gafas_01.png" id="7_d2di6"]
+[ext_resource type="Texture2D" uid="uid://cxlks0rk7naab" path="res://Imagenes/Personaje/walk_02.png" id="7_kapaj"]
+[ext_resource type="Texture2D" uid="uid://vrh2ua7klrfk" path="res://Imagenes/Personaje/jump_00.png" id="9_gsfki"]
+[ext_resource type="Texture2D" uid="uid://j8ckioc4kpjk" path="res://Imagenes/Space.png" id="10_0mjay"]
+[ext_resource type="Texture2D" uid="uid://qrri6r8sp5rc" path="res://Imagenes/Personaje/run_00.png" id="10_3qbfw"]
+[ext_resource type="Texture2D" uid="uid://4ec2c5t0ve8e" path="res://Imagenes/Personaje/jump_01.png" id="10_51et0"]
+[ext_resource type="Script" uid="uid://bko7uqp671d3w" path="res://Scripts/perso_izq.gd" id="10_a4axs"]
+[ext_resource type="Texture2D" uid="uid://c2ydl1dvwdbdc" path="res://Imagenes/Personaje/jump_02.png" id="11_3qbfw"]
+[ext_resource type="Texture2D" uid="uid://cr6488eu7den2" path="res://Imagenes/Personaje/run_01.png" id="11_a4axs"]
+[ext_resource type="Texture2D" uid="uid://pg8344xykhh6" path="res://Imagenes/Objetos/puerta_cerrada_final.png" id="11_ir8ks"]
+[ext_resource type="Texture2D" uid="uid://b7g4re2teto2o" path="res://Imagenes/Personaje/jump_03.png" id="12_a4axs"]
+[ext_resource type="Texture2D" uid="uid://dq3oa7jymqqlv" path="res://Imagenes/Personaje/run_02.png" id="12_c760y"]
+[ext_resource type="Texture2D" uid="uid://d23gnyqv1sgxm" path="res://Imagenes/Objetos/puerta_abierta_final.png" id="12_jbaqo"]
+[ext_resource type="Texture2D" uid="uid://umpi1wb5t44c" path="res://Imagenes/Personaje/run_03.png" id="13_2ns4x"]
+[ext_resource type="Script" uid="uid://u6m3teerqr31" path="res://Scripts/correr.gd" id="22_c760y"]
+[ext_resource type="Script" uid="uid://sg4a0lc2ab5i" path="res://Scripts/salto.gd" id="23_2ns4x"]
+[ext_resource type="Texture2D" uid="uid://dk0afvqqaddx3" path="res://Imagenes/Shift.png" id="25_g0loc"]
+[ext_resource type="Texture2D" uid="uid://j7t3gnw3fdcn" path="res://Imagenes/Q.png" id="26_mf25v"]
+[ext_resource type="Texture2D" uid="uid://bhnj48nbpte7" path="res://Imagenes/Personaje/player_idle.png" id="29_a1le6"]
+[ext_resource type="Texture2D" uid="uid://cisb0iulwy71j" path="res://Imagenes/Button.jpeg" id="29_f6v7h"]
+[ext_resource type="Texture2D" uid="uid://b661sn05gm3s0" path="res://Imagenes/E.png" id="29_jbaqo"]
+[ext_resource type="Script" uid="uid://cpjojgsw8r57u" path="res://Scripts/perso.gd" id="30_f5e4j"]
+[ext_resource type="Texture2D" uid="uid://0xkvnv2du2u6" path="res://Imagenes/Presionado.jpeg" id="30_xjwgx"]
+[ext_resource type="Texture2D" uid="uid://kc1ihmwnluuh" path="res://Imagenes/MouseButton.jpeg" id="31_l61lw"]
+
+[sub_resource type="GDScript" id="GDScript_3qbfw"]
+script/source = "extends Control
+@onready var button: Button = $ColorRect/Button
+
+
+# Called when the node enters the scene tree for the first time.
+func _ready() -> void:
+	button.grab_focus()
+
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(delta: float) -> void:
+	pass
+
+
+func _on_button_pressed() -> void:
+	get_tree().change_scene_to_file(\"res://Escenas/Menu.tscn\")
+"
+
+[sub_resource type="Animation" id="Animation_f6v7h"]
+resource_name = "Abrir puerta"
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [ExtResource("11_ir8ks"), ExtResource("12_jbaqo")]
+}
+
+[sub_resource type="Animation" id="Animation_g0loc"]
+resource_name = "Correr"
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.25, 0.5, 0.75),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [ExtResource("10_3qbfw"), ExtResource("11_a4axs"), ExtResource("12_c760y"), ExtResource("13_2ns4x")]
+}
+
+[sub_resource type="Animation" id="Animation_mf25v"]
+resource_name = "Movimiento_der"
+length = 0.8
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.4, 0.6),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [ExtResource("4_vf0ka"), ExtResource("5_0mjay"), ExtResource("7_kapaj"), ExtResource("6_kqs1a")]
+}
+
+[sub_resource type="Animation" id="Animation_7lqp0"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("4_nyh0w")]
+}
+
+[sub_resource type="Animation" id="Animation_d7jkr"]
+resource_name = "Salto"
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.25, 0.5, 0.75),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [ExtResource("9_gsfki"), ExtResource("10_51et0"), ExtResource("11_3qbfw"), ExtResource("12_a4axs")]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_ir8ks"]
+_data = {
+&"Abrir puerta": SubResource("Animation_f6v7h"),
+&"Correr": SubResource("Animation_g0loc"),
+&"Movimiento_der": SubResource("Animation_mf25v"),
+&"RESET": SubResource("Animation_7lqp0"),
+&"Salto": SubResource("Animation_d7jkr")
+}
+
+[sub_resource type="Animation" id="Animation_c760y"]
+resource_name = "Movimiento"
+length = 0.8
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.4, 0.6),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [ExtResource("4_vf0ka"), ExtResource("5_0mjay"), ExtResource("6_kqs1a"), ExtResource("7_kapaj")]
+}
+
+[sub_resource type="Animation" id="Animation_2ns4x"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("3_yv3x2")]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_g0loc"]
+_data = {
+&"Movimiento": SubResource("Animation_c760y"),
+&"RESET": SubResource("Animation_2ns4x")
+}
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_qpgde"]
+texture = ExtResource("29_f6v7h")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_srwb5"]
+texture = ExtResource("30_xjwgx")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_qq65t"]
+texture = ExtResource("31_l61lw")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_s01qb"]
+texture = ExtResource("31_l61lw")
+
+[node name="Control" type="Control" unique_id=745921602]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = SubResource("GDScript_3qbfw")
+
+[node name="ColorRect" type="TextureRect" parent="." unique_id=1718460454]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.001
+anchor_top = 0.003
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -0.15200007
+offset_top = 0.055999994
+offset_right = -1.0
+offset_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_3hk4y")
+expand_mode = 1
+
+[node name="Label" type="Label" parent="ColorRect" unique_id=1441196392]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 338.0
+offset_top = 190.0
+offset_right = -347.0
+offset_bottom = -417.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0.026666718, 0, 0.32, 1)
+theme_override_colors/font_shadow_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(1, 0, 0, 1)
+theme_override_fonts/font = ExtResource("2_vm4t0")
+theme_override_font_sizes/font_size = 33
+text = "Manual de usuario"
+horizontal_alignment = 1
+
+[node name="A" type="TextureRect" parent="ColorRect" unique_id=1258498373]
+texture_filter = 2
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.44000003
+anchor_right = 0.5
+anchor_bottom = 0.44000003
+offset_left = -252.0
+offset_top = -14.680023
+offset_right = -222.0
+offset_bottom = 15.319977
+texture = ExtResource("5_xasxs")
+expand_mode = 1
+
+[node name="PersoIZQ" type="TextureRect" parent="ColorRect/A" unique_id=1885237309]
+texture_filter = 1
+layout_mode = 0
+offset_left = 74.0
+offset_top = 49.0
+offset_right = 186.96579
+offset_bottom = 165.62766
+scale = Vector2(-1, 1)
+texture = ExtResource("4_nyh0w")
+script = ExtResource("10_a4axs")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="ColorRect/A/PersoIZQ" unique_id=1958513560]
+libraries/ = SubResource("AnimationLibrary_ir8ks")
+
+[node name="der" type="Label" parent="ColorRect/A" unique_id=1861458316]
+layout_mode = 0
+offset_left = -29.0
+offset_top = 148.0
+offset_right = 64.0
+offset_bottom = 171.0
+theme_override_fonts/font = ExtResource("2_vm4t0")
+text = "Mov Izq"
+
+[node name="D" type="TextureRect" parent="ColorRect" unique_id=1598563098]
+texture_filter = 2
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.44000003
+anchor_right = 0.5
+anchor_bottom = 0.44000003
+offset_left = -395.0
+offset_top = -14.680023
+offset_right = -365.0
+offset_bottom = 15.319977
+texture = ExtResource("6_fx0lq")
+expand_mode = 1
+
+[node name="Izq" type="Label" parent="ColorRect/D" unique_id=1792597005]
+layout_mode = 0
+offset_left = -29.0
+offset_top = 148.0
+offset_right = 64.0
+offset_bottom = 171.0
+theme_override_fonts/font = ExtResource("2_vm4t0")
+text = "Mov Der"
+
+[node name="PersoDer" type="TextureRect" parent="ColorRect/D" unique_id=953641778]
+texture_filter = 1
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 0.244
+offset_left = -37.0
+offset_top = 49.0
+offset_right = 69.00001
+offset_bottom = 169.0
+texture = ExtResource("3_yv3x2")
+script = ExtResource("4_51et0")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="ColorRect/D/PersoDer" unique_id=1912462341]
+libraries/ = SubResource("AnimationLibrary_g0loc")
+
+[node name="Space" type="TextureRect" parent="ColorRect" unique_id=332340059]
+texture_filter = 2
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.44200003
+anchor_right = 0.5
+anchor_bottom = 0.44200003
+offset_left = -140.0
+offset_top = -14.97403
+offset_right = -51.0
+offset_bottom = 15.02597
+texture = ExtResource("10_0mjay")
+expand_mode = 1
+
+[node name="Salto Label" type="Label" parent="ColorRect/Space" unique_id=1237357970]
+layout_mode = 0
+offset_left = 15.0
+offset_top = 147.0
+offset_right = 81.0
+offset_bottom = 170.0
+theme_override_fonts/font = ExtResource("2_vm4t0")
+text = "Salto"
+horizontal_alignment = 1
+
+[node name="Salto" type="TextureRect" parent="ColorRect/Space" unique_id=1500562201]
+texture_filter = 1
+layout_mode = 0
+offset_left = -7.0
+offset_top = 25.0
+offset_right = 98.0
+offset_bottom = 144.0
+texture = ExtResource("4_nyh0w")
+expand_mode = 1
+script = ExtResource("23_2ns4x")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="ColorRect/Space/Salto" unique_id=291601307]
+libraries/ = SubResource("AnimationLibrary_ir8ks")
+
+[node name="Shift" type="TextureRect" parent="ColorRect" unique_id=734247748]
+texture_filter = 2
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.51600003
+anchor_top = 0.46400002
+anchor_right = 0.51600003
+anchor_bottom = 0.46400002
+offset_left = -0.4000244
+offset_top = -29.208008
+offset_right = 66.599976
+offset_bottom = -0.20800781
+texture = ExtResource("25_g0loc")
+expand_mode = 1
+
+[node name="Correr" type="TextureRect" parent="ColorRect/Shift" unique_id=1423731531]
+texture_filter = 1
+layout_mode = 0
+offset_left = -19.0
+offset_top = 48.0
+offset_right = 86.0
+offset_bottom = 165.0
+texture = ExtResource("4_nyh0w")
+expand_mode = 1
+script = ExtResource("22_c760y")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="ColorRect/Shift/Correr" unique_id=683268129]
+libraries/ = SubResource("AnimationLibrary_ir8ks")
+
+[node name="Sprint Label" type="Label" parent="ColorRect/Shift" unique_id=1047290400]
+layout_mode = 0
+offset_left = -7.0
+offset_top = 147.0
+offset_right = 73.0
+offset_bottom = 170.0
+theme_override_fonts/font = ExtResource("2_vm4t0")
+text = "Sprint"
+horizontal_alignment = 1
+
+[node name="Q" type="TextureRect" parent="ColorRect" unique_id=149531828]
+texture_filter = 2
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.44000003
+anchor_right = 0.5
+anchor_bottom = 0.44000003
+offset_left = 165.0
+offset_top = -14.680023
+offset_right = 199.0
+offset_bottom = 15.319977
+texture = ExtResource("26_mf25v")
+expand_mode = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="Habilidad" type="Label" parent="ColorRect/Q" unique_id=1404482753]
+layout_mode = 0
+offset_left = -38.0
+offset_top = 148.0
+offset_right = 82.0
+offset_bottom = 171.0
+theme_override_fonts/font = ExtResource("2_vm4t0")
+text = "Habilidad"
+horizontal_alignment = 1
+
+[node name="Gafas" type="TextureRect" parent="ColorRect/Q" unique_id=1989337728]
+texture_filter = 1
+layout_mode = 0
+offset_left = -33.0
+offset_top = 48.0
+offset_right = 63.0
+offset_bottom = 147.0
+texture = ExtResource("7_d2di6")
+expand_mode = 1
+
+[node name="Button" type="Button" parent="ColorRect" unique_id=1799949935]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.507
+anchor_top = 0.5
+anchor_right = 0.507
+anchor_bottom = 0.5
+offset_left = -123.05005
+offset_top = 140.5
+offset_right = 88.94995
+offset_bottom = 195.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("2_vm4t0")
+theme_override_font_sizes/font_size = 27
+theme_override_styles/normal = SubResource("StyleBoxTexture_qpgde")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_srwb5")
+theme_override_styles/hover = SubResource("StyleBoxTexture_qq65t")
+theme_override_styles/focus = SubResource("StyleBoxTexture_s01qb")
+text = "Regresar"
+
+[node name="E" type="TextureRect" parent="." unique_id=1782595096]
+texture_filter = 2
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.44300002
+anchor_right = 0.5
+anchor_bottom = 0.44300002
+offset_left = 333.0
+offset_top = -15.064026
+offset_right = 363.0
+offset_bottom = 14.935974
+texture = ExtResource("29_jbaqo")
+expand_mode = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="Perso" type="TextureRect" parent="E" unique_id=1906996053]
+texture_filter = 1
+layout_mode = 0
+offset_left = -71.0
+offset_top = 50.0
+offset_right = 30.0
+offset_bottom = 163.0
+texture = ExtResource("29_a1le6")
+expand_mode = 1
+script = ExtResource("30_f5e4j")
+
+[node name="Puerta" type="TextureRect" parent="E/Perso" unique_id=310241153]
+texture_filter = 1
+layout_mode = 0
+offset_left = 36.0
+offset_top = -31.0
+offset_right = 181.0
+offset_bottom = 114.0
+texture = ExtResource("4_nyh0w")
+expand_mode = 1
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="E/Perso/Puerta" unique_id=756910681]
+libraries/ = SubResource("AnimationLibrary_ir8ks")
+
+[node name="Interactuar" type="Label" parent="E" unique_id=1484360908]
+layout_mode = 0
+offset_left = -61.0
+offset_top = 148.0
+offset_right = 85.0
+offset_bottom = 171.0
+theme_override_fonts/font = ExtResource("2_vm4t0")
+text = "Interactuar"
+horizontal_alignment = 1
+
+[connection signal="pressed" from="ColorRect/Button" to="." method="_on_button_pressed"]

@@ -1,0 +1,96 @@
+Godot Engine v4.6.1.stable.official.14d19694e - https://godotengine.org
+
+ERROR: Failed to read the root certificate store.
+   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2570)
+ERROR: La puerta final del mundo 2 aparece antes de derrotar al jefe.
+   at: push_error (core/variant/variant_utility.cpp:1024)
+   GDScript backtrace (most recent call first):
+       [0] _ejecutar_verificacion (res://Debug/verificar_movimiento.gd:624)
+ERROR: La puerta 3 aparece antes de completar el puzzle previo al jefe.
+   at: push_error (core/variant/variant_utility.cpp:1024)
+   GDScript backtrace (most recent call first):
+       [0] _ejecutar_verificacion (res://Debug/verificar_movimiento.gd:624)
+ERROR: El enemigo no dano al jugador al entrar en contacto.
+   at: push_error (core/variant/variant_utility.cpp:1024)
+   GDScript backtrace (most recent call first):
+       [0] _ejecutar_verificacion (res://Debug/verificar_movimiento.gd:624)
+ERROR: El jugador no entra en invulnerabilidad despues de recibir dano.
+   at: push_error (core/variant/variant_utility.cpp:1024)
+   GDScript backtrace (most recent call first):
+       [0] _ejecutar_verificacion (res://Debug/verificar_movimiento.gd:624)
+ERROR: El jugador no entra al estado aturdido despues del golpe.
+   at: push_error (core/variant/variant_utility.cpp:1024)
+   GDScript backtrace (most recent call first):
+       [0] _ejecutar_verificacion (res://Debug/verificar_movimiento.gd:624)
+ERROR: El golpe no reduce temporalmente la velocidad global del juego.
+   at: push_error (core/variant/variant_utility.cpp:1024)
+   GDScript backtrace (most recent call first):
+       [0] _ejecutar_verificacion (res://Debug/verificar_movimiento.gd:624)
+ERROR: La invulnerabilidad no bloquea un segundo golpe inmediato.
+   at: push_error (core/variant/variant_utility.cpp:1024)
+   GDScript backtrace (most recent call first):
+       [0] _ejecutar_verificacion (res://Debug/verificar_movimiento.gd:624)
+ERROR: La vida del jugador cambio durante la invulnerabilidad.
+   at: push_error (core/variant/variant_utility.cpp:1024)
+   GDScript backtrace (most recent call first):
+       [0] _ejecutar_verificacion (res://Debug/verificar_movimiento.gd:624)
+ERROR: La llave no activa el puzzle al interactuar.
+   at: push_error (core/variant/variant_utility.cpp:1024)
+   GDScript backtrace (most recent call first):
+       [0] _ejecutar_verificacion (res://Debug/verificar_movimiento.gd:624)
+ERROR: Los enemigos no se congelan cuando el puzzle esta activo.
+   at: push_error (core/variant/variant_utility.cpp:1024)
+   GDScript backtrace (most recent call first):
+       [0] _ejecutar_verificacion (res://Debug/verificar_movimiento.gd:624)
+ERROR: El jugador no se congela mientras el puzzle esta activo.
+   at: push_error (core/variant/variant_utility.cpp:1024)
+   GDScript backtrace (most recent call first):
+       [0] _ejecutar_verificacion (res://Debug/verificar_movimiento.gd:624)
+ERROR: El jugador no cambia al estado bloqueado cuando se abre el puzzle.
+   at: push_error (core/variant/variant_utility.cpp:1024)
+   GDScript backtrace (most recent call first):
+       [0] _ejecutar_verificacion (res://Debug/verificar_movimiento.gd:624)
+ERROR: El checkpoint posterior se activa sin pasar por encima del punto.
+   at: push_error (core/variant/variant_utility.cpp:1024)
+   GDScript backtrace (most recent call first):
+       [0] _ejecutar_verificacion (res://Debug/verificar_movimiento.gd:624)
+ERROR: Caer antes del checkpoint posterior no devuelve al jugador al inicio esperado.
+   at: push_error (core/variant/variant_utility.cpp:1024)
+   GDScript backtrace (most recent call first):
+       [0] _ejecutar_verificacion (res://Debug/verificar_movimiento.gd:624)
+ERROR: La camara no vuelve al tramo inicial al reiniciar antes del primer checkpoint.
+   at: push_error (core/variant/variant_utility.cpp:1024)
+   GDScript backtrace (most recent call first):
+       [0] _ejecutar_verificacion (res://Debug/verificar_movimiento.gd:624)
+ERROR: El altar de gafas no abre su puzzle cuando las gafas estan activas.
+   at: push_error (core/variant/variant_utility.cpp:1024)
+   GDScript backtrace (most recent call first):
+       [0] _ejecutar_verificacion (res://Debug/verificar_movimiento.gd:624)
+ERROR: Pasar por encima del checkpoint final no actualiza el respawn.
+   at: push_error (core/variant/variant_utility.cpp:1024)
+   GDScript backtrace (most recent call first):
+       [0] _ejecutar_verificacion (res://Debug/verificar_movimiento.gd:624)
+ERROR: El primer totem no activa el primer sello del jefe.
+   at: push_error (core/variant/variant_utility.cpp:1024)
+   GDScript backtrace (most recent call first):
+       [0] _ejecutar_verificacion (res://Debug/verificar_movimiento.gd:624)
+ERROR: El jefe no pasa a fase 2 tras el primer sello.
+   at: push_error (core/variant/variant_utility.cpp:1024)
+   GDScript backtrace (most recent call first):
+       [0] _ejecutar_verificacion (res://Debug/verificar_movimiento.gd:624)
+ERROR: El jefe no queda aturdido brevemente al activar un sello.
+   at: push_error (core/variant/variant_utility.cpp:1024)
+   GDScript backtrace (most recent call first):
+       [0] _ejecutar_verificacion (res://Debug/verificar_movimiento.gd:624)
+ERROR: El segundo totem no activa el segundo sello del jefe.
+   at: push_error (core/variant/variant_utility.cpp:1024)
+   GDScript backtrace (most recent call first):
+       [0] _ejecutar_verificacion (res://Debug/verificar_movimiento.gd:624)
+ERROR: El jefe no pasa a fase 3 tras el segundo sello.
+   at: push_error (core/variant/variant_utility.cpp:1024)
+   GDScript backtrace (most recent call first):
+       [0] _ejecutar_verificacion (res://Debug/verificar_movimiento.gd:624)
+ERROR: Activar los tres totems no derrota al jefe de sombras.
+   at: push_error (core/variant/variant_utility.cpp:1024)
+   GDScript backtrace (most recent call first):
+       [0] _ejecutar_verificacion (res://Debug/verificar_movimiento.gd:624)
