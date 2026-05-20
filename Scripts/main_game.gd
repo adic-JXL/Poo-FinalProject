@@ -3,6 +3,8 @@ class_name MainGame
 
 const SistemaGuardadoClass = preload("res://Scripts/sistema_guardado.gd")
 const CUTSCENE_BASE_SCRIPT := preload("res://Scripts/cutscene_base.gd")
+const PUZZLE_MATEMATICAS_BASE_SCENE := preload("res://Escenas/PuzzleSecuencia.tscn")
+const PUZZLE_MATEMATICAS_SCRIPT := preload("res://Scripts/puzzle_matematicas.gd")
 const MENU_SCENE := "res://Escenas/Menu.tscn"
 const SCENE_PATH := "res://Escenas/MainGame.tscn"
 const MENSAJE_PUERTA_CERRADA := "La puerta sigue cerrada. Resuelve el puzzle de la llave."
@@ -170,6 +172,7 @@ var _teletransporte_salon_npc_2_realizado: bool = false
 var _puzzle_salon_npc_2_resuelto: bool = false
 var _npcs_post_puzzle_dialogados := {}
 var _pensamiento_patio_mostrado: bool = false
+var puzzle_matematicas: PuzzleBase = null
 
 
 func _ready() -> void:
@@ -189,6 +192,7 @@ func _ready() -> void:
 	_configurar_intro_video()
 	_configurar_npcs()
 	_preparar_canvas_runtime()
+	_crear_puzzle_matematicas()
 	_configurar_interactivo(llave, _on_llave_interaccion_solicitada)
 	_configurar_interactivo(puzzle_salon_npc_2, _on_puzzle_salon_npc_2_interaccion_solicitada)
 	_configurar_interactivo(altar_gafas, _on_altar_gafas_interaccion_solicitada)
@@ -586,10 +590,16 @@ func _configurar_totems_jefe() -> void:
 func _configurar_puzzles() -> void:
 	puzzle.show()
 	puzzle.cerrar()
+	if puzzle_matematicas != null:
+		puzzle_matematicas.show()
+		puzzle_matematicas.cerrar()
 	puzzle_gafas.show()
 	puzzle_gafas.cerrar()
 	puzzle.completado.connect(_on_puzzle_completado)
 	puzzle.cancelado.connect(_on_puzzle_cancelado)
+	if puzzle_matematicas != null:
+		puzzle_matematicas.completado.connect(_on_puzzle_matematicas_completado)
+		puzzle_matematicas.cancelado.connect(_on_puzzle_matematicas_cancelado)
 	puzzle_gafas.completado.connect(_on_puzzle_gafas_completado)
 	puzzle_gafas.cancelado.connect(_on_puzzle_gafas_cancelado)
 
@@ -614,15 +624,12 @@ func _on_puzzle_salon_npc_2_interaccion_solicitada() -> void:
 	_tipo_puzzle_activo = &"salon_npc_2"
 	jugador.establecer_control_habilitado(false)
 	_establecer_enemigos_congelados(true)
-	hud.mostrar_mensaje("El cubo del salon responde. Resuelve la secuencia para volver.")
-	puzzle.iniciar_puzzle()
+	hud.mostrar_mensaje("El cubo del salon responde. Resuelve las sumas para volver.")
+	if puzzle_matematicas != null:
+		puzzle_matematicas.iniciar_puzzle()
 
 
 func _on_puzzle_completado() -> void:
-	if _tipo_puzzle_activo == &"salon_npc_2":
-		_on_puzzle_salon_npc_2_completado()
-		return
-
 	_llave_obtenida = true
 	hud.actualizar_llave(_llave_obtenida)
 	llave.otorgar_llave()
@@ -631,11 +638,15 @@ func _on_puzzle_completado() -> void:
 
 
 func _on_puzzle_cancelado() -> void:
-	if _tipo_puzzle_activo == &"salon_npc_2":
-		_cerrar_puzzle("El cubo espera en silencio. Puedes reintentarlo cuando quieras.")
-		return
-
 	_cerrar_puzzle("Saliste del puzzle. Puedes volver a intentarlo cuando quieras.")
+
+
+func _on_puzzle_matematicas_completado() -> void:
+	_on_puzzle_salon_npc_2_completado()
+
+
+func _on_puzzle_matematicas_cancelado() -> void:
+	_cerrar_puzzle("El cubo espera en silencio. Puedes reintentarlo cuando quieras.")
 
 
 func _on_puzzle_salon_npc_2_completado() -> void:
@@ -645,7 +656,7 @@ func _on_puzzle_salon_npc_2_completado() -> void:
 
 	_desaparecer_npc_2()
 	_establecer_npcs_post_puzzle_disponibles(true)
-	_cerrar_puzzle("La secuencia se resolvio. Volviendo al pasillo.")
+	_cerrar_puzzle("Las sumas se resolvieron. Volviendo al pasillo.")
 	call_deferred("_teletransportar_jugador_desde_salon_npc_2")
 
 
@@ -701,17 +712,18 @@ func _on_puzzle_gafas_cancelado() -> void:
 
 
 func _cerrar_puzzle(mensaje: String) -> void:
+	_cerrar_overlay_puzzle_activo()
 	_puzzle_activo = false
 	_tipo_puzzle_activo = &""
 	if not _pausa_activa:
 		jugador.establecer_control_habilitado(true)
 	_establecer_enemigos_congelados(_pausa_activa)
-	_cerrar_overlay_puzzle_activo()
 	hud.mostrar_mensaje(mensaje)
 
 
 func _cerrar_puzzle_si_esta_abierto() -> void:
-	if not _puzzle_activo and not puzzle.esta_visible() and not puzzle_gafas.esta_visible():
+	var puzzle_matematicas_visible := puzzle_matematicas != null and puzzle_matematicas.esta_visible()
+	if not _puzzle_activo and not puzzle.esta_visible() and not puzzle_matematicas_visible and not puzzle_gafas.esta_visible():
 		return
 
 	_puzzle_activo = false
@@ -721,6 +733,8 @@ func _cerrar_puzzle_si_esta_abierto() -> void:
 	_establecer_enemigos_congelados(_pausa_activa)
 	if puzzle.esta_visible():
 		puzzle.cerrar()
+	if puzzle_matematicas_visible:
+		puzzle_matematicas.cerrar()
 	if puzzle_gafas.esta_visible():
 		puzzle_gafas.cerrar()
 
@@ -1499,11 +1513,16 @@ func _cerrar_overlay_puzzle_activo() -> void:
 	match _tipo_puzzle_activo:
 		&"llave":
 			puzzle.cerrar()
+		&"salon_npc_2":
+			if puzzle_matematicas != null:
+				puzzle_matematicas.cerrar()
 		&"gafas":
 			puzzle_gafas.cerrar()
 		_:
 			if puzzle.esta_visible():
 				puzzle.cerrar()
+			if puzzle_matematicas != null and puzzle_matematicas.esta_visible():
+				puzzle_matematicas.cerrar()
 			if puzzle_gafas.esta_visible():
 				puzzle_gafas.cerrar()
 
@@ -1511,6 +1530,17 @@ func _cerrar_overlay_puzzle_activo() -> void:
 func _preparar_canvas_runtime() -> void:
 	if menu_pausa != null:
 		menu_pausa.hide()
+
+
+func _crear_puzzle_matematicas() -> void:
+	if puzzle_matematicas != null:
+		return
+
+	var instancia := PUZZLE_MATEMATICAS_BASE_SCENE.instantiate()
+	instancia.name = "PuzzleMatematicas"
+	instancia.set_script(PUZZLE_MATEMATICAS_SCRIPT)
+	$Canvas.add_child(instancia)
+	puzzle_matematicas = instancia as PuzzleBase
 
 
 func _reproducir_intro_nueva_partida() -> void:
