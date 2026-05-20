@@ -311,7 +311,7 @@ sources/0 = SubResource("TileSetAtlasSource_x75q3")
 size = Vector2(11834, 666)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_frq32"]
-size = Vector2(1712, 664)
+size = Vector2(1696, 664)
 
 [node name="Node2D" type="Node2D" unique_id=895375622]
 script = ExtResource("5_mundo2")
@@ -416,7 +416,7 @@ limit_bottom = 656
 [node name="Area2D2" type="Area2D" parent="." unique_id=2074031691]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D2" unique_id=463013166]
-position = Vector2(13288, 324)
+position = Vector2(13296, 324)
 shape = SubResource("RectangleShape2D_frq32")
 
 [node name="SpawnJugador" type="Marker2D" parent="." unique_id=1232477109]
