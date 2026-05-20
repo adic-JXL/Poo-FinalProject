@@ -161,8 +161,8 @@ func reproducir_pantalla_final_creditos() -> void:
 	)
 	await _mostrar_cinematica(
 		"CREDITOS",
-		"Deep Shadow - Proyecto final de Programacion Orientada a Objetos.",
-		"Equipo",
+		"Deep Shadow por Pinneapple Engine.",
+		"Equipo Pinneapple Engine",
 		7.0,
 		Color(0.50, 0.84, 0.90, 1.0),
 		Callable(self, "_montar_creditos")
@@ -172,8 +172,8 @@ func reproducir_pantalla_final_creditos() -> void:
 func reproducir_creditos_menu() -> void:
 	await _mostrar_cinematica(
 		"CREDITOS",
-		"Deep Shadow - Proyecto final de Programacion Orientada a Objetos.",
-		"Equipo",
+		"Deep Shadow por Pinneapple Engine.",
+		"Equipo Pinneapple Engine",
 		7.0,
 		Color(0.50, 0.84, 0.90, 1.0),
 		Callable(self, "_montar_creditos")
@@ -454,13 +454,13 @@ func _montar_creditos() -> void:
 	_agregar_fondo_degradado(Color(0.035, 0.045, 0.060, 1.0), Color(0.08, 0.10, 0.12, 1.0))
 	var encabezado := _agregar_label(_stage, "DEEP SHADOW", Vector2(0, 18), Vector2(760, 30), 17, Color(0.86, 0.94, 0.43, 1.0))
 	encabezado.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	var subtitulo := _agregar_label(_stage, "Proyecto final - Programacion Orientada a Objetos", Vector2(0, 52), Vector2(760, 22), 8, Color(0.72, 0.86, 0.78, 1.0))
+	var subtitulo := _agregar_label(_stage, "PINNEAPPLE ENGINE", Vector2(0, 52), Vector2(760, 22), 10, Color(0.72, 0.86, 0.78, 1.0))
 	subtitulo.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 
 	var creditos: Variant = _crear_creditos_tda()
 	creditos.para_cada(Callable(self, "_agregar_credito_visual"))
 
-	var cierre := _agregar_label(_stage, "Gracias por jugar.", Vector2(0, 252), Vector2(760, 24), 11, Color(0.86, 0.94, 0.43, 1.0))
+	var cierre := _agregar_label(_stage, "Gracias por jugar.", Vector2(0, 252), Vector2(760, 24), 12, Color(0.86, 0.94, 0.43, 1.0))
 	cierre.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 
 
@@ -476,14 +476,14 @@ func _crear_creditos_tda() -> Variant:
 
 func _agregar_credito_visual(datos_var: Variant, indice: int) -> void:
 	var datos: Dictionary = Dictionary(datos_var)
-	var y := 84 + indice * 31
-	var fondo_fila := _agregar_rect(_stage, Vector2(68, y - 4), Vector2(624, 27), Color(0.06, 0.08, 0.09, 0.55), "FilaCredito")
+	var y := 82 + indice * 32
+	var fondo_fila := _agregar_rect(_stage, Vector2(58, y - 4), Vector2(644, 28), Color(0.06, 0.08, 0.09, 0.55), "FilaCredito")
 	fondo_fila.color = Color(0.06, 0.08, 0.09, 0.55)
-	var nombre := _agregar_label(_stage, String(datos["nombre"]), Vector2(90, y + 1), Vector2(236, 18), 8, Color(0.92, 0.96, 0.82, 1.0))
+	var nombre := _agregar_label(_stage, String(datos["nombre"]), Vector2(84, y), Vector2(234, 22), 9, Color(0.92, 0.96, 0.82, 1.0))
 	nombre.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
-	var rol := _agregar_label(_stage, String(datos["rol"]), Vector2(354, y), Vector2(306, 22), 7, Color(0.62, 0.80, 0.80, 1.0))
+	var rol := _agregar_label(_stage, String(datos["rol"]), Vector2(356, y), Vector2(326, 24), 8, Color(0.62, 0.80, 0.80, 1.0))
 	rol.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	var punto := _agregar_rect(_stage, Vector2(338, y + 8), Vector2(6, 6), Color(0.86, 0.94, 0.43, 1.0), "PuntoCredito")
+	var punto := _agregar_rect(_stage, Vector2(336, y + 8), Vector2(7, 7), Color(0.86, 0.94, 0.43, 1.0), "PuntoCredito")
 	_animar_pulso(punto, Vector2.ONE, Vector2(1.28, 1.28), 0.7 + indice * 0.05)
 
 
@@ -681,6 +681,10 @@ func _agregar_label(padre: Control, texto: String, posicion: Vector2, tamano: Ve
 	label.add_theme_font_override("font", FUENTE_PIXEL)
 	label.add_theme_font_size_override("font_size", font_size)
 	label.add_theme_color_override("font_color", color)
+	label.add_theme_color_override("font_outline_color", Color(0.0, 0.0, 0.0, 0.88))
+	label.add_theme_constant_override("outline_size", 1 if font_size <= 11 else 2)
+	label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	label.clip_text = false
 	label.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	padre.add_child(label)
 	return label

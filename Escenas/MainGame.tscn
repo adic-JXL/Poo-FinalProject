@@ -630,11 +630,11 @@ fuerza_salto = 300.0
 aceleracion = 1000.0
 
 [node name="CamaraIntro" type="Camera2D" parent="Player" unique_id=994836912 node_paths=PackedStringArray("object")]
-zoom = Vector2(2, 2)
+zoom = Vector2(2.85, 2.85)
 limit_enabled = true
-limit_left = 0
+limit_left = -12
 limit_top = -2110
-limit_right = 2680
+limit_right = 920
 limit_bottom = -1360
 script = ExtResource("3_ryxee")
 object = NodePath("../Jugador")

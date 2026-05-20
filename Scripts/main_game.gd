@@ -53,6 +53,30 @@ const PENSAMIENTO_NPCS_PATIO := "Voy a tomar un pequeño descanso en el patio."
 const PENSAMIENTO_NPC_VALOR := "Ojala algun dia saque el valor para decirles como me siento."
 const PENSAMIENTO_PATIO_DIFERENTE := "Wow el patio se ve diferente."
 const LIMITE_Y_PROLOGO := -500.0
+const CAMARA_PROLOGO_CASA := {
+	"max_x": 920.0,
+	"zoom": Vector2(2.85, 2.85),
+	"left": -12,
+	"top": -2110,
+	"right": 920,
+	"bottom": -1360,
+}
+const CAMARA_PROLOGO_ESCUELA := {
+	"max_x": 1985.0,
+	"zoom": Vector2(2.46, 2.46),
+	"left": 1140,
+	"top": -1748,
+	"right": 1970,
+	"bottom": -1390,
+}
+const CAMARA_PROLOGO_SALON := {
+	"max_x": 999999.0,
+	"zoom": Vector2(2.58, 2.58),
+	"left": 2010,
+	"top": -1695,
+	"right": 2548,
+	"bottom": -1358,
+}
 
 @export var limite_caida_y: float = 700.0
 @export var escala_tiempo_golpe: float = 0.45
@@ -220,6 +244,7 @@ func _physics_process(_delta: float) -> void:
 	if _pausa_activa:
 		return
 
+	_actualizar_camara_prologo_por_zona()
 	_actualizar_estado_zona_jefe()
 
 	if jugador.global_position.y > limite_caida_y:
@@ -486,10 +511,31 @@ func _configurar_camara_prologo() -> void:
 		return
 
 	camara_intro.limit_enabled = true
-	camara_intro.limit_left = 0
-	camara_intro.limit_top = -2110
-	camara_intro.limit_right = 2680
-	camara_intro.limit_bottom = -1360
+	_actualizar_camara_prologo_por_zona()
+
+
+func _actualizar_camara_prologo_por_zona() -> void:
+	if camara_intro == null or jugador == null:
+		return
+
+	if jugador.global_position.y >= LIMITE_Y_PROLOGO:
+		return
+
+	var perfil := _obtener_perfil_camara_prologo(jugador.global_position)
+	camara_intro.zoom = perfil["zoom"]
+	camara_intro.limit_enabled = true
+	camara_intro.limit_left = int(perfil["left"])
+	camara_intro.limit_top = int(perfil["top"])
+	camara_intro.limit_right = int(perfil["right"])
+	camara_intro.limit_bottom = int(perfil["bottom"])
+
+
+func _obtener_perfil_camara_prologo(posicion: Vector2) -> Dictionary:
+	if posicion.x < float(CAMARA_PROLOGO_CASA["max_x"]):
+		return CAMARA_PROLOGO_CASA
+	if posicion.x < float(CAMARA_PROLOGO_ESCUELA["max_x"]):
+		return CAMARA_PROLOGO_ESCUELA
+	return CAMARA_PROLOGO_SALON
 
 
 func _ocultar_puerta_salida_escuela() -> void:
@@ -1275,6 +1321,8 @@ func _sincronizar_camara_con_jugador() -> void:
 
 	var en_prologo := camara_intro != null and jugador.global_position.y < LIMITE_Y_PROLOGO
 	var camara_objetivo: Camera2D = camara_intro if en_prologo else camara_1
+	if en_prologo:
+		_actualizar_camara_prologo_por_zona()
 	if not en_prologo:
 		if _jugador_en_zona_jefe:
 			camara_objetivo = camara_3
