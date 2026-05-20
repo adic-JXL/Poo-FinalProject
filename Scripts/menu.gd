@@ -5,6 +5,7 @@ const SistemaGuardadoClass = preload("res://Scripts/sistema_guardado.gd")
 const CUTSCENE_BASE_SCRIPT := preload("res://Scripts/cutscene_base.gd")
 const FUENTE_PIXEL := preload("res://Fuentes/joystix monospace.otf")
 
+
 @onready var boton_jugar: Button = $VBoxContainer/Jugar
 
 var _overlay_slots: ColorRect = null
@@ -322,3 +323,7 @@ func _estilizar_boton_selector(boton: Button, color_borde: Color) -> void:
 	boton.add_theme_stylebox_override("pressed", pressed)
 	boton.add_theme_stylebox_override("focus", hover)
 	boton.add_theme_stylebox_override("disabled", disabled)
+
+
+func _on_controles_pressed() -> void:
+	get_tree().change_scene_to_file("res://Escenas/Manuel de usuario.tscn")
