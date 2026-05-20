@@ -172,6 +172,7 @@ var _teletransporte_salon_npc_2_realizado: bool = false
 var _puzzle_salon_npc_2_resuelto: bool = false
 var _npcs_post_puzzle_dialogados := {}
 var _pensamiento_patio_mostrado: bool = false
+var _objetivos_mundo_1_mostrados: bool = false
 var puzzle_matematicas: PuzzleBase = null
 
 
@@ -190,6 +191,8 @@ func _ready() -> void:
 	_configurar_gafas()
 	_configurar_menu_pausa()
 	_configurar_intro_video()
+	_configurar_camara_prologo()
+	_ocultar_puerta_salida_escuela()
 	_configurar_npcs()
 	_preparar_canvas_runtime()
 	_crear_puzzle_matematicas()
@@ -476,6 +479,22 @@ func _configurar_intro_video() -> void:
 	intro_canvas.hide()
 	if not intro_video.finished.is_connected(_on_intro_video_finished):
 		intro_video.finished.connect(_on_intro_video_finished)
+
+
+func _configurar_camara_prologo() -> void:
+	if camara_intro == null:
+		return
+
+	camara_intro.limit_enabled = true
+	camara_intro.limit_left = 0
+	camara_intro.limit_top = -2110
+	camara_intro.limit_right = 2680
+	camara_intro.limit_bottom = -1360
+
+
+func _ocultar_puerta_salida_escuela() -> void:
+	if puerta_8 != null:
+		puerta_8.hide()
 
 
 func _configurar_npcs() -> void:
@@ -765,11 +784,34 @@ func _on_puerta_teletransporte_realizado(_jugador: Node2D, destino: Node2D) -> v
 func _on_puerta_7_teletransporte_realizado(_jugador: Node2D, destino: Node2D) -> void:
 	_sincronizar_camara_con_jugador()
 
-	if _pensamiento_patio_mostrado or destino != puerta_8:
+	if destino != puerta_8:
 		return
 
-	_pensamiento_patio_mostrado = true
-	_mostrar_pensamiento_interno(PENSAMIENTO_PATIO_DIFERENTE)
+	if not _pensamiento_patio_mostrado:
+		_pensamiento_patio_mostrado = true
+		_mostrar_pensamiento_interno(PENSAMIENTO_PATIO_DIFERENTE)
+
+	if not _objetivos_mundo_1_mostrados:
+		call_deferred("_reproducir_objetivos_post_escuela")
+
+
+func _reproducir_objetivos_post_escuela() -> void:
+	if _objetivos_mundo_1_mostrados or jugador == null:
+		return
+
+	_objetivos_mundo_1_mostrados = true
+	jugador.velocity = Vector2.ZERO
+	jugador.establecer_control_habilitado(false)
+	_establecer_enemigos_congelados(true)
+	var cutscene := CUTSCENE_BASE_SCRIPT.new()
+	add_child(cutscene)
+	await cutscene.reproducir_objetivos_mundo_1()
+	await cutscene.reproducir_controles()
+	cutscene.queue_free()
+	if not _pausa_activa and not _puzzle_activo:
+		jugador.establecer_control_habilitado(true)
+	_establecer_enemigos_congelados(_pausa_activa or _puzzle_activo)
+	_restaurar_mensaje_hud()
 
 
 func _on_checkpoint_puerta_alcanzado(posicion: Vector2, _mensaje: String) -> void:

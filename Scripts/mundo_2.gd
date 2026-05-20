@@ -342,7 +342,7 @@ func _asegurar_objetos_mundo_2() -> void:
 		objetos.name = "ObjetosMundo2"
 		add_child(objetos)
 
-	_asegurar_checkpoint_mundo_2(objetos, "CheckpointCarrera1", Vector2(2368, 520), "Checkpoint activado. El muro no se ha quedado atras todavia.")
+	_asegurar_checkpoint_mundo_2(objetos, "CheckpointCarrera1", Vector2(2417, 611), "Checkpoint activado. El muro no se ha quedado atras todavia.")
 	_asegurar_checkpoint_mundo_2(objetos, "CheckpointCarrera2", Vector2(6208, 520), "Checkpoint activado. Sigue corriendo, no dejes que el ruido te alcance.")
 	_asegurar_checkpoint_mundo_2(objetos, "CheckpointCarrera3", Vector2(9728, 520), "Checkpoint activado. Ya casi sales del tramo mas opresivo.")
 	_asegurar_checkpoint_mundo_2(objetos, "CheckpointCarrera4", Vector2(12608, 611), "Checkpoint activado. La sala final ya no va a borrarte del mapa.")
@@ -982,10 +982,20 @@ func _aplicar_zoom_camaras(zoom_objetivo: Vector2) -> void:
 
 
 func _procesar_interaccion_mundo_2() -> void:
+	var interactivo_mas_cercano: InteractivoBase = null
+	var distancia_mas_cercana: float = INF
 	for interactivo in _interactivos_mundo_2:
-		if interactivo != null and interactivo.esta_en_rango():
-			interactivo.interactuar()
-			return
+		if interactivo == null or not interactivo.esta_en_rango():
+			continue
+		var distancia := 0.0
+		if jugador != null and interactivo is Node2D:
+			distancia = jugador.global_position.distance_squared_to((interactivo as Node2D).global_position)
+		if interactivo_mas_cercano == null or distancia < distancia_mas_cercana:
+			interactivo_mas_cercano = interactivo
+			distancia_mas_cercana = distancia
+
+	if interactivo_mas_cercano != null:
+		interactivo_mas_cercano.interactuar()
 
 
 func _on_rango_interaccion_mundo_2_cambiado(activo: bool, mensaje: String) -> void:
@@ -1041,6 +1051,10 @@ func _on_cartel_pista_interaccion_solicitada(cartel: InteractivoBase) -> void:
 		return
 
 	if cartel == _cartel_pista_puerta:
+		_mostrar_popup_pista_puzzle(
+			"Grieta de la puerta",
+			"Orden visible con las gafas:\n%s" % _formatear_orden_para_pista(_orden_puzzle_puerta)
+		)
 		hud.mostrar_mensaje("La grieta repite: %s." % _formatear_orden_para_pista(_orden_puzzle_puerta))
 		hud.mostrar_pensamiento("Si lo veo claro, puedo romper el patron.", true)
 		return
