@@ -47,8 +47,8 @@ func actualizar_contexto(tiene_checkpoint: bool, descripcion_checkpoint: String)
 	continuar_boton.text = "CONTINUAR"
 	menu_boton.text = "VOLVER AL MENU"
 	if _modo_carrera:
-		contexto_label.text = "Persecucion activa. El muro avanza sin detenerse."
-		estado_partida_label.text = "Si caes o el muro te toca, vuelves al inicio del mundo 2."
+		contexto_label.text = "Persecucion activa. El muro avanza; corre sin detenerte."
+		estado_partida_label.text = "Si caes o te toca, vuelves al inicio del mundo 2."
 		reiniciar_boton.text = "REINICIAR CARRERA"
 		return
 
@@ -58,8 +58,8 @@ func actualizar_contexto(tiene_checkpoint: bool, descripcion_checkpoint: String)
 		estado_partida_label.text = "Progreso protegido. Puedes reiniciar sin volver al comienzo."
 		return
 
-	contexto_label.text = "Checkpoint activo: no. Si caes, volveras al inicio actual."
-	estado_partida_label.text = "Avance sin fijar. Busca el siguiente punto verde para asegurar la ruta."
+	contexto_label.text = "Sin checkpoint activo. Si caes, vuelves al inicio actual."
+	estado_partida_label.text = "Busca el siguiente punto verde para asegurar la ruta."
 
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -111,18 +111,25 @@ func establecer_modo_carrera(activo: bool) -> void:
 
 
 func _aplicar_estetica_pixel() -> void:
-	panel_container.custom_minimum_size = Vector2(488, 0)
+	panel_container.custom_minimum_size = Vector2(560, 0)
 
 	for label in [titulo_label, subtitulo_label, contexto_label, estado_partida_label]:
 		label.add_theme_font_override("font", FUENTE_PIXEL)
+		label.add_theme_color_override("font_outline_color", Color(0.0, 0.0, 0.0, 0.88))
+		label.add_theme_constant_override("outline_size", 1)
+		label.clip_text = false
 
 	titulo_label.add_theme_font_size_override("font_size", 19)
 	subtitulo_label.add_theme_font_size_override("font_size", 12)
-	contexto_label.add_theme_font_size_override("font_size", 11)
-	estado_partida_label.add_theme_font_size_override("font_size", 11)
+	contexto_label.add_theme_font_size_override("font_size", 9)
+	estado_partida_label.add_theme_font_size_override("font_size", 9)
+	contexto_label.custom_minimum_size = Vector2(0, 34)
+	estado_partida_label.custom_minimum_size = Vector2(0, 34)
 
 	for boton in [continuar_boton, reiniciar_boton, menu_boton]:
 		boton.add_theme_font_override("font", FUENTE_PIXEL)
 		boton.add_theme_font_size_override("font_size", 10)
+		boton.add_theme_color_override("font_outline_color", Color(0.0, 0.0, 0.0, 0.82))
+		boton.add_theme_constant_override("outline_size", 1)
 		boton.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
 		boton.custom_minimum_size = Vector2(0, 40)
