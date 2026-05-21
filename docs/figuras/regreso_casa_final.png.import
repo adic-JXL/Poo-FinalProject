@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cus2akn7wboie"
-path="res://.godot/imported/puzzle_eco.png-47db1b8e35f38ecfd344c901066720c9.ctex"
+uid="uid://5oalk1ehwia8"
+path="res://.godot/imported/regreso_casa_final.png-f8c6b547961cd52265c6604b726b1faa.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://docs/figuras/puzzle_eco.png"
-dest_files=["res://.godot/imported/puzzle_eco.png-47db1b8e35f38ecfd344c901066720c9.ctex"]
+source_file="res://docs/figuras/regreso_casa_final.png"
+dest_files=["res://.godot/imported/regreso_casa_final.png-f8c6b547961cd52265c6604b726b1faa.ctex"]
 
 [params]
 

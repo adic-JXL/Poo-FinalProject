@@ -77,7 +77,16 @@ Finalmente, el CONICET reportó iniciativas recientes de videojuegos y simulacio
 \subsection{Empresa, Roles y Gestión}
 El grupo de trabajo se identificó como Pineapple Engine. La asignación de roles quedó distribuida de la siguiente manera: Cristian Fuentes como gerente de proyectos, Andrés Issa como director de diseño, Geremy Jurado como director de pruebas, Manuel Polo como director de documentación, Andrés Barandica como director de UI/UX e Issac Gonzalez como director de UI/UX. Aunque el lineamiento general contempla grupos de tres a cinco integrantes, el equipo contó con un sexto miembro por una situación especial de reasignación aprobada durante el desarrollo del curso. Esta distribución permitió separar responsabilidades de coordinación, diseño de la solución, pruebas, documentación e interfaz de usuario.
 
-Para la gestión de actividades se utilizó Trello como herramienta de seguimiento del proyecto. El tablero del equipo se encuentra disponible en \url{https://trello.com/b/wAE43TkV/poo}. En este espacio se organizaron las tareas por áreas de trabajo, se registró el avance del desarrollo y se evidenció la asignación de responsabilidades por rol. \textbf{[COMPLETAR: agregar una captura del tablero o describir brevemente las listas usadas, por ejemplo: pendientes, en proceso, pruebas y terminado.]}
+Para la gestión de actividades se utilizó Trello como herramienta de seguimiento del proyecto. El tablero del equipo se encuentra disponible en \url{https://trello.com/b/wAE43TkV/poo}. En este espacio se organizaron las tareas por áreas de trabajo, se registró el avance del desarrollo y se evidenció la asignación de responsabilidades por rol. Las listas del tablero agruparon actividades de primera entrega, tareas en proceso, entregables completados, avances por fechas, arquitectura, pulido jugable, segundo mundo, inicio y requisitos no funcionales.
+
+\begin{figure*}[t]
+\centering
+\IfFileExists{figuras/trello_tablero_1.png}{\includegraphics[width=0.95\textwidth]{figuras/trello_tablero_1.png}}{\placeholderfigure{4cm}{Guardar captura como figuras/trello\_tablero\_1.png}}
+\vspace{0.3cm}
+\IfFileExists{figuras/trello_tablero_2.png}{\includegraphics[width=0.95\textwidth]{figuras/trello_tablero_2.png}}{\placeholderfigure{4cm}{Guardar captura como figuras/trello\_tablero\_2.png}}
+\caption{Tablero de Trello usado para registrar listas y tareas completadas durante el desarrollo.}
+\label{fig:trello-tablero}
+\end{figure*}
 
 \subsection{Enfoque del Juego}
 La propuesta seleccionada fue un videojuego de plataformas 2D con ambientación de fantasía, suspenso y espacios escolares. El jugador controla a un protagonista que debe avanzar por escenarios oscuros, superar obstáculos, resolver puzzles y enfrentar enemigos. La problemática del bullying se expresa mediante distorsión visual, pensamientos negativos, puertas bloqueadas, retos de memoria y situaciones asociadas al salón o al pasillo.
@@ -127,12 +136,15 @@ Los requisitos no funcionales se organizaron usando el modelo FURPS, que clasifi
 Funcionalidad & El juego debe integrar mecánicas coherentes con el objetivo de concientización: obstáculos, pensamientos narrativos, visión distorsionada, gafas, puzzles, diálogos y progresión entre mundos. \\
 Usabilidad & El usuario debe entender controles y objetivos mediante menú principal, manual de usuario, HUD, mensajes dentro del juego, menú de pausa y retroalimentación visual. Se realizará una prueba con al menos cinco usuarios. \\
 Confiabilidad & El juego debe continuar funcionando ante entradas inesperadas, repetición de botones, cancelación de puzzles, caídas del mapa, reinicios y carga de partidas guardadas. \\
-Rendimiento & El prototipo debe ejecutarse de forma fluida en un computador de laboratorio o equipo promedio, manteniendo una respuesta inmediata a los controles. \textbf{[COMPLETAR: equipo usado y FPS aproximado si lo midieron.]}
+Rendimiento & El prototipo debe ejecutarse de forma fluida en un computador portátil DELL de referencia, manteniendo una respuesta inmediata a los controles. El equipo mínimo usado por el grupo fue un DELL con Intel Core i5-1335U, 16 GB de RAM e Intel Iris Xe Graphics. El promedio de rendimiento queda registrado como \textbf{[COMPLETAR FPS]} FPS para actualizarlo después de la medición.
 \\
 Soporte & El código debe estar dividido en clases y escenas mantenibles, con nombres claros, señales y responsabilidades separadas para facilitar cambios futuros. \\
 \bottomrule
 \end{tabularx}
 \end{table*}
+
+\subsection{Equipo de Prueba y Rendimiento}
+El equipo mínimo usado por el grupo para ejecutar el prototipo fue un portátil DELL con nombre de dispositivo ManuDell, procesador 13th Gen Intel(R) Core(TM) i5-1335U a 1.30 GHz, 16.0 GB de RAM instalada, tarjeta gráfica Intel(R) Iris(R) Xe Graphics, almacenamiento con 422 GB de 477 GB usados y sistema operativo de 64 bits basado en x64. La medición de rendimiento queda preparada para completarse posteriormente: \textbf{FPS promedio observado: [COMPLETAR FPS]}.
 
 \subsection{Componente Inclusivo}
 Aunque inicialmente se consideró una selección de \textit{skin}, en la versión actual el componente inclusivo se orientó hacia accesibilidad visual y comodidad de interacción. El menú de opciones permite seleccionar filtros de color para distintos tipos de daltonismo, modificar el volumen, probar sonido, ajustar resolución, cambiar modo de pantalla y regular la sacudida de cámara. Adicionalmente, el juego presenta instrucciones visuales mediante el manual de usuario, mensajes dentro del HUD y textos de retroalimentación en puzzles.
@@ -204,7 +216,7 @@ Patrones & Se evidencian \textit{State} en los estados del jugador y \textit{Obs
 \FloatBarrier
 
 \subsection{Evidencias Visuales}
-Las Figuras \ref{fig:menu} a \ref{fig:puzzle-eco} muestran evidencias visuales del prototipo, incluyendo menús, controles, sistema de partidas, escenario inicial y puzzles.
+Las Figuras \ref{fig:menu} a \ref{fig:regreso-casa} muestran evidencias visuales del prototipo, incluyendo menús, objetivos, controles, sistema de partidas, escenario inicial, puzzle ejemplar, uso de gafas, jefes, segundo mundo y final del recorrido.
 
 \begin{figure}[!htbp]
 \centering
@@ -222,8 +234,15 @@ Las Figuras \ref{fig:menu} a \ref{fig:puzzle-eco} muestran evidencias visuales d
 
 \begin{figure}[!htbp]
 \centering
-\IfFileExists{figuras/controles.png}{\includegraphics[width=\linewidth]{figuras/controles.png}}{\placeholderfigure{3.1cm}{Guardar captura como figuras/controles.png}}
-\caption{Manual de usuario con controles principales del juego.}
+\IfFileExists{figuras/objetivos_juego.png}{\includegraphics[width=\linewidth]{figuras/objetivos_juego.png}}{\placeholderfigure{3.1cm}{Guardar captura como figuras/objetivos\_juego.png}}
+\caption{Pantalla de objetivos principales del juego.}
+\label{fig:objetivos}
+\end{figure}
+
+\begin{figure}[!htbp]
+\centering
+\IfFileExists{figuras/controles_rapidos.png}{\includegraphics[width=\linewidth]{figuras/controles_rapidos.png}}{\placeholderfigure{3.1cm}{Guardar captura como figuras/controles\_rapidos.png}}
+\caption{Pantalla de controles rápidos con movimiento, salto, sprint, gafas, interacción y pausa.}
 \label{fig:controles}
 \end{figure}
 
@@ -243,16 +262,37 @@ Las Figuras \ref{fig:menu} a \ref{fig:puzzle-eco} muestran evidencias visuales d
 
 \begin{figure}[!htbp]
 \centering
-\IfFileExists{figuras/puzzle_salon.png}{\includegraphics[width=\linewidth]{figuras/puzzle_salon.png}}{\placeholderfigure{3.1cm}{Guardar captura como figuras/puzzle\_salon.png}}
-\caption{Primer puzzle: quiz del salón con sumas aleatorias.}
-\label{fig:puzzle-salon}
+\IfFileExists{figuras/puzzle_patron_claridad.png}{\includegraphics[width=\linewidth]{figuras/puzzle_patron_claridad.png}}{\placeholderfigure{3.1cm}{Guardar captura como figuras/puzzle\_patron\_claridad.png}}
+\caption{Puzzle de patrón de claridad, usado como ejemplo visual del diseño de los retos del juego.}
+\label{fig:puzzle-patron-claridad}
 \end{figure}
 
 \begin{figure}[!htbp]
 \centering
-\IfFileExists{figuras/puzzle_eco.png}{\includegraphics[width=\linewidth]{figuras/puzzle_eco.png}}{\placeholderfigure{3.1cm}{Guardar captura como figuras/puzzle\_eco.png}}
-\caption{Segundo puzzle: eco del pasillo basado en memoria y secuencia.}
-\label{fig:puzzle-eco}
+\IfFileExists{figuras/gafas_activadas.png}{\includegraphics[width=\linewidth]{figuras/gafas_activadas.png}}{\placeholderfigure{3.1cm}{Guardar captura como figuras/gafas\_activadas.png}}
+\caption{Uso de las gafas para ampliar la visión y revelar rutas del primer mundo.}
+\label{fig:gafas-activadas}
+\end{figure}
+
+\begin{figure}[!htbp]
+\centering
+\IfFileExists{figuras/primer_jefe.png}{\includegraphics[width=\linewidth]{figuras/primer_jefe.png}}{\placeholderfigure{3.1cm}{Guardar captura como figuras/primer\_jefe.png}}
+\caption{Primer jefe del prototipo durante una fase de enfrentamiento.}
+\label{fig:primer-jefe}
+\end{figure}
+
+\begin{figure}[!htbp]
+\centering
+\IfFileExists{figuras/segundo_mundo_jefe.png}{\includegraphics[width=\linewidth]{figuras/segundo_mundo_jefe.png}}{\placeholderfigure{3.1cm}{Guardar captura como figuras/segundo\_mundo\_jefe.png}}
+\caption{Segundo mundo con presencia del jefe y obstáculos de plataformas.}
+\label{fig:segundo-mundo-jefe}
+\end{figure}
+
+\begin{figure}[!htbp]
+\centering
+\IfFileExists{figuras/regreso_casa_final.png}{\includegraphics[width=\linewidth]{figuras/regreso_casa_final.png}}{\placeholderfigure{3.1cm}{Guardar captura como figuras/regreso\_casa\_final.png}}
+\caption{Pantalla final Regreso a Casa, cierre narrativo del recorrido.}
+\label{fig:regreso-casa}
 \end{figure}
 
 \FloatBarrier
@@ -306,7 +346,7 @@ U5 & \textbf{[ ]/6} & \textbf{[ ]/5} & \textbf{[COMPLETAR]} \\
 \section{Conclusiones}
 \textit{Deep Shadows} permitió desarrollar una solución interactiva relacionada con el bullying mediante un videojuego 2D de plataformas. El prototipo cumplió con requisitos centrales de la consigna: creación propia, componente aleatorio, interfaz gráfica, más de cinco clases de autoría propia y uso de patrones de diseño. La mecánica de visión distorsionada y gafas permitió representar de forma simbólica la dificultad de percibir el entorno después de experiencias de acoso, mientras que los mensajes internos del protagonista reforzaron el componente narrativo.
 
-Desde el punto de vista técnico, el uso de Godot y GDScript facilitó una arquitectura organizada por escenas y clases. La separación entre jugador, estamina, gafas, puzzles, guardado, enemigos, HUD y controladores de mundo permitió aplicar conceptos de programación orientada a objetos y mantener una estructura defendible para la sustentación. Como limitación, el prototipo todavía requiere completar evidencias finales, resultados de usabilidad, cronograma de trabajo y capturas de etapas avanzadas del juego.
+Desde el punto de vista técnico, el uso de Godot y GDScript facilitó una arquitectura organizada por escenas y clases. La separación entre jugador, estamina, gafas, puzzles, guardado, enemigos, HUD y controladores de mundo permitió aplicar conceptos de programación orientada a objetos y mantener una estructura defendible para la sustentación. Como limitación, el prototipo todavía requiere completar los resultados de usabilidad y la medición exacta de FPS en el equipo de prueba.
 
 Como trabajo futuro, se mejorará el balance de dificultad, se ampliarán los mundos, se incluirán más eventos narrativos relacionados con apoyo emocional y se pulirá la accesibilidad del juego para que más usuarios puedan interactuar con la experiencia de manera cómoda.
 
