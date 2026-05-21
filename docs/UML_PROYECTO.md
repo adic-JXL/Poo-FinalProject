@@ -4,6 +4,8 @@ Este UML representa la estructura actual del proyecto en Godot. La idea principa
 
 ## Diagrama de clases
 
+![Diagrama de Clases UML](uml_class_diagram.png)
+
 ```mermaid
 classDiagram
 direction LR

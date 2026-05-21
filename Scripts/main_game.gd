@@ -55,11 +55,19 @@ const PENSAMIENTO_PATIO_DIFERENTE := "Wow el patio se ve diferente."
 const LIMITE_Y_PROLOGO := -500.0
 const CAMARA_PROLOGO_CASA := {
 	"max_x": 920.0,
+	"zoom": Vector2(3.8, 3.8),
+	"left": -8,
+	"top": -1669,
+	"right": 316,
+	"bottom": -1495,
+}
+const CAMARA_PROLOGO_EXTERIOR := {
+	"max_x": 920.0,
 	"zoom": Vector2(2.85, 2.85),
 	"left": -12,
 	"top": -2110,
 	"right": 920,
-	"bottom": -1360,
+	"bottom": -1800,
 }
 const CAMARA_PROLOGO_ESCUELA := {
 	"max_x": 1985.0,
@@ -532,7 +540,10 @@ func _actualizar_camara_prologo_por_zona() -> void:
 
 func _obtener_perfil_camara_prologo(posicion: Vector2) -> Dictionary:
 	if posicion.x < float(CAMARA_PROLOGO_CASA["max_x"]):
-		return CAMARA_PROLOGO_CASA
+		if posicion.y > -1800.0:
+			return CAMARA_PROLOGO_CASA
+		else:
+			return CAMARA_PROLOGO_EXTERIOR
 	if posicion.x < float(CAMARA_PROLOGO_ESCUELA["max_x"]):
 		return CAMARA_PROLOGO_ESCUELA
 	return CAMARA_PROLOGO_SALON
@@ -824,7 +835,10 @@ func _on_puerta_teletransporte_realizado(_jugador: Node2D, destino: Node2D) -> v
 
 	_actualizar_estado_zona_jefe(true)
 	_sincronizar_camara_con_jugador()
-	hud.mostrar_mensaje(MENSAJE_CHECKPOINT_PUERTA_DISPONIBLE)
+	
+	# Activar automáticamente el punto de control al entrar al Mundo 1
+	var spawn_pos := _obtener_posicion_checkpoint_puerta(destino)
+	_activar_checkpoint(spawn_pos, "Punto de control activado al entrar al Mundo 1. Si caes, volveras aqui.")
 
 
 func _on_puerta_7_teletransporte_realizado(_jugador: Node2D, destino: Node2D) -> void:

@@ -120,6 +120,7 @@ var _modulate_visual_original: Color = Color(1, 1, 1, 1)
 var _tiempo_aturdimiento_restante: float = 0.0
 var _animacion_puerta_activa: bool = false
 var _muerte_activa: bool = false
+var _gafas_activas_previas: bool = false
 var _tiempo_particula_sprint: float = 0.0
 var _tiempo_pisada_restante: float = 0.0
 var _tiempo_animacion_visual: float = 0.0
@@ -147,9 +148,6 @@ func _ready() -> void:
 	_escala_visual_original = visual.scale
 	_posicion_visual_original = visual.position
 	_modulate_visual_original = visual.modulate
-	_cargar_texturas_jugador()
-	_configurar_audio()
-	_establecer_textura_jugador(_obtener_frame_idle_actual())
 
 	sistema_estamina = SistemaEstaminaClass.new(estamina_maxima)
 	sistema_estamina.valor_cambiado.connect(_on_estamina_valor_cambiado)
@@ -157,6 +155,10 @@ func _ready() -> void:
 	habilidad_gafas.estado_actualizado.connect(_on_gafas_estado_actualizado)
 	_crear_estados()
 	cambiar_a_estado(&"normal")
+
+	_cargar_texturas_jugador()
+	_configurar_audio()
+	_establecer_textura_jugador(_obtener_frame_idle_actual())
 
 	emit_signal("vida_cambiada", vida)
 	emit_signal("estamina_cambiada", sistema_estamina.actual, sistema_estamina.maxima)
@@ -489,6 +491,9 @@ func _on_estamina_valor_cambiado(actual: float, maxima: float) -> void:
 
 
 func _on_gafas_estado_actualizado(activa: bool, duracion_restante: float, cooldown_restante: float, cooldown_actual: float, siguiente_cooldown: float) -> void:
+	if activa != _gafas_activas_previas:
+		_gafas_activas_previas = activa
+		_cargar_texturas_jugador()
 	emit_signal("gafas_actualizadas", activa, duracion_restante, cooldown_restante, cooldown_actual, siguiente_cooldown)
 
 
@@ -781,13 +786,52 @@ func _crear_particula(origen_global: Vector2, desplazamiento: Vector2, color_par
 
 
 func _cargar_texturas_jugador() -> void:
-	_frames_idle = _cargar_secuencia_png(RUTAS_TEXTURAS_IDLE)
-	_frames_caminar = _cargar_secuencia_png(RUTAS_TEXTURAS_CAMINAR)
-	_frames_correr = _cargar_secuencia_png(RUTAS_TEXTURAS_CORRER)
-	_frames_saltar = _cargar_secuencia_png(RUTAS_TEXTURAS_SALTAR)
+	var active := false
+	if habilidad_gafas != null:
+		active = habilidad_gafas.esta_activa()
+	var prefijo := "res://Imagenes/Personaje_Girl/con_gafas/" if active else "res://Imagenes/Personaje_Girl/sin_gafas/"
+
+	_frames_idle.clear()
+	for i in range(4):
+		var ruta := prefijo + "idle/idle_%02d.png" % i
+		var tex := _cargar_textura_png(ruta)
+		if tex != null:
+			_frames_idle.append(tex)
+
+	_frames_caminar.clear()
+	for i in range(4):
+		var ruta := prefijo + "walk/walk_%02d.png" % i
+		var tex := _cargar_textura_png(ruta)
+		if tex != null:
+			_frames_caminar.append(tex)
+
+	_frames_correr.clear()
+	for i in range(4):
+		var ruta := prefijo + "run/run_%02d.png" % i
+		var tex := _cargar_textura_png(ruta)
+		if tex != null:
+			_frames_correr.append(tex)
+
+	_frames_saltar.clear()
+	for i in range(5):
+		var ruta := prefijo + "jump/jump_%02d.png" % i
+		var tex := _cargar_textura_png(ruta)
+		if tex != null:
+			_frames_saltar.append(tex)
+
 	_texturas_jugador_danio.clear()
-	_texturas_jugador_danio = _cargar_secuencia_png(RUTAS_TEXTURAS_DANIO)
-	_frames_muerte = _cargar_secuencia_png(RUTAS_TEXTURAS_MUERTE)
+	for i in range(3):
+		var ruta := prefijo + "hurt/hurt_%02d.png" % i
+		var tex := _cargar_textura_png(ruta)
+		if tex != null:
+			_texturas_jugador_danio.append(tex)
+
+	_frames_muerte.clear()
+	for i in range(4):
+		var ruta := prefijo + "death/death_%02d.png" % i
+		var tex := _cargar_textura_png(ruta)
+		if tex != null:
+			_frames_muerte.append(tex)
 
 	if _frames_idle.is_empty():
 		_frames_idle.append(_cargar_textura_png("res://Imagenes/Personaje/player_idle.png"))
