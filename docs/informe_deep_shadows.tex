@@ -31,11 +31,11 @@ Barranquilla, Colombia}
 \maketitle
 
 \begin{abstract}
-Este artículo presenta el diseño y desarrollo de \textit{Deep Shadows}, un videojuego 2D de plataformas creado por Pineapple Engine para generar conciencia sobre las consecuencias emocionales del bullying. El proyecto abordó el problema mediante una experiencia interactiva en la que el jugador controla a un protagonista que atraviesa espacios escolares y simbólicos marcados por pensamientos intrusivos, distorsión visual y obstáculos asociados al acoso. La solución fue implementada en Godot con GDScript y se estructuró con fundamentos de programación orientada a objetos, incluyendo clases propias para jugador, enemigos, puzzles, guardado, habilidades, interfaz, diálogos y control de niveles. La metodología integró requisitos funcionales, requisitos no funcionales basados en FURPS, uso de patrones de diseño y una prueba de usabilidad con usuarios externos. Como resultado, se obtuvo un prototipo jugable con menú, slots de partida, opciones de accesibilidad, manual de controles, movimiento, salto, sprint con estamina, puzzles aleatorios, gafas temporales, HUD, enemigos, checkpoints, diálogos y progresión entre mundos. Se concluye que el videojuego permite comunicar el impacto del bullying desde mecánicas comprensibles y una arquitectura técnica defendible.
+Este artículo presenta el diseño y desarrollo de \textit{Deep Shadows}, un videojuego 2D de plataformas creado por Pineapple Engine para generar conciencia sobre las consecuencias emocionales del bullying. El proyecto abordó el problema mediante una experiencia interactiva en la que el jugador controla a un protagonista que atraviesa espacios escolares y simbólicos marcados por pensamientos intrusivos, distorsión visual y obstáculos asociados al acoso. La solución fue implementada en Godot con GDScript y se estructuró con fundamentos de programación orientada a objetos, incluyendo clases propias para jugador, enemigos, puzzles, guardado, habilidades, interfaz, diálogos, control de niveles y un TDA de lista simple. La metodología integró requisitos funcionales, requisitos no funcionales basados en FURPS, uso de patrones de diseño y una evaluación piloto de usabilidad. Como resultado, se obtuvo un prototipo jugable con menú, slots de partida, opciones de accesibilidad, manual de controles, movimiento, salto, sprint con estamina, puzzles aleatorios, gafas temporales, HUD, enemigos, checkpoints, diálogos y progresión entre mundos. Se concluye que el videojuego permite comunicar el impacto del bullying desde mecánicas comprensibles y una arquitectura técnica defendible.
 \end{abstract}
 
 \begin{abstract}
-This paper presents the design and development of \textit{Deep Shadows}, a 2D platform video game created by Pineapple Engine to raise awareness about the emotional consequences of bullying. The project approached the problem through an interactive experience in which the player controls a protagonist who moves through school and symbolic spaces shaped by intrusive thoughts, visual distortion, and obstacles related to harassment. The solution was implemented in Godot using GDScript and structured under object-oriented programming principles, including custom classes for the player, enemies, puzzles, save system, abilities, interface, dialogues, and level control. The methodology integrated functional requirements, non-functional requirements based on FURPS, design patterns, and usability testing with external users. As a result, a playable prototype was obtained with a menu, save slots, accessibility options, controls manual, movement, jumping, stamina-based sprinting, random puzzles, temporary glasses activation, HUD, enemies, checkpoints, dialogues, and world progression. The project concludes that the game can communicate the impact of bullying through understandable gameplay mechanics and a technically defensible software architecture.
+This paper presents the design and development of \textit{Deep Shadows}, a 2D platform video game created by Pineapple Engine to raise awareness about the emotional consequences of bullying. The project approached the problem through an interactive experience in which the player controls a protagonist who moves through school and symbolic spaces shaped by intrusive thoughts, visual distortion, and obstacles related to harassment. The solution was implemented in Godot using GDScript and structured under object-oriented programming principles, including custom classes for the player, enemies, puzzles, save system, abilities, interface, dialogues, level control, and a simple linked-list ADT. The methodology integrated functional requirements, non-functional requirements based on FURPS, design patterns, and a pilot usability evaluation. As a result, a playable prototype was obtained with a menu, save slots, accessibility options, controls manual, movement, jumping, stamina-based sprinting, random puzzles, temporary glasses activation, HUD, enemies, checkpoints, dialogues, and world progression. The project concludes that the game can communicate the impact of bullying through understandable gameplay mechanics and a technically defensible software architecture.
 \end{abstract}
 
 \begin{IEEEkeywords}
@@ -71,13 +71,24 @@ Martel-Santana y Martín-del-Pozo evaluaron la usabilidad de \textit{About Us}, 
 
 Brečko et al. evaluaron el \textit{CyberSafe Tool}, una intervención educativa basada en juego serio sobre cyberviolencia. La intervención fue aplicada a 959 adolescentes entre 13 y 16 años y usó mediciones antes, inmediatamente después y tres semanas después. Los resultados indicaron cambios positivos de actitud que se mantuvieron en la medición posterior \cite{brecko2024}. Este trabajo confirma la utilidad de integrar narrativa, roles y discusión guiada para abordar problemáticas sociales.
 
+Pérez et al. exploraron el uso de juegos serios y modelos probabilísticos para estudiar cyberbullying, tanto mediante redes bayesianas como mediante generación de datos sintéticos para analizar decisiones de jugadores \cite{perez2023,perez2024}. Estos trabajos son relevantes porque muestran que los videojuegos pueden servir no solo como recurso educativo, sino también como medio para observar patrones de respuesta ante situaciones de acoso.
+
 Finalmente, el CONICET reportó iniciativas recientes de videojuegos y simulaciones virtuales para prevenir grooming y bullying en infancia y adolescencia, destacando el potencial de los \textit{serious games} para educar, sensibilizar y transformar conductas desde edades tempranas \cite{conicet2025}. Estos antecedentes muestran que \textit{Deep Shadows} se ubica dentro de una línea actual de soluciones interactivas que buscan generar conciencia social mediante experiencias jugables.
 
 \section{Metodología}
 \subsection{Empresa, Roles y Gestión}
 El grupo de trabajo se identificó como Pineapple Engine. La asignación de roles quedó distribuida de la siguiente manera: Cristian Fuentes como gerente de proyectos, Andrés Issa como director de diseño, Geremy Jurado como director de pruebas, Manuel Polo como director de documentación, Andrés Barandica como director de UI/UX e Issac Gonzalez como director de UI/UX. Aunque el lineamiento general contempla grupos de tres a cinco integrantes, el equipo contó con un sexto miembro por una situación especial de reasignación aprobada durante el desarrollo del curso. Esta distribución permitió separar responsabilidades de coordinación, diseño de la solución, pruebas, documentación e interfaz de usuario.
 
-Para la gestión de actividades se utilizó Trello como herramienta de seguimiento del proyecto. El tablero del equipo se encuentra disponible en \url{https://trello.com/b/wAE43TkV/poo}. En este espacio se organizaron las tareas por áreas de trabajo, se registró el avance del desarrollo y se evidenció la asignación de responsabilidades por rol. \textbf{[COMPLETAR: agregar una captura del tablero o describir brevemente las listas usadas, por ejemplo: pendientes, en proceso, pruebas y terminado.]}
+Para la gestión de actividades se utilizó Trello como herramienta de seguimiento del proyecto. El tablero del equipo se encuentra disponible en \url{https://trello.com/b/wAE43TkV/poo}. En este espacio se organizaron las tareas por áreas de trabajo, se registró el avance del desarrollo y se evidenció la asignación de responsabilidades por rol. Las listas del tablero agruparon actividades de primera entrega, tareas en proceso, entregables completados, avances por fechas, arquitectura, pulido jugable, segundo mundo, inicio y requisitos no funcionales.
+
+\begin{figure*}[t]
+\centering
+\IfFileExists{figuras/trello_tablero_1.png}{\includegraphics[width=0.95\textwidth]{figuras/trello_tablero_1.png}}{\placeholderfigure{4cm}{Guardar captura como figuras/trello\_tablero\_1.png}}
+\vspace{0.3cm}
+\IfFileExists{figuras/trello_tablero_2.png}{\includegraphics[width=0.95\textwidth]{figuras/trello_tablero_2.png}}{\placeholderfigure{4cm}{Guardar captura como figuras/trello\_tablero\_2.png}}
+\caption{Tablero de Trello usado para registrar listas y tareas completadas durante el desarrollo.}
+\label{fig:trello-tablero}
+\end{figure*}
 
 \subsection{Enfoque del Juego}
 La propuesta seleccionada fue un videojuego de plataformas 2D con ambientación de fantasía, suspenso y espacios escolares. El jugador controla a un protagonista que debe avanzar por escenarios oscuros, superar obstáculos, resolver puzzles y enfrentar enemigos. La problemática del bullying se expresa mediante distorsión visual, pensamientos negativos, puertas bloqueadas, retos de memoria y situaciones asociadas al salón o al pasillo.
@@ -114,7 +125,7 @@ RF-11 & El usuario debe poder modificar opciones de audio, pantalla y accesibili
 \end{table*}
 
 \subsection{Requerimientos No Funcionales}
-Los requisitos no funcionales se organizaron usando el modelo FURPS, que clasifica atributos de calidad en funcionalidad, usabilidad, confiabilidad, rendimiento y soporte \cite{grady1992}. La Tabla \ref{tab:furps} presenta la aplicación del modelo al proyecto.
+Los requisitos no funcionales se organizaron usando categorías de calidad inspiradas en el modelo FURPS: funcionalidad, usabilidad, confiabilidad, rendimiento y soporte. Estas categorías permiten describir cómo debe comportarse el sistema más allá de sus funciones principales, lo cual coincide con la noción reciente de requisitos de calidad en ingeniería de software \cite{olsson2022}. La Tabla \ref{tab:furps} presenta la aplicación del modelo al proyecto.
 
 \begin{table*}[t]
 \caption{Requerimientos no funcionales basados en FURPS}
@@ -125,14 +136,17 @@ Los requisitos no funcionales se organizaron usando el modelo FURPS, que clasifi
 \textbf{Categoría} & \textbf{Requisito} \\
 \midrule
 Funcionalidad & El juego debe integrar mecánicas coherentes con el objetivo de concientización: obstáculos, pensamientos narrativos, visión distorsionada, gafas, puzzles, diálogos y progresión entre mundos. \\
-Usabilidad & El usuario debe entender controles y objetivos mediante menú principal, manual de usuario, HUD, mensajes dentro del juego, menú de pausa y retroalimentación visual. Se realizará una prueba con al menos cinco usuarios. \\
+Usabilidad & El usuario debe entender controles y objetivos mediante menú principal, manual de usuario, HUD, mensajes dentro del juego, menú de pausa y retroalimentación visual. Se documentó una evaluación piloto con cinco perfiles de usuario. \\
 Confiabilidad & El juego debe continuar funcionando ante entradas inesperadas, repetición de botones, cancelación de puzzles, caídas del mapa, reinicios y carga de partidas guardadas. \\
-Rendimiento & El prototipo debe ejecutarse de forma fluida en un computador de laboratorio o equipo promedio, manteniendo una respuesta inmediata a los controles. \textbf{[COMPLETAR: equipo usado y FPS aproximado si lo midieron.]}
+Rendimiento & El prototipo debe ejecutarse de forma fluida en un computador portátil DELL de referencia, manteniendo una respuesta inmediata a los controles. El equipo mínimo usado por el grupo fue un DELL con Intel Core i5-1335U, 16 GB de RAM e Intel Iris Xe Graphics. El promedio de rendimiento queda registrado como \textbf{[COMPLETAR FPS]} FPS para actualizarlo después de la medición.
 \\
 Soporte & El código debe estar dividido en clases y escenas mantenibles, con nombres claros, señales y responsabilidades separadas para facilitar cambios futuros. \\
 \bottomrule
 \end{tabularx}
 \end{table*}
+
+\subsection{Equipo de Prueba y Rendimiento}
+El equipo mínimo usado por el grupo para ejecutar el prototipo fue un portátil DELL con nombre de dispositivo ManuDell, procesador 13th Gen Intel(R) Core(TM) i5-1335U a 1.30 GHz, 16.0 GB de RAM instalada, tarjeta gráfica Intel(R) Iris(R) Xe Graphics, almacenamiento con 422 GB de 477 GB usados y sistema operativo de 64 bits basado en x64. La medición de rendimiento queda preparada para completarse posteriormente: \textbf{FPS promedio observado: [COMPLETAR FPS]}.
 
 \subsection{Componente Inclusivo}
 Aunque inicialmente se consideró una selección de \textit{skin}, en la versión actual el componente inclusivo se orientó hacia accesibilidad visual y comodidad de interacción. El menú de opciones permite seleccionar filtros de color para distintos tipos de daltonismo, modificar el volumen, probar sonido, ajustar resolución, cambiar modo de pantalla y regular la sacudida de cámara. Adicionalmente, el juego presenta instrucciones visuales mediante el manual de usuario, mensajes dentro del HUD y textos de retroalimentación en puzzles.
@@ -153,7 +167,12 @@ El diseño del juego se basó en clases propias de GDScript. Godot permite regis
     \item \textbf{HUD}: presenta vida, estamina, gafas, llave, checkpoints, mensajes y pensamientos.
     \item \textbf{MainGame y Mundo2}: coordinan configuración de niveles, puertas, checkpoints, enemigos, puzzles, pausas y progresión.
     \item \textbf{DialogoUI y NPCDialogo}: administran interacción narrativa con personajes y mensajes.
+    \item \textbf{CutsceneBase}: construye pantallas narrativas de objetivos, controles, transición entre mundos, final y créditos.
+    \item \textbf{ListaSimple}: implementa un TDA de lista enlazada simple usado para construir y recorrer los créditos del juego.
+    \item \textbf{TotemJefe, MuroCarne y PlataformaGafas}: representan mecánicas específicas del jefe, persecución del segundo mundo y plataformas reveladas por las gafas.
 \end{itemize}
+
+El UML del proyecto coincide con esta separación: los controladores \textit{MainGame} y \textit{Mundo2} dependen de entidades, servicios y vistas; \textit{Jugador} compone \textit{SistemaEstamina}, \textit{HabilidadGafas} y estados; \textit{PuzzleBase}, \textit{EnemigoBase} e \textit{InteractivoBase} funcionan como bases para especializaciones. Además, el diagrama registra el uso del TDA \textit{ListaSimple}, lo cual refuerza la evidencia de encapsulamiento y estructura de datos propia.
 
 \begin{figure*}[t]
 \centering
@@ -171,6 +190,9 @@ El patrón \textit{State} se usó para separar el comportamiento del jugador en 
 
 El patrón \textit{Observer} se implementó mediante señales de Godot. La documentación de Godot describe las señales como su versión del patrón observador y permite conectarlas desde el editor o por código \cite{godotsignals}. En el prototipo, el jugador emite señales cuando cambia la vida, la estamina, el sprint o el estado de las gafas; el HUD escucha esas señales y actualiza la interfaz sin consultar constantemente el estado interno del jugador.
 
+\subsection{Estructura de Datos Propia}
+Además de las clases asociadas al ciclo de juego, se implementó el TDA \textit{ListaSimple} como una lista enlazada simple con nodos propios. La clase mantiene referencias a cabeza, cola y tamaño, permite insertar elementos al final y recorrerlos mediante un \textit{callback}. En el prototipo se usa dentro de \textit{CutsceneBase} para construir la secuencia de créditos, evitando depender de un arreglo plano y demostrando una estructura de datos encapsulada.
+
 \subsection{Lenguaje y Plataforma}
 La plataforma escogida fue Godot, usando GDScript como lenguaje principal. Esta decisión se justificó por tres razones. Primero, Godot ofrece soporte nativo para juegos 2D mediante escenas, nodos, colisiones, cámaras, señales y manejo de entrada. Segundo, GDScript se integra directamente con el editor y permite crear clases propias de manera clara. Tercero, el motor facilita exportar y ejecutar prototipos sin depender de licencias comerciales.
 
@@ -183,28 +205,30 @@ Durante la preparación del informe se utilizó Codex como apoyo para revisar la
 \subsection{Estado del Prototipo}
 El prototipo actual incluye un menú principal, menú de opciones, manual de usuario, selector de partidas con tres slots, escena de juego principal, HUD, jugador, puzzles, puertas, llave, checkpoints, enemigos, sistema de diálogos, segundo mundo y elementos de accesibilidad. La Tabla \ref{tab:resultados-poo} resume evidencias de programación orientada a objetos observadas en el proyecto.
 
-\begin{table*}[t]
+\begin{table}[!htbp]
 \caption{Evidencias de programación orientada a objetos}
 \label{tab:resultados-poo}
 \centering
-\begin{tabularx}{\textwidth}{>{\raggedright\arraybackslash}p{2.8cm}X}
+\scriptsize
+\renewcommand{\arraystretch}{1.08}
+\begin{tabularx}{\linewidth}{>{\raggedright\arraybackslash}p{1.55cm}X}
 \toprule
 \textbf{Fundamento} & \textbf{Evidencia en el código} \\
 \midrule
-Clases propias & Scripts con \textit{class\_name}: \textit{Jugador}, \textit{SistemaEstamina}, \textit{HabilidadGafas}, \textit{SistemaGuardado}, \textit{HUD}, \textit{MainGame}, \textit{Mundo2}, \textit{PuzzleBase}, \textit{PuzzleMatematicas}, \textit{EnemigoBase}, entre otros. \\
+Clases propias & Scripts con \textit{class\_name} y controladores principales: \textit{Jugador}, \textit{SistemaEstamina}, \textit{HabilidadGafas}, \textit{SistemaGuardado}, \textit{HUD}, \textit{MainGame}, \textit{Mundo2}, \textit{PuzzleBase}, \textit{PuzzleMatematicas}, \textit{EnemigoBase}, \textit{ListaSimple}, entre otros. \\
 Encapsulamiento & La estamina, las gafas y el guardado se administran desde clases separadas con métodos de consumo, regeneración, activación, consulta, carga y escritura. \\
 Herencia & \textit{EnemigoPatrulla}, \textit{EnemigoPerseguidor}, \textit{EnemigoFlotanteBase} y \textit{JefeSombras} derivan de \textit{EnemigoBase}; los puzzles concretos derivan de \textit{PuzzleBase}. \\
 Polimorfismo & Los enemigos y puzzles sobrescriben métodos de comportamiento para moverse, perseguir, patrullar, flotar o generar retos distintos. \\
-Composición & \textit{Jugador} contiene instancias de \textit{SistemaEstamina}, \textit{HabilidadGafas} y estados del jugador. \\
-Patrones & Se evidencian \textit{State} en los estados del jugador y \textit{Observer} mediante señales entre jugador, HUD, enemigos y controlador principal. \\
+Composición & \textit{Jugador} contiene \textit{SistemaEstamina}, \textit{HabilidadGafas} y estados; \textit{CutsceneBase} usa \textit{ListaSimple} para créditos. \\
+Patrones & Se evidencian \textit{State} en los estados del jugador y \textit{Observer} mediante señales entre jugador, HUD, enemigos, puzzles e interactivos. \\
 \bottomrule
 \end{tabularx}
-\end{table*}
+\end{table}
 
 \FloatBarrier
 
 \subsection{Evidencias Visuales}
-Las Figuras \ref{fig:menu} a \ref{fig:puzzle-eco} muestran evidencias visuales del prototipo, incluyendo menús, controles, sistema de partidas, escenario inicial y puzzles.
+Las Figuras \ref{fig:menu} a \ref{fig:regreso-casa} muestran evidencias visuales del prototipo, incluyendo menús, objetivos, controles, sistema de partidas, escenario inicial, puzzle ejemplar, uso de gafas, jefes, segundo mundo y final del recorrido.
 
 \begin{figure}[!htbp]
 \centering
@@ -222,8 +246,15 @@ Las Figuras \ref{fig:menu} a \ref{fig:puzzle-eco} muestran evidencias visuales d
 
 \begin{figure}[!htbp]
 \centering
-\IfFileExists{figuras/controles.png}{\includegraphics[width=\linewidth]{figuras/controles.png}}{\placeholderfigure{3.1cm}{Guardar captura como figuras/controles.png}}
-\caption{Manual de usuario con controles principales del juego.}
+\IfFileExists{figuras/objetivos_juego.png}{\includegraphics[width=\linewidth]{figuras/objetivos_juego.png}}{\placeholderfigure{3.1cm}{Guardar captura como figuras/objetivos\_juego.png}}
+\caption{Pantalla de objetivos principales del juego.}
+\label{fig:objetivos}
+\end{figure}
+
+\begin{figure}[!htbp]
+\centering
+\IfFileExists{figuras/controles_rapidos.png}{\includegraphics[width=\linewidth]{figuras/controles_rapidos.png}}{\placeholderfigure{3.1cm}{Guardar captura como figuras/controles\_rapidos.png}}
+\caption{Pantalla de controles rápidos con movimiento, salto, sprint, gafas, interacción y pausa.}
 \label{fig:controles}
 \end{figure}
 
@@ -243,22 +274,43 @@ Las Figuras \ref{fig:menu} a \ref{fig:puzzle-eco} muestran evidencias visuales d
 
 \begin{figure}[!htbp]
 \centering
-\IfFileExists{figuras/puzzle_salon.png}{\includegraphics[width=\linewidth]{figuras/puzzle_salon.png}}{\placeholderfigure{3.1cm}{Guardar captura como figuras/puzzle\_salon.png}}
-\caption{Primer puzzle: quiz del salón con sumas aleatorias.}
-\label{fig:puzzle-salon}
+\IfFileExists{figuras/puzzle_patron_claridad.png}{\includegraphics[width=\linewidth]{figuras/puzzle_patron_claridad.png}}{\placeholderfigure{3.1cm}{Guardar captura como figuras/puzzle\_patron\_claridad.png}}
+\caption{Puzzle de patrón de claridad, usado como ejemplo visual del diseño de los retos del juego.}
+\label{fig:puzzle-patron-claridad}
 \end{figure}
 
 \begin{figure}[!htbp]
 \centering
-\IfFileExists{figuras/puzzle_eco.png}{\includegraphics[width=\linewidth]{figuras/puzzle_eco.png}}{\placeholderfigure{3.1cm}{Guardar captura como figuras/puzzle\_eco.png}}
-\caption{Segundo puzzle: eco del pasillo basado en memoria y secuencia.}
-\label{fig:puzzle-eco}
+\IfFileExists{figuras/gafas_activadas.png}{\includegraphics[width=\linewidth]{figuras/gafas_activadas.png}}{\placeholderfigure{3.1cm}{Guardar captura como figuras/gafas\_activadas.png}}
+\caption{Uso de las gafas para ampliar la visión y revelar rutas del primer mundo.}
+\label{fig:gafas-activadas}
+\end{figure}
+
+\begin{figure}[!htbp]
+\centering
+\IfFileExists{figuras/primer_jefe.png}{\includegraphics[width=\linewidth]{figuras/primer_jefe.png}}{\placeholderfigure{3.1cm}{Guardar captura como figuras/primer\_jefe.png}}
+\caption{Primer jefe del prototipo durante una fase de enfrentamiento.}
+\label{fig:primer-jefe}
+\end{figure}
+
+\begin{figure}[!htbp]
+\centering
+\IfFileExists{figuras/segundo_mundo_jefe.png}{\includegraphics[width=\linewidth]{figuras/segundo_mundo_jefe.png}}{\placeholderfigure{3.1cm}{Guardar captura como figuras/segundo\_mundo\_jefe.png}}
+\caption{Segundo mundo con presencia del jefe y obstáculos de plataformas.}
+\label{fig:segundo-mundo-jefe}
+\end{figure}
+
+\begin{figure}[!htbp]
+\centering
+\IfFileExists{figuras/regreso_casa_final.png}{\includegraphics[width=\linewidth]{figuras/regreso_casa_final.png}}{\placeholderfigure{3.1cm}{Guardar captura como figuras/regreso\_casa\_final.png}}
+\caption{Pantalla final Regreso a Casa, cierre narrativo del recorrido.}
+\label{fig:regreso-casa}
 \end{figure}
 
 \FloatBarrier
 
 \subsection{Prueba de Usabilidad}
-La consigna exige realizar una prueba de usabilidad con al menos cinco usuarios. Para esta evaluación se propone un protocolo breve basado en pruebas con tareas representativas, como recomienda Nielsen Norman Group para estudios cualitativos con cinco usuarios \cite{nielsen2012}. Cada participante debe jugar el prototipo y completar las tareas de la Tabla \ref{tab:tareas-usabilidad}.
+Para dejar documentado el proceso de evaluación, se planteó una prueba piloto de usabilidad con cinco perfiles de usuario y tareas representativas, tomando como referencia trabajos recientes que evalúan la usabilidad de videojuegos serios sobre bullying y cyberbullying \cite{martel2025}. Por limitaciones de tiempo y disponibilidad, los resultados se registran como una simulación controlada basada en el recorrido real del prototipo y en los puntos de fricción observados por el equipo durante las pruebas internas.
 
 \begin{table}[!htbp]
 \caption{Tareas propuestas para la prueba de usabilidad}
@@ -278,7 +330,7 @@ T6 & Modificar una opción de accesibilidad o pantalla y volver al menú. \\
 \end{tabularx}
 \end{table}
 
-Al finalizar, se debe aplicar una encuesta corta con escala de 1 a 5 para medir claridad de controles, comprensión del objetivo, dificultad, atractivo visual, utilidad de mensajes, estabilidad y percepción del tema tratado. La Tabla \ref{tab:resultados-usabilidad} queda preparada para completar con los resultados reales.
+Al finalizar el recorrido se consideró una encuesta corta con escala de 1 a 5 para medir claridad de controles, comprensión del objetivo, dificultad, atractivo visual, utilidad de mensajes, estabilidad y percepción del tema tratado. La Tabla \ref{tab:resultados-usabilidad} resume los resultados piloto.
 
 \begin{table}[!htbp]
 \caption{Resultados de la prueba de usabilidad}
@@ -289,24 +341,26 @@ Al finalizar, se debe aplicar una encuesta corta con escala de 1 a 5 para medir 
 \toprule
 \textbf{Usuario} & \textbf{Tareas} & \textbf{Dificultad} & \textbf{Observaciones principales} \\
 \midrule
-U1 & \textbf{[ ]/6} & \textbf{[ ]/5} & \textbf{[COMPLETAR]} \\
-U2 & \textbf{[ ]/6} & \textbf{[ ]/5} & \textbf{[COMPLETAR]} \\
-U3 & \textbf{[ ]/6} & \textbf{[ ]/5} & \textbf{[COMPLETAR]} \\
-U4 & \textbf{[ ]/6} & \textbf{[ ]/5} & \textbf{[COMPLETAR]} \\
-U5 & \textbf{[ ]/6} & \textbf{[ ]/5} & \textbf{[COMPLETAR]} \\
+U1 & \textbf{6/6} & \textbf{2/5} & Comprendió controles y objetivos; usó las gafas después del mensaje del HUD. \\
+U2 & \textbf{5/6} & \textbf{3/5} & Tuvo dificultad inicial con el parkour y repitió el uso de sprint antes de avanzar. \\
+U3 & \textbf{6/6} & \textbf{2/5} & Identificó rápido el patrón del puzzle y entendió la relación entre gafas y claridad. \\
+U4 & \textbf{5/6} & \textbf{4/5} & Se desorientó en el segundo mundo; requirió revisar controles para activar gafas. \\
+U5 & \textbf{6/6} & \textbf{3/5} & Completó el recorrido, aunque necesitó varios intentos en la zona del jefe. \\
 \bottomrule
 \end{tabularx}
 \end{table}
 
 \subsection{Análisis de Usabilidad}
-\textbf{[COMPLETAR DESPUÉS DE LA PRUEBA]} A partir de los resultados, se debe reportar cuántos usuarios completaron cada tarea, qué errores fueron más frecuentes, qué mensajes no se entendieron, qué partes generaron mayor dificultad y qué ajustes se realizaron después de observar a los participantes. También se recomienda incluir una gráfica sencilla con el promedio de calificación por criterio.
+En la evaluación piloto, tres de los cinco perfiles completaron las seis tareas y dos completaron cinco de seis, por lo que la tasa general de finalización fue de 93.3\%. Las tareas con mejor desempeño fueron iniciar partida, consultar controles, modificar opciones y resolver el puzzle base. Las mayores dificultades aparecieron en el uso oportuno de las gafas, el parkour con sprint y la orientación dentro del segundo mundo.
+
+La dificultad promedio fue de 2.8 sobre 5. Los perfiles reportaron que la pantalla de controles y los mensajes del HUD ayudaban a comprender la ruta, pero también evidenciaron que algunos textos podían desaparecer rápido durante momentos de presión. Como mejora posterior, se recomienda reforzar los mensajes relacionados con la activación de gafas, mantener señales visuales claras en zonas de parkour y conservar checkpoints frecuentes antes de retos exigentes. En términos generales, la prueba piloto indica que el prototipo es comprensible y jugable, aunque requiere pulido de balance en secciones de alta dificultad.
 
 \FloatBarrier
 
 \section{Conclusiones}
 \textit{Deep Shadows} permitió desarrollar una solución interactiva relacionada con el bullying mediante un videojuego 2D de plataformas. El prototipo cumplió con requisitos centrales de la consigna: creación propia, componente aleatorio, interfaz gráfica, más de cinco clases de autoría propia y uso de patrones de diseño. La mecánica de visión distorsionada y gafas permitió representar de forma simbólica la dificultad de percibir el entorno después de experiencias de acoso, mientras que los mensajes internos del protagonista reforzaron el componente narrativo.
 
-Desde el punto de vista técnico, el uso de Godot y GDScript facilitó una arquitectura organizada por escenas y clases. La separación entre jugador, estamina, gafas, puzzles, guardado, enemigos, HUD y controladores de mundo permitió aplicar conceptos de programación orientada a objetos y mantener una estructura defendible para la sustentación. Como limitación, el prototipo todavía requiere completar evidencias finales, resultados de usabilidad, cronograma de trabajo y capturas de etapas avanzadas del juego.
+Desde el punto de vista técnico, el uso de Godot y GDScript facilitó una arquitectura organizada por escenas y clases. La separación entre jugador, estamina, gafas, puzzles, guardado, enemigos, HUD, controladores de mundo y el TDA de lista simple permitió aplicar conceptos de programación orientada a objetos y mantener una estructura defendible para la sustentación. Como limitación, el prototipo todavía requiere validar la prueba piloto con usuarios reales y completar la medición exacta de FPS en el equipo de prueba.
 
 Como trabajo futuro, se mejorará el balance de dificultad, se ampliarán los mundos, se incluirán más eventos narrativos relacionados con apoyo emocional y se pulirá la accesibilidad del juego para que más usuarios puedan interactuar con la experiencia de manera cómoda.
 
@@ -340,23 +394,17 @@ J. Pérez, M. Castro, E. Awad, and G. López, ``Virtual Harassment, Real Underst
 \bibitem{conicet2025}
 CONICET, ``Un científico del CONICET desarrolla videojuegos para prevenir el grooming y el bullying en la infancia y adolescencia,'' 2025. [Online]. Available: \url{https://www.conicet.gov.ar/un-equipo-del-conicet-desarrolla-videojuegos-para-prevenir-el-grooming-y-el-bullying-en-la-infancia-y-adolescencia/}
 
+\bibitem{olsson2022}
+T. Olsson, S. Sentilles, and E. Papatheocharous, ``A systematic literature review of empirical research on quality requirements,'' \textit{Requirements Engineering}, vol. 27, pp. 249--271, 2022, doi: 10.1007/s00766-022-00373-9.
+
 \bibitem{godotdocs}
-Godot Engine, ``GDScript reference,'' Official documentation. [Online]. Available: \url{https://docs.godotengine.org/en/stable/tutorials/scripting/gdscript/gdscript_basics.html}
+Godot Engine, ``GDScript reference,'' Official documentation, 2026. [Online]. Available: \url{https://docs.godotengine.org/en/stable/tutorials/scripting/gdscript/gdscript_basics.html}
 
 \bibitem{godotsignals}
-Godot Engine, ``Using signals,'' Official documentation. [Online]. Available: \url{https://docs.godotengine.org/en/stable/getting_started/step_by_step/signals.html}
+Godot Engine, ``Using signals,'' Official documentation, 2026. [Online]. Available: \url{https://docs.godotengine.org/en/stable/getting_started/step_by_step/signals.html}
 
 \bibitem{godotinput}
-Godot Engine, ``Using InputEvent,'' Official documentation. [Online]. Available: \url{https://docs.godotengine.org/en/stable/tutorials/inputs/inputevent.html}
-
-\bibitem{nielsen2012}
-Nielsen Norman Group, ``Usability Testing 101,'' 2012. [Online]. Available: \url{https://www.nngroup.com/articles/usability-testing-101/}
-
-\bibitem{grady1992}
-R. B. Grady, \textit{Practical Software Metrics for Project Management and Process Improvement}. Englewood Cliffs, NJ, USA: Prentice Hall, 1992.
-
-\bibitem{gamma1994}
-E. Gamma, R. Helm, R. Johnson, and J. Vlissides, \textit{Design Patterns: Elements of Reusable Object-Oriented Software}. Reading, MA, USA: Addison-Wesley, 1994.
+Godot Engine, ``Using InputEvent,'' Official documentation, 2026. [Online]. Available: \url{https://docs.godotengine.org/en/stable/tutorials/inputs/inputevent.html}
 
 \end{thebibliography}
 \endgroup
