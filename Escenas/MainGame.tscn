@@ -631,7 +631,6 @@ aceleracion = 1000.0
 
 [node name="CamaraIntro" type="Camera2D" parent="Player" unique_id=994836912 node_paths=PackedStringArray("object")]
 zoom = Vector2(2.85, 2.85)
-limit_enabled = true
 limit_left = -12
 limit_top = -2110
 limit_right = 920
@@ -749,7 +748,7 @@ position = Vector2(0, -3.07)
 scale = Vector2(0.07, 0.07)
 
 [node name="NPC_6" parent="NPC" unique_id=1114308193 instance=ExtResource("23_npc")]
-position = Vector2(2356, -1482)
+position = Vector2(1272, -1707)
 nombre_npc = "Profesor"
 lineas_dialogo = ["Rapido a su cupitre"]
 
