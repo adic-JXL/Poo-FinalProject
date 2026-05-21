@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Deep Shadow | Pinneapple Engine</title>
+  <meta
+    name="description"
+    content="Landing page descriptiva de Deep Shadow, un videojuego pixel art hecho en Godot con enfoque POO."
+  />
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+  <div class="noise" aria-hidden="true"></div>
+  <div class="cursor-glow" aria-hidden="true"></div>
+
+  <header class="site-header">
+    <a class="brand" href="#inicio" aria-label="Volver al inicio">
+      <span class="brand-mark"></span>
+      <span>Deep Shadow</span>
+    </a>
+    <nav class="nav-links" aria-label="Navegacion principal">
+      <a href="#concepto">Concepto</a>
+      <a href="#resultados">Resultados</a>
+      <a href="#arquitectura">POO</a>
+      <a href="#mundos">Mundos</a>
+      <a href="#creditos">Creditos</a>
+    </nav>
+  </header>
+
+  <main>
+    <section id="inicio" class="hero section-screen">
+      <div class="pixel-bg" aria-hidden="true">
+        <img class="bg-layer layer-back" src="./assets/img/fondos/mundo1/fondo_cielo.png" alt="" />
+        <img class="bg-layer layer-mid" src="./assets/img/fondos/mundo1/fondo_medio.png" alt="" />
+        <img class="bg-layer layer-front" src="./assets/img/fondos/mundo1/fondo_arbol_frontal.png" alt="" />
+      </div>
+
+      <div class="hero-grid">
+        <div class="hero-copy reveal">
+          <p class="eyebrow">Pinneapple Engine presenta</p>
+          <h1>Deep Shadow</h1>
+          <p class="hero-lead">
+            Un juego pixel art en Godot sobre avanzar entre sombras, bullying y claridad.
+            Las gafas no son una debilidad: son la mecanica central para revelar caminos.
+          </p>
+          <div class="hero-actions">
+            <a class="button primary" href="#resultados">Ver resultados</a>
+            <a class="button ghost" href="#arquitectura">Arquitectura POO</a>
+          </div>
+        </div>
+
+        <div class="hero-stage reveal delay-1" aria-label="Escena pixel art del proyecto">
+          <div class="stage-card">
+            <div class="hud-preview">
+              <span class="hud-title">STAMINA</span>
+              <span class="hud-bar"><span></span></span>
+              <img src="./assets/img/hud/lives_text.png" alt="Lives" />
+              <span class="heart-row">
+                <img src="./assets/img/hud/heart_full.png" alt="" />
+                <img src="./assets/img/hud/heart_full.png" alt="" />
+                <img src="./assets/img/hud/heart_empty.png" alt="" />
+              </span>
+            </div>
+            <div class="stage-floor"></div>
+            <img id="playerSprite" class="sprite player" src="./assets/img/personaje/idle_00.png" alt="Jugador" />
+            <img id="glassesSprite" class="sprite glasses" src="./assets/img/objetos/gafas_00.png" alt="Gafas" />
+            <img id="slimeSprite" class="sprite slime" src="./assets/img/enemigos/slime/slime_00.png" alt="Slime" />
+            <div class="thought-bubble">
+              <span>Al final el mundo no se ve tan mal.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="concepto" class="section panel-section">
+      <div class="section-heading reveal">
+        <p class="eyebrow">Idea principal</p>
+        <h2>Ver distinto tambien puede salvarte</h2>
+        <p>
+          Deep Shadow toma el bullying como conflicto narrativo y lo convierte en gameplay:
+          miedo, persecucion, rutas ocultas, pensamientos internos y puzzles que solo se
+          entienden cuando el jugador activa las gafas.
+        </p>
+      </div>
+
+      <div class="feature-grid">
+        <article class="feature-card reveal">
+          <span class="card-number">01</span>
+          <h3>Gafas activables</h3>
+          <p>Revelan plataformas, aclaran la vision, dan buffs de movilidad y cambian la lectura del mundo.</p>
+        </article>
+        <article class="feature-card reveal delay-1">
+          <span class="card-number">02</span>
+          <h3>Bullying como sistema</h3>
+          <p>Los pensamientos aparecen como burbujas cercanas al personaje para reforzar el tono psicologico.</p>
+        </article>
+        <article class="feature-card reveal delay-2">
+          <span class="card-number">03</span>
+          <h3>Progreso jugable</h3>
+          <p>Puertas, checkpoints, puzzles, jefe slime y persecucion final forman una ruta completa.</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="resultados" class="section results-section">
+      <div class="section-heading reveal">
+        <p class="eyebrow">Resultados logrados</p>
+        <h2>Un prototipo completo con identidad propia</h2>
+      </div>
+
+      <div class="metrics">
+        <article class="metric reveal">
+          <strong data-count="2">0</strong>
+          <span>Mundos conectados</span>
+        </article>
+        <article class="metric reveal delay-1">
+          <strong data-count="3">0</strong>
+          <span>Slots de guardado</span>
+        </article>
+        <article class="metric reveal delay-2">
+          <strong data-count="4">0</strong>
+          <span>Puzzles y retos</span>
+        </article>
+        <article class="metric reveal delay-3">
+          <strong data-count="5">0</strong>
+          <span>Sistemas POO clave</span>
+        </article>
+      </div>
+
+      <div class="result-list">
+        <article class="result-item reveal">
+          <h3>Mundo 1 cerrado</h3>
+          <p>Exploracion, llave, puerta, puzzle de gafas, parkour oculto y jefe por fases con totems.</p>
+        </article>
+        <article class="result-item reveal">
+          <h3>Mundo 2 conectado</h3>
+          <p>Persecucion con muro verde, camara dinamica, checkpoints, puzzle de nodos y cierre final.</p>
+        </article>
+        <article class="result-item reveal">
+          <h3>Game feel</h3>
+          <p>Vigneta, distorsion, HUD pixelado, particulas, sonidos, pensamientos y transiciones narrativas.</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="arquitectura" class="section architecture-section">
+      <div class="section-heading reveal">
+        <p class="eyebrow">Programacion Orientada a Objetos</p>
+        <h2>Arquitectura</h2>
+        <p>
+          La logica se divide en controladores de mundo, entidades, sistemas de apoyo, vistas y jerarquias
+          reutilizables. Esto deja claro el uso de herencia, composicion, encapsulamiento y señales.
+        </p>
+      </div>
+
+      <div class="architecture-grid">
+        <article class="code-card reveal">
+          <h3>State</h3>
+          <p><code>EstadoJugadorBase</code> define comportamientos como normal, sprint, aturdido y bloqueado.</p>
+        </article>
+        <article class="code-card reveal delay-1">
+          <h3>Observer</h3>
+          <p><code>Jugador</code> emite señales para vida, estamina, sprint y gafas; <code>HUD</code> reacciona.</p>
+        </article>
+        <article class="code-card reveal delay-2">
+          <h3>TDA Lista Simple</h3>
+          <p><code>ListaSimple</code> usa nodos enlazados para renderizar creditos sin depender de arrays.</p>
+        </article>
+        <article class="code-card reveal delay-3">
+          <h3>Guardado</h3>
+          <p><code>SistemaGuardado</code> maneja 3 slots con <code>ConfigFile</code> y restaura progreso.</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="mundos" class="section worlds-section">
+      <div class="section-heading reveal">
+        <p class="eyebrow">Ruta del jugador</p>
+        <h2>Dos mundos, una misma sombra</h2>
+      </div>
+
+      <div class="world-showcase">
+        <article class="world-card reveal">
+          <div class="world-art forest">
+            <img src="./assets/img/objetos/puerta_cerrada_final.png" alt="Puerta del mundo 1" />
+            <img class="mini-player" src="./assets/img/personaje/walk_00.png" alt="Jugador caminando" />
+          </div>
+          <h3>Mundo 1: claridad oculta</h3>
+          <p>El jugador explora, activa las gafas, revela plataformas y derrota al jefe sin atacar directamente.</p>
+        </article>
+
+        <article class="world-card reveal delay-1">
+          <div class="world-art final">
+            <img id="wallSprite" class="wall" src="./assets/img/enemigos/muro_verde/muro_verde_00.png" alt="Muro verde" />
+            <img class="mini-player running" src="./assets/img/personaje/run_00.png" alt="Jugador corriendo" />
+          </div>
+          <h3>Mundo 2: persecucion</h3>
+          <p>Un muro gigante representa insultos y presion. Si alcanza al jugador, la carrera reinicia.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section timeline-section">
+      <div class="section-heading reveal">
+        <p class="eyebrow">Hoja de ruta completada</p>
+        <h2>Del UML base al prototipo final</h2>
+      </div>
+
+      <ol class="timeline">
+        <li class="reveal">
+          <span>Inicio</span>
+          <p>Movimiento, salto, stamina, HUD y puertas.</p>
+        </li>
+        <li class="reveal">
+          <span>Sistemas</span>
+          <p>Gafas, puzzles, checkpoints, guardado y menu.</p>
+        </li>
+        <li class="reveal">
+          <span>Contenido</span>
+          <p>Jefe slime, mundo 2, persecucion y final.</p>
+        </li>
+        <li class="reveal">
+          <span>Pulido</span>
+          <p>Pixel art, sonidos, vigneta, pensamientos y cinematicas.</p>
+        </li>
+      </ol>
+    </section>
+  </main>
+
+  <footer id="creditos" class="site-footer">
+    <div>
+      <p class="eyebrow">Equipo</p>
+      <h2>Pinneapple Engine</h2>
+      <p>Deep Shadow - Proyecto final de Programacion Orientada a Objetos.</p>
+    </div>
+    <div class="footer-chip">Godot + HTML + CSS + JS</div>
+  </footer>
+
+  <script src="./script.js"></script>
+</body>
+</html>
