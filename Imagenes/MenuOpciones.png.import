@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dvf634a6iwejo"
-path="res://.godot/imported/segundo_mundo_jefe.png-56b6351e839242e02221448bdc0cf2e5.ctex"
+uid="uid://31kx1qijn2p4"
+path="res://.godot/imported/MenuOpciones.png-982ed6a2931e1c70de7b8087e52b9efa.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://docs/figuras/segundo_mundo_jefe.png"
-dest_files=["res://.godot/imported/segundo_mundo_jefe.png-56b6351e839242e02221448bdc0cf2e5.ctex"]
+source_file="res://Imagenes/MenuOpciones.png"
+dest_files=["res://.godot/imported/MenuOpciones.png-982ed6a2931e1c70de7b8087e52b9efa.ctex"]
 
 [params]
 

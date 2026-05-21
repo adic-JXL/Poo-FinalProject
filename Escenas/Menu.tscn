@@ -55,21 +55,6 @@ texture = ExtResource("4_j7eae")
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_bmckm"]
 texture = ExtResource("4_j7eae")
 
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_q7uug"]
-texture = ExtResource("3_425bc")
-
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_4fgvs"]
-texture = ExtResource("4_2a5i7")
-
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_p7plt"]
-texture = ExtResource("4_j7eae")
-
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_f7sd3"]
-texture = ExtResource("4_j7eae")
-
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_bskcp"]
-texture = ExtResource("4_j7eae")
-
 [sub_resource type="FontVariation" id="FontVariation_m10g6"]
 base_font = ExtResource("2_o2l53")
 
@@ -145,18 +130,7 @@ theme_override_styles/hover = SubResource("StyleBoxTexture_ik8kc")
 theme_override_styles/focus = SubResource("StyleBoxTexture_bmckm")
 text = "Opciones"
 
-[node name="Controles" type="Button" parent="VBoxContainer" unique_id=465103718]
-layout_mode = 2
-theme_override_fonts/font = ExtResource("2_o2l53")
-theme_override_font_sizes/font_size = 27
-theme_override_styles/normal = SubResource("StyleBoxTexture_q7uug")
-theme_override_styles/pressed = SubResource("StyleBoxTexture_4fgvs")
-theme_override_styles/hover = SubResource("StyleBoxTexture_p7plt")
-theme_override_styles/hover_mirrored = SubResource("StyleBoxTexture_f7sd3")
-theme_override_styles/focus = SubResource("StyleBoxTexture_bskcp")
-text = "Controles"
-
-[node name="Creditos" type="Button" parent="VBoxContainer" unique_id=449064763]
+[node name="Creditos" type="Button" parent="VBoxContainer"]
 layout_mode = 2
 theme_override_fonts/font = SubResource("FontVariation_2ahv8")
 theme_override_font_sizes/font_size = 27
@@ -178,6 +152,5 @@ text = "Salir"
 
 [connection signal="pressed" from="VBoxContainer/Jugar" to="." method="_on_jugar_pressed"]
 [connection signal="pressed" from="VBoxContainer/Opciones" to="." method="_on_opciones_pressed"]
-[connection signal="pressed" from="VBoxContainer/Controles" to="." method="_on_controles_pressed"]
 [connection signal="pressed" from="VBoxContainer/Creditos" to="." method="_on_creditos_pressed"]
 [connection signal="pressed" from="VBoxContainer/Salir" to="." method="_on_salir_pressed"]

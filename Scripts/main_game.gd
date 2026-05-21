@@ -53,30 +53,6 @@ const PENSAMIENTO_NPCS_PATIO := "Voy a tomar un pequeño descanso en el patio."
 const PENSAMIENTO_NPC_VALOR := "Ojala algun dia saque el valor para decirles como me siento."
 const PENSAMIENTO_PATIO_DIFERENTE := "Wow el patio se ve diferente."
 const LIMITE_Y_PROLOGO := -500.0
-const CAMARA_PROLOGO_CASA := {
-	"max_x": 920.0,
-	"zoom": Vector2(2.85, 2.85),
-	"left": -12,
-	"top": -2110,
-	"right": 920,
-	"bottom": -1360,
-}
-const CAMARA_PROLOGO_ESCUELA := {
-	"max_x": 1985.0,
-	"zoom": Vector2(2.46, 2.46),
-	"left": 1140,
-	"top": -1748,
-	"right": 1970,
-	"bottom": -1390,
-}
-const CAMARA_PROLOGO_SALON := {
-	"max_x": 999999.0,
-	"zoom": Vector2(2.58, 2.58),
-	"left": 2010,
-	"top": -1695,
-	"right": 2548,
-	"bottom": -1358,
-}
 
 @export var limite_caida_y: float = 700.0
 @export var escala_tiempo_golpe: float = 0.45
@@ -196,7 +172,6 @@ var _teletransporte_salon_npc_2_realizado: bool = false
 var _puzzle_salon_npc_2_resuelto: bool = false
 var _npcs_post_puzzle_dialogados := {}
 var _pensamiento_patio_mostrado: bool = false
-var _objetivos_mundo_1_mostrados: bool = false
 var puzzle_matematicas: PuzzleBase = null
 
 
@@ -215,8 +190,6 @@ func _ready() -> void:
 	_configurar_gafas()
 	_configurar_menu_pausa()
 	_configurar_intro_video()
-	_configurar_camara_prologo()
-	_ocultar_puerta_salida_escuela()
 	_configurar_npcs()
 	_preparar_canvas_runtime()
 	_crear_puzzle_matematicas()
@@ -244,7 +217,6 @@ func _physics_process(_delta: float) -> void:
 	if _pausa_activa:
 		return
 
-	_actualizar_camara_prologo_por_zona()
 	_actualizar_estado_zona_jefe()
 
 	if jugador.global_position.y > limite_caida_y:
@@ -504,43 +476,6 @@ func _configurar_intro_video() -> void:
 	intro_canvas.hide()
 	if not intro_video.finished.is_connected(_on_intro_video_finished):
 		intro_video.finished.connect(_on_intro_video_finished)
-
-
-func _configurar_camara_prologo() -> void:
-	if camara_intro == null:
-		return
-
-	camara_intro.limit_enabled = true
-	_actualizar_camara_prologo_por_zona()
-
-
-func _actualizar_camara_prologo_por_zona() -> void:
-	if camara_intro == null or jugador == null:
-		return
-
-	if jugador.global_position.y >= LIMITE_Y_PROLOGO:
-		return
-
-	var perfil := _obtener_perfil_camara_prologo(jugador.global_position)
-	camara_intro.zoom = perfil["zoom"]
-	camara_intro.limit_enabled = true
-	camara_intro.limit_left = int(perfil["left"])
-	camara_intro.limit_top = int(perfil["top"])
-	camara_intro.limit_right = int(perfil["right"])
-	camara_intro.limit_bottom = int(perfil["bottom"])
-
-
-func _obtener_perfil_camara_prologo(posicion: Vector2) -> Dictionary:
-	if posicion.x < float(CAMARA_PROLOGO_CASA["max_x"]):
-		return CAMARA_PROLOGO_CASA
-	if posicion.x < float(CAMARA_PROLOGO_ESCUELA["max_x"]):
-		return CAMARA_PROLOGO_ESCUELA
-	return CAMARA_PROLOGO_SALON
-
-
-func _ocultar_puerta_salida_escuela() -> void:
-	if puerta_8 != null:
-		puerta_8.hide()
 
 
 func _configurar_npcs() -> void:
@@ -830,34 +765,11 @@ func _on_puerta_teletransporte_realizado(_jugador: Node2D, destino: Node2D) -> v
 func _on_puerta_7_teletransporte_realizado(_jugador: Node2D, destino: Node2D) -> void:
 	_sincronizar_camara_con_jugador()
 
-	if destino != puerta_8:
+	if _pensamiento_patio_mostrado or destino != puerta_8:
 		return
 
-	if not _pensamiento_patio_mostrado:
-		_pensamiento_patio_mostrado = true
-		_mostrar_pensamiento_interno(PENSAMIENTO_PATIO_DIFERENTE)
-
-	if not _objetivos_mundo_1_mostrados:
-		call_deferred("_reproducir_objetivos_post_escuela")
-
-
-func _reproducir_objetivos_post_escuela() -> void:
-	if _objetivos_mundo_1_mostrados or jugador == null:
-		return
-
-	_objetivos_mundo_1_mostrados = true
-	jugador.velocity = Vector2.ZERO
-	jugador.establecer_control_habilitado(false)
-	_establecer_enemigos_congelados(true)
-	var cutscene := CUTSCENE_BASE_SCRIPT.new()
-	add_child(cutscene)
-	await cutscene.reproducir_objetivos_mundo_1()
-	await cutscene.reproducir_controles()
-	cutscene.queue_free()
-	if not _pausa_activa and not _puzzle_activo:
-		jugador.establecer_control_habilitado(true)
-	_establecer_enemigos_congelados(_pausa_activa or _puzzle_activo)
-	_restaurar_mensaje_hud()
+	_pensamiento_patio_mostrado = true
+	_mostrar_pensamiento_interno(PENSAMIENTO_PATIO_DIFERENTE)
 
 
 func _on_checkpoint_puerta_alcanzado(posicion: Vector2, _mensaje: String) -> void:
@@ -1321,8 +1233,6 @@ func _sincronizar_camara_con_jugador() -> void:
 
 	var en_prologo := camara_intro != null and jugador.global_position.y < LIMITE_Y_PROLOGO
 	var camara_objetivo: Camera2D = camara_intro if en_prologo else camara_1
-	if en_prologo:
-		_actualizar_camara_prologo_por_zona()
 	if not en_prologo:
 		if _jugador_en_zona_jefe:
 			camara_objetivo = camara_3

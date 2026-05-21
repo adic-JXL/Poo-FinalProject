@@ -5,7 +5,6 @@ const SistemaGuardadoClass = preload("res://Scripts/sistema_guardado.gd")
 const CUTSCENE_BASE_SCRIPT := preload("res://Scripts/cutscene_base.gd")
 const FUENTE_PIXEL := preload("res://Fuentes/joystix monospace.otf")
 
-
 @onready var boton_jugar: Button = $VBoxContainer/Jugar
 
 var _overlay_slots: ColorRect = null
@@ -13,7 +12,6 @@ var _panel_slots: PanelContainer = null
 var _filas_slots: Array[Dictionary] = []
 var _boton_cancelar_slots: Button = null
 var _creditos_en_reproduccion: bool = false
-var _controles_en_reproduccion: bool = false
 
 
 func _ready() -> void:
@@ -324,20 +322,3 @@ func _estilizar_boton_selector(boton: Button, color_borde: Color) -> void:
 	boton.add_theme_stylebox_override("pressed", pressed)
 	boton.add_theme_stylebox_override("focus", hover)
 	boton.add_theme_stylebox_override("disabled", disabled)
-
-
-func _on_controles_pressed() -> void:
-	if _controles_en_reproduccion:
-		return
-
-	if _overlay_slots != null and _overlay_slots.visible:
-		_cerrar_selector_slots()
-
-	_controles_en_reproduccion = true
-	var cutscene := CUTSCENE_BASE_SCRIPT.new()
-	add_child(cutscene)
-	await cutscene.reproducir_controles()
-	cutscene.queue_free()
-	_controles_en_reproduccion = false
-	if boton_jugar != null:
-		boton_jugar.grab_focus()

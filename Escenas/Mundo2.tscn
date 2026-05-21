@@ -382,7 +382,7 @@ position = Vector2(12496, 560)
 [node name="ObjetosMundo2" type="Node2D" parent="." unique_id=1158251764]
 
 [node name="CheckpointCarrera1" type="Marker2D" parent="ObjetosMundo2" unique_id=1176637546]
-position = Vector2(2417, 611)
+position = Vector2(2417, 472)
 
 [node name="CheckpointCarrera2" type="Marker2D" parent="ObjetosMundo2" unique_id=1470762291]
 position = Vector2(6208, 520)

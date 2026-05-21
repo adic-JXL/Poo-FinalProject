@@ -2,7 +2,6 @@ extends CanvasLayer
 class_name CutsceneBase
 
 const FUENTE_PIXEL := preload("res://Fuentes/joystix monospace.otf")
-const LISTA_SIMPLE_SCRIPT := preload("res://Scripts/tda_lista_simple.gd")
 
 const FRAMES_IDLE := [
 	"res://Imagenes/Personaje/idle_00.png",
@@ -48,6 +47,12 @@ const TEXTURA_PUERTA_CERRADA := "res://Imagenes/Objetos/puerta_cerrada_final.png
 const TEXTURA_PUERTA_ABIERTA := "res://Imagenes/Objetos/puerta_abierta_final.png"
 const TEXTURA_FONDO_MUNDO_1 := "res://Imagenes/Fondos/Mundo1/fondo_frontal.png"
 const TEXTURA_FONDO_MUNDO_2 := "res://Imagenes/Fondos/MundoFinal/fondo_05_pilares.png"
+const CREDITOS := [
+	{"nombre": "Cafusa", "rol": "Programacion y arquitectura POO"},
+	{"nombre": "CristianFuentesSanchez", "rol": "Arte visual y UI"},
+	{"nombre": "issa", "rol": "Niveles, puzzles y narrativa"},
+	{"nombre": "ManuJei", "rol": "Gameplay, balance e integracion"},
+]
 
 var _root: Control
 var _overlay: ColorRect
@@ -106,28 +111,6 @@ func reproducir_intro_inicio() -> void:
 	)
 
 
-func reproducir_objetivos_mundo_1() -> void:
-	await _mostrar_cinematica(
-		"OBJETIVOS",
-		"Encuentra la llave, activa las gafas, resuelve los patrones y cruza el primer mundo sin dejar que las sombras decidan por ti.",
-		"Ruta del mundo 1",
-		6.0,
-		Color(0.86, 0.94, 0.43, 1.0),
-		Callable(self, "_montar_objetivos_mundo_1")
-	)
-
-
-func reproducir_controles() -> void:
-	await _mostrar_cinematica(
-		"CONTROLES",
-		"Muevete, salta, interactua y usa las gafas. La ruta se aprende jugando.",
-		"Guia rapida",
-		9.0,
-		Color(0.45, 0.82, 0.93, 1.0),
-		Callable(self, "_montar_controles")
-	)
-
-
 func reproducir_transicion_mundo_2() -> void:
 	await _mostrar_cinematica(
 		"ENTRE MUNDOS",
@@ -161,8 +144,8 @@ func reproducir_pantalla_final_creditos() -> void:
 	)
 	await _mostrar_cinematica(
 		"CREDITOS",
-		"Deep Shadow por Pinneapple Engine.",
-		"Equipo Pinneapple Engine",
+		"Deep Shadow - Proyecto final de Programacion Orientada a Objetos.",
+		"Equipo",
 		7.0,
 		Color(0.50, 0.84, 0.90, 1.0),
 		Callable(self, "_montar_creditos")
@@ -172,8 +155,8 @@ func reproducir_pantalla_final_creditos() -> void:
 func reproducir_creditos_menu() -> void:
 	await _mostrar_cinematica(
 		"CREDITOS",
-		"Deep Shadow por Pinneapple Engine.",
-		"Equipo Pinneapple Engine",
+		"Deep Shadow - Proyecto final de Programacion Orientada a Objetos.",
+		"Equipo",
 		7.0,
 		Color(0.50, 0.84, 0.90, 1.0),
 		Callable(self, "_montar_creditos")
@@ -355,35 +338,11 @@ func _montar_controles() -> void:
 	_agregar_caption("Tip: con las gafas activas aparecen rutas ocultas y el mundo se vuelve mas claro.")
 
 
-func _montar_objetivos_mundo_1() -> void:
-	_agregar_fondo_textura(TEXTURA_FONDO_MUNDO_1, Color(0.34, 0.48, 0.54, 0.82))
-	_agregar_rect(_stage, Vector2(0, 220), Vector2(760, 65), Color(0.08, 0.10, 0.10, 0.90), "SueloObjetivos")
-	var player := _crear_sprite_animado(_stage, FRAMES_IDLE, Vector2(52, 154), Vector2(86, 104), 5.0, "JugadorObjetivos")
-	_animar_pulso(player, Vector2.ONE, Vector2(1.04, 1.04), 0.9)
-
-	var objetivos := [
-		{"titulo": "1. Busca la llave", "texto": "La primera puerta no se abre sin resolver su puzzle."},
-		{"titulo": "2. Usa las gafas", "texto": "Revelan plataformas, pistas y caminos que no se ven normal."},
-		{"titulo": "3. Supera el parkour", "texto": "Administra tiempo, salto y claridad para avanzar."},
-		{"titulo": "4. Enfrenta al jefe", "texto": "No atacas: sobrevives, activas totems y moldeas la arena."},
-	]
-	for i in range(objetivos.size()):
-		var datos: Dictionary = Dictionary(objetivos[i])
-		var y := 34 + i * 48
-		_agregar_rect(_stage, Vector2(168, y), Vector2(510, 38), Color(0.04, 0.055, 0.06, 0.78), "FilaObjetivo")
-		var titulo := _agregar_label(_stage, String(datos["titulo"]), Vector2(184, y + 5), Vector2(170, 16), 8, Color(0.88, 0.94, 0.43, 1.0))
-		titulo.horizontal_alignment = HORIZONTAL_ALIGNMENT_LEFT
-		var texto := _agregar_label(_stage, String(datos["texto"]), Vector2(368, y + 5), Vector2(292, 26), 7, Color(0.78, 0.88, 0.80, 1.0))
-		texto.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-
-	_agregar_caption("Objetivo central: avanzar usando claridad, no fuerza.")
-
-
 func _montar_transicion_mundo_2() -> void:
 	_agregar_fondo_textura(TEXTURA_FONDO_MUNDO_2, Color(0.55, 0.68, 0.75, 0.82))
 	_agregar_rect(_stage, Vector2(0, 220), Vector2(760, 65), Color(0.11, 0.13, 0.15, 0.88), "Suelo")
-	var puerta_cerrada := _crear_sprite_estatico(_stage, TEXTURA_PUERTA_CERRADA, Vector2(514, 62), Vector2(120, 174), "PuertaCerrada")
-	var puerta_abierta := _crear_sprite_estatico(_stage, TEXTURA_PUERTA_ABIERTA, Vector2(514, 62), Vector2(120, 174), "PuertaAbierta")
+	var puerta_cerrada := _crear_sprite_estatico(_stage, TEXTURA_PUERTA_CERRADA, Vector2(502, 72), Vector2(136, 172), "PuertaCerrada")
+	var puerta_abierta := _crear_sprite_estatico(_stage, TEXTURA_PUERTA_ABIERTA, Vector2(502, 72), Vector2(136, 172), "PuertaAbierta")
 	puerta_abierta.modulate.a = 0.0
 
 	var player := _crear_sprite_animado(_stage, FRAMES_RUN, Vector2(52, 150), Vector2(88, 108), 10.0, "JugadorRun")
@@ -454,37 +413,23 @@ func _montar_creditos() -> void:
 	_agregar_fondo_degradado(Color(0.035, 0.045, 0.060, 1.0), Color(0.08, 0.10, 0.12, 1.0))
 	var encabezado := _agregar_label(_stage, "DEEP SHADOW", Vector2(0, 18), Vector2(760, 30), 17, Color(0.86, 0.94, 0.43, 1.0))
 	encabezado.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	var subtitulo := _agregar_label(_stage, "PINNEAPPLE ENGINE", Vector2(0, 52), Vector2(760, 22), 10, Color(0.72, 0.86, 0.78, 1.0))
+	var subtitulo := _agregar_label(_stage, "Proyecto final - Programacion Orientada a Objetos", Vector2(0, 52), Vector2(760, 22), 8, Color(0.72, 0.86, 0.78, 1.0))
 	subtitulo.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 
-	var creditos: Variant = _crear_creditos_tda()
-	creditos.para_cada(Callable(self, "_agregar_credito_visual"))
+	for i in range(CREDITOS.size()):
+		var datos: Dictionary = Dictionary(CREDITOS[i])
+		var y := 88 + i * 38
+		var fondo_fila := _agregar_rect(_stage, Vector2(68, y - 4), Vector2(624, 32), Color(0.06, 0.08, 0.09, 0.55), "FilaCredito")
+		fondo_fila.color = Color(0.06, 0.08, 0.09, 0.55)
+		var nombre := _agregar_label(_stage, String(datos["nombre"]), Vector2(90, y + 3), Vector2(236, 20), 9, Color(0.92, 0.96, 0.82, 1.0))
+		nombre.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+		var rol := _agregar_label(_stage, String(datos["rol"]), Vector2(354, y + 1), Vector2(306, 24), 8, Color(0.62, 0.80, 0.80, 1.0))
+		rol.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		var punto := _agregar_rect(_stage, Vector2(338, y + 10), Vector2(6, 6), Color(0.86, 0.94, 0.43, 1.0), "PuntoCredito")
+		_animar_pulso(punto, Vector2.ONE, Vector2(1.28, 1.28), 0.7 + i * 0.05)
 
-	var cierre := _agregar_label(_stage, "Gracias por jugar.", Vector2(0, 252), Vector2(760, 24), 12, Color(0.86, 0.94, 0.43, 1.0))
+	var cierre := _agregar_label(_stage, "Gracias por jugar.", Vector2(0, 252), Vector2(760, 24), 11, Color(0.86, 0.94, 0.43, 1.0))
 	cierre.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-
-
-func _crear_creditos_tda() -> Variant:
-	var creditos: Variant = LISTA_SIMPLE_SCRIPT.new()
-	creditos.insertar_final({"nombre": "Cafusa", "rol": "Programacion y arquitectura POO"})
-	creditos.insertar_final({"nombre": "Jeremy", "rol": "Arte visual y UI"})
-	creditos.insertar_final({"nombre": "issa", "rol": "Niveles, puzzles y narrativa"})
-	creditos.insertar_final({"nombre": "ManuJei", "rol": "Gameplay, balance e integracion"})
-	creditos.insertar_final({"nombre": "Barandica", "rol": "UML y presentacion"})
-	return creditos
-
-
-func _agregar_credito_visual(datos_var: Variant, indice: int) -> void:
-	var datos: Dictionary = Dictionary(datos_var)
-	var y := 82 + indice * 32
-	var fondo_fila := _agregar_rect(_stage, Vector2(58, y - 4), Vector2(644, 28), Color(0.06, 0.08, 0.09, 0.55), "FilaCredito")
-	fondo_fila.color = Color(0.06, 0.08, 0.09, 0.55)
-	var nombre := _agregar_label(_stage, String(datos["nombre"]), Vector2(84, y), Vector2(234, 22), 9, Color(0.92, 0.96, 0.82, 1.0))
-	nombre.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
-	var rol := _agregar_label(_stage, String(datos["rol"]), Vector2(356, y), Vector2(326, 24), 8, Color(0.62, 0.80, 0.80, 1.0))
-	rol.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	var punto := _agregar_rect(_stage, Vector2(336, y + 8), Vector2(7, 7), Color(0.86, 0.94, 0.43, 1.0), "PuntoCredito")
-	_animar_pulso(punto, Vector2.ONE, Vector2(1.28, 1.28), 0.7 + indice * 0.05)
 
 
 func _crear_tarjeta_control(posicion: Vector2, datos: Dictionary, indice: int) -> void:
@@ -518,7 +463,7 @@ func _crear_tarjeta_control(posicion: Vector2, datos: Dictionary, indice: int) -
 			var gafas := _crear_sprite_animado(tarjeta, FRAMES_GAFAS, Vector2(18, 48), Vector2(52, 28), 7.0, "IconGafas")
 			_animar_pulso(gafas, Vector2.ONE, Vector2(1.12, 1.12), 0.65)
 		"door":
-			_crear_sprite_estatico(tarjeta, TEXTURA_PUERTA_ABIERTA, Vector2(18, 31), Vector2(52, 50), "IconPuerta")
+			_crear_sprite_estatico(tarjeta, TEXTURA_PUERTA_ABIERTA, Vector2(28, 34), Vector2(36, 48), "IconPuerta")
 		_:
 			_agregar_label(tarjeta, "||", Vector2(28, 44), Vector2(32, 28), 16, Color(0.88, 0.94, 0.43, 1.0))
 
@@ -681,10 +626,6 @@ func _agregar_label(padre: Control, texto: String, posicion: Vector2, tamano: Ve
 	label.add_theme_font_override("font", FUENTE_PIXEL)
 	label.add_theme_font_size_override("font_size", font_size)
 	label.add_theme_color_override("font_color", color)
-	label.add_theme_color_override("font_outline_color", Color(0.0, 0.0, 0.0, 0.88))
-	label.add_theme_constant_override("outline_size", 1 if font_size <= 11 else 2)
-	label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
-	label.clip_text = false
 	label.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	padre.add_child(label)
 	return label
