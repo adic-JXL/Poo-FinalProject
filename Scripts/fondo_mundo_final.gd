@@ -87,7 +87,7 @@ func _process(_delta: float) -> void:
 			continue
 
 		var scroll := float(datos.get("scroll", 1.0))
-		capa_nodo.position.x = camara.global_position.x * (1.0 - scroll)
+		capa_nodo.position.x = camara.get_screen_center_position().x * (1.0 - scroll)
 
 
 func _crear_relleno_base() -> void:
