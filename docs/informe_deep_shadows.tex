@@ -71,6 +71,8 @@ Martel-Santana y Martín-del-Pozo evaluaron la usabilidad de \textit{About Us}, 
 
 Brečko et al. evaluaron el \textit{CyberSafe Tool}, una intervención educativa basada en juego serio sobre cyberviolencia. La intervención fue aplicada a 959 adolescentes entre 13 y 16 años y usó mediciones antes, inmediatamente después y tres semanas después. Los resultados indicaron cambios positivos de actitud que se mantuvieron en la medición posterior \cite{brecko2024}. Este trabajo confirma la utilidad de integrar narrativa, roles y discusión guiada para abordar problemáticas sociales.
 
+Pérez et al. exploraron el uso de juegos serios y modelos probabilísticos para estudiar cyberbullying, tanto mediante redes bayesianas como mediante generación de datos sintéticos para analizar decisiones de jugadores \cite{perez2023,perez2024}. Estos trabajos son relevantes porque muestran que los videojuegos pueden servir no solo como recurso educativo, sino también como medio para observar patrones de respuesta ante situaciones de acoso.
+
 Finalmente, el CONICET reportó iniciativas recientes de videojuegos y simulaciones virtuales para prevenir grooming y bullying en infancia y adolescencia, destacando el potencial de los \textit{serious games} para educar, sensibilizar y transformar conductas desde edades tempranas \cite{conicet2025}. Estos antecedentes muestran que \textit{Deep Shadows} se ubica dentro de una línea actual de soluciones interactivas que buscan generar conciencia social mediante experiencias jugables.
 
 \section{Metodología}
@@ -123,7 +125,7 @@ RF-11 & El usuario debe poder modificar opciones de audio, pantalla y accesibili
 \end{table*}
 
 \subsection{Requerimientos No Funcionales}
-Los requisitos no funcionales se organizaron usando el modelo FURPS, que clasifica atributos de calidad en funcionalidad, usabilidad, confiabilidad, rendimiento y soporte \cite{grady1992}. La Tabla \ref{tab:furps} presenta la aplicación del modelo al proyecto.
+Los requisitos no funcionales se organizaron usando categorías de calidad inspiradas en el modelo FURPS: funcionalidad, usabilidad, confiabilidad, rendimiento y soporte. Estas categorías permiten describir cómo debe comportarse el sistema más allá de sus funciones principales, lo cual coincide con la noción reciente de requisitos de calidad en ingeniería de software \cite{olsson2022}. La Tabla \ref{tab:furps} presenta la aplicación del modelo al proyecto.
 
 \begin{table*}[t]
 \caption{Requerimientos no funcionales basados en FURPS}
@@ -308,7 +310,7 @@ Las Figuras \ref{fig:menu} a \ref{fig:regreso-casa} muestran evidencias visuales
 \FloatBarrier
 
 \subsection{Prueba de Usabilidad}
-Para dejar documentado el proceso de evaluación, se planteó una prueba piloto de usabilidad con cinco perfiles de usuario y tareas representativas, siguiendo la recomendación de Nielsen Norman Group sobre estudios cualitativos con cinco usuarios \cite{nielsen2012}. Por limitaciones de tiempo y disponibilidad, los resultados se registran como una simulación controlada basada en el recorrido real del prototipo y en los puntos de fricción observados por el equipo durante las pruebas internas.
+Para dejar documentado el proceso de evaluación, se planteó una prueba piloto de usabilidad con cinco perfiles de usuario y tareas representativas, tomando como referencia trabajos recientes que evalúan la usabilidad de videojuegos serios sobre bullying y cyberbullying \cite{martel2025}. Por limitaciones de tiempo y disponibilidad, los resultados se registran como una simulación controlada basada en el recorrido real del prototipo y en los puntos de fricción observados por el equipo durante las pruebas internas.
 
 \begin{table}[!htbp]
 \caption{Tareas propuestas para la prueba de usabilidad}
@@ -392,23 +394,17 @@ J. Pérez, M. Castro, E. Awad, and G. López, ``Virtual Harassment, Real Underst
 \bibitem{conicet2025}
 CONICET, ``Un científico del CONICET desarrolla videojuegos para prevenir el grooming y el bullying en la infancia y adolescencia,'' 2025. [Online]. Available: \url{https://www.conicet.gov.ar/un-equipo-del-conicet-desarrolla-videojuegos-para-prevenir-el-grooming-y-el-bullying-en-la-infancia-y-adolescencia/}
 
+\bibitem{olsson2022}
+T. Olsson, S. Sentilles, and E. Papatheocharous, ``A systematic literature review of empirical research on quality requirements,'' \textit{Requirements Engineering}, vol. 27, pp. 249--271, 2022, doi: 10.1007/s00766-022-00373-9.
+
 \bibitem{godotdocs}
-Godot Engine, ``GDScript reference,'' Official documentation. [Online]. Available: \url{https://docs.godotengine.org/en/stable/tutorials/scripting/gdscript/gdscript_basics.html}
+Godot Engine, ``GDScript reference,'' Official documentation, 2026. [Online]. Available: \url{https://docs.godotengine.org/en/stable/tutorials/scripting/gdscript/gdscript_basics.html}
 
 \bibitem{godotsignals}
-Godot Engine, ``Using signals,'' Official documentation. [Online]. Available: \url{https://docs.godotengine.org/en/stable/getting_started/step_by_step/signals.html}
+Godot Engine, ``Using signals,'' Official documentation, 2026. [Online]. Available: \url{https://docs.godotengine.org/en/stable/getting_started/step_by_step/signals.html}
 
 \bibitem{godotinput}
-Godot Engine, ``Using InputEvent,'' Official documentation. [Online]. Available: \url{https://docs.godotengine.org/en/stable/tutorials/inputs/inputevent.html}
-
-\bibitem{nielsen2012}
-Nielsen Norman Group, ``Usability Testing 101,'' 2012. [Online]. Available: \url{https://www.nngroup.com/articles/usability-testing-101/}
-
-\bibitem{grady1992}
-R. B. Grady, \textit{Practical Software Metrics for Project Management and Process Improvement}. Englewood Cliffs, NJ, USA: Prentice Hall, 1992.
-
-\bibitem{gamma1994}
-E. Gamma, R. Helm, R. Johnson, and J. Vlissides, \textit{Design Patterns: Elements of Reusable Object-Oriented Software}. Reading, MA, USA: Addison-Wesley, 1994.
+Godot Engine, ``Using InputEvent,'' Official documentation, 2026. [Online]. Available: \url{https://docs.godotengine.org/en/stable/tutorials/inputs/inputevent.html}
 
 \end{thebibliography}
 \endgroup
