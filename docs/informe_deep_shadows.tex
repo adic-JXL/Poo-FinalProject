@@ -57,7 +57,7 @@ Las principales contribuciones del proyecto son las siguientes:
     \item Se implementó un prototipo funcional en Godot con menú principal, sistema de partidas, opciones, manual de usuario, mundos, HUD, puzzles aleatorios, enemigos y progresión.
     \item Se aplicaron fundamentos de programación orientada a objetos mediante clases propias, herencia, encapsulamiento, composición, señales y polimorfismo.
     \item Se incorporaron patrones de diseño defendibles: \textit{State} para los estados del jugador y \textit{Observer} mediante señales de Godot para desacoplar eventos del juego.
-    \item Se incluyeron elementos de accesibilidad y usabilidad, como filtros de color para daltonismo, control de volumen, resolución, modo de pantalla, intensidad de sacudida de cámara y una escena de controles.
+    \item Se incluyeron elementos de accesibilidad, usabilidad e inclusión, como selector de \textit{skin}, filtros de color para daltonismo, control de volumen, resolución, modo de pantalla, intensidad de sacudida de cámara y una escena de controles.
 \end{itemize}
 
 \section{Trabajos Relacionados}
@@ -149,7 +149,9 @@ Soporte & El código debe estar dividido en clases y escenas mantenibles, con no
 El equipo mínimo usado por el grupo para ejecutar el prototipo fue un portátil DELL con nombre de dispositivo ManuDell, procesador 13th Gen Intel(R) Core(TM) i5-1335U a 1.30 GHz, 16.0 GB de RAM instalada, tarjeta gráfica Intel(R) Iris(R) Xe Graphics, almacenamiento con 422 GB de 477 GB usados y sistema operativo de 64 bits basado en x64. La medición de rendimiento queda preparada para completarse posteriormente: \textbf{FPS promedio observado: 120 FPS}.
 
 \subsection{Componente Inclusivo}
-Aunque inicialmente se consideró una selección de \textit{skin}, en la versión actual el componente inclusivo se orientó hacia accesibilidad visual y comodidad de interacción. El menú de opciones permite seleccionar filtros de color para distintos tipos de daltonismo, modificar el volumen, probar sonido, ajustar resolución, cambiar modo de pantalla y regular la sacudida de cámara. Adicionalmente, el juego presenta instrucciones visuales mediante el manual de usuario, mensajes dentro del HUD y textos de retroalimentación en puzzles.
+El componente inclusivo del prototipo incorpora un selector de \textit{skin} para que el jugador pueda elegir entre dos variantes del personaje principal: una masculina y una femenina. Esta selección no modifica las mecánicas de juego, la dificultad ni la progresión, sino que permite una representación básica del jugador dentro de la experiencia. La evidencia visual de este selector se mostrará durante la presentación del proyecto, por lo que no se incluye una captura adicional dentro del informe.
+
+Además del selector de \textit{skin}, el juego integra opciones de accesibilidad visual y comodidad de interacción. El menú de opciones permite seleccionar filtros de color para distintos tipos de daltonismo, modificar el volumen, probar sonido, ajustar resolución, cambiar modo de pantalla y regular la sacudida de cámara. Adicionalmente, el juego presenta instrucciones visuales mediante el manual de usuario, mensajes dentro del HUD y textos de retroalimentación en puzzles.
 
 \subsection{Arquitectura Orientada a Objetos}
 El diseño del juego se basó en clases propias de GDScript. Godot permite registrar scripts como clases mediante \textit{class\_name}, usar herencia con \textit{extends}, definir señales y organizar la lógica en nodos y escenas \cite{godotdocs}. En el prototipo se identificaron más de cinco clases de autoría propia, por lo que se cumple el mínimo exigido en la consigna.
@@ -203,7 +205,7 @@ Durante la preparación del informe se utilizó Codex como apoyo para revisar la
 
 \section{Resultados}
 \subsection{Estado del Prototipo}
-El prototipo actual incluye un menú principal, menú de opciones, manual de usuario, selector de partidas con tres slots, escena de juego principal, HUD, jugador, puzzles, puertas, llave, checkpoints, enemigos, sistema de diálogos, segundo mundo y elementos de accesibilidad. La Tabla \ref{tab:resultados-poo} resume evidencias de programación orientada a objetos observadas en el proyecto.
+El prototipo actual incluye un menú principal, menú de opciones, manual de usuario, selector de partidas con tres slots, selector de \textit{skin} con personaje masculino y femenino, escena de juego principal, HUD, jugador, puzzles, puertas, llave, checkpoints, enemigos, sistema de diálogos, segundo mundo y elementos de accesibilidad. La Tabla \ref{tab:resultados-poo} resume evidencias de programación orientada a objetos observadas en el proyecto.
 
 \begin{table}[!htbp]
 \caption{Evidencias de programación orientada a objetos}
@@ -410,4 +412,3 @@ Godot Engine, ``Using InputEvent,'' Official documentation, 2026. [Online]. Avai
 \endgroup
 
 \end{document}
-
