@@ -7,6 +7,19 @@
 [ext_resource type="Script" uid="uid://cnx4uyhdhmi2v" path="res://Scripts/mundo_2.gd" id="5_mundo2"]
 [ext_resource type="PackedScene" uid="uid://sh8mxgnkcji2" path="res://Escenas/Personaje.tscn" id="6_personaje"]
 [ext_resource type="PackedScene" path="res://Escenas/HUD.tscn" id="7_hud"]
+[ext_resource type="Texture2D" uid="uid://bi0msk7vexwup" path="res://Imagenes/Decoracion/Flores/Flor amarilla.png" id="8_bu4j5"]
+[ext_resource type="Texture2D" uid="uid://cntljccp4sw5n" path="res://Imagenes/Decoracion/Flores/Flor azul.png" id="9_w0jod"]
+[ext_resource type="Texture2D" uid="uid://coais083b0gq5" path="res://Imagenes/Decoracion/Flores/Flor morada.png" id="10_1wh2r"]
+[ext_resource type="Texture2D" uid="uid://bippdg5w5pqn" path="res://Imagenes/Decoracion/Hojas/Arbusto1.png" id="11_xt78q"]
+[ext_resource type="Texture2D" uid="uid://itv3ncxnli0j" path="res://Imagenes/Decoracion/Hojas/Arbol.png" id="12_ho5s3"]
+[ext_resource type="Texture2D" uid="uid://de1ox4eokiy0n" path="res://Imagenes/Decoracion/Hojas/cesped.png" id="13_7r76s"]
+[ext_resource type="Texture2D" uid="uid://bns5kqim6par8" path="res://Imagenes/Decoracion/Hongos/Hongo4.png" id="14_pansv"]
+[ext_resource type="Texture2D" uid="uid://ddt8rvjes2jur" path="res://Imagenes/Decoracion/Roca griz/roca griz 3.png" id="15_a537y"]
+[ext_resource type="Texture2D" uid="uid://cs6ydbtmoa8t7" path="res://Imagenes/Decoracion/Roca griz/roca griz 1.png" id="16_3t3v0"]
+[ext_resource type="Texture2D" uid="uid://c0nqbd77o8ixf" path="res://Imagenes/Decoracion/Roca griz/roca griz 2.png" id="17_2jgma"]
+[ext_resource type="Texture2D" uid="uid://7eng85dner1s" path="res://Imagenes/Decoracion/Hojas/Arbusto2.png" id="18_6rd8y"]
+[ext_resource type="Texture2D" uid="uid://c76a8cqioarqs" path="res://Imagenes/Decoracion/Roca amarilla/roca amarilla 1.png" id="19_tvoe6"]
+[ext_resource type="Texture2D" uid="uid://bujfhq7abdjra" path="res://Imagenes/Decoracion/Hongos/Hongo2.png" id="20_wnxm7"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_x75q3"]
 texture = ExtResource("1_frq32")
@@ -430,3 +443,258 @@ position = Vector2(144, 520)
 [node name="Canvas" type="CanvasLayer" parent="." unique_id=1687639113]
 
 [node name="HUD" parent="Canvas" unique_id=750660049 instance=ExtResource("7_hud")]
+
+[node name="FlorAmarilla" type="Sprite2D" parent="." unique_id=1262313212]
+texture_filter = 1
+position = Vector2(219, 616)
+texture = ExtResource("8_bu4j5")
+
+[node name="FlorAmarilla2" type="Sprite2D" parent="." unique_id=1942557146]
+texture_filter = 1
+position = Vector2(264, 615)
+texture = ExtResource("8_bu4j5")
+
+[node name="FlorAmarilla3" type="Sprite2D" parent="." unique_id=2030700674]
+texture_filter = 1
+position = Vector2(342, 615)
+texture = ExtResource("8_bu4j5")
+
+[node name="FlorAzul" type="Sprite2D" parent="." unique_id=174744362]
+texture_filter = 1
+position = Vector2(305, 615)
+texture = ExtResource("9_w0jod")
+
+[node name="FlorMorada" type="Sprite2D" parent="." unique_id=774961424]
+texture_filter = 1
+position = Vector2(381, 616)
+texture = ExtResource("10_1wh2r")
+
+[node name="Arbusto1" type="Sprite2D" parent="." unique_id=1405470575]
+texture_filter = 1
+position = Vector2(803, 460)
+texture = ExtResource("11_xt78q")
+
+[node name="Arbol" type="Sprite2D" parent="." unique_id=1640392272]
+texture_filter = 1
+position = Vector2(1298, 459)
+texture = ExtResource("12_ho5s3")
+
+[node name="Cesped" type="Sprite2D" parent="." unique_id=82089840]
+texture_filter = 1
+position = Vector2(1738, 458)
+texture = ExtResource("13_7r76s")
+
+[node name="Cesped2" type="Sprite2D" parent="." unique_id=447437862]
+texture_filter = 1
+position = Vector2(1798, 457)
+texture = ExtResource("13_7r76s")
+
+[node name="Cesped3" type="Sprite2D" parent="." unique_id=798366833]
+texture_filter = 1
+position = Vector2(1770, 458)
+texture = ExtResource("13_7r76s")
+
+[node name="Arbol2" type="Sprite2D" parent="." unique_id=696060461]
+texture_filter = 1
+position = Vector2(2116, 459)
+texture = ExtResource("12_ho5s3")
+
+[node name="Arbol3" type="Sprite2D" parent="." unique_id=202139752]
+texture_filter = 1
+position = Vector2(2167, 602)
+texture = ExtResource("12_ho5s3")
+
+[node name="Cesped4" type="Sprite2D" parent="." unique_id=143528228]
+texture_filter = 1
+position = Vector2(2229, 601)
+texture = ExtResource("13_7r76s")
+
+[node name="Cesped5" type="Sprite2D" parent="." unique_id=699254387]
+texture_filter = 1
+position = Vector2(2413, 601)
+texture = ExtResource("13_7r76s")
+
+[node name="Hongo4" type="Sprite2D" parent="." unique_id=654894064]
+texture_filter = 1
+position = Vector2(2553, 603)
+texture = ExtResource("14_pansv")
+
+[node name="FlorMorada2" type="Sprite2D" parent="." unique_id=686322415]
+texture_filter = 1
+position = Vector2(2568, 472)
+texture = ExtResource("10_1wh2r")
+
+[node name="FlorAmarilla4" type="Sprite2D" parent="." unique_id=1954950039]
+texture_filter = 1
+position = Vector2(2678, 503)
+texture = ExtResource("8_bu4j5")
+
+[node name="FlorAmarilla5" type="Sprite2D" parent="." unique_id=333225920]
+texture_filter = 1
+position = Vector2(2703, 613)
+texture = ExtResource("8_bu4j5")
+
+[node name="FlorMorada3" type="Sprite2D" parent="." unique_id=610024048]
+texture_filter = 1
+position = Vector2(2975, 615)
+texture = ExtResource("10_1wh2r")
+
+[node name="FlorAzul2" type="Sprite2D" parent="." unique_id=1062322594]
+texture_filter = 1
+position = Vector2(3111, 615)
+texture = ExtResource("9_w0jod")
+
+[node name="FlorAzul3" type="Sprite2D" parent="." unique_id=79438414]
+texture_filter = 1
+position = Vector2(3251, 616)
+texture = ExtResource("9_w0jod")
+
+[node name="Arbol4" type="Sprite2D" parent="." unique_id=1544128384]
+texture_filter = 1
+position = Vector2(3489, 540)
+texture = ExtResource("12_ho5s3")
+
+[node name="Arbusto2" type="Sprite2D" parent="." unique_id=1004267846]
+texture_filter = 1
+position = Vector2(3823, 540)
+texture = ExtResource("11_xt78q")
+
+[node name="Cesped6" type="Sprite2D" parent="." unique_id=1210056075]
+texture_filter = 1
+position = Vector2(4004, 537)
+texture = ExtResource("13_7r76s")
+
+[node name="Cesped7" type="Sprite2D" parent="." unique_id=1895706652]
+texture_filter = 1
+position = Vector2(3932, 537)
+texture = ExtResource("13_7r76s")
+
+[node name="Cesped8" type="Sprite2D" parent="." unique_id=808568734]
+texture_filter = 1
+position = Vector2(4111, 537)
+texture = ExtResource("13_7r76s")
+
+[node name="RocaGriz3" type="Sprite2D" parent="." unique_id=97885582]
+texture_filter = 1
+position = Vector2(6672, 605)
+texture = ExtResource("15_a537y")
+
+[node name="RocaGriz1" type="Sprite2D" parent="." unique_id=1402797769]
+texture_filter = 1
+position = Vector2(6942, 605)
+texture = ExtResource("16_3t3v0")
+
+[node name="RocaGriz2" type="Sprite2D" parent="." unique_id=1466876161]
+texture_filter = 1
+position = Vector2(6967, 608)
+texture = ExtResource("17_2jgma")
+
+[node name="RocaGriz4" type="Sprite2D" parent="." unique_id=837817582]
+texture_filter = 1
+position = Vector2(7600, 591)
+texture = ExtResource("15_a537y")
+
+[node name="RocaGriz5" type="Sprite2D" parent="." unique_id=698190872]
+texture_filter = 1
+position = Vector2(7625, 592)
+texture = ExtResource("16_3t3v0")
+
+[node name="RocaGriz6" type="Sprite2D" parent="." unique_id=538003011]
+texture_filter = 1
+position = Vector2(8700, 269)
+texture = ExtResource("15_a537y")
+
+[node name="RocaGriz7" type="Sprite2D" parent="." unique_id=251388945]
+texture_filter = 1
+position = Vector2(8851, 268)
+texture = ExtResource("17_2jgma")
+
+[node name="Cesped9" type="Sprite2D" parent="." unique_id=1520307837]
+texture_filter = 1
+position = Vector2(8417, 264)
+texture = ExtResource("13_7r76s")
+
+[node name="Cesped10" type="Sprite2D" parent="." unique_id=71482716]
+texture_filter = 1
+position = Vector2(8508, 265)
+texture = ExtResource("13_7r76s")
+
+[node name="Arbusto3" type="Sprite2D" parent="." unique_id=424990348]
+texture_filter = 1
+position = Vector2(8581, 268)
+texture = ExtResource("18_6rd8y")
+
+[node name="Arbol5" type="Sprite2D" parent="." unique_id=371907677]
+texture_filter = 1
+position = Vector2(10113, 601)
+texture = ExtResource("12_ho5s3")
+
+[node name="Cesped11" type="Sprite2D" parent="." unique_id=509250845]
+texture_filter = 1
+position = Vector2(9670, 600)
+texture = ExtResource("13_7r76s")
+
+[node name="Cesped12" type="Sprite2D" parent="." unique_id=134676828]
+texture_filter = 1
+position = Vector2(9754, 602)
+texture = ExtResource("13_7r76s")
+
+[node name="Arbusto4" type="Sprite2D" parent="." unique_id=1728209239]
+texture_filter = 1
+position = Vector2(9925, 602)
+texture = ExtResource("18_6rd8y")
+
+[node name="Arbusto5" type="Sprite2D" parent="." unique_id=107670786]
+texture_filter = 1
+position = Vector2(9830, 604)
+texture = ExtResource("11_xt78q")
+
+[node name="Cesped13" type="Sprite2D" parent="." unique_id=230795111]
+texture_filter = 1
+position = Vector2(10339, 601)
+texture = ExtResource("13_7r76s")
+
+[node name="Arbusto6" type="Sprite2D" parent="." unique_id=640426254]
+texture_filter = 1
+position = Vector2(10510, 604)
+texture = ExtResource("18_6rd8y")
+
+[node name="Arbol6" type="Sprite2D" parent="." unique_id=1631120369]
+texture_filter = 1
+position = Vector2(10620, 602)
+texture = ExtResource("12_ho5s3")
+
+[node name="Cesped14" type="Sprite2D" parent="." unique_id=1032619266]
+texture_filter = 1
+position = Vector2(10233, 600)
+texture = ExtResource("13_7r76s")
+
+[node name="RocaAmarilla1" type="Sprite2D" parent="." unique_id=1456963885]
+texture_filter = 1
+position = Vector2(12789, 604)
+texture = ExtResource("19_tvoe6")
+
+[node name="RocaGriz8" type="Sprite2D" parent="." unique_id=1140687875]
+texture_filter = 1
+position = Vector2(12816, 604)
+texture = ExtResource("17_2jgma")
+
+[node name="Hongo2" type="Sprite2D" parent="." unique_id=1821157418]
+texture_filter = 1
+position = Vector2(12999, 603)
+texture = ExtResource("20_wnxm7")
+
+[node name="Arbol7" type="Sprite2D" parent="." unique_id=1025398850]
+texture_filter = 1
+position = Vector2(13422, 600)
+texture = ExtResource("12_ho5s3")
+
+[node name="Cesped15" type="Sprite2D" parent="." unique_id=895882381]
+texture_filter = 1
+position = Vector2(12642, 601)
+texture = ExtResource("13_7r76s")
+
+[node name="Arbol8" type="Sprite2D" parent="." unique_id=543143238]
+texture_filter = 1
+position = Vector2(13828, 603)
+texture = ExtResource("12_ho5s3")
