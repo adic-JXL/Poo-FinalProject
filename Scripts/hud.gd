@@ -51,6 +51,7 @@ var _corazones: Array[TextureRect] = []
 var _corazones_container: HBoxContainer
 var _stamina_fill_rect: Control
 var _stamina_fill_ancho_max: float = 0.0
+var _stamina_porcentaje_label: Label
 var _item_box_frame: TextureRect
 var _gafas_icono: TextureRect
 var _item_box_label: Label
@@ -66,6 +67,7 @@ var _pensamiento_burbujas: Array[Panel] = []
 var _tween_pensamiento: Tween
 
 @onready var mensaje_panel: PanelContainer = $Control/MensajePanel
+@onready var root_control: Control = $Control
 @onready var mensaje_vbox: VBoxContainer = $Control/MensajePanel/MarginContainer/VBoxContainer
 @onready var mensaje_label: Label = $Control/MensajePanel/MarginContainer/VBoxContainer/MensajeLabel
 @onready var estado_label: Label = $Control/MensajePanel/MarginContainer/VBoxContainer/EstadoLabel
@@ -132,6 +134,30 @@ func mostrar_mensaje(texto: String) -> void:
 	mensaje_label.text = texto
 	if _mensaje_stamina_label != null:
 		_mensaje_stamina_label.text = texto
+
+
+func ocultar_para_cinematica() -> void:
+	if root_control == null:
+		hide()
+		return
+
+	root_control.hide()
+	if _pensamiento_root != null:
+		_pensamiento_root.hide()
+
+
+func mostrar_con_aparicion() -> void:
+	show()
+	if root_control == null:
+		return
+
+	root_control.show()
+	root_control.modulate = Color(1, 1, 1, 0)
+	var tween := create_tween()
+	tween.set_ignore_time_scale(true)
+	tween.set_trans(Tween.TRANS_SINE)
+	tween.set_ease(Tween.EASE_OUT)
+	tween.tween_property(root_control, "modulate:a", 1.0, 0.28)
 
 
 func mostrar_pensamiento(texto: String, positivo: bool = false) -> void:
@@ -525,13 +551,26 @@ func _configurar_stamina_visual() -> void:
 		brillo.color = Color(1.0, 0.98, 0.64, 0.30)
 		stamina_fill.add_child(brillo)
 
+	_stamina_porcentaje_label = Label.new()
+	_stamina_porcentaje_label.text = "100%"
+	_stamina_porcentaje_label.set_anchors_preset(Control.PRESET_FULL_RECT)
+	_stamina_porcentaje_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	_stamina_porcentaje_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	_stamina_porcentaje_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_stamina_porcentaje_label.add_theme_font_override("font", FUENTE_PIXEL)
+	_stamina_porcentaje_label.add_theme_font_size_override("font_size", 10)
+	_stamina_porcentaje_label.add_theme_color_override("font_color", Color(0.96, 0.96, 0.88, 1.0))
+	_stamina_porcentaje_label.add_theme_color_override("font_outline_color", Color(0.02, 0.02, 0.03, 0.96))
+	_stamina_porcentaje_label.add_theme_constant_override("outline_size", 2)
+	holder.add_child(_stamina_porcentaje_label)
+
 	_mensaje_stamina_label = Label.new()
 	_mensaje_stamina_label.text = ""
 	_mensaje_stamina_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	_mensaje_stamina_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	_mensaje_stamina_label.custom_minimum_size = Vector2(330, 28)
 	_mensaje_stamina_label.add_theme_font_override("font", FUENTE_PIXEL)
-	_mensaje_stamina_label.add_theme_font_size_override("font_size", 10)
+	_mensaje_stamina_label.add_theme_font_size_override("font_size", 11)
 	_mensaje_stamina_label.add_theme_color_override("font_color", Color(0.95, 0.97, 0.86, 1.0))
 	_mensaje_stamina_label.add_theme_color_override("font_outline_color", Color(0.02, 0.02, 0.03, 0.96))
 	_mensaje_stamina_label.add_theme_constant_override("outline_size", 2)
@@ -633,6 +672,8 @@ func _actualizar_relleno_stamina(actual: float, maxima: float) -> void:
 
 	var ratio := 0.0 if maxima <= 0.0 else clampf(actual / maxima, 0.0, 1.0)
 	_stamina_fill_rect.size.x = _stamina_fill_ancho_max * ratio
+	if _stamina_porcentaje_label != null:
+		_stamina_porcentaje_label.text = "%d%%" % int(round(ratio * 100.0))
 
 
 func _actualizar_item_box_visual(color_objetivo: Color, texto: String) -> void:

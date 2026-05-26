@@ -639,6 +639,8 @@ func _reproducir_intro_video() -> void:
 	jugador.velocity = Vector2.ZERO
 	jugador.establecer_control_habilitado(false)
 	_establecer_enemigos_congelados(true)
+	if hud != null and hud.has_method("ocultar_para_cinematica"):
+		hud.ocultar_para_cinematica()
 	intro_canvas.show()
 	intro_video.play()
 
@@ -655,6 +657,8 @@ func _finalizar_intro_video() -> void:
 	if not _pausa_activa and not _puzzle_activo:
 		jugador.establecer_control_habilitado(true)
 	_establecer_enemigos_congelados(_pausa_activa or _puzzle_activo)
+	if hud != null and hud.has_method("mostrar_con_aparicion"):
+		hud.mostrar_con_aparicion()
 	_restaurar_mensaje_hud()
 
 
@@ -1803,6 +1807,8 @@ func _reproducir_intro_nueva_partida() -> void:
 		return
 
 	jugador.establecer_control_habilitado(false)
+	if hud.has_method("ocultar_para_cinematica"):
+		hud.ocultar_para_cinematica()
 	hud.mostrar_mensaje("Respira. Solo cruza el pasillo una vez mas.")
 	if hud.has_method("mostrar_pensamiento"):
 		hud.mostrar_pensamiento("Otra vez esas miradas. Solo sigue.", false)
@@ -1813,6 +1819,8 @@ func _reproducir_intro_nueva_partida() -> void:
 	cutscene.queue_free()
 	await get_tree().create_timer(0.2, true, false, true).timeout
 	jugador.establecer_control_habilitado(true)
+	if hud.has_method("mostrar_con_aparicion"):
+		hud.mostrar_con_aparicion()
 	_restaurar_mensaje_hud()
 
 
