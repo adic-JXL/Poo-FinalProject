@@ -55,6 +55,23 @@ const PENSAMIENTO_NPCS_PATIO := "Voy a tomar un pequeño descanso en el patio."
 const PENSAMIENTO_NPC_VALOR := "Ojala algun dia saque el valor para decirles como me siento."
 const PENSAMIENTO_PATIO_DIFERENTE := "Wow el patio se ve diferente."
 const LIMITE_Y_PROLOGO := -500.0
+const DECOR_RUTAS_MUNDO_1 := {
+	"arbol": "res://Imagenes/Decoracion/Hojas/Arbol.png",
+	"arbusto_1": "res://Imagenes/Decoracion/Hojas/Arbusto1.png",
+	"arbusto_2": "res://Imagenes/Decoracion/Hojas/Arbusto2.png",
+	"cesped": "res://Imagenes/Decoracion/Hojas/cesped.png",
+	"hongo_1": "res://Imagenes/Decoracion/Hongos/Hongo1.png",
+	"hongo_2": "res://Imagenes/Decoracion/Hongos/Hongo2.png",
+	"hongo_3": "res://Imagenes/Decoracion/Hongos/Hongo3.png",
+	"hongo_4": "res://Imagenes/Decoracion/Hongos/Hongo4.png",
+	"flor_amarilla": "res://Imagenes/Decoracion/Flores/Flor amarilla.png",
+	"flor_azul": "res://Imagenes/Decoracion/Flores/Flor azul.png",
+	"flor_morada": "res://Imagenes/Decoracion/Flores/Flor morada.png",
+	"roca_amarilla_1": "res://Imagenes/Decoracion/Roca amarilla/roca amarilla 1.png",
+	"roca_amarilla_2": "res://Imagenes/Decoracion/Roca amarilla/roca amarilla 2.png",
+	"roca_gris_1": "res://Imagenes/Decoracion/Roca griz/roca griz 1.png",
+	"roca_gris_2": "res://Imagenes/Decoracion/Roca griz/roca griz 2.png",
+}
 const CAMARA_PROLOGO_CASA := {
 	"max_x": 920.0,
 	"zoom": Vector2(3.8, 3.8),
@@ -233,6 +250,7 @@ func _ready() -> void:
 	_configurar_camara_prologo()
 	_ocultar_puerta_salida_escuela()
 	_configurar_npcs()
+	_asegurar_decoracion_mundo_1()
 	_preparar_canvas_runtime()
 	_crear_puzzle_matematicas()
 	_configurar_interactivo(llave, _on_llave_interaccion_solicitada)
@@ -597,6 +615,31 @@ func _configurar_npcs() -> void:
 	_conectar_pensamiento_npc_post_puzzle(npc_4, &"npc_4")
 	_conectar_pensamiento_npc_post_puzzle(npc_5, &"npc_5")
 	_establecer_npcs_post_puzzle_disponibles(false)
+	_aplicar_sprite_npc(get_node_or_null("NPC/NPC_1") as NPCDialogo, true)
+	_aplicar_sprite_npc(npc_2, true)
+	_aplicar_sprite_npc(npc_3, false)
+	_aplicar_sprite_npc(npc_4, false)
+	_aplicar_sprite_npc(npc_5, false)
+	_aplicar_sprite_npc(get_node_or_null("NPC/NPC_6") as NPCDialogo, true)
+
+
+func _aplicar_sprite_npc(npc: NPCDialogo, usar_gafas: bool) -> void:
+	if npc == null:
+		return
+
+	var visual_base := npc.get_node_or_null("Visual") as Polygon2D
+	if visual_base != null:
+		visual_base.color = Color(1, 1, 1, 0)
+		var sprite_visual := visual_base.get_node_or_null("Sprite2D") as Sprite2D
+		if sprite_visual != null:
+			sprite_visual.texture = load("res://Imagenes/Personaje_Girl/%s/idle/idle_00.png" % ("con_gafas" if usar_gafas else "sin_gafas")) as Texture2D
+			sprite_visual.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+			sprite_visual.position = Vector2(0, 14)
+			sprite_visual.scale = Vector2(1.45, 1.45)
+
+	var sprite_extra := npc.get_node_or_null("Sprite2D") as Sprite2D
+	if sprite_extra != null:
+		sprite_extra.visible = false
 
 
 func _conectar_pensamiento_npc_post_puzzle(npc: NPCDialogo, id_npc: StringName) -> void:
@@ -677,6 +720,103 @@ func _configurar_interactivo(interactivo: Node, callback: Callable) -> void:
 
 	interactivo.interaccion_solicitada.connect(callback)
 	interactivo.rango_interaccion_cambiado.connect(_on_rango_interaccion_cambiado)
+
+
+func _asegurar_decoracion_mundo_1() -> void:
+	var objetos := get_node_or_null("Objetos") as Node2D
+	if objetos == null:
+		return
+
+	var decoracion := objetos.get_node_or_null("DecoracionMundo1") as Node2D
+	if decoracion == null:
+		decoracion = Node2D.new()
+		decoracion.name = "DecoracionMundo1"
+		objetos.add_child(decoracion)
+
+	var elementos := [
+		{"nombre":"arbusto_inicio_1","tipo":"arbusto_1","pos":Vector2(924, 300),"escala":1.12},
+		{"nombre":"cesped_inicio_1","tipo":"cesped","pos":Vector2(1006, 304),"escala":1.08},
+		{"nombre":"hongo_inicio_1","tipo":"hongo_1","pos":Vector2(1094, 306),"escala":1.0},
+		{"nombre":"roca_inicio_1","tipo":"roca_gris_1","pos":Vector2(1178, 306),"escala":1.0},
+		{"nombre":"flor_inicio_1","tipo":"flor_amarilla","pos":Vector2(1292, 308),"escala":1.0},
+		{"nombre":"arbusto_puerta_1","tipo":"arbusto_2","pos":Vector2(1468, 304),"escala":1.1},
+		{"nombre":"cesped_puerta_1","tipo":"cesped","pos":Vector2(1612, 304),"escala":1.14},
+		{"nombre":"hongo_puerta_1","tipo":"hongo_2","pos":Vector2(1724, 306),"escala":1.0},
+		{"nombre":"roca_puerta_1","tipo":"roca_amarilla_1","pos":Vector2(1842, 306),"escala":1.0},
+		{"nombre":"flor_puerta_1","tipo":"flor_azul","pos":Vector2(1968, 308),"escala":1.0},
+		{"nombre":"arbusto_ruta_2","tipo":"arbusto_1","pos":Vector2(2148, 304),"escala":1.06},
+		{"nombre":"cesped_ruta_2","tipo":"cesped","pos":Vector2(2288, 304),"escala":1.08},
+		{"nombre":"hongo_ruta_2","tipo":"hongo_3","pos":Vector2(2440, 306),"escala":1.0},
+		{"nombre":"roca_ruta_2","tipo":"roca_gris_2","pos":Vector2(2594, 306),"escala":1.0},
+		{"nombre":"flor_ruta_2","tipo":"flor_morada","pos":Vector2(2764, 308),"escala":1.0},
+		{"nombre":"arbusto_ruta_3","tipo":"arbusto_2","pos":Vector2(3168, 304),"escala":1.15},
+		{"nombre":"roca_ruta_3","tipo":"roca_amarilla_2","pos":Vector2(3356, 306),"escala":1.0},
+		{"nombre":"cesped_ruta_3","tipo":"cesped","pos":Vector2(3548, 304),"escala":1.08},
+		{"nombre":"hongo_ruta_3","tipo":"hongo_4","pos":Vector2(3718, 306),"escala":1.0},
+		{"nombre":"flor_ruta_3","tipo":"flor_amarilla","pos":Vector2(3888, 308),"escala":1.0},
+		{"nombre":"arbusto_ruta_4","tipo":"arbusto_1","pos":Vector2(4268, 304),"escala":1.1},
+		{"nombre":"roca_ruta_4","tipo":"roca_gris_1","pos":Vector2(4444, 306),"escala":1.0},
+		{"nombre":"cesped_ruta_4","tipo":"cesped","pos":Vector2(4634, 304),"escala":1.08},
+		{"nombre":"hongo_ruta_4","tipo":"hongo_1","pos":Vector2(4820, 306),"escala":1.0},
+		{"nombre":"flor_ruta_4","tipo":"flor_azul","pos":Vector2(5006, 308),"escala":1.0},
+		{"nombre":"arbusto_preparkour_1","tipo":"arbusto_2","pos":Vector2(5460, 195),"escala":1.05},
+		{"nombre":"flor_preparkour_1","tipo":"flor_morada","pos":Vector2(5608, 197),"escala":1.0},
+		{"nombre":"roca_preparkour_1","tipo":"roca_amarilla_1","pos":Vector2(5754, 195),"escala":1.0},
+		{"nombre":"cesped_preparkour_1","tipo":"cesped","pos":Vector2(5898, 194),"escala":1.06},
+		{"nombre":"arbusto_preparkour_2","tipo":"arbusto_1","pos":Vector2(6106, 194),"escala":1.0},
+		{"nombre":"hongo_preparkour_2","tipo":"hongo_2","pos":Vector2(6272, 196),"escala":1.0},
+		{"nombre":"flor_preparkour_2","tipo":"flor_amarilla","pos":Vector2(6434, 197),"escala":1.0},
+		{"nombre":"roca_preparkour_2","tipo":"roca_gris_2","pos":Vector2(6602, 195),"escala":1.0},
+		{"nombre":"cesped_preparkour_2","tipo":"cesped","pos":Vector2(6768, 194),"escala":1.08},
+		{"nombre":"arbusto_plataforma_1","tipo":"arbusto_2","pos":Vector2(7308, 466),"escala":0.96},
+		{"nombre":"flor_plataforma_1","tipo":"flor_azul","pos":Vector2(7670, 306),"escala":0.95},
+		{"nombre":"cesped_plataforma_1","tipo":"cesped","pos":Vector2(8006, 354),"escala":1.02},
+		{"nombre":"hongo_plataforma_1","tipo":"hongo_3","pos":Vector2(8350, 306),"escala":0.95},
+		{"nombre":"roca_plataforma_1","tipo":"roca_amarilla_2","pos":Vector2(8684, 306),"escala":0.95},
+		{"nombre":"arbusto_altar_1","tipo":"arbusto_1","pos":Vector2(9570, 194),"escala":1.0},
+		{"nombre":"flor_altar_1","tipo":"flor_morada","pos":Vector2(9710, 197),"escala":1.0},
+		{"nombre":"roca_altar_1","tipo":"roca_gris_1","pos":Vector2(9932, 195),"escala":1.0},
+		{"nombre":"cesped_altar_1","tipo":"cesped","pos":Vector2(10130, 194),"escala":1.08},
+		{"nombre":"arbusto_jefe_1","tipo":"arbusto_2","pos":Vector2(10224, 178),"escala":0.98},
+		{"nombre":"roca_jefe_1","tipo":"roca_amarilla_1","pos":Vector2(10462, 178),"escala":0.95},
+		{"nombre":"flor_jefe_1","tipo":"flor_amarilla","pos":Vector2(10696, 180),"escala":0.95},
+		{"nombre":"hongo_jefe_1","tipo":"hongo_4","pos":Vector2(10924, 178),"escala":0.95},
+		{"nombre":"cesped_jefe_1","tipo":"cesped","pos":Vector2(11156, 177),"escala":1.0},
+		{"nombre":"arbol_fondo_1","tipo":"arbol","pos":Vector2(1498, 280),"escala":1.15, "z": -2},
+		{"nombre":"arbol_fondo_2","tipo":"arbol","pos":Vector2(5848, 174),"escala":1.08, "z": -2},
+		{"nombre":"arbol_fondo_3","tipo":"arbol","pos":Vector2(10018, 55),"escala":0.92, "z": -2}
+	]
+
+	for datos_var in elementos:
+		var datos := datos_var as Dictionary
+		_asegurar_sprite_decorativo(
+			decoracion,
+			String(datos.get("nombre", "")),
+			String(DECOR_RUTAS_MUNDO_1.get(String(datos.get("tipo", "")), "")),
+			datos.get("pos", Vector2.ZERO),
+			float(datos.get("escala", 1.0)),
+			bool(datos.get("flip_h", false)),
+			int(datos.get("z", 1))
+		)
+
+
+func _asegurar_sprite_decorativo(padre: Node2D, nombre: String, ruta_textura: String, posicion: Vector2, escala: float, flip_h: bool = false, z_index_sprite: int = 1) -> void:
+	if padre == null or nombre.is_empty() or ruta_textura.is_empty():
+		return
+
+	var sprite := padre.get_node_or_null(nombre) as Sprite2D
+	if sprite == null:
+		sprite = Sprite2D.new()
+		sprite.name = nombre
+		padre.add_child(sprite)
+
+	sprite.texture = load(ruta_textura) as Texture2D
+	sprite.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+	sprite.centered = false
+	sprite.position = posicion
+	sprite.scale = Vector2(escala, escala)
+	sprite.flip_h = flip_h
+	sprite.z_index = z_index_sprite
 
 
 func _interactuar_con_npc_en_rango() -> bool:

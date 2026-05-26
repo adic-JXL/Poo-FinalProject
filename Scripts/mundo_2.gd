@@ -17,6 +17,17 @@ const FUENTE_PIXEL := preload("res://Fuentes/joystix monospace.otf")
 const TEXTURA_CARTEL := preload("res://Imagenes/Objetos/checkpoint_cartel_cc0.png")
 const MENU_SCENE := "res://Escenas/Menu.tscn"
 const SCENE_PATH := "res://Escenas/Mundo2.tscn"
+const DECOR_RUTAS_MUNDO_2 := {
+	"roca_amarilla_1": "res://Imagenes/Decoracion/Roca amarilla/roca amarilla 1.png",
+	"roca_amarilla_2": "res://Imagenes/Decoracion/Roca amarilla/roca amarilla 2.png",
+	"roca_amarilla_3": "res://Imagenes/Decoracion/Roca amarilla/roca amarilla 3.png",
+	"roca_gris_1": "res://Imagenes/Decoracion/Roca griz/roca griz 1.png",
+	"roca_gris_2": "res://Imagenes/Decoracion/Roca griz/roca griz 2.png",
+	"roca_gris_3": "res://Imagenes/Decoracion/Roca griz/roca griz 3.png",
+	"flor_amarilla": "res://Imagenes/Decoracion/Flores/Flor amarilla.png",
+	"flor_azul": "res://Imagenes/Decoracion/Flores/Flor azul.png",
+	"flor_morada": "res://Imagenes/Decoracion/Flores/Flor morada.png",
+}
 const ESCALA_TIEMPO_PAUSA := 0.000001
 const FACTOR_LENTITUD_GAFAS_MURO := 0.9
 const INTERVALO_PENSAMIENTOS := 20.0
@@ -154,6 +165,7 @@ func _ready() -> void:
 	_configurar_interactivos_mundo_2()
 	_configurar_checkpoints_mundo_2()
 	_generar_ordenes_puzzle_mundo_2()
+	_asegurar_decoracion_mundo_2()
 	_configurar_menu_pausa()
 	_configurar_distorsion_visual()
 	_configurar_jugador()
@@ -386,6 +398,70 @@ func _asegurar_objetos_mundo_2() -> void:
 		Vector2(13320, 620),
 		"Presiona E para leer el eco del muro con las gafas."
 	)
+
+
+func _asegurar_decoracion_mundo_2() -> void:
+	var objetos := get_node_or_null("ObjetosMundo2") as Node2D
+	if objetos == null:
+		return
+
+	var decoracion := objetos.get_node_or_null("DecoracionMundo2") as Node2D
+	if decoracion == null:
+		decoracion = Node2D.new()
+		decoracion.name = "DecoracionMundo2"
+		objetos.add_child(decoracion)
+
+	var elementos := [
+		{"nombre":"roca_inicio_1","tipo":"roca_gris_1","pos":Vector2(382, 598)}, {"nombre":"roca_inicio_2","tipo":"roca_amarilla_1","pos":Vector2(694, 598)},
+		{"nombre":"roca_inicio_3","tipo":"roca_gris_2","pos":Vector2(1012, 598)}, {"nombre":"roca_inicio_4","tipo":"roca_amarilla_2","pos":Vector2(1328, 598)},
+		{"nombre":"roca_inicio_5","tipo":"roca_gris_3","pos":Vector2(1666, 598)}, {"nombre":"roca_tramo_1","tipo":"roca_amarilla_3","pos":Vector2(2124, 598)},
+		{"nombre":"roca_tramo_2","tipo":"roca_gris_1","pos":Vector2(2550, 598)}, {"nombre":"roca_tramo_3","tipo":"roca_amarilla_1","pos":Vector2(2988, 598)},
+		{"nombre":"roca_tramo_4","tipo":"roca_gris_2","pos":Vector2(3436, 598)}, {"nombre":"roca_tramo_5","tipo":"roca_amarilla_2","pos":Vector2(3870, 598)},
+		{"nombre":"roca_tramo_6","tipo":"roca_gris_3","pos":Vector2(4308, 598)}, {"nombre":"roca_tramo_7","tipo":"roca_amarilla_3","pos":Vector2(4746, 598)},
+		{"nombre":"roca_tramo_8","tipo":"roca_gris_1","pos":Vector2(5178, 506)}, {"nombre":"roca_tramo_9","tipo":"roca_amarilla_1","pos":Vector2(5562, 474)},
+		{"nombre":"roca_tramo_10","tipo":"roca_gris_2","pos":Vector2(5908, 442)}, {"nombre":"roca_tramo_11","tipo":"roca_amarilla_2","pos":Vector2(6248, 506)},
+		{"nombre":"roca_tramo_12","tipo":"roca_gris_3","pos":Vector2(6688, 598)}, {"nombre":"roca_tramo_13","tipo":"roca_amarilla_3","pos":Vector2(7140, 598)},
+		{"nombre":"roca_tramo_14","tipo":"roca_gris_1","pos":Vector2(7594, 598)}, {"nombre":"roca_tramo_15","tipo":"roca_amarilla_1","pos":Vector2(8050, 598)},
+		{"nombre":"roca_tramo_16","tipo":"roca_gris_2","pos":Vector2(8496, 598)}, {"nombre":"roca_tramo_17","tipo":"roca_amarilla_2","pos":Vector2(8930, 346)},
+		{"nombre":"roca_tramo_18","tipo":"roca_gris_3","pos":Vector2(9262, 474)}, {"nombre":"roca_tramo_19","tipo":"roca_amarilla_3","pos":Vector2(9598, 602)},
+		{"nombre":"roca_tramo_20","tipo":"roca_gris_1","pos":Vector2(10022, 602)}, {"nombre":"roca_tramo_21","tipo":"roca_amarilla_1","pos":Vector2(10456, 602)},
+		{"nombre":"roca_tramo_22","tipo":"roca_gris_2","pos":Vector2(10888, 602)}, {"nombre":"roca_tramo_23","tipo":"roca_amarilla_2","pos":Vector2(11334, 602)},
+		{"nombre":"roca_tramo_24","tipo":"roca_gris_3","pos":Vector2(11752, 602)}, {"nombre":"roca_final_1","tipo":"roca_amarilla_3","pos":Vector2(12470, 602)},
+		{"nombre":"roca_final_2","tipo":"roca_gris_1","pos":Vector2(12818, 602)}, {"nombre":"roca_final_3","tipo":"roca_amarilla_2","pos":Vector2(13176, 602)},
+		{"nombre":"roca_final_4","tipo":"roca_gris_2","pos":Vector2(13536, 602)}, {"nombre":"flor_final_1","tipo":"flor_amarilla","pos":Vector2(12408, 602)},
+		{"nombre":"flor_final_2","tipo":"flor_azul","pos":Vector2(12552, 602)}, {"nombre":"flor_final_3","tipo":"flor_morada","pos":Vector2(12696, 602)},
+		{"nombre":"flor_final_4","tipo":"flor_amarilla","pos":Vector2(12840, 602)}, {"nombre":"flor_final_5","tipo":"flor_azul","pos":Vector2(12984, 602)},
+		{"nombre":"flor_final_6","tipo":"flor_morada","pos":Vector2(13128, 602)}, {"nombre":"flor_final_7","tipo":"flor_amarilla","pos":Vector2(13272, 602)},
+		{"nombre":"flor_final_8","tipo":"flor_azul","pos":Vector2(13416, 602)}, {"nombre":"flor_final_9","tipo":"flor_morada","pos":Vector2(13560, 602)},
+		{"nombre":"flor_final_10","tipo":"flor_amarilla","pos":Vector2(13704, 602)}, {"nombre":"flor_final_11","tipo":"flor_azul","pos":Vector2(13848, 602)},
+	]
+
+	for datos_var in elementos:
+		var datos := datos_var as Dictionary
+		_asegurar_sprite_decorativo_mundo_2(
+			decoracion,
+			String(datos.get("nombre", "")),
+			String(DECOR_RUTAS_MUNDO_2.get(String(datos.get("tipo", "")), "")),
+			datos.get("pos", Vector2.ZERO)
+		)
+
+
+func _asegurar_sprite_decorativo_mundo_2(padre: Node2D, nombre: String, ruta_textura: String, posicion: Vector2) -> void:
+	if padre == null or nombre.is_empty() or ruta_textura.is_empty():
+		return
+
+	var sprite := padre.get_node_or_null(nombre) as Sprite2D
+	if sprite == null:
+		sprite = Sprite2D.new()
+		sprite.name = nombre
+		padre.add_child(sprite)
+
+	sprite.texture = load(ruta_textura) as Texture2D
+	sprite.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+	sprite.centered = false
+	sprite.position = posicion
+	sprite.scale = Vector2.ONE
+	sprite.z_index = 1
 
 
 func _asegurar_checkpoint_mundo_2(objetos: Node2D, nombre: String, posicion: Vector2, mensaje: String) -> void:

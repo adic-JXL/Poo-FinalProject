@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://obd2sbvkcnji" path="res://Scripts/npc_dialogo.gd" id="1_npc"]
 [ext_resource type="PackedScene" path="res://Escenas/DialogoUI.tscn" id="2_dialogo"]
+[ext_resource type="Texture2D" path="res://Imagenes/Personaje_Girl/sin_gafas/idle/idle_00.png" id="3_npc_tex"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_interaccion"]
 radius = 42.0
@@ -29,10 +30,14 @@ shape = SubResource("CapsuleShape2D_cuerpo")
 
 [node name="Visual" type="Polygon2D" parent="." unique_id=1862935911]
 position = Vector2(0, -16)
-color = Color(0.58, 0.72, 1, 1)
+color = Color(1, 1, 1, 0)
 polygon = PackedVector2Array(0, -28, 16, -8, 12, 20, -12, 20, -16.800018, -9.199997)
 
 [node name="Sprite2D" type="Sprite2D" parent="Visual" unique_id=342932509]
+position = Vector2(0, 14)
+scale = Vector2(1.45, 1.45)
+texture_filter = 1
+texture = ExtResource("3_npc_tex")
 
 [node name="NombreLabel" type="Label" parent="." unique_id=1226952824]
 visible = false
