@@ -56,8 +56,11 @@ var _titulo: Label
 var _nota: Label
 var _stage: Control
 var _linea: ColorRect
+var _boton_cerrar: Button
 var _animaciones_frame: Array[Dictionary] = []
 var _tweens_loop: Array[Tween] = []
+var _cerrar_cinematica_solicitado: bool = false
+var _escala_tiempo_previa: float = 1.0
 
 
 func _ready() -> void:
@@ -226,6 +229,23 @@ func _construir_ui() -> void:
 	_linea.color = Color(0.78, 0.92, 0.42, 1.0)
 	caja.add_child(_linea)
 
+	var fila_superior := HBoxContainer.new()
+	fila_superior.alignment = BoxContainer.ALIGNMENT_END
+	fila_superior.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	caja.add_child(fila_superior)
+
+	_boton_cerrar = Button.new()
+	_boton_cerrar.text = "X"
+	_boton_cerrar.custom_minimum_size = Vector2(34, 26)
+	_boton_cerrar.add_theme_font_override("font", FUENTE_PIXEL)
+	_boton_cerrar.add_theme_font_size_override("font_size", 11)
+	_boton_cerrar.add_theme_color_override("font_color", Color(0.95, 0.97, 0.92, 1.0))
+	_boton_cerrar.add_theme_stylebox_override("normal", _crear_estilo_boton_cerrar(Color(0.10, 0.12, 0.14, 0.94), Color(0.70, 0.84, 0.38, 0.85)))
+	_boton_cerrar.add_theme_stylebox_override("hover", _crear_estilo_boton_cerrar(Color(0.16, 0.18, 0.20, 0.98), Color(0.84, 0.94, 0.48, 0.95)))
+	_boton_cerrar.add_theme_stylebox_override("pressed", _crear_estilo_boton_cerrar(Color(0.08, 0.10, 0.11, 1.0), Color(0.92, 0.98, 0.62, 1.0)))
+	_boton_cerrar.pressed.connect(_on_boton_cerrar_pressed)
+	fila_superior.add_child(_boton_cerrar)
+
 	_stage = Control.new()
 	_stage.custom_minimum_size = Vector2(760, 285)
 	_stage.clip_contents = true
@@ -257,12 +277,30 @@ func _crear_estilo_panel() -> StyleBoxFlat:
 	return estilo
 
 
+func _crear_estilo_boton_cerrar(color_fondo: Color, color_borde: Color) -> StyleBoxFlat:
+	var estilo := StyleBoxFlat.new()
+	estilo.bg_color = color_fondo
+	estilo.border_width_left = 2
+	estilo.border_width_top = 2
+	estilo.border_width_right = 2
+	estilo.border_width_bottom = 2
+	estilo.border_color = color_borde
+	estilo.corner_radius_top_left = 6
+	estilo.corner_radius_top_right = 6
+	estilo.corner_radius_bottom_left = 6
+	estilo.corner_radius_bottom_right = 6
+	return estilo
+
+
 func _mostrar_cinematica(titulo: String, texto: String, nota: String, duracion: float, acento: Color, montar: Callable) -> void:
 	_detener_tweens_loop()
 	_animaciones_frame.clear()
+	_cerrar_cinematica_solicitado = false
+	_escala_tiempo_previa = Engine.time_scale
+	Engine.time_scale = minf(_escala_tiempo_previa, 0.000001)
 	_limpiar_hijos(_stage)
 	_titulo.text = titulo
-	_nota.text = "%s  |  %s" % [nota, texto]
+	_nota.text = "%s  |  %s  |  Cierra con X" % [nota, texto]
 	_linea.color = acento
 	_linea.scale.x = 0.0
 	_panel.modulate.a = 0.0
@@ -286,7 +324,11 @@ func _mostrar_cinematica(titulo: String, texto: String, nota: String, duracion: 
 	entrada.tween_property(_linea, "scale:x", 1.0, 0.45)
 	await entrada.finished
 
-	await get_tree().create_timer(duracion, true, false, true).timeout
+	if _boton_cerrar != null:
+		_boton_cerrar.grab_focus()
+
+	while not _cerrar_cinematica_solicitado:
+		await get_tree().create_timer(0.1, true, false, true).timeout
 
 	var salida := create_tween()
 	salida.set_ignore_time_scale(true)
@@ -297,8 +339,13 @@ func _mostrar_cinematica(titulo: String, texto: String, nota: String, duracion: 
 	salida.tween_property(_panel, "scale", Vector2(1.02, 1.02), 0.22)
 	salida.tween_property(_overlay, "color:a", 0.0, 0.26)
 	await salida.finished
+	Engine.time_scale = _escala_tiempo_previa
 	_detener_tweens_loop()
 	_animaciones_frame.clear()
+
+
+func _on_boton_cerrar_pressed() -> void:
+	_cerrar_cinematica_solicitado = true
 
 
 func _montar_intro_escuela() -> void:

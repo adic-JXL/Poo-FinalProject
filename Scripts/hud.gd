@@ -58,6 +58,7 @@ var _llave_icono: TextureRect
 var _frames_gafas: Array[Texture2D] = []
 var _indice_frame_gafas: int = 0
 var _tiempo_animacion_gafas: float = 0.0
+var _mensaje_stamina_label: Label
 var _pensamiento_root: Control
 var _pensamiento_panel: PanelContainer
 var _pensamiento_label: Label
@@ -129,6 +130,8 @@ func configurar_jugador(jugador) -> void:
 
 func mostrar_mensaje(texto: String) -> void:
 	mensaje_label.text = texto
+	if _mensaje_stamina_label != null:
+		_mensaje_stamina_label.text = texto
 
 
 func mostrar_pensamiento(texto: String, positivo: bool = false) -> void:
@@ -521,6 +524,19 @@ func _configurar_stamina_visual() -> void:
 		brillo.size = Vector2(max(ancho_segmento - 2.0, 1.0), 3)
 		brillo.color = Color(1.0, 0.98, 0.64, 0.30)
 		stamina_fill.add_child(brillo)
+
+	_mensaje_stamina_label = Label.new()
+	_mensaje_stamina_label.text = ""
+	_mensaje_stamina_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	_mensaje_stamina_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	_mensaje_stamina_label.custom_minimum_size = Vector2(330, 28)
+	_mensaje_stamina_label.add_theme_font_override("font", FUENTE_PIXEL)
+	_mensaje_stamina_label.add_theme_font_size_override("font_size", 10)
+	_mensaje_stamina_label.add_theme_color_override("font_color", Color(0.95, 0.97, 0.86, 1.0))
+	_mensaje_stamina_label.add_theme_color_override("font_outline_color", Color(0.02, 0.02, 0.03, 0.96))
+	_mensaje_stamina_label.add_theme_constant_override("outline_size", 2)
+	stamina_vbox.add_child(_mensaje_stamina_label)
+	stamina_vbox.move_child(_mensaje_stamina_label, 2)
 
 
 func _configurar_gafas_visual() -> void:

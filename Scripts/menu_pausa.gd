@@ -6,6 +6,7 @@ const FUENTE_PIXEL := preload("res://Fuentes/joystix monospace.otf")
 signal continuar_solicitado
 signal reiniciar_solicitado
 signal volver_menu_solicitado
+signal controles_solicitados
 
 @onready var panel_container: PanelContainer = $CenterContainer/PanelContainer
 @onready var titulo_label: Label = $CenterContainer/PanelContainer/MarginContainer/VBoxContainer/TituloLabel
@@ -13,6 +14,7 @@ signal volver_menu_solicitado
 @onready var contexto_label: Label = $CenterContainer/PanelContainer/MarginContainer/VBoxContainer/EstadoPanel/EstadoMargin/EstadoVBox/ContextoLabel
 @onready var estado_partida_label: Label = $CenterContainer/PanelContainer/MarginContainer/VBoxContainer/EstadoPanel/EstadoMargin/EstadoVBox/EstadoPartidaLabel
 @onready var continuar_boton: Button = $CenterContainer/PanelContainer/MarginContainer/VBoxContainer/Botones/ContinuarBoton
+@onready var controles_boton: Button = $CenterContainer/PanelContainer/MarginContainer/VBoxContainer/Botones/ControlesBoton
 @onready var reiniciar_boton: Button = $CenterContainer/PanelContainer/MarginContainer/VBoxContainer/Botones/ReiniciarBoton
 @onready var menu_boton: Button = $CenterContainer/PanelContainer/MarginContainer/VBoxContainer/Botones/MenuBoton
 
@@ -25,6 +27,7 @@ func _ready() -> void:
 	visible = false
 	_aplicar_estetica_pixel()
 	continuar_boton.pressed.connect(_on_continuar_boton_pressed)
+	controles_boton.pressed.connect(_on_controles_boton_pressed)
 	reiniciar_boton.pressed.connect(_on_reiniciar_boton_pressed)
 	menu_boton.pressed.connect(_on_menu_boton_pressed)
 
@@ -45,6 +48,7 @@ func cerrar() -> void:
 
 func actualizar_contexto(tiene_checkpoint: bool, descripcion_checkpoint: String) -> void:
 	continuar_boton.text = "CONTINUAR"
+	controles_boton.text = "VER CONTROLES"
 	menu_boton.text = "VOLVER AL MENU"
 	if _modo_carrera:
 		contexto_label.text = "Persecucion activa. El muro avanza; corre sin detenerte."
@@ -77,6 +81,10 @@ func _on_continuar_boton_pressed() -> void:
 
 func _on_reiniciar_boton_pressed() -> void:
 	emit_signal("reiniciar_solicitado")
+
+
+func _on_controles_boton_pressed() -> void:
+	emit_signal("controles_solicitados")
 
 
 func _on_menu_boton_pressed() -> void:
@@ -126,7 +134,7 @@ func _aplicar_estetica_pixel() -> void:
 	contexto_label.custom_minimum_size = Vector2(0, 34)
 	estado_partida_label.custom_minimum_size = Vector2(0, 34)
 
-	for boton in [continuar_boton, reiniciar_boton, menu_boton]:
+	for boton in [continuar_boton, controles_boton, reiniciar_boton, menu_boton]:
 		boton.add_theme_font_override("font", FUENTE_PIXEL)
 		boton.add_theme_font_size_override("font_size", 10)
 		boton.add_theme_color_override("font_outline_color", Color(0.0, 0.0, 0.0, 0.82))

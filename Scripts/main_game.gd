@@ -20,8 +20,10 @@ const MENSAJE_TOTEM_SIN_GAFAS := "Los totems solo responden cuando miras con las
 const MENSAJE_JEFE_DERROTADO := "El jefe se desmorona. Una puerta al siguiente mundo emerge dentro de la arena."
 const MENSAJE_PUERTA_JEFE_REVELADA := "El puzzle se resolvio. La puerta hacia la arena del jefe se revela frente a ti."
 const MENSAJE_LLEGADA_ARENA_JEFE := "Has entrado en la arena del jefe. Usa las gafas y activa los tres totems."
+const MENSAJE_JEFE_GUIA := "ACTIVA LOS PILARES CON LAS GAFAS."
 const MENSAJE_LLEGADA_MUNDO_2 := "Has cruzado al inicio provisional del mundo 2. Avanza hasta el punto dorado para fijar este nuevo comienzo."
 const MENSAJE_CHECKPOINT_MUNDO_2_ACTIVADO := "Checkpoint del mundo 2 activado. Esta base plana ya puede servir como nuevo inicio."
+const MENSAJE_CHECKPOINT_INICIAL := "Checkpoint inicial activo. Si caes, ya no vuelves al prologo."
 const ESCALA_TIEMPO_PAUSA := 0.000001
 const FACTOR_LENTITUD_GAFAS_ENEMIGOS := 0.90
 const INTERVALO_PENSAMIENTOS := 20.0
@@ -206,6 +208,8 @@ var _npcs_post_puzzle_dialogados := {}
 var _pensamiento_patio_mostrado: bool = false
 var _objetivos_mundo_1_mostrados: bool = false
 var puzzle_matematicas: PuzzleBase = null
+var _overlay_indicadores_pilares: Control = null
+var _indicadores_pilares: Dictionary = {}
 
 
 func _ready() -> void:
@@ -222,6 +226,7 @@ func _ready() -> void:
 	_configurar_enemigos()
 	_configurar_gafas()
 	_configurar_menu_pausa()
+	_crear_indicadores_pilares_jefe()
 	_configurar_intro_video()
 	_configurar_camara_prologo()
 	_ocultar_puerta_salida_escuela()
@@ -254,6 +259,7 @@ func _physics_process(_delta: float) -> void:
 
 	_actualizar_camara_prologo_por_zona()
 	_actualizar_estado_zona_jefe()
+	_actualizar_indicadores_pilares_jefe()
 
 	if jugador.global_position.y > limite_caida_y:
 		reiniciar_nivel()
@@ -410,6 +416,7 @@ func cerrar_menu_pausa() -> void:
 
 func _configurar_hud() -> void:
 	hud.show()
+	hud.layer = 30
 	hud.configurar_jugador(jugador)
 	hud.actualizar_llave(_llave_obtenida)
 	hud.actualizar_checkpoint(_checkpoint_activo)
@@ -469,6 +476,11 @@ func _configurar_checkpoints() -> void:
 	if checkpoint_mundo_2_inicio_activador != null and checkpoint_mundo_2_inicio_activador.has_signal("checkpoint_alcanzado"):
 		checkpoint_mundo_2_inicio_activador.checkpoint_alcanzado.connect(_on_checkpoint_mundo_2_alcanzado)
 
+	if not _checkpoint_activo:
+		_establecer_checkpoint(_posicion_inicial_jugador)
+		if hud != null:
+			hud.actualizar_checkpoint(true)
+
 
 func _configurar_enemigos() -> void:
 	for enemigo in get_tree().get_nodes_in_group("enemigo"):
@@ -501,8 +513,22 @@ func _configurar_gafas() -> void:
 
 func _configurar_menu_pausa() -> void:
 	menu_pausa.continuar_solicitado.connect(cerrar_menu_pausa)
+	menu_pausa.controles_solicitados.connect(_on_menu_pausa_controles_solicitados)
 	menu_pausa.reiniciar_solicitado.connect(reiniciar_nivel)
 	menu_pausa.volver_menu_solicitado.connect(volver_al_menu)
+
+
+func _on_menu_pausa_controles_solicitados() -> void:
+	if menu_pausa == null or not _pausa_activa:
+		return
+
+	menu_pausa.hide()
+	var cutscene := CUTSCENE_BASE_SCRIPT.new()
+	add_child(cutscene)
+	await cutscene.reproducir_controles()
+	cutscene.queue_free()
+	if _pausa_activa:
+		menu_pausa.abrir(_checkpoint_activo, _obtener_descripcion_checkpoint())
 
 
 func _configurar_intro_video() -> void:
@@ -661,6 +687,7 @@ func _configurar_totems_jefe() -> void:
 			continue
 
 		_configurar_interactivo(totem, _on_totem_jefe_interaccion_solicitada.bind(totem))
+		_crear_indicador_pilar_para_totem(totem)
 
 
 func _configurar_puzzles() -> void:
@@ -989,6 +1016,123 @@ func _activar_checkpoint(posicion: Vector2, mensaje: String = MENSAJE_CHECKPOINT
 	hud.mostrar_mensaje(mensaje)
 
 
+func _crear_indicadores_pilares_jefe() -> void:
+	if hud == null or _overlay_indicadores_pilares != null:
+		return
+
+	_overlay_indicadores_pilares = Control.new()
+	_overlay_indicadores_pilares.name = "IndicadoresPilares"
+	_overlay_indicadores_pilares.set_anchors_preset(Control.PRESET_FULL_RECT)
+	_overlay_indicadores_pilares.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_overlay_indicadores_pilares.z_index = 12
+	hud.get_node("Control").add_child(_overlay_indicadores_pilares)
+	_overlay_indicadores_pilares.hide()
+
+
+func _crear_indicador_pilar_para_totem(totem: TotemJefe) -> void:
+	if _overlay_indicadores_pilares == null or totem == null or _indicadores_pilares.has(totem):
+		return
+
+	var panel := PanelContainer.new()
+	panel.custom_minimum_size = Vector2(118, 34)
+	panel.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	var estilo := StyleBoxFlat.new()
+	estilo.bg_color = Color(0.06, 0.08, 0.09, 0.90)
+	estilo.border_width_left = 2
+	estilo.border_width_top = 2
+	estilo.border_width_right = 2
+	estilo.border_width_bottom = 2
+	estilo.border_color = Color(0.84, 0.93, 0.42, 0.96)
+	estilo.corner_radius_top_left = 8
+	estilo.corner_radius_top_right = 8
+	estilo.corner_radius_bottom_left = 8
+	estilo.corner_radius_bottom_right = 8
+	estilo.shadow_color = Color(0.0, 0.0, 0.0, 0.30)
+	estilo.shadow_size = 3
+	panel.add_theme_stylebox_override("panel", estilo)
+	_overlay_indicadores_pilares.add_child(panel)
+
+	var margen := MarginContainer.new()
+	margen.set_anchors_preset(Control.PRESET_FULL_RECT)
+	margen.add_theme_constant_override("margin_left", 8)
+	margen.add_theme_constant_override("margin_top", 4)
+	margen.add_theme_constant_override("margin_right", 8)
+	margen.add_theme_constant_override("margin_bottom", 4)
+	panel.add_child(margen)
+
+	var fila := HBoxContainer.new()
+	fila.alignment = BoxContainer.ALIGNMENT_CENTER
+	fila.add_theme_constant_override("separation", 6)
+	margen.add_child(fila)
+
+	var punto := ColorRect.new()
+	punto.name = "Punto"
+	punto.custom_minimum_size = Vector2(8, 8)
+	punto.color = Color(0.86, 0.94, 0.43, 1.0)
+	punto.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	fila.add_child(punto)
+
+	var label := Label.new()
+	label.name = "NombreLabel"
+	label.text = "PILAR"
+	label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	label.add_theme_font_override("font", preload("res://Fuentes/joystix monospace.otf"))
+	label.add_theme_font_size_override("font_size", 9)
+	label.add_theme_color_override("font_color", Color(0.94, 0.97, 0.86, 1.0))
+	label.add_theme_color_override("font_outline_color", Color(0.0, 0.0, 0.0, 0.88))
+	label.add_theme_constant_override("outline_size", 1)
+	fila.add_child(label)
+
+	var flecha := Label.new()
+	flecha.name = "FlechaLabel"
+	flecha.text = "▼"
+	flecha.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	flecha.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	flecha.add_theme_font_override("font", preload("res://Fuentes/joystix monospace.otf"))
+	flecha.add_theme_font_size_override("font_size", 11)
+	flecha.add_theme_color_override("font_color", Color(0.98, 0.95, 0.66, 1.0))
+	flecha.add_theme_color_override("font_outline_color", Color(0.0, 0.0, 0.0, 0.88))
+	flecha.add_theme_constant_override("outline_size", 1)
+	fila.add_child(flecha)
+
+	_indicadores_pilares[totem] = panel
+
+
+func _actualizar_indicadores_pilares_jefe() -> void:
+	if _overlay_indicadores_pilares == null:
+		return
+
+	var mostrar := _jugador_en_zona_jefe and not _jefe_derrotado and not _mundo_2_desbloqueado and not _totems_jefe.is_empty()
+	_overlay_indicadores_pilares.visible = mostrar
+	if not mostrar:
+		return
+
+	var viewport_rect := get_viewport().get_visible_rect()
+	var transformacion_canvas := get_viewport().get_canvas_transform()
+	var indice_visible := 0
+	for totem in _totems_jefe:
+		var panel := _indicadores_pilares.get(totem) as PanelContainer
+		if panel == null:
+			continue
+		if totem == null or not is_instance_valid(totem) or totem.esta_activado():
+			panel.hide()
+			continue
+
+		var posicion_pantalla: Vector2 = transformacion_canvas * totem.global_position
+		var x_clamp := clampf(posicion_pantalla.x - (panel.custom_minimum_size.x * 0.5), 22.0, viewport_rect.size.x - panel.custom_minimum_size.x - 22.0)
+		panel.position = Vector2(x_clamp, 14.0 + (indice_visible * 38.0))
+		var label := panel.get_node_or_null("MarginContainer/HBoxContainer/NombreLabel") as Label
+		if label != null:
+			label.text = "PILAR %d" % (indice_visible + 1)
+		var punto := panel.get_node_or_null("MarginContainer/HBoxContainer/Punto") as ColorRect
+		if punto != null:
+			var intensidad := clampf(absf(posicion_pantalla.x - (viewport_rect.size.x * 0.5)) / maxf(viewport_rect.size.x * 0.5, 1.0), 0.0, 1.0)
+			punto.color = Color(0.86 + (0.12 * intensidad), 0.94, 0.43, 1.0)
+		panel.show()
+		indice_visible += 1
+
+
 func _on_jugador_vida_cambiada(vida_actual: int) -> void:
 	if vida_actual > 0:
 		return
@@ -1058,7 +1202,7 @@ func _on_puerta_jefe_teletransporte_realizado(_jugador: Node2D, destino: Node2D)
 	_aplicar_perfil_distorsion(true)
 	_sincronizar_camara_con_jugador()
 	_mostrar_pensamiento_zona_jefe()
-	hud.mostrar_mensaje(MENSAJE_LLEGADA_ARENA_JEFE)
+	hud.mostrar_mensaje(MENSAJE_JEFE_GUIA)
 
 
 func _establecer_enemigos_congelados(congelados: bool) -> void:
@@ -1154,12 +1298,19 @@ func _restaurar_mensaje_hud() -> void:
 		hud.mostrar_mensaje(MENSAJE_JEFE_DERROTADO)
 		return
 
+	if _jugador_en_zona_jefe:
+		hud.mostrar_mensaje(MENSAJE_JEFE_GUIA)
+		return
+
 	if _puzzle_gafas_superado:
 		hud.mostrar_mensaje("Reto de gafas superado. La puerta a la arena del jefe ya esta abierta.")
 		return
 
 	if _checkpoint_activo:
-		hud.mostrar_mensaje("Checkpoint activo. Usa las gafas para revelar el parkour oculto.")
+		if _posicion_respawn_actual.distance_to(_posicion_inicial_jugador) < 12.0:
+			hud.mostrar_mensaje(MENSAJE_CHECKPOINT_INICIAL)
+		else:
+			hud.mostrar_mensaje("Checkpoint activo. Usa las gafas para revelar el parkour oculto.")
 		return
 
 	if _nivel_completado:

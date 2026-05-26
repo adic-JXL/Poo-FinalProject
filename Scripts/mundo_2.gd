@@ -37,7 +37,7 @@ const PENSAMIENTOS_GAFAS := [
 @export var altura_caida_respawn: float = 760.0
 @export var offset_camara: Vector2 = Vector2(0, -8)
 @export var posicion_spawn_defecto: Vector2 = Vector2(144, 520)
-@export var mensaje_llegada: String = "Mundo 2. Corre: el muro no se detendra, pero las gafas revelan la ruta."
+@export var mensaje_llegada: String = "ESCAPA. Corre hacia la derecha, usa las gafas para revelar la ruta y no dejes que el muro te toque."
 @export var mensaje_respawn: String = "Has vuelto al inicio del mundo 2."
 @export var mensaje_fallo_muro: String = "El muro te alcanzo. Respira y vuelve a correr."
 @export var duracion_restablecer_mensaje_llegada: float = 2.45
@@ -659,11 +659,26 @@ func _configurar_menu_pausa() -> void:
 	menu_pausa.hide()
 	if not menu_pausa.continuar_solicitado.is_connected(cerrar_menu_pausa):
 		menu_pausa.continuar_solicitado.connect(cerrar_menu_pausa)
+	if not menu_pausa.controles_solicitados.is_connected(_on_menu_pausa_controles_solicitados):
+		menu_pausa.controles_solicitados.connect(_on_menu_pausa_controles_solicitados)
 	if not menu_pausa.reiniciar_solicitado.is_connected(reiniciar_nivel):
 		menu_pausa.reiniciar_solicitado.connect(reiniciar_nivel)
 	if not menu_pausa.volver_menu_solicitado.is_connected(volver_al_menu):
 		menu_pausa.volver_menu_solicitado.connect(volver_al_menu)
 	menu_pausa.establecer_modo_carrera(true)
+
+
+func _on_menu_pausa_controles_solicitados() -> void:
+	if menu_pausa == null or not _pausa_activa:
+		return
+
+	menu_pausa.hide()
+	var cutscene := CUTSCENE_BASE_SCRIPT.new()
+	add_child(cutscene)
+	await cutscene.reproducir_controles()
+	cutscene.queue_free()
+	if _pausa_activa and menu_pausa != null:
+		menu_pausa.abrir(_checkpoint_activo, _descripcion_checkpoint_actual)
 
 
 func _configurar_distorsion_visual() -> void:
@@ -737,6 +752,7 @@ func _configurar_hud() -> void:
 		return
 
 	hud.show()
+	hud.layer = 30
 	hud.configurar_jugador(jugador)
 	hud.actualizar_llave(false)
 	hud.actualizar_checkpoint(_checkpoint_activo)
@@ -1412,9 +1428,9 @@ func _obtener_mensaje_base_hud() -> String:
 	if _puzzle_final_completado:
 		return "Los ecos del muro ya no dominan esta sala."
 	if _puzzle_puerta_completado:
-		return "La puerta esta abierta. Cruza y sigue la nueva pista."
+		return "AVANZA. La puerta esta abierta; cruza, sigue la pista y no te detengas."
 	if _escape_muro_completado:
-		return mensaje_puzzle_puerta
+		return "USA LAS GAFAS Y ACTIVA LOS SELLOS EN EL ORDEN CORRECTO."
 	return mensaje_llegada
 
 
