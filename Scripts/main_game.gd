@@ -418,6 +418,8 @@ func abrir_menu_pausa() -> void:
 	_pausa_activa = true
 	if hud != null and hud.has_method("ocultar_pensamiento_activo"):
 		hud.ocultar_pensamiento_activo()
+	if hud != null:
+		hud.hide()
 	jugador.velocity = Vector2.ZERO
 	jugador.establecer_control_habilitado(false)
 	_establecer_enemigos_congelados(true)
@@ -430,6 +432,8 @@ func cerrar_menu_pausa() -> void:
 		return
 
 	_pausa_activa = false
+	if hud != null:
+		hud.show()
 	if not _puzzle_activo:
 		jugador.establecer_control_habilitado(true)
 	_establecer_enemigos_congelados(_puzzle_activo)
@@ -748,76 +752,8 @@ func _asegurar_decoracion_mundo_1() -> void:
 		return
 
 	var decoracion := objetos.get_node_or_null("DecoracionMundo1") as Node2D
-	if decoracion == null:
-		decoracion = Node2D.new()
-		decoracion.name = "DecoracionMundo1"
-		objetos.add_child(decoracion)
-
-	var elementos := [
-		{"nombre":"arbusto_inicio_1","tipo":"arbusto_1","pos":Vector2(924, 300),"escala":1.12},
-		{"nombre":"cesped_inicio_1","tipo":"cesped","pos":Vector2(1006, 304),"escala":1.08},
-		{"nombre":"hongo_inicio_1","tipo":"hongo_1","pos":Vector2(1094, 306),"escala":1.0},
-		{"nombre":"roca_inicio_1","tipo":"roca_gris_1","pos":Vector2(1178, 306),"escala":1.0},
-		{"nombre":"flor_inicio_1","tipo":"flor_amarilla","pos":Vector2(1292, 308),"escala":1.0},
-		{"nombre":"arbusto_puerta_1","tipo":"arbusto_2","pos":Vector2(1468, 304),"escala":1.1},
-		{"nombre":"cesped_puerta_1","tipo":"cesped","pos":Vector2(1612, 304),"escala":1.14},
-		{"nombre":"hongo_puerta_1","tipo":"hongo_2","pos":Vector2(1724, 306),"escala":1.0},
-		{"nombre":"roca_puerta_1","tipo":"roca_amarilla_1","pos":Vector2(1842, 306),"escala":1.0},
-		{"nombre":"flor_puerta_1","tipo":"flor_azul","pos":Vector2(1968, 308),"escala":1.0},
-		{"nombre":"arbusto_ruta_2","tipo":"arbusto_1","pos":Vector2(2148, 304),"escala":1.06},
-		{"nombre":"cesped_ruta_2","tipo":"cesped","pos":Vector2(2288, 304),"escala":1.08},
-		{"nombre":"hongo_ruta_2","tipo":"hongo_3","pos":Vector2(2440, 306),"escala":1.0},
-		{"nombre":"roca_ruta_2","tipo":"roca_gris_2","pos":Vector2(2594, 306),"escala":1.0},
-		{"nombre":"flor_ruta_2","tipo":"flor_morada","pos":Vector2(2764, 308),"escala":1.0},
-		{"nombre":"arbusto_ruta_3","tipo":"arbusto_2","pos":Vector2(3168, 304),"escala":1.15},
-		{"nombre":"roca_ruta_3","tipo":"roca_amarilla_2","pos":Vector2(3356, 306),"escala":1.0},
-		{"nombre":"cesped_ruta_3","tipo":"cesped","pos":Vector2(3548, 304),"escala":1.08},
-		{"nombre":"hongo_ruta_3","tipo":"hongo_4","pos":Vector2(3718, 306),"escala":1.0},
-		{"nombre":"flor_ruta_3","tipo":"flor_amarilla","pos":Vector2(3888, 308),"escala":1.0},
-		{"nombre":"arbusto_ruta_4","tipo":"arbusto_1","pos":Vector2(4268, 304),"escala":1.1},
-		{"nombre":"roca_ruta_4","tipo":"roca_gris_1","pos":Vector2(4444, 306),"escala":1.0},
-		{"nombre":"cesped_ruta_4","tipo":"cesped","pos":Vector2(4634, 304),"escala":1.08},
-		{"nombre":"hongo_ruta_4","tipo":"hongo_1","pos":Vector2(4820, 306),"escala":1.0},
-		{"nombre":"flor_ruta_4","tipo":"flor_azul","pos":Vector2(5006, 308),"escala":1.0},
-		{"nombre":"arbusto_preparkour_1","tipo":"arbusto_2","pos":Vector2(5460, 195),"escala":1.05},
-		{"nombre":"flor_preparkour_1","tipo":"flor_morada","pos":Vector2(5608, 197),"escala":1.0},
-		{"nombre":"roca_preparkour_1","tipo":"roca_amarilla_1","pos":Vector2(5754, 195),"escala":1.0},
-		{"nombre":"cesped_preparkour_1","tipo":"cesped","pos":Vector2(5898, 194),"escala":1.06},
-		{"nombre":"arbusto_preparkour_2","tipo":"arbusto_1","pos":Vector2(6106, 194),"escala":1.0},
-		{"nombre":"hongo_preparkour_2","tipo":"hongo_2","pos":Vector2(6272, 196),"escala":1.0},
-		{"nombre":"flor_preparkour_2","tipo":"flor_amarilla","pos":Vector2(6434, 197),"escala":1.0},
-		{"nombre":"roca_preparkour_2","tipo":"roca_gris_2","pos":Vector2(6602, 195),"escala":1.0},
-		{"nombre":"cesped_preparkour_2","tipo":"cesped","pos":Vector2(6768, 194),"escala":1.08},
-		{"nombre":"arbusto_plataforma_1","tipo":"arbusto_2","pos":Vector2(7308, 466),"escala":0.96},
-		{"nombre":"flor_plataforma_1","tipo":"flor_azul","pos":Vector2(7670, 306),"escala":0.95},
-		{"nombre":"cesped_plataforma_1","tipo":"cesped","pos":Vector2(8006, 354),"escala":1.02},
-		{"nombre":"hongo_plataforma_1","tipo":"hongo_3","pos":Vector2(8350, 306),"escala":0.95},
-		{"nombre":"roca_plataforma_1","tipo":"roca_amarilla_2","pos":Vector2(8684, 306),"escala":0.95},
-		{"nombre":"arbusto_altar_1","tipo":"arbusto_1","pos":Vector2(9570, 194),"escala":1.0},
-		{"nombre":"flor_altar_1","tipo":"flor_morada","pos":Vector2(9710, 197),"escala":1.0},
-		{"nombre":"roca_altar_1","tipo":"roca_gris_1","pos":Vector2(9932, 195),"escala":1.0},
-		{"nombre":"cesped_altar_1","tipo":"cesped","pos":Vector2(10130, 194),"escala":1.08},
-		{"nombre":"arbusto_jefe_1","tipo":"arbusto_2","pos":Vector2(10224, 178),"escala":0.98},
-		{"nombre":"roca_jefe_1","tipo":"roca_amarilla_1","pos":Vector2(10462, 178),"escala":0.95},
-		{"nombre":"flor_jefe_1","tipo":"flor_amarilla","pos":Vector2(10696, 180),"escala":0.95},
-		{"nombre":"hongo_jefe_1","tipo":"hongo_4","pos":Vector2(10924, 178),"escala":0.95},
-		{"nombre":"cesped_jefe_1","tipo":"cesped","pos":Vector2(11156, 177),"escala":1.0},
-		{"nombre":"arbol_fondo_1","tipo":"arbol","pos":Vector2(1498, 280),"escala":1.15, "z": -2},
-		{"nombre":"arbol_fondo_2","tipo":"arbol","pos":Vector2(5848, 174),"escala":1.08, "z": -2},
-		{"nombre":"arbol_fondo_3","tipo":"arbol","pos":Vector2(10018, 55),"escala":0.92, "z": -2}
-	]
-
-	for datos_var in elementos:
-		var datos := datos_var as Dictionary
-		_asegurar_sprite_decorativo(
-			decoracion,
-			String(datos.get("nombre", "")),
-			String(DECOR_RUTAS_MUNDO_1.get(String(datos.get("tipo", "")), "")),
-			datos.get("pos", Vector2.ZERO),
-			float(datos.get("escala", 1.0)),
-			bool(datos.get("flip_h", false)),
-			int(datos.get("z", 1))
-		)
+	if decoracion != null:
+		decoracion.queue_free()
 
 
 func _asegurar_sprite_decorativo(padre: Node2D, nombre: String, ruta_textura: String, posicion: Vector2, escala: float, flip_h: bool = false, z_index_sprite: int = 1) -> void:

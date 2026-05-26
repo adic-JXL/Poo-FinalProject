@@ -39,6 +39,7 @@ var _jugador_dialogando: Node = null
 var _dialogo_automatico_usado := false
 var _indice_frame_npc: int = 0
 var _tiempo_animacion_npc: float = 0.0
+var _offset_piso_npc: float = 22.0
 
 
 func _ready() -> void:
@@ -136,7 +137,7 @@ func _preparar_visual_npc() -> void:
 	visual.z_index = 3
 	if sprite_visual.texture != null:
 		var tam := sprite_visual.texture.get_size() * sprite_visual.scale
-		sprite_visual.position = Vector2(-tam.x * 0.5, -tam.y + 20.0)
+		sprite_visual.position = Vector2(-tam.x * 0.5, -tam.y + _offset_piso_npc)
 
 
 func establecer_visual_npc(textura: Texture2D) -> void:
