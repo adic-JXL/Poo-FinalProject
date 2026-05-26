@@ -30,6 +30,12 @@ texture_margin_top = 3.0
 texture_margin_right = 3.0
 texture_margin_bottom = 3.0
 
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_27k2t"]
+texture = ExtResource("4_j7eae")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_5c8jm"]
+texture = ExtResource("4_j7eae")
+
 [sub_resource type="FontVariation" id="FontVariation_2ahv8"]
 base_font = ExtResource("2_o2l53")
 
@@ -46,6 +52,24 @@ texture = ExtResource("4_2a5i7")
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_ik8kc"]
 texture = ExtResource("4_j7eae")
 
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_bmckm"]
+texture = ExtResource("4_j7eae")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_q7uug"]
+texture = ExtResource("3_425bc")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_4fgvs"]
+texture = ExtResource("4_2a5i7")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_p7plt"]
+texture = ExtResource("4_j7eae")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_f7sd3"]
+texture = ExtResource("4_j7eae")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_bskcp"]
+texture = ExtResource("4_j7eae")
+
 [sub_resource type="FontVariation" id="FontVariation_m10g6"]
 base_font = ExtResource("2_o2l53")
 
@@ -60,6 +84,9 @@ texture_margin_bottom = 3.0
 texture = ExtResource("4_2a5i7")
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_bcw8w"]
+texture = ExtResource("4_j7eae")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_4550b"]
 texture = ExtResource("4_j7eae")
 
 [node name="Control" type="Control" unique_id=599419567]
@@ -89,9 +116,9 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -115.0
-offset_top = -75.0
+offset_top = -112.0
 offset_right = 155.0
-offset_bottom = 100.0
+offset_bottom = 126.0
 grow_horizontal = 2
 grow_vertical = 2
 theme = SubResource("Theme_425bc")
@@ -104,6 +131,8 @@ theme_override_font_sizes/font_size = 27
 theme_override_styles/normal = SubResource("StyleBoxTexture_2a5i7")
 theme_override_styles/pressed = SubResource("StyleBoxTexture_j7eae")
 theme_override_styles/hover = SubResource("StyleBoxTexture_2ahv8")
+theme_override_styles/hover_mirrored = SubResource("StyleBoxTexture_27k2t")
+theme_override_styles/focus = SubResource("StyleBoxTexture_5c8jm")
 text = "Jugar"
 
 [node name="Opciones" type="Button" parent="VBoxContainer" unique_id=1332993872]
@@ -113,7 +142,29 @@ theme_override_font_sizes/font_size = 27
 theme_override_styles/normal = SubResource("StyleBoxTexture_8shpa")
 theme_override_styles/pressed = SubResource("StyleBoxTexture_y57nq")
 theme_override_styles/hover = SubResource("StyleBoxTexture_ik8kc")
+theme_override_styles/focus = SubResource("StyleBoxTexture_bmckm")
 text = "Opciones"
+
+[node name="Controles" type="Button" parent="VBoxContainer" unique_id=465103718]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_o2l53")
+theme_override_font_sizes/font_size = 27
+theme_override_styles/normal = SubResource("StyleBoxTexture_q7uug")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_4fgvs")
+theme_override_styles/hover = SubResource("StyleBoxTexture_p7plt")
+theme_override_styles/hover_mirrored = SubResource("StyleBoxTexture_f7sd3")
+theme_override_styles/focus = SubResource("StyleBoxTexture_bskcp")
+text = "Controles"
+
+[node name="Creditos" type="Button" parent="VBoxContainer" unique_id=449064763]
+layout_mode = 2
+theme_override_fonts/font = SubResource("FontVariation_2ahv8")
+theme_override_font_sizes/font_size = 27
+theme_override_styles/normal = SubResource("StyleBoxTexture_8shpa")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_y57nq")
+theme_override_styles/hover = SubResource("StyleBoxTexture_ik8kc")
+theme_override_styles/focus = SubResource("StyleBoxTexture_bmckm")
+text = "Creditos"
 
 [node name="Salir" type="Button" parent="VBoxContainer" unique_id=1061567528]
 layout_mode = 2
@@ -122,12 +173,11 @@ theme_override_font_sizes/font_size = 27
 theme_override_styles/normal = SubResource("StyleBoxTexture_m10g6")
 theme_override_styles/pressed = SubResource("StyleBoxTexture_arsku")
 theme_override_styles/hover = SubResource("StyleBoxTexture_bcw8w")
+theme_override_styles/focus = SubResource("StyleBoxTexture_4550b")
 text = "Salir"
 
-<<<<<<< HEAD
-=======
-[connection signal="pressed" from="VBoxContainer/Jugar" to="." method="_on_button_2_pressed"]
->>>>>>> Manu2
 [connection signal="pressed" from="VBoxContainer/Jugar" to="." method="_on_jugar_pressed"]
 [connection signal="pressed" from="VBoxContainer/Opciones" to="." method="_on_opciones_pressed"]
+[connection signal="pressed" from="VBoxContainer/Controles" to="." method="_on_controles_pressed"]
+[connection signal="pressed" from="VBoxContainer/Creditos" to="." method="_on_creditos_pressed"]
 [connection signal="pressed" from="VBoxContainer/Salir" to="." method="_on_salir_pressed"]

@@ -1,0 +1,44 @@
+[gd_scene load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://Scripts/enemigo_perseguidor.gd" id="1_enemigo"]
+[ext_resource type="Script" path="res://Scripts/sprite_animado_frames.gd" id="2_anim"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_cuerpo"]
+size = Vector2(14, 16)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ataque"]
+size = Vector2(16, 16)
+
+[node name="EnemigoPerseguidor" type="CharacterBody2D"]
+script = ExtResource("1_enemigo")
+collision_mask = 1
+
+[node name="Vision" type="Polygon2D" parent="."]
+visible = false
+z_index = -1
+color = Color(1, 0.9, 0.2, 0.14)
+polygon = PackedVector2Array(0, 0, 220, -90, 220, 90)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 7)
+shape = SubResource("RectangleShape2D_cuerpo")
+
+[node name="Visual" type="Node2D" parent="."]
+scale = Vector2(1.35, 1.35)
+script = ExtResource("2_anim")
+rutas_frames = PackedStringArray("res://Imagenes/Enemigos/slime/slime_00.png", "res://Imagenes/Enemigos/slime/slime_01.png", "res://Imagenes/Enemigos/slime/slime_02.png", "res://Imagenes/Enemigos/slime/slime_03.png", "res://Imagenes/Enemigos/slime/slime_04.png")
+fps = 7.0
+
+[node name="Sprite2D" type="Sprite2D" parent="Visual"]
+texture_filter = 1
+
+[node name="AreaAtaque" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AreaAtaque"]
+position = Vector2(0, 5)
+shape = SubResource("RectangleShape2D_ataque")
+
+[node name="TemporizadorAtaque" type="Timer" parent="."]
+one_shot = true

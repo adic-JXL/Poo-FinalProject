@@ -1,3 +1,15 @@
 # Godot 4+ specific ignores
 .godot/
 /android/
+.godot_tmp/
+.godot_tmp_check/
+.godot_tmp_check_menu/
+.godot_tmp_test_clean/
+.godot_tmp_test_clean2/
+.godot_user/
+.tmp_zip_test/
+.tmp_zip_wallgreen/
+.tmp_zip_worldfinal/
+_tmp_assets_zip3/
+tmp_npc_asset_pack/
+tmp_npc_asset_pack.zip

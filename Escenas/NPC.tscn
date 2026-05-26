@@ -1,0 +1,51 @@
+[gd_scene format=3 uid="uid://yucyhqv5w3w6"]
+
+[ext_resource type="Script" uid="uid://obd2sbvkcnji" path="res://Scripts/npc_dialogo.gd" id="1_npc"]
+[ext_resource type="PackedScene" path="res://Escenas/DialogoUI.tscn" id="2_dialogo"]
+[ext_resource type="Texture2D" path="res://Imagenes/NPC/frames/profesora.png" id="3_npc_tex"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_interaccion"]
+radius = 42.0
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_cuerpo"]
+radius = 12.0
+height = 44.0
+
+[node name="NPC" type="Area2D" unique_id=1001253544]
+collision_layer = 0
+script = ExtResource("1_npc")
+mensaje_interaccion = "Presiona E para hablar."
+activar_automaticamente = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1378721025]
+shape = SubResource("CircleShape2D_interaccion")
+
+[node name="Cuerpo" type="StaticBody2D" parent="." unique_id=39962953]
+collision_layer = 2
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Cuerpo" unique_id=454927196]
+position = Vector2(0, -14)
+shape = SubResource("CapsuleShape2D_cuerpo")
+
+[node name="Visual" type="Polygon2D" parent="." unique_id=1862935911]
+position = Vector2(0, -16)
+color = Color(1, 1, 1, 0)
+polygon = PackedVector2Array(0, -28, 16, -8, 12, 20, -12, 20, -16.800018, -9.199997)
+
+[node name="Sprite2D" type="Sprite2D" parent="Visual" unique_id=342932509]
+position = Vector2(-16, -30)
+scale = Vector2(2, 2)
+texture_filter = 1
+texture = ExtResource("3_npc_tex")
+centered = false
+
+[node name="NombreLabel" type="Label" parent="." unique_id=1226952824]
+offset_left = -34.0
+offset_top = -32.0
+offset_right = 34.0
+offset_bottom = -18.0
+text = "Guia"
+horizontal_alignment = 1
+
+[node name="DialogoUI" parent="." unique_id=1665394322 instance=ExtResource("2_dialogo")]
