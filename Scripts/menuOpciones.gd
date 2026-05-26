@@ -420,7 +420,7 @@ func _on_h_slider_value_changed(value: float) -> void:
 
 
 func _on_button_pressed() -> void:
-	if audio != null:
+	if audio != null and audio.stream != null:
 		audio.pitch_scale = randf_range(0.96, 1.04)
 		audio.stop()
 		audio.play()

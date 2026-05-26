@@ -123,6 +123,7 @@ var _gravedad: float = 0.0
 var _direccion_actual: float = 1.0
 var _escala_original_x: float = 1.0
 var _escala_visual_original: Vector2 = Vector2.ONE
+var _posicion_visual_base: Vector2 = Vector2.ZERO
 var _posicion_visual_original: Vector2 = Vector2.ZERO
 var _sprint_activo: bool = false
 var _controles_habilitados: bool = true
@@ -160,6 +161,7 @@ func _ready() -> void:
 	_gravedad = float(ProjectSettings.get_setting("physics/2d/default_gravity"))
 	_escala_original_x = visual.scale.x
 	_escala_visual_original = visual.scale
+	_posicion_visual_base = visual.position
 	_posicion_visual_original = visual.position
 	_modulate_visual_original = visual.modulate
 	z_as_relative = false
@@ -489,6 +491,7 @@ func aplicar_skin(skin_id: String) -> void:
 		return
 
 	_skin_actual = skin_normalizada
+	_actualizar_offset_visual_skin()
 	_cargar_texturas_jugador()
 	_restaurar_visual_base()
 	emit_signal("skin_cambiada", _skin_actual)
@@ -879,6 +882,13 @@ func _cargar_texturas_jugador() -> void:
 
 func _normalizar_skin_id(skin_id: String) -> StringName:
 	return SKIN_BOY if skin_id.to_lower() == "boy" else SKIN_GIRL
+
+
+func _actualizar_offset_visual_skin() -> void:
+	var offset_y := -4.0 if _skin_actual == SKIN_BOY else 0.0
+	_posicion_visual_original = _posicion_visual_base + Vector2(0.0, offset_y)
+	if visual != null and not _animacion_puerta_activa and not _muerte_activa:
+		visual.position = _posicion_visual_original
 
 
 func _cargar_secuencia_png(rutas: Array) -> Array[Texture2D]:
