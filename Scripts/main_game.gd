@@ -458,6 +458,7 @@ func _configurar_jugador() -> void:
 	jugador.vida_cambiada.connect(_on_jugador_vida_cambiada)
 	jugador.dano_recibido.connect(_on_jugador_dano_recibido)
 	jugador.gafas_actualizadas.connect(_on_jugador_gafas_actualizadas)
+	jugador.aplicar_skin(SistemaGuardadoClass.obtener_skin_jugador())
 
 
 func _configurar_puertas() -> void:
@@ -618,7 +619,7 @@ func _configurar_npcs() -> void:
 	_establecer_npcs_post_puzzle_disponibles(false)
 	_aplicar_sprite_npc(get_node_or_null("NPC/NPC_1") as NPCDialogo, "res://Imagenes/NPC/frames/negro.png", "Meles", "res://Imagenes/NPC/frames/negro")
 	_aplicar_sprite_npc(npc_2, "res://Imagenes/NPC/frames/profesora.png", "PROFE", "res://Imagenes/NPC/frames/profesora")
-	_aplicar_sprite_npc(npc_3, "res://Imagenes/NPC/frames/estudiante_girl.png", "Andres", "res://Imagenes/NPC/frames/estudiante_girl")
+	_aplicar_sprite_npc(npc_3, "res://Imagenes/NPC/frames/estudiante_girl.png", "Rossa", "res://Imagenes/NPC/frames/estudiante_girl")
 	_aplicar_sprite_npc(npc_4, "res://Imagenes/NPC/frames/profesor.png", "Carlos", "res://Imagenes/NPC/frames/profesor")
 	_aplicar_sprite_npc(npc_5, "res://Imagenes/NPC/frames/negro.png", "Esteban", "res://Imagenes/NPC/frames/negro")
 	_aplicar_sprite_npc(get_node_or_null("NPC/NPC_6") as NPCDialogo, "res://Imagenes/NPC/frames/profesora.png", "PROFE", "res://Imagenes/NPC/frames/profesora")
@@ -627,6 +628,8 @@ func _aplicar_sprite_npc(npc: NPCDialogo, ruta_textura: String, etiqueta: String
 	if npc == null:
 		return
 
+	npc.nombre_npc = etiqueta
+	npc.mensaje_interaccion = "Presiona E para hablar con %s." % etiqueta
 	npc.texto_etiqueta = ""
 	npc.etiqueta_visible = false
 	var textura := load(ruta_textura) as Texture2D
@@ -1916,6 +1919,10 @@ func _cargar_progreso_guardado() -> void:
 	var datos_main_game: Dictionary = Dictionary(datos_guardado.get("main_game", {}))
 	if datos_main_game.is_empty():
 		return
+
+	SistemaGuardadoClass.establecer_skin_jugador(String(datos_guardado.get("skin_jugador", SistemaGuardadoClass.obtener_skin_jugador())))
+	if jugador != null:
+		jugador.aplicar_skin(SistemaGuardadoClass.obtener_skin_jugador())
 
 	_llave_obtenida = bool(datos_main_game.get("llave_obtenida", false))
 	_nivel_completado = bool(datos_main_game.get("nivel_completado", false))

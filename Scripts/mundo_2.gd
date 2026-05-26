@@ -797,6 +797,7 @@ func _configurar_jugador() -> void:
 	if jugador == null:
 		return
 
+	jugador.aplicar_skin(SistemaGuardadoClass.obtener_skin_jugador())
 	if not jugador.gafas_actualizadas.is_connected(_on_jugador_gafas_actualizadas):
 		jugador.gafas_actualizadas.connect(_on_jugador_gafas_actualizadas)
 
@@ -857,6 +858,9 @@ func _configurar_hud() -> void:
 
 func _cargar_guardado_mundo_2() -> void:
 	var datos_guardado := SistemaGuardadoClass.cargar_datos()
+	SistemaGuardadoClass.establecer_skin_jugador(String(datos_guardado.get("skin_jugador", SistemaGuardadoClass.obtener_skin_jugador())))
+	if jugador != null:
+		jugador.aplicar_skin(SistemaGuardadoClass.obtener_skin_jugador())
 	_posicion_respawn_actual = punto_respawn.global_position if punto_respawn != null else posicion_spawn_defecto
 	_posicion_muro_respawn_actual = posicion_inicial_muro
 	var posicion_jugador_objetivo := _posicion_respawn_actual

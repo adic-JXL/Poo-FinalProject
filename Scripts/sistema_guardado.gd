@@ -9,6 +9,7 @@ const TOTAL_SLOTS := 3
 static var _slot_activo: int = 1
 static var _transicion_pendiente: Dictionary = {}
 static var _intro_nueva_partida_pendiente: bool = false
+static var _skin_jugador_activa: String = "girl"
 
 
 static func establecer_slot_activo(slot: int) -> void:
@@ -38,6 +39,7 @@ static func obtener_resumen_slot(slot: int) -> Dictionary:
 			"slot": slot,
 			"existe": false,
 			"escena_actual": ESCENA_MAIN_GAME,
+			"skin_jugador": "girl",
 		}
 
 	var datos := cargar_datos(slot)
@@ -45,7 +47,27 @@ static func obtener_resumen_slot(slot: int) -> Dictionary:
 		"slot": slot,
 		"existe": true,
 		"escena_actual": String(datos.get("escena_actual", ESCENA_MAIN_GAME)),
+		"skin_jugador": String(datos.get("skin_jugador", "girl")),
 	}
+
+
+static func obtener_skin_guardada_slot(slot: int) -> String:
+	if not existe_guardado(slot):
+		return "girl"
+
+	var config := ConfigFile.new()
+	if config.load(_obtener_ruta_guardado(slot)) != OK:
+		return "girl"
+
+	return _normalizar_skin_jugador(String(config.get_value("general", "skin_jugador", "girl")))
+
+
+static func establecer_skin_jugador(skin_id: String) -> void:
+	_skin_jugador_activa = _normalizar_skin_jugador(skin_id)
+
+
+static func obtener_skin_jugador() -> String:
+	return _skin_jugador_activa
 
 
 static func cargar_datos(slot: int = -1) -> Dictionary:
@@ -54,9 +76,12 @@ static func cargar_datos(slot: int = -1) -> Dictionary:
 	if resultado != OK:
 		return {}
 
+	_skin_jugador_activa = _normalizar_skin_jugador(String(config.get_value("general", "skin_jugador", _skin_jugador_activa)))
+
 	return {
 		"escena_actual": String(config.get_value("general", "escena_actual", ESCENA_MAIN_GAME)),
 		"slot": int(config.get_value("general", "slot", _resolver_slot(slot))),
+		"skin_jugador": _skin_jugador_activa,
 		"main_game": Dictionary(config.get_value("main_game", "datos", {})),
 		"mundo_2": Dictionary(config.get_value("mundo_2", "datos", {})),
 	}
@@ -67,6 +92,7 @@ static func guardar_estado_main_game(datos: Dictionary, slot: int = -1) -> void:
 	var slot_resuelto := _resolver_slot(slot)
 	config.set_value("general", "slot", slot_resuelto)
 	config.set_value("general", "escena_actual", ESCENA_MAIN_GAME)
+	config.set_value("general", "skin_jugador", _skin_jugador_activa)
 	config.set_value("main_game", "datos", datos.duplicate(true))
 	config.save(_obtener_ruta_guardado(slot_resuelto))
 
@@ -76,7 +102,18 @@ static func guardar_estado_mundo_2(datos: Dictionary, slot: int = -1) -> void:
 	var slot_resuelto := _resolver_slot(slot)
 	config.set_value("general", "slot", slot_resuelto)
 	config.set_value("general", "escena_actual", ESCENA_MUNDO_2)
+	config.set_value("general", "skin_jugador", _skin_jugador_activa)
 	config.set_value("mundo_2", "datos", datos.duplicate(true))
+	config.save(_obtener_ruta_guardado(slot_resuelto))
+
+
+static func guardar_skin_guardada_slot(slot: int, skin_id: String) -> void:
+	var slot_resuelto := _resolver_slot(slot)
+	var config := _cargar_config_existente(slot_resuelto)
+	var escena_actual := String(config.get_value("general", "escena_actual", ESCENA_MAIN_GAME))
+	config.set_value("general", "slot", slot_resuelto)
+	config.set_value("general", "escena_actual", escena_actual)
+	config.set_value("general", "skin_jugador", _normalizar_skin_jugador(skin_id))
 	config.save(_obtener_ruta_guardado(slot_resuelto))
 
 
@@ -128,3 +165,7 @@ static func _resolver_slot(slot: int = -1) -> int:
 	if slot >= 1:
 		return clampi(slot, 1, TOTAL_SLOTS)
 	return clampi(_slot_activo, 1, TOTAL_SLOTS)
+
+
+static func _normalizar_skin_jugador(skin_id: String) -> String:
+	return "boy" if skin_id.to_lower() == "boy" else "girl"
