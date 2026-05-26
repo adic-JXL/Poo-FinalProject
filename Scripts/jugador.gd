@@ -7,6 +7,18 @@ const EstadoNormalClass = preload("res://Scripts/estado_jugador_normal.gd")
 const EstadoSprintClass = preload("res://Scripts/estado_jugador_sprint.gd")
 const EstadoBloqueadoClass = preload("res://Scripts/estado_jugador_bloqueado.gd")
 const EstadoAturdidoClass = preload("res://Scripts/estado_jugador_aturdido.gd")
+const SKIN_GIRL := &"girl"
+const SKIN_BOY := &"boy"
+const SKINS_JUGADOR := {
+	SKIN_GIRL: {
+		"sin_gafas": "res://Imagenes/Personaje_Girl/sin_gafas/",
+		"con_gafas": "res://Imagenes/Personaje_Girl/con_gafas/",
+	},
+	SKIN_BOY: {
+		"sin_gafas": "res://Imagenes/Personaje_Boy/sin_gafas/",
+		"con_gafas": "res://Imagenes/Personaje_Boy/con_gafas/",
+	},
+}
 const RUTAS_TEXTURAS_IDLE := [
 	"res://Imagenes/Personaje/idle_00.png",
 	"res://Imagenes/Personaje/idle_01.png",
@@ -54,6 +66,7 @@ signal sprint_cambiado(activo: bool)
 signal invulnerabilidad_cambiada(activa: bool)
 signal dano_recibido(cantidad: int, direccion: float)
 signal gafas_actualizadas(activa: bool, duracion_restante: float, cooldown_restante: float, cooldown_actual: float, siguiente_cooldown: float)
+signal skin_cambiada(skin_id: StringName)
 
 @export_group("Configuracion")
 @export var nombre: String = "Protagonista"
@@ -126,6 +139,7 @@ var _tiempo_pisada_restante: float = 0.0
 var _tiempo_animacion_visual: float = 0.0
 var _indice_frame_visual: int = 0
 var _animacion_visual_actual: StringName = &"idle"
+var _skin_actual: StringName = SKIN_GIRL
 var _frames_idle: Array[Texture2D] = []
 var _frames_caminar: Array[Texture2D] = []
 var _frames_correr: Array[Texture2D] = []
@@ -469,6 +483,21 @@ func restaurar_para_respawn(posicion: Vector2) -> void:
 	emit_signal("vida_cambiada", vida)
 
 
+func aplicar_skin(skin_id: String) -> void:
+	var skin_normalizada := _normalizar_skin_id(skin_id)
+	if _skin_actual == skin_normalizada and not _frames_idle.is_empty():
+		return
+
+	_skin_actual = skin_normalizada
+	_cargar_texturas_jugador()
+	_restaurar_visual_base()
+	emit_signal("skin_cambiada", _skin_actual)
+
+
+func obtener_skin_actual() -> String:
+	return String(_skin_actual)
+
+
 func procesar_retroceso(delta: float) -> void:
 	_tiempo_aturdimiento_restante = max(_tiempo_aturdimiento_restante - delta, 0.0)
 	velocity.x = move_toward(velocity.x, 0.0, desaceleracion * 0.9 * delta)
@@ -793,7 +822,8 @@ func _cargar_texturas_jugador() -> void:
 	var active := false
 	if habilidad_gafas != null:
 		active = habilidad_gafas.esta_activa()
-	var prefijo := "res://Imagenes/Personaje_Girl/con_gafas/" if active else "res://Imagenes/Personaje_Girl/sin_gafas/"
+	var rutas_skin: Dictionary = SKINS_JUGADOR.get(_skin_actual, SKINS_JUGADOR[SKIN_GIRL])
+	var prefijo: String = String(rutas_skin.get("con_gafas" if active else "sin_gafas", "res://Imagenes/Personaje_Girl/sin_gafas/"))
 
 	_frames_idle.clear()
 	for i in range(4):
@@ -845,6 +875,10 @@ func _cargar_texturas_jugador() -> void:
 		_frames_correr = _frames_caminar.duplicate()
 	if _frames_saltar.is_empty():
 		_frames_saltar = _frames_caminar.duplicate()
+
+
+func _normalizar_skin_id(skin_id: String) -> StringName:
+	return SKIN_BOY if skin_id.to_lower() == "boy" else SKIN_GIRL
 
 
 func _cargar_secuencia_png(rutas: Array) -> Array[Texture2D]:

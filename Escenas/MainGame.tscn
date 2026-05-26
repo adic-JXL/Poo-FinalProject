@@ -731,7 +731,7 @@ visible = false
 position = Vector2(1580, -1534)
 monitoring = false
 monitorable = false
-nombre_npc = "Andres"
+nombre_npc = "Rossa"
 activar_automaticamente = true
 lineas_dialogo = ["Ey que pusiste en la pregunta 12?", "no te dio tiempo a terminarlo, que idiota", "Como se nota que no eres bueno para estas cosas"]
 
