@@ -56,8 +56,11 @@ var _titulo: Label
 var _nota: Label
 var _stage: Control
 var _linea: ColorRect
+var _boton_cerrar: Button
 var _animaciones_frame: Array[Dictionary] = []
 var _tweens_loop: Array[Tween] = []
+var _cerrar_cinematica_solicitado: bool = false
+var _escala_tiempo_previa: float = 1.0
 
 
 func _ready() -> void:
@@ -125,6 +128,17 @@ func reproducir_controles() -> void:
 		9.0,
 		Color(0.45, 0.82, 0.93, 1.0),
 		Callable(self, "_montar_controles")
+	)
+
+
+func reproducir_ayuda_jefe_1() -> void:
+	await _mostrar_cinematica(
+		"COMO DERROTAR AL JEFE",
+		"No se vence atacando. Activa las gafas, busca los 3 pilares de la arena y tocales E. Cada pilar debilita al jefe. Esquiva sus embestidas y completa los 3 antes de que te encierre.",
+		"Batalla del slime rey",
+		8.0,
+		Color(0.96, 0.74, 0.36, 1.0),
+		Callable(self, "_montar_ayuda_jefe_1")
 	)
 
 
@@ -226,6 +240,23 @@ func _construir_ui() -> void:
 	_linea.color = Color(0.78, 0.92, 0.42, 1.0)
 	caja.add_child(_linea)
 
+	var fila_superior := HBoxContainer.new()
+	fila_superior.alignment = BoxContainer.ALIGNMENT_END
+	fila_superior.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	caja.add_child(fila_superior)
+
+	_boton_cerrar = Button.new()
+	_boton_cerrar.text = "X"
+	_boton_cerrar.custom_minimum_size = Vector2(34, 26)
+	_boton_cerrar.add_theme_font_override("font", FUENTE_PIXEL)
+	_boton_cerrar.add_theme_font_size_override("font_size", 11)
+	_boton_cerrar.add_theme_color_override("font_color", Color(0.95, 0.97, 0.92, 1.0))
+	_boton_cerrar.add_theme_stylebox_override("normal", _crear_estilo_boton_cerrar(Color(0.10, 0.12, 0.14, 0.94), Color(0.70, 0.84, 0.38, 0.85)))
+	_boton_cerrar.add_theme_stylebox_override("hover", _crear_estilo_boton_cerrar(Color(0.16, 0.18, 0.20, 0.98), Color(0.84, 0.94, 0.48, 0.95)))
+	_boton_cerrar.add_theme_stylebox_override("pressed", _crear_estilo_boton_cerrar(Color(0.08, 0.10, 0.11, 1.0), Color(0.92, 0.98, 0.62, 1.0)))
+	_boton_cerrar.pressed.connect(_on_boton_cerrar_pressed)
+	fila_superior.add_child(_boton_cerrar)
+
 	_stage = Control.new()
 	_stage.custom_minimum_size = Vector2(760, 285)
 	_stage.clip_contents = true
@@ -257,12 +288,30 @@ func _crear_estilo_panel() -> StyleBoxFlat:
 	return estilo
 
 
+func _crear_estilo_boton_cerrar(color_fondo: Color, color_borde: Color) -> StyleBoxFlat:
+	var estilo := StyleBoxFlat.new()
+	estilo.bg_color = color_fondo
+	estilo.border_width_left = 2
+	estilo.border_width_top = 2
+	estilo.border_width_right = 2
+	estilo.border_width_bottom = 2
+	estilo.border_color = color_borde
+	estilo.corner_radius_top_left = 6
+	estilo.corner_radius_top_right = 6
+	estilo.corner_radius_bottom_left = 6
+	estilo.corner_radius_bottom_right = 6
+	return estilo
+
+
 func _mostrar_cinematica(titulo: String, texto: String, nota: String, duracion: float, acento: Color, montar: Callable) -> void:
 	_detener_tweens_loop()
 	_animaciones_frame.clear()
+	_cerrar_cinematica_solicitado = false
+	_escala_tiempo_previa = Engine.time_scale
+	Engine.time_scale = minf(_escala_tiempo_previa, 0.000001)
 	_limpiar_hijos(_stage)
 	_titulo.text = titulo
-	_nota.text = "%s  |  %s" % [nota, texto]
+	_nota.text = "%s  |  %s  |  Cierra con X" % [nota, texto]
 	_linea.color = acento
 	_linea.scale.x = 0.0
 	_panel.modulate.a = 0.0
@@ -286,7 +335,11 @@ func _mostrar_cinematica(titulo: String, texto: String, nota: String, duracion: 
 	entrada.tween_property(_linea, "scale:x", 1.0, 0.45)
 	await entrada.finished
 
-	await get_tree().create_timer(duracion, true, false, true).timeout
+	if _boton_cerrar != null:
+		_boton_cerrar.grab_focus()
+
+	while not _cerrar_cinematica_solicitado:
+		await get_tree().create_timer(0.1, true, false, true).timeout
 
 	var salida := create_tween()
 	salida.set_ignore_time_scale(true)
@@ -297,8 +350,13 @@ func _mostrar_cinematica(titulo: String, texto: String, nota: String, duracion: 
 	salida.tween_property(_panel, "scale", Vector2(1.02, 1.02), 0.22)
 	salida.tween_property(_overlay, "color:a", 0.0, 0.26)
 	await salida.finished
+	Engine.time_scale = _escala_tiempo_previa
 	_detener_tweens_loop()
 	_animaciones_frame.clear()
+
+
+func _on_boton_cerrar_pressed() -> void:
+	_cerrar_cinematica_solicitado = true
 
 
 func _montar_intro_escuela() -> void:
@@ -379,6 +437,28 @@ func _montar_objetivos_mundo_1() -> void:
 	_agregar_caption("Objetivo central: avanzar usando claridad, no fuerza.")
 
 
+func _montar_ayuda_jefe_1() -> void:
+	_agregar_fondo_degradado(Color(0.08, 0.10, 0.13, 1.0), Color(0.12, 0.08, 0.12, 1.0))
+	_agregar_rect(_stage, Vector2(0, 216), Vector2(760, 69), Color(0.10, 0.08, 0.09, 1.0), "SueloJefe")
+	var jefe := _crear_sprite_animado(_stage, FRAMES_SLIME, Vector2(312, 126), Vector2(122, 110), 6.0, "SlimeRey")
+	jefe.modulate = Color(0.76, 0.24, 0.58, 1.0)
+	_animar_pulso(jefe, Vector2.ONE, Vector2(1.08, 1.08), 0.55)
+	for indice in range(3):
+		var base_x := 112 + indice * 214
+		var pilar := _agregar_rect(_stage, Vector2(base_x, 132), Vector2(32, 78), Color(0.22, 0.32, 0.38, 1.0), "Pilar%d" % indice)
+		var brillo := _agregar_rect(_stage, Vector2(base_x + 7, 118), Vector2(18, 18), Color(0.88, 0.95, 0.42, 1.0), "BrilloPilar%d" % indice)
+		_animar_pulso(brillo, Vector2.ONE, Vector2(1.16, 1.16), 0.42 + indice * 0.08)
+		var etiqueta := _agregar_label(_stage, "PILAR %d" % (indice + 1), Vector2(base_x - 18, 98), Vector2(70, 18), 8, Color(0.95, 0.97, 0.84, 1.0))
+		etiqueta.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	var ruta_1 := _agregar_label(_stage, "1. Activa gafas y busca el brillo de los pilares.", Vector2(58, 24), Vector2(650, 22), 10, Color(0.92, 0.96, 0.84, 1.0))
+	var ruta_2 := _agregar_label(_stage, "2. Acercate y pulsa E para sellarlos.", Vector2(58, 52), Vector2(650, 22), 10, Color(0.92, 0.96, 0.84, 1.0))
+	var ruta_3 := _agregar_label(_stage, "3. No ataques al jefe: esquivalo hasta completar los 3.", Vector2(58, 80), Vector2(650, 22), 10, Color(0.92, 0.96, 0.84, 1.0))
+	ruta_1.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	ruta_2.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	ruta_3.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	_agregar_caption("Los marcadores de arriba te diran donde esta cada pilar que falta.")
+
+
 func _montar_transicion_mundo_2() -> void:
 	_agregar_fondo_textura(TEXTURA_FONDO_MUNDO_2, Color(0.55, 0.68, 0.75, 0.82))
 	_agregar_rect(_stage, Vector2(0, 220), Vector2(760, 65), Color(0.11, 0.13, 0.15, 0.88), "Suelo")
@@ -389,6 +469,7 @@ func _montar_transicion_mundo_2() -> void:
 	var player := _crear_sprite_animado(_stage, FRAMES_RUN, Vector2(52, 150), Vector2(88, 108), 10.0, "JugadorRun")
 	var muro := _crear_sprite_animado(_stage, FRAMES_MURO, Vector2(-125, 42), Vector2(185, 222), 8.0, "MuroVerde")
 	muro.modulate = Color(1, 1, 1, 0.92)
+	muro.flip_h = true
 
 	var tween := create_tween()
 	tween.set_ignore_time_scale(true)

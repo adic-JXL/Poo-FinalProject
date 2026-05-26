@@ -148,6 +148,10 @@ func _ready() -> void:
 	_escala_visual_original = visual.scale
 	_posicion_visual_original = visual.position
 	_modulate_visual_original = visual.modulate
+	z_as_relative = false
+	z_index = 5
+	visual.z_as_relative = false
+	visual.z_index = 5
 
 	sistema_estamina = SistemaEstaminaClass.new(estamina_maxima)
 	sistema_estamina.valor_cambiado.connect(_on_estamina_valor_cambiado)

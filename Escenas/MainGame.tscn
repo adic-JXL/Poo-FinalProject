@@ -414,6 +414,31 @@ scale = Vector2(0.82, 0.82)
 position = Vector2(1406.0001, 282.99997)
 scale = Vector2(0.82, 0.82)
 
+[node name="CheckpointInicio" type="Marker2D" parent="Objetos" unique_id=202605261]
+position = Vector2(1112, 314)
+
+[node name="AuraCheckpoint" type="Sprite2D" parent="Objetos/CheckpointInicio" unique_id=202605262]
+modulate = Color(0.62, 0.84, 1, 0.08)
+z_index = -1
+texture_filter = 1
+position = Vector2(-22, -12)
+scale = Vector2(0.42, 0.42)
+
+[node name="PuntoVisible" type="Sprite2D" parent="Objetos/CheckpointInicio" unique_id=202605263]
+modulate = Color(0.88, 0.92, 0.96, 0.95)
+texture_filter = 1
+position = Vector2(-22, -10)
+scale = Vector2(1.1, 1.1)
+
+[node name="Activador" type="Area2D" parent="Objetos/CheckpointInicio" unique_id=202605264]
+script = ExtResource("20_checkpoint")
+mensaje_activacion = "Checkpoint inicial activado. Ya no vuelves al prologo."
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Objetos/CheckpointInicio/Activador" unique_id=202605265]
+shape = SubResource("CircleShape2D_checkpoint_puerta")
+
+[node name="AudioCheckpoint" type="AudioStreamPlayer" parent="Objetos/CheckpointInicio" unique_id=202605266]
+
 [node name="CheckpointPuerta" type="Marker2D" parent="Objetos" unique_id=829114517]
 position = Vector2(1554, 314)
 
@@ -694,19 +719,11 @@ position = Vector2(259, -1952)
 nombre_npc = "Meles"
 lineas_dialogo = ["Buenos dias, no es un poco tarde para ir a la escuela?", "Si ves algo imposible, tal vez las gafas tengan la respuesta."]
 
-[node name="Sprite2D" type="Sprite2D" parent="NPC/NPC_1" unique_id=1316847412]
-position = Vector2(0, -3.07)
-scale = Vector2(0.07, 0.07)
-
 [node name="NPC_2" parent="NPC" unique_id=1478854778 instance=ExtResource("23_npc")]
 position = Vector2(1392, -1534)
 nombre_npc = "Profesor"
 activar_automaticamente = true
 lineas_dialogo = ["Señorita que son estas horas de llegar", "Vaya ensiguida a su salon que hoy hay examen"]
-
-[node name="Sprite2D" type="Sprite2D" parent="NPC/NPC_2" unique_id=2006259916]
-position = Vector2(0, -3.07)
-scale = Vector2(0.07, 0.07)
 
 [node name="NPC_3" parent="NPC" unique_id=1001253544 instance=ExtResource("23_npc")]
 visible = false
@@ -717,10 +734,6 @@ nombre_npc = "Andres"
 activar_automaticamente = true
 lineas_dialogo = ["Ey que pusiste en la pregunta 12?", "no te dio tiempo a terminarlo, que idiota", "Como se nota que no eres bueno para estas cosas"]
 
-[node name="Sprite2D" type="Sprite2D" parent="NPC/NPC_3" unique_id=313547956]
-position = Vector2(0, -3.07)
-scale = Vector2(0.07, 0.07)
-
 [node name="NPC_4" parent="NPC" unique_id=1341191089 instance=ExtResource("23_npc")]
 visible = false
 position = Vector2(1466, -1534)
@@ -729,10 +742,6 @@ monitorable = false
 nombre_npc = "Carlos"
 activar_automaticamente = true
 lineas_dialogo = ["de verdad que tus papas pierden plata contigo"]
-
-[node name="Sprite2D" type="Sprite2D" parent="NPC/NPC_4" unique_id=1293091669]
-position = Vector2(0, -3.07)
-scale = Vector2(0.07, 0.07)
 
 [node name="NPC_5" parent="NPC" unique_id=1352114328 instance=ExtResource("23_npc")]
 visible = false
@@ -743,18 +752,10 @@ nombre_npc = "Esteban"
 activar_automaticamente = true
 lineas_dialogo = ["JAJAJA cule hueva"]
 
-[node name="Sprite2D" type="Sprite2D" parent="NPC/NPC_5" unique_id=1298645433]
-position = Vector2(0, -3.07)
-scale = Vector2(0.07, 0.07)
-
 [node name="NPC_6" parent="NPC" unique_id=1114308193 instance=ExtResource("23_npc")]
 position = Vector2(1272, -1707)
 nombre_npc = "Profesor"
 lineas_dialogo = ["Rapido a su cupitre"]
-
-[node name="Sprite2D" type="Sprite2D" parent="NPC/NPC_6" unique_id=2043101221]
-position = Vector2(0, -3.07)
-scale = Vector2(0.07, 0.07)
 
 [connection signal="body_entered" from="Player/Area2D" to="Player/Camara1" method="_on_area_2d_body_entered"]
 [connection signal="body_exited" from="Player/Area2D" to="Player/Camara1" method="_on_area_2d_body_exited"]

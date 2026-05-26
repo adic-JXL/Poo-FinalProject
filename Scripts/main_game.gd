@@ -20,8 +20,10 @@ const MENSAJE_TOTEM_SIN_GAFAS := "Los totems solo responden cuando miras con las
 const MENSAJE_JEFE_DERROTADO := "El jefe se desmorona. Una puerta al siguiente mundo emerge dentro de la arena."
 const MENSAJE_PUERTA_JEFE_REVELADA := "El puzzle se resolvio. La puerta hacia la arena del jefe se revela frente a ti."
 const MENSAJE_LLEGADA_ARENA_JEFE := "Has entrado en la arena del jefe. Usa las gafas y activa los tres totems."
+const MENSAJE_JEFE_GUIA := "JEFE 1: activa los 3 pilares con las gafas. Cada pilar debilita al slime rey. No lo ataques: esquiva, activa y sobrevive hasta sellarlo por completo."
 const MENSAJE_LLEGADA_MUNDO_2 := "Has cruzado al inicio provisional del mundo 2. Avanza hasta el punto dorado para fijar este nuevo comienzo."
 const MENSAJE_CHECKPOINT_MUNDO_2_ACTIVADO := "Checkpoint del mundo 2 activado. Esta base plana ya puede servir como nuevo inicio."
+const MENSAJE_CHECKPOINT_INICIAL := "Checkpoint inicial activo. Si caes, ya no vuelves al prologo."
 const ESCALA_TIEMPO_PAUSA := 0.000001
 const FACTOR_LENTITUD_GAFAS_ENEMIGOS := 0.90
 const INTERVALO_PENSAMIENTOS := 20.0
@@ -53,6 +55,23 @@ const PENSAMIENTO_NPCS_PATIO := "Voy a tomar un pequeño descanso en el patio."
 const PENSAMIENTO_NPC_VALOR := "Ojala algun dia saque el valor para decirles como me siento."
 const PENSAMIENTO_PATIO_DIFERENTE := "Wow el patio se ve diferente."
 const LIMITE_Y_PROLOGO := -500.0
+const DECOR_RUTAS_MUNDO_1 := {
+	"arbol": "res://Imagenes/Decoracion/Hojas/Arbol.png",
+	"arbusto_1": "res://Imagenes/Decoracion/Hojas/Arbusto1.png",
+	"arbusto_2": "res://Imagenes/Decoracion/Hojas/Arbusto2.png",
+	"cesped": "res://Imagenes/Decoracion/Hojas/cesped.png",
+	"hongo_1": "res://Imagenes/Decoracion/Hongos/Hongo1.png",
+	"hongo_2": "res://Imagenes/Decoracion/Hongos/Hongo2.png",
+	"hongo_3": "res://Imagenes/Decoracion/Hongos/Hongo3.png",
+	"hongo_4": "res://Imagenes/Decoracion/Hongos/Hongo4.png",
+	"flor_amarilla": "res://Imagenes/Decoracion/Flores/Flor amarilla.png",
+	"flor_azul": "res://Imagenes/Decoracion/Flores/Flor azul.png",
+	"flor_morada": "res://Imagenes/Decoracion/Flores/Flor morada.png",
+	"roca_amarilla_1": "res://Imagenes/Decoracion/Roca amarilla/roca amarilla 1.png",
+	"roca_amarilla_2": "res://Imagenes/Decoracion/Roca amarilla/roca amarilla 2.png",
+	"roca_gris_1": "res://Imagenes/Decoracion/Roca griz/roca griz 1.png",
+	"roca_gris_2": "res://Imagenes/Decoracion/Roca griz/roca griz 2.png",
+}
 const CAMARA_PROLOGO_CASA := {
 	"max_x": 920.0,
 	"zoom": Vector2(3.8, 3.8),
@@ -133,6 +152,8 @@ const CAMARA_PROLOGO_SALON := {
 @onready var puerta_8 = get_node_or_null("Objetos/Puerta8")
 @onready var puerta_mundo_2 = get_node_or_null("Objetos/PuertaMundo2")
 @onready var puerta_mundo_2_destino = get_node_or_null("Objetos/PuertaMundo2Destino")
+@onready var checkpoint_inicio: Marker2D = get_node_or_null("Objetos/CheckpointInicio") as Marker2D
+@onready var checkpoint_inicio_activador = get_node_or_null("Objetos/CheckpointInicio/Activador")
 @onready var checkpoint_puerta: Marker2D = $Objetos/CheckpointPuerta
 @onready var checkpoint_puerta_activador = $Objetos/CheckpointPuerta/Activador
 @onready var checkpoint_pre_parkour: Marker2D = get_node_or_null("Objetos/CheckpointPreParkour") as Marker2D
@@ -206,6 +227,9 @@ var _npcs_post_puzzle_dialogados := {}
 var _pensamiento_patio_mostrado: bool = false
 var _objetivos_mundo_1_mostrados: bool = false
 var puzzle_matematicas: PuzzleBase = null
+var _overlay_indicadores_pilares: Control = null
+var _indicadores_pilares: Dictionary = {}
+var _ayuda_jefe_1_mostrada: bool = false
 
 
 func _ready() -> void:
@@ -222,10 +246,12 @@ func _ready() -> void:
 	_configurar_enemigos()
 	_configurar_gafas()
 	_configurar_menu_pausa()
+	_crear_indicadores_pilares_jefe()
 	_configurar_intro_video()
 	_configurar_camara_prologo()
 	_ocultar_puerta_salida_escuela()
 	_configurar_npcs()
+	_asegurar_decoracion_mundo_1()
 	_preparar_canvas_runtime()
 	_crear_puzzle_matematicas()
 	_configurar_interactivo(llave, _on_llave_interaccion_solicitada)
@@ -254,6 +280,7 @@ func _physics_process(_delta: float) -> void:
 
 	_actualizar_camara_prologo_por_zona()
 	_actualizar_estado_zona_jefe()
+	_actualizar_indicadores_pilares_jefe()
 
 	if jugador.global_position.y > limite_caida_y:
 		reiniciar_nivel()
@@ -389,6 +416,8 @@ func abrir_menu_pausa() -> void:
 		return
 
 	_pausa_activa = true
+	if hud != null and hud.has_method("ocultar_pensamiento_activo"):
+		hud.ocultar_pensamiento_activo()
 	jugador.velocity = Vector2.ZERO
 	jugador.establecer_control_habilitado(false)
 	_establecer_enemigos_congelados(true)
@@ -410,6 +439,7 @@ func cerrar_menu_pausa() -> void:
 
 func _configurar_hud() -> void:
 	hud.show()
+	hud.layer = 30
 	hud.configurar_jugador(jugador)
 	hud.actualizar_llave(_llave_obtenida)
 	hud.actualizar_checkpoint(_checkpoint_activo)
@@ -457,6 +487,9 @@ func _configurar_puertas() -> void:
 
 
 func _configurar_checkpoints() -> void:
+	if checkpoint_inicio_activador != null and checkpoint_inicio_activador.has_signal("checkpoint_alcanzado"):
+		checkpoint_inicio_activador.checkpoint_alcanzado.connect(_on_checkpoint_inicio_alcanzado)
+
 	if checkpoint_puerta_activador != null and checkpoint_puerta_activador.has_signal("checkpoint_alcanzado"):
 		checkpoint_puerta_activador.checkpoint_alcanzado.connect(_on_checkpoint_puerta_alcanzado)
 
@@ -468,6 +501,9 @@ func _configurar_checkpoints() -> void:
 
 	if checkpoint_mundo_2_inicio_activador != null and checkpoint_mundo_2_inicio_activador.has_signal("checkpoint_alcanzado"):
 		checkpoint_mundo_2_inicio_activador.checkpoint_alcanzado.connect(_on_checkpoint_mundo_2_alcanzado)
+
+	if hud != null:
+		hud.actualizar_checkpoint(_checkpoint_activo)
 
 
 func _configurar_enemigos() -> void:
@@ -501,8 +537,22 @@ func _configurar_gafas() -> void:
 
 func _configurar_menu_pausa() -> void:
 	menu_pausa.continuar_solicitado.connect(cerrar_menu_pausa)
+	menu_pausa.controles_solicitados.connect(_on_menu_pausa_controles_solicitados)
 	menu_pausa.reiniciar_solicitado.connect(reiniciar_nivel)
 	menu_pausa.volver_menu_solicitado.connect(volver_al_menu)
+
+
+func _on_menu_pausa_controles_solicitados() -> void:
+	if menu_pausa == null or not _pausa_activa:
+		return
+
+	menu_pausa.hide()
+	var cutscene := CUTSCENE_BASE_SCRIPT.new()
+	add_child(cutscene)
+	await cutscene.reproducir_controles()
+	cutscene.queue_free()
+	if _pausa_activa:
+		menu_pausa.abrir(_checkpoint_activo, _obtener_descripcion_checkpoint())
 
 
 func _configurar_intro_video() -> void:
@@ -566,6 +616,47 @@ func _configurar_npcs() -> void:
 	_conectar_pensamiento_npc_post_puzzle(npc_4, &"npc_4")
 	_conectar_pensamiento_npc_post_puzzle(npc_5, &"npc_5")
 	_establecer_npcs_post_puzzle_disponibles(false)
+	_aplicar_sprite_npc(get_node_or_null("NPC/NPC_1") as NPCDialogo, "res://Imagenes/NPC/frames/negro.png", "Meles", "res://Imagenes/NPC/frames/negro")
+	_aplicar_sprite_npc(npc_2, "res://Imagenes/NPC/frames/profesora.png", "PROFE", "res://Imagenes/NPC/frames/profesora")
+	_aplicar_sprite_npc(npc_3, "res://Imagenes/NPC/frames/estudiante_girl.png", "Andres", "res://Imagenes/NPC/frames/estudiante_girl")
+	_aplicar_sprite_npc(npc_4, "res://Imagenes/NPC/frames/profesor.png", "Carlos", "res://Imagenes/NPC/frames/profesor")
+	_aplicar_sprite_npc(npc_5, "res://Imagenes/NPC/frames/negro.png", "Esteban", "res://Imagenes/NPC/frames/negro")
+	_aplicar_sprite_npc(get_node_or_null("NPC/NPC_6") as NPCDialogo, "res://Imagenes/NPC/frames/profesora.png", "PROFE", "res://Imagenes/NPC/frames/profesora")
+
+func _aplicar_sprite_npc(npc: NPCDialogo, ruta_textura: String, etiqueta: String, ruta_frames: String = "") -> void:
+	if npc == null:
+		return
+
+	npc.texto_etiqueta = ""
+	npc.etiqueta_visible = false
+	var textura := load(ruta_textura) as Texture2D
+	if npc.has_method("establecer_visual_npc"):
+		npc.establecer_visual_npc(textura)
+	if not ruta_frames.is_empty() and npc.has_method("establecer_animacion_npc"):
+		var frames := _cargar_frames_npc_desde_carpeta(ruta_frames)
+		if not frames.is_empty():
+			npc.establecer_animacion_npc(frames, 5.0)
+	var label := npc.get_node_or_null("NombreLabel") as Label
+	if label != null:
+		label.text = ""
+		label.visible = false
+
+
+func _cargar_frames_npc_desde_carpeta(ruta_base: String) -> Array[Texture2D]:
+	var frames: Array[Texture2D] = []
+	for indice in range(12):
+		var ruta_frame := "%s/%s_%02d.png" % [ruta_base, ruta_base.get_file(), indice]
+		var textura := load(ruta_frame) as Texture2D
+		if textura == null:
+			break
+		frames.append(textura)
+
+	if frames.is_empty():
+		var textura_base := load("%s.png" % ruta_base) as Texture2D
+		if textura_base != null:
+			frames.append(textura_base)
+
+	return frames
 
 
 func _conectar_pensamiento_npc_post_puzzle(npc: NPCDialogo, id_npc: StringName) -> void:
@@ -613,6 +704,8 @@ func _reproducir_intro_video() -> void:
 	jugador.velocity = Vector2.ZERO
 	jugador.establecer_control_habilitado(false)
 	_establecer_enemigos_congelados(true)
+	if hud != null and hud.has_method("ocultar_para_cinematica"):
+		hud.ocultar_para_cinematica()
 	intro_canvas.show()
 	intro_video.play()
 
@@ -629,6 +722,8 @@ func _finalizar_intro_video() -> void:
 	if not _pausa_activa and not _puzzle_activo:
 		jugador.establecer_control_habilitado(true)
 	_establecer_enemigos_congelados(_pausa_activa or _puzzle_activo)
+	if hud != null and hud.has_method("mostrar_con_aparicion"):
+		hud.mostrar_con_aparicion()
 	_restaurar_mensaje_hud()
 
 
@@ -642,6 +737,121 @@ func _configurar_interactivo(interactivo: Node, callback: Callable) -> void:
 
 	interactivo.interaccion_solicitada.connect(callback)
 	interactivo.rango_interaccion_cambiado.connect(_on_rango_interaccion_cambiado)
+
+
+func _asegurar_decoracion_mundo_1() -> void:
+	var objetos := get_node_or_null("Objetos") as Node2D
+	if objetos == null:
+		return
+
+	var decoracion := objetos.get_node_or_null("DecoracionMundo1") as Node2D
+	if decoracion == null:
+		decoracion = Node2D.new()
+		decoracion.name = "DecoracionMundo1"
+		objetos.add_child(decoracion)
+
+	var elementos := [
+		{"nombre":"arbusto_inicio_1","tipo":"arbusto_1","pos":Vector2(924, 300),"escala":1.12},
+		{"nombre":"cesped_inicio_1","tipo":"cesped","pos":Vector2(1006, 304),"escala":1.08},
+		{"nombre":"hongo_inicio_1","tipo":"hongo_1","pos":Vector2(1094, 306),"escala":1.0},
+		{"nombre":"roca_inicio_1","tipo":"roca_gris_1","pos":Vector2(1178, 306),"escala":1.0},
+		{"nombre":"flor_inicio_1","tipo":"flor_amarilla","pos":Vector2(1292, 308),"escala":1.0},
+		{"nombre":"arbusto_puerta_1","tipo":"arbusto_2","pos":Vector2(1468, 304),"escala":1.1},
+		{"nombre":"cesped_puerta_1","tipo":"cesped","pos":Vector2(1612, 304),"escala":1.14},
+		{"nombre":"hongo_puerta_1","tipo":"hongo_2","pos":Vector2(1724, 306),"escala":1.0},
+		{"nombre":"roca_puerta_1","tipo":"roca_amarilla_1","pos":Vector2(1842, 306),"escala":1.0},
+		{"nombre":"flor_puerta_1","tipo":"flor_azul","pos":Vector2(1968, 308),"escala":1.0},
+		{"nombre":"arbusto_ruta_2","tipo":"arbusto_1","pos":Vector2(2148, 304),"escala":1.06},
+		{"nombre":"cesped_ruta_2","tipo":"cesped","pos":Vector2(2288, 304),"escala":1.08},
+		{"nombre":"hongo_ruta_2","tipo":"hongo_3","pos":Vector2(2440, 306),"escala":1.0},
+		{"nombre":"roca_ruta_2","tipo":"roca_gris_2","pos":Vector2(2594, 306),"escala":1.0},
+		{"nombre":"flor_ruta_2","tipo":"flor_morada","pos":Vector2(2764, 308),"escala":1.0},
+		{"nombre":"arbusto_ruta_3","tipo":"arbusto_2","pos":Vector2(3168, 304),"escala":1.15},
+		{"nombre":"roca_ruta_3","tipo":"roca_amarilla_2","pos":Vector2(3356, 306),"escala":1.0},
+		{"nombre":"cesped_ruta_3","tipo":"cesped","pos":Vector2(3548, 304),"escala":1.08},
+		{"nombre":"hongo_ruta_3","tipo":"hongo_4","pos":Vector2(3718, 306),"escala":1.0},
+		{"nombre":"flor_ruta_3","tipo":"flor_amarilla","pos":Vector2(3888, 308),"escala":1.0},
+		{"nombre":"arbusto_ruta_4","tipo":"arbusto_1","pos":Vector2(4268, 304),"escala":1.1},
+		{"nombre":"roca_ruta_4","tipo":"roca_gris_1","pos":Vector2(4444, 306),"escala":1.0},
+		{"nombre":"cesped_ruta_4","tipo":"cesped","pos":Vector2(4634, 304),"escala":1.08},
+		{"nombre":"hongo_ruta_4","tipo":"hongo_1","pos":Vector2(4820, 306),"escala":1.0},
+		{"nombre":"flor_ruta_4","tipo":"flor_azul","pos":Vector2(5006, 308),"escala":1.0},
+		{"nombre":"arbusto_preparkour_1","tipo":"arbusto_2","pos":Vector2(5460, 195),"escala":1.05},
+		{"nombre":"flor_preparkour_1","tipo":"flor_morada","pos":Vector2(5608, 197),"escala":1.0},
+		{"nombre":"roca_preparkour_1","tipo":"roca_amarilla_1","pos":Vector2(5754, 195),"escala":1.0},
+		{"nombre":"cesped_preparkour_1","tipo":"cesped","pos":Vector2(5898, 194),"escala":1.06},
+		{"nombre":"arbusto_preparkour_2","tipo":"arbusto_1","pos":Vector2(6106, 194),"escala":1.0},
+		{"nombre":"hongo_preparkour_2","tipo":"hongo_2","pos":Vector2(6272, 196),"escala":1.0},
+		{"nombre":"flor_preparkour_2","tipo":"flor_amarilla","pos":Vector2(6434, 197),"escala":1.0},
+		{"nombre":"roca_preparkour_2","tipo":"roca_gris_2","pos":Vector2(6602, 195),"escala":1.0},
+		{"nombre":"cesped_preparkour_2","tipo":"cesped","pos":Vector2(6768, 194),"escala":1.08},
+		{"nombre":"arbusto_plataforma_1","tipo":"arbusto_2","pos":Vector2(7308, 466),"escala":0.96},
+		{"nombre":"flor_plataforma_1","tipo":"flor_azul","pos":Vector2(7670, 306),"escala":0.95},
+		{"nombre":"cesped_plataforma_1","tipo":"cesped","pos":Vector2(8006, 354),"escala":1.02},
+		{"nombre":"hongo_plataforma_1","tipo":"hongo_3","pos":Vector2(8350, 306),"escala":0.95},
+		{"nombre":"roca_plataforma_1","tipo":"roca_amarilla_2","pos":Vector2(8684, 306),"escala":0.95},
+		{"nombre":"arbusto_altar_1","tipo":"arbusto_1","pos":Vector2(9570, 194),"escala":1.0},
+		{"nombre":"flor_altar_1","tipo":"flor_morada","pos":Vector2(9710, 197),"escala":1.0},
+		{"nombre":"roca_altar_1","tipo":"roca_gris_1","pos":Vector2(9932, 195),"escala":1.0},
+		{"nombre":"cesped_altar_1","tipo":"cesped","pos":Vector2(10130, 194),"escala":1.08},
+		{"nombre":"arbusto_jefe_1","tipo":"arbusto_2","pos":Vector2(10224, 178),"escala":0.98},
+		{"nombre":"roca_jefe_1","tipo":"roca_amarilla_1","pos":Vector2(10462, 178),"escala":0.95},
+		{"nombre":"flor_jefe_1","tipo":"flor_amarilla","pos":Vector2(10696, 180),"escala":0.95},
+		{"nombre":"hongo_jefe_1","tipo":"hongo_4","pos":Vector2(10924, 178),"escala":0.95},
+		{"nombre":"cesped_jefe_1","tipo":"cesped","pos":Vector2(11156, 177),"escala":1.0},
+		{"nombre":"arbol_fondo_1","tipo":"arbol","pos":Vector2(1498, 280),"escala":1.15, "z": -2},
+		{"nombre":"arbol_fondo_2","tipo":"arbol","pos":Vector2(5848, 174),"escala":1.08, "z": -2},
+		{"nombre":"arbol_fondo_3","tipo":"arbol","pos":Vector2(10018, 55),"escala":0.92, "z": -2}
+	]
+
+	for datos_var in elementos:
+		var datos := datos_var as Dictionary
+		_asegurar_sprite_decorativo(
+			decoracion,
+			String(datos.get("nombre", "")),
+			String(DECOR_RUTAS_MUNDO_1.get(String(datos.get("tipo", "")), "")),
+			datos.get("pos", Vector2.ZERO),
+			float(datos.get("escala", 1.0)),
+			bool(datos.get("flip_h", false)),
+			int(datos.get("z", 1))
+		)
+
+
+func _asegurar_sprite_decorativo(padre: Node2D, nombre: String, ruta_textura: String, posicion: Vector2, escala: float, flip_h: bool = false, z_index_sprite: int = 1) -> void:
+	if padre == null or nombre.is_empty() or ruta_textura.is_empty():
+		return
+
+	var sprite := padre.get_node_or_null(nombre) as Sprite2D
+	if sprite == null:
+		sprite = Sprite2D.new()
+		sprite.name = nombre
+		padre.add_child(sprite)
+
+	sprite.texture = load(ruta_textura) as Texture2D
+	sprite.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+	sprite.centered = false
+	sprite.scale = Vector2(escala, escala)
+	sprite.flip_h = flip_h
+	sprite.z_index = z_index_sprite
+	if sprite.texture != null:
+		var ancho_base := maxf(4.0, sprite.texture.get_width() * escala * 0.22)
+		var y_superficie := _obtener_y_superficie_decoracion(Vector2(posicion.x + ancho_base, posicion.y), posicion.y)
+		sprite.position = Vector2(posicion.x, y_superficie - (sprite.texture.get_height() * escala))
+	else:
+		sprite.position = posicion
+
+
+func _obtener_y_superficie_decoracion(posicion: Vector2, fallback: float) -> float:
+	var espacio := get_world_2d().direct_space_state
+	var origen := Vector2(posicion.x, posicion.y - 180.0)
+	var destino := Vector2(posicion.x, posicion.y + 260.0)
+	var parametros := PhysicsRayQueryParameters2D.create(origen, destino)
+	parametros.collide_with_areas = false
+	parametros.collide_with_bodies = true
+	var resultado := espacio.intersect_ray(parametros)
+	if not resultado.is_empty():
+		return float((resultado.get("position", Vector2(posicion.x, fallback)) as Vector2).y)
+	return fallback
 
 
 func _interactuar_con_npc_en_rango() -> bool:
@@ -661,6 +871,7 @@ func _configurar_totems_jefe() -> void:
 			continue
 
 		_configurar_interactivo(totem, _on_totem_jefe_interaccion_solicitada.bind(totem))
+		_crear_indicador_pilar_para_totem(totem)
 
 
 func _configurar_puzzles() -> void:
@@ -874,6 +1085,10 @@ func _reproducir_objetivos_post_escuela() -> void:
 	_restaurar_mensaje_hud()
 
 
+func _on_checkpoint_inicio_alcanzado(posicion: Vector2, _mensaje: String) -> void:
+	_activar_checkpoint(posicion, MENSAJE_CHECKPOINT_INICIAL)
+
+
 func _on_checkpoint_puerta_alcanzado(posicion: Vector2, _mensaje: String) -> void:
 	_activar_checkpoint(posicion, MENSAJE_CHECKPOINT_GAFAS_ACTIVADO)
 
@@ -989,6 +1204,123 @@ func _activar_checkpoint(posicion: Vector2, mensaje: String = MENSAJE_CHECKPOINT
 	hud.mostrar_mensaje(mensaje)
 
 
+func _crear_indicadores_pilares_jefe() -> void:
+	if hud == null or _overlay_indicadores_pilares != null:
+		return
+
+	_overlay_indicadores_pilares = Control.new()
+	_overlay_indicadores_pilares.name = "IndicadoresPilares"
+	_overlay_indicadores_pilares.set_anchors_preset(Control.PRESET_FULL_RECT)
+	_overlay_indicadores_pilares.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_overlay_indicadores_pilares.z_index = 12
+	hud.get_node("Control").add_child(_overlay_indicadores_pilares)
+	_overlay_indicadores_pilares.hide()
+
+
+func _crear_indicador_pilar_para_totem(totem: TotemJefe) -> void:
+	if _overlay_indicadores_pilares == null or totem == null or _indicadores_pilares.has(totem):
+		return
+
+	var panel := PanelContainer.new()
+	panel.custom_minimum_size = Vector2(118, 34)
+	panel.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	var estilo := StyleBoxFlat.new()
+	estilo.bg_color = Color(0.06, 0.08, 0.09, 0.90)
+	estilo.border_width_left = 2
+	estilo.border_width_top = 2
+	estilo.border_width_right = 2
+	estilo.border_width_bottom = 2
+	estilo.border_color = Color(0.84, 0.93, 0.42, 0.96)
+	estilo.corner_radius_top_left = 8
+	estilo.corner_radius_top_right = 8
+	estilo.corner_radius_bottom_left = 8
+	estilo.corner_radius_bottom_right = 8
+	estilo.shadow_color = Color(0.0, 0.0, 0.0, 0.30)
+	estilo.shadow_size = 3
+	panel.add_theme_stylebox_override("panel", estilo)
+	_overlay_indicadores_pilares.add_child(panel)
+
+	var margen := MarginContainer.new()
+	margen.set_anchors_preset(Control.PRESET_FULL_RECT)
+	margen.add_theme_constant_override("margin_left", 8)
+	margen.add_theme_constant_override("margin_top", 4)
+	margen.add_theme_constant_override("margin_right", 8)
+	margen.add_theme_constant_override("margin_bottom", 4)
+	panel.add_child(margen)
+
+	var fila := HBoxContainer.new()
+	fila.alignment = BoxContainer.ALIGNMENT_CENTER
+	fila.add_theme_constant_override("separation", 6)
+	margen.add_child(fila)
+
+	var punto := ColorRect.new()
+	punto.name = "Punto"
+	punto.custom_minimum_size = Vector2(8, 8)
+	punto.color = Color(0.86, 0.94, 0.43, 1.0)
+	punto.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	fila.add_child(punto)
+
+	var label := Label.new()
+	label.name = "NombreLabel"
+	label.text = "PILAR"
+	label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	label.add_theme_font_override("font", preload("res://Fuentes/joystix monospace.otf"))
+	label.add_theme_font_size_override("font_size", 9)
+	label.add_theme_color_override("font_color", Color(0.94, 0.97, 0.86, 1.0))
+	label.add_theme_color_override("font_outline_color", Color(0.0, 0.0, 0.0, 0.88))
+	label.add_theme_constant_override("outline_size", 1)
+	fila.add_child(label)
+
+	var flecha := Label.new()
+	flecha.name = "FlechaLabel"
+	flecha.text = "▼"
+	flecha.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	flecha.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	flecha.add_theme_font_override("font", preload("res://Fuentes/joystix monospace.otf"))
+	flecha.add_theme_font_size_override("font_size", 11)
+	flecha.add_theme_color_override("font_color", Color(0.98, 0.95, 0.66, 1.0))
+	flecha.add_theme_color_override("font_outline_color", Color(0.0, 0.0, 0.0, 0.88))
+	flecha.add_theme_constant_override("outline_size", 1)
+	fila.add_child(flecha)
+
+	_indicadores_pilares[totem] = panel
+
+
+func _actualizar_indicadores_pilares_jefe() -> void:
+	if _overlay_indicadores_pilares == null:
+		return
+
+	var mostrar := _jugador_en_zona_jefe and not _jefe_derrotado and not _mundo_2_desbloqueado and not _totems_jefe.is_empty()
+	_overlay_indicadores_pilares.visible = mostrar
+	if not mostrar:
+		return
+
+	var viewport_rect := get_viewport().get_visible_rect()
+	var transformacion_canvas := get_viewport().get_canvas_transform()
+	var indice_visible := 0
+	for totem in _totems_jefe:
+		var panel := _indicadores_pilares.get(totem) as PanelContainer
+		if panel == null:
+			continue
+		if totem == null or not is_instance_valid(totem) or totem.esta_activado():
+			panel.hide()
+			continue
+
+		var posicion_pantalla: Vector2 = transformacion_canvas * totem.global_position
+		var x_clamp := clampf(posicion_pantalla.x - (panel.custom_minimum_size.x * 0.5), 22.0, viewport_rect.size.x - panel.custom_minimum_size.x - 22.0)
+		panel.position = Vector2(x_clamp, 14.0 + (indice_visible * 38.0))
+		var label := panel.get_node_or_null("MarginContainer/HBoxContainer/NombreLabel") as Label
+		if label != null:
+			label.text = "PILAR %d" % (indice_visible + 1)
+		var punto := panel.get_node_or_null("MarginContainer/HBoxContainer/Punto") as ColorRect
+		if punto != null:
+			var intensidad := clampf(absf(posicion_pantalla.x - (viewport_rect.size.x * 0.5)) / maxf(viewport_rect.size.x * 0.5, 1.0), 0.0, 1.0)
+			punto.color = Color(0.86 + (0.12 * intensidad), 0.94, 0.43, 1.0)
+		panel.show()
+		indice_visible += 1
+
+
 func _on_jugador_vida_cambiada(vida_actual: int) -> void:
 	if vida_actual > 0:
 		return
@@ -1058,7 +1390,27 @@ func _on_puerta_jefe_teletransporte_realizado(_jugador: Node2D, destino: Node2D)
 	_aplicar_perfil_distorsion(true)
 	_sincronizar_camara_con_jugador()
 	_mostrar_pensamiento_zona_jefe()
-	hud.mostrar_mensaje(MENSAJE_LLEGADA_ARENA_JEFE)
+	hud.mostrar_mensaje(MENSAJE_JEFE_GUIA)
+	if not _ayuda_jefe_1_mostrada:
+		_ayuda_jefe_1_mostrada = true
+		call_deferred("_mostrar_popup_ayuda_jefe_1")
+
+
+func _mostrar_popup_ayuda_jefe_1() -> void:
+	if _pausa_activa or _puzzle_activo or jugador == null:
+		return
+
+	jugador.velocity = Vector2.ZERO
+	jugador.establecer_control_habilitado(false)
+	_establecer_enemigos_congelados(true)
+	var cutscene := CUTSCENE_BASE_SCRIPT.new()
+	add_child(cutscene)
+	await cutscene.reproducir_ayuda_jefe_1()
+	cutscene.queue_free()
+	if not _pausa_activa and not _puzzle_activo:
+		jugador.establecer_control_habilitado(true)
+	_establecer_enemigos_congelados(_pausa_activa or _puzzle_activo)
+	_restaurar_mensaje_hud()
 
 
 func _establecer_enemigos_congelados(congelados: bool) -> void:
@@ -1154,12 +1506,19 @@ func _restaurar_mensaje_hud() -> void:
 		hud.mostrar_mensaje(MENSAJE_JEFE_DERROTADO)
 		return
 
+	if _jugador_en_zona_jefe:
+		hud.mostrar_mensaje(MENSAJE_JEFE_GUIA)
+		return
+
 	if _puzzle_gafas_superado:
 		hud.mostrar_mensaje("Reto de gafas superado. La puerta a la arena del jefe ya esta abierta.")
 		return
 
 	if _checkpoint_activo:
-		hud.mostrar_mensaje("Checkpoint activo. Usa las gafas para revelar el parkour oculto.")
+		if _posicion_respawn_actual.distance_to(_posicion_inicial_jugador) < 12.0:
+			hud.mostrar_mensaje(MENSAJE_CHECKPOINT_INICIAL)
+		else:
+			hud.mostrar_mensaje("Checkpoint activo. Usa las gafas para revelar el parkour oculto.")
 		return
 
 	if _nivel_completado:
@@ -1652,6 +2011,8 @@ func _reproducir_intro_nueva_partida() -> void:
 		return
 
 	jugador.establecer_control_habilitado(false)
+	if hud.has_method("ocultar_para_cinematica"):
+		hud.ocultar_para_cinematica()
 	hud.mostrar_mensaje("Respira. Solo cruza el pasillo una vez mas.")
 	if hud.has_method("mostrar_pensamiento"):
 		hud.mostrar_pensamiento("Otra vez esas miradas. Solo sigue.", false)
@@ -1662,6 +2023,8 @@ func _reproducir_intro_nueva_partida() -> void:
 	cutscene.queue_free()
 	await get_tree().create_timer(0.2, true, false, true).timeout
 	jugador.establecer_control_habilitado(true)
+	if hud.has_method("mostrar_con_aparicion"):
+		hud.mostrar_con_aparicion()
 	_restaurar_mensaje_hud()
 
 
