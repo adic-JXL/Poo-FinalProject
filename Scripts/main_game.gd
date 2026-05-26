@@ -135,6 +135,8 @@ const CAMARA_PROLOGO_SALON := {
 @onready var puerta_8 = get_node_or_null("Objetos/Puerta8")
 @onready var puerta_mundo_2 = get_node_or_null("Objetos/PuertaMundo2")
 @onready var puerta_mundo_2_destino = get_node_or_null("Objetos/PuertaMundo2Destino")
+@onready var checkpoint_inicio: Marker2D = get_node_or_null("Objetos/CheckpointInicio") as Marker2D
+@onready var checkpoint_inicio_activador = get_node_or_null("Objetos/CheckpointInicio/Activador")
 @onready var checkpoint_puerta: Marker2D = $Objetos/CheckpointPuerta
 @onready var checkpoint_puerta_activador = $Objetos/CheckpointPuerta/Activador
 @onready var checkpoint_pre_parkour: Marker2D = get_node_or_null("Objetos/CheckpointPreParkour") as Marker2D
@@ -395,6 +397,8 @@ func abrir_menu_pausa() -> void:
 		return
 
 	_pausa_activa = true
+	if hud != null and hud.has_method("ocultar_pensamiento_activo"):
+		hud.ocultar_pensamiento_activo()
 	jugador.velocity = Vector2.ZERO
 	jugador.establecer_control_habilitado(false)
 	_establecer_enemigos_congelados(true)
@@ -464,6 +468,9 @@ func _configurar_puertas() -> void:
 
 
 func _configurar_checkpoints() -> void:
+	if checkpoint_inicio_activador != null and checkpoint_inicio_activador.has_signal("checkpoint_alcanzado"):
+		checkpoint_inicio_activador.checkpoint_alcanzado.connect(_on_checkpoint_inicio_alcanzado)
+
 	if checkpoint_puerta_activador != null and checkpoint_puerta_activador.has_signal("checkpoint_alcanzado"):
 		checkpoint_puerta_activador.checkpoint_alcanzado.connect(_on_checkpoint_puerta_alcanzado)
 
@@ -476,10 +483,8 @@ func _configurar_checkpoints() -> void:
 	if checkpoint_mundo_2_inicio_activador != null and checkpoint_mundo_2_inicio_activador.has_signal("checkpoint_alcanzado"):
 		checkpoint_mundo_2_inicio_activador.checkpoint_alcanzado.connect(_on_checkpoint_mundo_2_alcanzado)
 
-	if not _checkpoint_activo:
-		_establecer_checkpoint(_posicion_inicial_jugador)
-		if hud != null:
-			hud.actualizar_checkpoint(true)
+	if hud != null:
+		hud.actualizar_checkpoint(_checkpoint_activo)
 
 
 func _configurar_enemigos() -> void:
@@ -903,6 +908,10 @@ func _reproducir_objetivos_post_escuela() -> void:
 		jugador.establecer_control_habilitado(true)
 	_establecer_enemigos_congelados(_pausa_activa or _puzzle_activo)
 	_restaurar_mensaje_hud()
+
+
+func _on_checkpoint_inicio_alcanzado(posicion: Vector2, _mensaje: String) -> void:
+	_activar_checkpoint(posicion, MENSAJE_CHECKPOINT_INICIAL)
 
 
 func _on_checkpoint_puerta_alcanzado(posicion: Vector2, _mensaje: String) -> void:

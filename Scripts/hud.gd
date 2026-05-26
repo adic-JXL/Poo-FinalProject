@@ -142,8 +142,7 @@ func ocultar_para_cinematica() -> void:
 		return
 
 	root_control.hide()
-	if _pensamiento_root != null:
-		_pensamiento_root.hide()
+	ocultar_pensamiento_activo()
 
 
 func mostrar_con_aparicion() -> void:
@@ -158,6 +157,13 @@ func mostrar_con_aparicion() -> void:
 	tween.set_trans(Tween.TRANS_SINE)
 	tween.set_ease(Tween.EASE_OUT)
 	tween.tween_property(root_control, "modulate:a", 1.0, 0.28)
+
+
+func ocultar_pensamiento_activo() -> void:
+	if _tween_pensamiento != null and _tween_pensamiento.is_valid():
+		_tween_pensamiento.kill()
+	if _pensamiento_root != null:
+		_pensamiento_root.hide()
 
 
 func mostrar_pensamiento(texto: String, positivo: bool = false) -> void:
@@ -207,13 +213,13 @@ func actualizar_sprint(activo: bool) -> void:
 
 
 func actualizar_llave(tiene_llave: bool) -> void:
-	llave_label.text = "Llave: %s" % ("obtenida" if tiene_llave else "pendiente")
+	llave_label.text = "LLAVE: %s" % ("OBTENIDA" if tiene_llave else "PENDIENTE")
 	if _llave_icono != null:
 		_llave_icono.modulate = COLOR_HUD_ACTIVO if tiene_llave else COLOR_HUD_ENFRIANDO
 
 
 func actualizar_checkpoint(activo: bool) -> void:
-	checkpoint_label.text = "Checkpoint: %s" % ("activo" if activo else "pendiente")
+	checkpoint_label.text = "CHECKPOINT: %s" % ("ACTIVO" if activo else "PENDIENTE")
 	checkpoint_label.add_theme_color_override("font_color", COLOR_HUD_ACTIVO if activo else COLOR_TEXTO_SUAVE)
 
 
@@ -269,7 +275,7 @@ func _aplicar_estilo_mensaje() -> void:
 	fondo.border_color = COLOR_MENSAJE_BORDE
 	mensaje_panel.add_theme_stylebox_override("panel", fondo)
 	mensaje_panel.offset_right = 312.0
-	mensaje_panel.offset_bottom = 170.0
+	mensaje_panel.offset_bottom = 104.0
 
 
 func _configurar_pensamiento_visual() -> void:
@@ -434,10 +440,10 @@ func _configurar_fuentes_colores() -> void:
 	estado_label.add_theme_font_size_override("font_size", 10)
 	llave_label.add_theme_font_override("font", FUENTE_PIXEL)
 	llave_label.add_theme_color_override("font_color", COLOR_TEXTO_CLARO)
-	llave_label.add_theme_font_size_override("font_size", 10)
+	llave_label.add_theme_font_size_override("font_size", 12)
 	checkpoint_label.add_theme_font_override("font", FUENTE_PIXEL)
-	checkpoint_label.add_theme_color_override("font_color", COLOR_TEXTO_SUAVE)
-	checkpoint_label.add_theme_font_size_override("font_size", 10)
+	checkpoint_label.add_theme_color_override("font_color", COLOR_TEXTO_CLARO)
+	checkpoint_label.add_theme_font_size_override("font_size", 11)
 	estamina_label.add_theme_color_override("font_color", COLOR_TEXTO_CLARO)
 	estamina_label.add_theme_font_size_override("font_size", 11)
 	sprint_label.add_theme_color_override("font_color", COLOR_TEXTO_CLARO)
@@ -553,14 +559,18 @@ func _configurar_stamina_visual() -> void:
 
 	_stamina_porcentaje_label = Label.new()
 	_stamina_porcentaje_label.text = "100%"
-	_stamina_porcentaje_label.set_anchors_preset(Control.PRESET_FULL_RECT)
-	_stamina_porcentaje_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	_stamina_porcentaje_label.anchor_left = 0.0
+	_stamina_porcentaje_label.anchor_top = 0.0
+	_stamina_porcentaje_label.anchor_right = 1.0
+	_stamina_porcentaje_label.anchor_bottom = 1.0
+	_stamina_porcentaje_label.offset_right = -10.0
+	_stamina_porcentaje_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
 	_stamina_porcentaje_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	_stamina_porcentaje_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_stamina_porcentaje_label.add_theme_font_override("font", FUENTE_PIXEL)
 	_stamina_porcentaje_label.add_theme_font_size_override("font_size", 10)
-	_stamina_porcentaje_label.add_theme_color_override("font_color", Color(0.96, 0.96, 0.88, 1.0))
-	_stamina_porcentaje_label.add_theme_color_override("font_outline_color", Color(0.02, 0.02, 0.03, 0.96))
+	_stamina_porcentaje_label.add_theme_color_override("font_color", Color(0.60, 0.94, 0.28, 1.0))
+	_stamina_porcentaje_label.add_theme_color_override("font_outline_color", Color(0.05, 0.08, 0.03, 0.98))
 	_stamina_porcentaje_label.add_theme_constant_override("outline_size", 2)
 	holder.add_child(_stamina_porcentaje_label)
 
@@ -570,7 +580,7 @@ func _configurar_stamina_visual() -> void:
 	_mensaje_stamina_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	_mensaje_stamina_label.custom_minimum_size = Vector2(330, 28)
 	_mensaje_stamina_label.add_theme_font_override("font", FUENTE_PIXEL)
-	_mensaje_stamina_label.add_theme_font_size_override("font_size", 11)
+	_mensaje_stamina_label.add_theme_font_size_override("font_size", 12)
 	_mensaje_stamina_label.add_theme_color_override("font_color", Color(0.95, 0.97, 0.86, 1.0))
 	_mensaje_stamina_label.add_theme_color_override("font_outline_color", Color(0.02, 0.02, 0.03, 0.96))
 	_mensaje_stamina_label.add_theme_constant_override("outline_size", 2)
@@ -638,11 +648,17 @@ func _configurar_gafas_visual() -> void:
 
 
 func _configurar_llave_visual() -> void:
+	mensaje_label.hide()
+	estado_label.hide()
+	llave_label.text = "LLAVE: PENDIENTE"
+	checkpoint_label.text = "CHECKPOINT: PENDIENTE"
+	mensaje_vbox.add_theme_constant_override("separation", 6)
+
 	var fila := HBoxContainer.new()
-	fila.add_theme_constant_override("separation", 6)
+	fila.add_theme_constant_override("separation", 10)
 	fila.alignment = BoxContainer.ALIGNMENT_BEGIN
 
-	_llave_icono = _crear_texture_rect(_textura_llave, Vector2(14, 18), TextureRect.STRETCH_KEEP_ASPECT_CENTERED)
+	_llave_icono = _crear_texture_rect(_textura_llave, Vector2(24, 28), TextureRect.STRETCH_KEEP_ASPECT_CENTERED)
 	_llave_icono.modulate = COLOR_HUD_ENFRIANDO
 	fila.add_child(_llave_icono)
 
@@ -672,6 +688,8 @@ func _actualizar_relleno_stamina(actual: float, maxima: float) -> void:
 
 	var ratio := 0.0 if maxima <= 0.0 else clampf(actual / maxima, 0.0, 1.0)
 	_stamina_fill_rect.size.x = _stamina_fill_ancho_max * ratio
+	if _stamina_porcentaje_label != null:
+		_stamina_porcentaje_label.text = "%d%%" % int(round(ratio * 100.0))
 	if _stamina_porcentaje_label != null:
 		_stamina_porcentaje_label.text = "%d%%" % int(round(ratio * 100.0))
 

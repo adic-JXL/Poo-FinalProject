@@ -221,6 +221,8 @@ func abrir_menu_pausa() -> void:
 		return
 
 	_pausa_activa = true
+	if hud != null and hud.has_method("ocultar_pensamiento_activo"):
+		hud.ocultar_pensamiento_activo()
 	jugador.velocity = Vector2.ZERO
 	jugador.establecer_control_habilitado(false)
 	if muro_carne != null:

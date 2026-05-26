@@ -414,6 +414,31 @@ scale = Vector2(0.82, 0.82)
 position = Vector2(1406.0001, 282.99997)
 scale = Vector2(0.82, 0.82)
 
+[node name="CheckpointInicio" type="Marker2D" parent="Objetos" unique_id=202605261]
+position = Vector2(1112, 314)
+
+[node name="AuraCheckpoint" type="Sprite2D" parent="Objetos/CheckpointInicio" unique_id=202605262]
+modulate = Color(0.62, 0.84, 1, 0.08)
+z_index = -1
+texture_filter = 1
+position = Vector2(-22, -12)
+scale = Vector2(0.42, 0.42)
+
+[node name="PuntoVisible" type="Sprite2D" parent="Objetos/CheckpointInicio" unique_id=202605263]
+modulate = Color(0.88, 0.92, 0.96, 0.95)
+texture_filter = 1
+position = Vector2(-22, -10)
+scale = Vector2(1.1, 1.1)
+
+[node name="Activador" type="Area2D" parent="Objetos/CheckpointInicio" unique_id=202605264]
+script = ExtResource("20_checkpoint")
+mensaje_activacion = "Checkpoint inicial activado. Ya no vuelves al prologo."
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Objetos/CheckpointInicio/Activador" unique_id=202605265]
+shape = SubResource("CircleShape2D_checkpoint_puerta")
+
+[node name="AudioCheckpoint" type="AudioStreamPlayer" parent="Objetos/CheckpointInicio" unique_id=202605266]
+
 [node name="CheckpointPuerta" type="Marker2D" parent="Objetos" unique_id=829114517]
 position = Vector2(1554, 314)
 
