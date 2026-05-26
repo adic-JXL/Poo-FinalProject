@@ -131,6 +131,17 @@ func reproducir_controles() -> void:
 	)
 
 
+func reproducir_ayuda_jefe_1() -> void:
+	await _mostrar_cinematica(
+		"COMO DERROTAR AL JEFE",
+		"No se vence atacando. Activa las gafas, busca los 3 pilares de la arena y tocales E. Cada pilar debilita al jefe. Esquiva sus embestidas y completa los 3 antes de que te encierre.",
+		"Batalla del slime rey",
+		8.0,
+		Color(0.96, 0.74, 0.36, 1.0),
+		Callable(self, "_montar_ayuda_jefe_1")
+	)
+
+
 func reproducir_transicion_mundo_2() -> void:
 	await _mostrar_cinematica(
 		"ENTRE MUNDOS",
@@ -426,6 +437,28 @@ func _montar_objetivos_mundo_1() -> void:
 	_agregar_caption("Objetivo central: avanzar usando claridad, no fuerza.")
 
 
+func _montar_ayuda_jefe_1() -> void:
+	_agregar_fondo_degradado(Color(0.08, 0.10, 0.13, 1.0), Color(0.12, 0.08, 0.12, 1.0))
+	_agregar_rect(_stage, Vector2(0, 216), Vector2(760, 69), Color(0.10, 0.08, 0.09, 1.0), "SueloJefe")
+	var jefe := _crear_sprite_animado(_stage, FRAMES_SLIME, Vector2(312, 126), Vector2(122, 110), 6.0, "SlimeRey")
+	jefe.modulate = Color(0.76, 0.24, 0.58, 1.0)
+	_animar_pulso(jefe, Vector2.ONE, Vector2(1.08, 1.08), 0.55)
+	for indice in range(3):
+		var base_x := 112 + indice * 214
+		var pilar := _agregar_rect(_stage, Vector2(base_x, 132), Vector2(32, 78), Color(0.22, 0.32, 0.38, 1.0), "Pilar%d" % indice)
+		var brillo := _agregar_rect(_stage, Vector2(base_x + 7, 118), Vector2(18, 18), Color(0.88, 0.95, 0.42, 1.0), "BrilloPilar%d" % indice)
+		_animar_pulso(brillo, Vector2.ONE, Vector2(1.16, 1.16), 0.42 + indice * 0.08)
+		var etiqueta := _agregar_label(_stage, "PILAR %d" % (indice + 1), Vector2(base_x - 18, 98), Vector2(70, 18), 8, Color(0.95, 0.97, 0.84, 1.0))
+		etiqueta.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	var ruta_1 := _agregar_label(_stage, "1. Activa gafas y busca el brillo de los pilares.", Vector2(58, 24), Vector2(650, 22), 10, Color(0.92, 0.96, 0.84, 1.0))
+	var ruta_2 := _agregar_label(_stage, "2. Acercate y pulsa E para sellarlos.", Vector2(58, 52), Vector2(650, 22), 10, Color(0.92, 0.96, 0.84, 1.0))
+	var ruta_3 := _agregar_label(_stage, "3. No ataques al jefe: esquivalo hasta completar los 3.", Vector2(58, 80), Vector2(650, 22), 10, Color(0.92, 0.96, 0.84, 1.0))
+	ruta_1.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	ruta_2.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	ruta_3.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	_agregar_caption("Los marcadores de arriba te diran donde esta cada pilar que falta.")
+
+
 func _montar_transicion_mundo_2() -> void:
 	_agregar_fondo_textura(TEXTURA_FONDO_MUNDO_2, Color(0.55, 0.68, 0.75, 0.82))
 	_agregar_rect(_stage, Vector2(0, 220), Vector2(760, 65), Color(0.11, 0.13, 0.15, 0.88), "Suelo")
@@ -436,6 +469,7 @@ func _montar_transicion_mundo_2() -> void:
 	var player := _crear_sprite_animado(_stage, FRAMES_RUN, Vector2(52, 150), Vector2(88, 108), 10.0, "JugadorRun")
 	var muro := _crear_sprite_animado(_stage, FRAMES_MURO, Vector2(-125, 42), Vector2(185, 222), 8.0, "MuroVerde")
 	muro.modulate = Color(1, 1, 1, 0.92)
+	muro.flip_h = true
 
 	var tween := create_tween()
 	tween.set_ignore_time_scale(true)

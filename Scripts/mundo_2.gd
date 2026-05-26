@@ -459,9 +459,27 @@ func _asegurar_sprite_decorativo_mundo_2(padre: Node2D, nombre: String, ruta_tex
 	sprite.texture = load(ruta_textura) as Texture2D
 	sprite.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
 	sprite.centered = false
-	sprite.position = posicion
 	sprite.scale = Vector2.ONE
 	sprite.z_index = 1
+	if sprite.texture != null:
+		var ancho_base := maxf(4.0, sprite.texture.get_width() * 0.22)
+		var y_superficie := _obtener_y_superficie_decoracion_mundo_2(Vector2(posicion.x + ancho_base, posicion.y), posicion.y)
+		sprite.position = Vector2(posicion.x, y_superficie - sprite.texture.get_height())
+	else:
+		sprite.position = posicion
+
+
+func _obtener_y_superficie_decoracion_mundo_2(posicion: Vector2, fallback: float) -> float:
+	var espacio := get_world_2d().direct_space_state
+	var origen := Vector2(posicion.x, posicion.y - 180.0)
+	var destino := Vector2(posicion.x, posicion.y + 260.0)
+	var parametros := PhysicsRayQueryParameters2D.create(origen, destino)
+	parametros.collide_with_areas = false
+	parametros.collide_with_bodies = true
+	var resultado := espacio.intersect_ray(parametros)
+	if not resultado.is_empty():
+		return float((resultado.get("position", Vector2(posicion.x, fallback)) as Vector2).y)
+	return fallback
 
 
 func _asegurar_checkpoint_mundo_2(objetos: Node2D, nombre: String, posicion: Vector2, mensaje: String) -> void:

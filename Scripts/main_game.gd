@@ -20,7 +20,7 @@ const MENSAJE_TOTEM_SIN_GAFAS := "Los totems solo responden cuando miras con las
 const MENSAJE_JEFE_DERROTADO := "El jefe se desmorona. Una puerta al siguiente mundo emerge dentro de la arena."
 const MENSAJE_PUERTA_JEFE_REVELADA := "El puzzle se resolvio. La puerta hacia la arena del jefe se revela frente a ti."
 const MENSAJE_LLEGADA_ARENA_JEFE := "Has entrado en la arena del jefe. Usa las gafas y activa los tres totems."
-const MENSAJE_JEFE_GUIA := "ACTIVA LOS PILARES CON LAS GAFAS."
+const MENSAJE_JEFE_GUIA := "JEFE 1: activa los 3 pilares con las gafas. Cada pilar debilita al slime rey. No lo ataques: esquiva, activa y sobrevive hasta sellarlo por completo."
 const MENSAJE_LLEGADA_MUNDO_2 := "Has cruzado al inicio provisional del mundo 2. Avanza hasta el punto dorado para fijar este nuevo comienzo."
 const MENSAJE_CHECKPOINT_MUNDO_2_ACTIVADO := "Checkpoint del mundo 2 activado. Esta base plana ya puede servir como nuevo inicio."
 const MENSAJE_CHECKPOINT_INICIAL := "Checkpoint inicial activo. Si caes, ya no vuelves al prologo."
@@ -229,6 +229,7 @@ var _objetivos_mundo_1_mostrados: bool = false
 var puzzle_matematicas: PuzzleBase = null
 var _overlay_indicadores_pilares: Control = null
 var _indicadores_pilares: Dictionary = {}
+var _ayuda_jefe_1_mostrada: bool = false
 
 
 func _ready() -> void:
@@ -615,31 +616,47 @@ func _configurar_npcs() -> void:
 	_conectar_pensamiento_npc_post_puzzle(npc_4, &"npc_4")
 	_conectar_pensamiento_npc_post_puzzle(npc_5, &"npc_5")
 	_establecer_npcs_post_puzzle_disponibles(false)
-	_aplicar_sprite_npc(get_node_or_null("NPC/NPC_1") as NPCDialogo, true)
-	_aplicar_sprite_npc(npc_2, true)
-	_aplicar_sprite_npc(npc_3, false)
-	_aplicar_sprite_npc(npc_4, false)
-	_aplicar_sprite_npc(npc_5, false)
-	_aplicar_sprite_npc(get_node_or_null("NPC/NPC_6") as NPCDialogo, true)
+	_aplicar_sprite_npc(get_node_or_null("NPC/NPC_1") as NPCDialogo, "res://Imagenes/NPC/frames/negro.png", "Meles", "res://Imagenes/NPC/frames/negro")
+	_aplicar_sprite_npc(npc_2, "res://Imagenes/NPC/frames/profesora.png", "PROFE", "res://Imagenes/NPC/frames/profesora")
+	_aplicar_sprite_npc(npc_3, "res://Imagenes/NPC/frames/estudiante_girl.png", "Andres", "res://Imagenes/NPC/frames/estudiante_girl")
+	_aplicar_sprite_npc(npc_4, "res://Imagenes/NPC/frames/profesor.png", "Carlos", "res://Imagenes/NPC/frames/profesor")
+	_aplicar_sprite_npc(npc_5, "res://Imagenes/NPC/frames/negro.png", "Esteban", "res://Imagenes/NPC/frames/negro")
+	_aplicar_sprite_npc(get_node_or_null("NPC/NPC_6") as NPCDialogo, "res://Imagenes/NPC/frames/profesora.png", "PROFE", "res://Imagenes/NPC/frames/profesora")
 
-
-func _aplicar_sprite_npc(npc: NPCDialogo, usar_gafas: bool) -> void:
+func _aplicar_sprite_npc(npc: NPCDialogo, ruta_textura: String, etiqueta: String, ruta_frames: String = "") -> void:
 	if npc == null:
 		return
 
-	var visual_base := npc.get_node_or_null("Visual") as Polygon2D
-	if visual_base != null:
-		visual_base.color = Color(1, 1, 1, 0)
-		var sprite_visual := visual_base.get_node_or_null("Sprite2D") as Sprite2D
-		if sprite_visual != null:
-			sprite_visual.texture = load("res://Imagenes/Personaje_Girl/%s/idle/idle_00.png" % ("con_gafas" if usar_gafas else "sin_gafas")) as Texture2D
-			sprite_visual.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
-			sprite_visual.position = Vector2(0, 14)
-			sprite_visual.scale = Vector2(1.45, 1.45)
+	npc.texto_etiqueta = ""
+	npc.etiqueta_visible = false
+	var textura := load(ruta_textura) as Texture2D
+	if npc.has_method("establecer_visual_npc"):
+		npc.establecer_visual_npc(textura)
+	if not ruta_frames.is_empty() and npc.has_method("establecer_animacion_npc"):
+		var frames := _cargar_frames_npc_desde_carpeta(ruta_frames)
+		if not frames.is_empty():
+			npc.establecer_animacion_npc(frames, 5.0)
+	var label := npc.get_node_or_null("NombreLabel") as Label
+	if label != null:
+		label.text = ""
+		label.visible = false
 
-	var sprite_extra := npc.get_node_or_null("Sprite2D") as Sprite2D
-	if sprite_extra != null:
-		sprite_extra.visible = false
+
+func _cargar_frames_npc_desde_carpeta(ruta_base: String) -> Array[Texture2D]:
+	var frames: Array[Texture2D] = []
+	for indice in range(12):
+		var ruta_frame := "%s/%s_%02d.png" % [ruta_base, ruta_base.get_file(), indice]
+		var textura := load(ruta_frame) as Texture2D
+		if textura == null:
+			break
+		frames.append(textura)
+
+	if frames.is_empty():
+		var textura_base := load("%s.png" % ruta_base) as Texture2D
+		if textura_base != null:
+			frames.append(textura_base)
+
+	return frames
 
 
 func _conectar_pensamiento_npc_post_puzzle(npc: NPCDialogo, id_npc: StringName) -> void:
@@ -813,10 +830,28 @@ func _asegurar_sprite_decorativo(padre: Node2D, nombre: String, ruta_textura: St
 	sprite.texture = load(ruta_textura) as Texture2D
 	sprite.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
 	sprite.centered = false
-	sprite.position = posicion
 	sprite.scale = Vector2(escala, escala)
 	sprite.flip_h = flip_h
 	sprite.z_index = z_index_sprite
+	if sprite.texture != null:
+		var ancho_base := maxf(4.0, sprite.texture.get_width() * escala * 0.22)
+		var y_superficie := _obtener_y_superficie_decoracion(Vector2(posicion.x + ancho_base, posicion.y), posicion.y)
+		sprite.position = Vector2(posicion.x, y_superficie - (sprite.texture.get_height() * escala))
+	else:
+		sprite.position = posicion
+
+
+func _obtener_y_superficie_decoracion(posicion: Vector2, fallback: float) -> float:
+	var espacio := get_world_2d().direct_space_state
+	var origen := Vector2(posicion.x, posicion.y - 180.0)
+	var destino := Vector2(posicion.x, posicion.y + 260.0)
+	var parametros := PhysicsRayQueryParameters2D.create(origen, destino)
+	parametros.collide_with_areas = false
+	parametros.collide_with_bodies = true
+	var resultado := espacio.intersect_ray(parametros)
+	if not resultado.is_empty():
+		return float((resultado.get("position", Vector2(posicion.x, fallback)) as Vector2).y)
+	return fallback
 
 
 func _interactuar_con_npc_en_rango() -> bool:
@@ -1356,6 +1391,26 @@ func _on_puerta_jefe_teletransporte_realizado(_jugador: Node2D, destino: Node2D)
 	_sincronizar_camara_con_jugador()
 	_mostrar_pensamiento_zona_jefe()
 	hud.mostrar_mensaje(MENSAJE_JEFE_GUIA)
+	if not _ayuda_jefe_1_mostrada:
+		_ayuda_jefe_1_mostrada = true
+		call_deferred("_mostrar_popup_ayuda_jefe_1")
+
+
+func _mostrar_popup_ayuda_jefe_1() -> void:
+	if _pausa_activa or _puzzle_activo or jugador == null:
+		return
+
+	jugador.velocity = Vector2.ZERO
+	jugador.establecer_control_habilitado(false)
+	_establecer_enemigos_congelados(true)
+	var cutscene := CUTSCENE_BASE_SCRIPT.new()
+	add_child(cutscene)
+	await cutscene.reproducir_ayuda_jefe_1()
+	cutscene.queue_free()
+	if not _pausa_activa and not _puzzle_activo:
+		jugador.establecer_control_habilitado(true)
+	_establecer_enemigos_congelados(_pausa_activa or _puzzle_activo)
+	_restaurar_mensaje_hud()
 
 
 func _establecer_enemigos_congelados(congelados: bool) -> void:
