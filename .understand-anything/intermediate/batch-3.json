@@ -1,0 +1,2701 @@
+{
+  "nodes": [
+    {
+      "id": "file:Escenas/opciones.tscn",
+      "type": "file",
+      "name": "opciones.tscn",
+      "filePath": "Escenas/opciones.tscn",
+      "lineRange": [
+        1,
+        80
+      ],
+      "summary": "Escena de Godot que define opciones y la composición de nodos usada en el juego.",
+      "tags": [
+        "escena",
+        "godot"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:Escenas/Personaje.tscn",
+      "type": "file",
+      "name": "Personaje.tscn",
+      "filePath": "Escenas/Personaje.tscn",
+      "lineRange": [
+        1,
+        28
+      ],
+      "summary": "Escena de Godot que define Personaje y la composición de nodos usada en el juego.",
+      "tags": [
+        "escena",
+        "godot",
+        "jugador",
+        "movimiento"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:Escenas/plataforma_gafas.tscn",
+      "type": "file",
+      "name": "plataforma_gafas.tscn",
+      "filePath": "Escenas/plataforma_gafas.tscn",
+      "lineRange": [
+        1,
+        18
+      ],
+      "summary": "Escena de Godot que define plataforma_gafas y la composición de nodos usada en el juego.",
+      "tags": [
+        "escena",
+        "godot",
+        "gafas",
+        "habilidad"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:Escenas/Plataforma.tscn",
+      "type": "file",
+      "name": "Plataforma.tscn",
+      "filePath": "Escenas/Plataforma.tscn",
+      "lineRange": [
+        1,
+        59
+      ],
+      "summary": "Escena de Godot que define Plataforma y la composición de nodos usada en el juego.",
+      "tags": [
+        "escena",
+        "godot"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:Escenas/PlataformaSolida.tscn",
+      "type": "file",
+      "name": "PlataformaSolida.tscn",
+      "filePath": "Escenas/PlataformaSolida.tscn",
+      "lineRange": [
+        1,
+        16
+      ],
+      "summary": "Escena de Godot que define PlataformaSolida y la composición de nodos usada en el juego.",
+      "tags": [
+        "escena",
+        "godot"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:Escenas/Puerta.tscn",
+      "type": "file",
+      "name": "Puerta.tscn",
+      "filePath": "Escenas/Puerta.tscn",
+      "lineRange": [
+        1,
+        30
+      ],
+      "summary": "Escena de Godot que define Puerta y la composición de nodos usada en el juego.",
+      "tags": [
+        "escena",
+        "godot"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:Escenas/PuertaTeletransporte.tscn",
+      "type": "file",
+      "name": "PuertaTeletransporte.tscn",
+      "filePath": "Escenas/PuertaTeletransporte.tscn",
+      "lineRange": [
+        1,
+        33
+      ],
+      "summary": "Escena de Godot que define PuertaTeletransporte y la composición de nodos usada en el juego.",
+      "tags": [
+        "escena",
+        "godot"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:Escenas/PuzzleGafas.tscn",
+      "type": "file",
+      "name": "PuzzleGafas.tscn",
+      "filePath": "Escenas/PuzzleGafas.tscn",
+      "lineRange": [
+        1,
+        112
+      ],
+      "summary": "Escena de Godot que define PuzzleGafas y la composición de nodos usada en el juego.",
+      "tags": [
+        "escena",
+        "godot",
+        "puzzle",
+        "interaccion",
+        "gafas"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:Escenas/PuzzleMatematicas.tscn",
+      "type": "file",
+      "name": "PuzzleMatematicas.tscn",
+      "filePath": "Escenas/PuzzleMatematicas.tscn",
+      "lineRange": [
+        1,
+        130
+      ],
+      "summary": "Escena de Godot que define PuzzleMatematicas y la composición de nodos usada en el juego.",
+      "tags": [
+        "escena",
+        "godot",
+        "puzzle",
+        "interaccion"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:Escenas/PuzzleSecuencia.tscn",
+      "type": "file",
+      "name": "PuzzleSecuencia.tscn",
+      "filePath": "Escenas/PuzzleSecuencia.tscn",
+      "lineRange": [
+        1,
+        134
+      ],
+      "summary": "Escena de Godot que define PuzzleSecuencia y la composición de nodos usada en el juego.",
+      "tags": [
+        "escena",
+        "godot",
+        "puzzle",
+        "interaccion"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:Escenas/TotemJefe.tscn",
+      "type": "file",
+      "name": "TotemJefe.tscn",
+      "filePath": "Escenas/TotemJefe.tscn",
+      "lineRange": [
+        1,
+        20
+      ],
+      "summary": "Escena de Godot que define TotemJefe y la composición de nodos usada en el juego.",
+      "tags": [
+        "escena",
+        "godot",
+        "enemigo",
+        "ia"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:landing/index.html",
+      "type": "file",
+      "name": "index.html",
+      "filePath": "landing/index.html",
+      "lineRange": [
+        1,
+        243
+      ],
+      "summary": "Archivo de la landing page del proyecto usado para presentar el juego y su arquitectura.",
+      "tags": [
+        "web",
+        "presentacion"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "file:landing/script.js",
+      "type": "file",
+      "name": "script.js",
+      "filePath": "landing/script.js",
+      "lineRange": [
+        1,
+        143
+      ],
+      "summary": "Archivo de la landing page del proyecto usado para presentar el juego y su arquitectura.",
+      "tags": [
+        "web",
+        "presentacion"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:landing/styles.css",
+      "type": "file",
+      "name": "styles.css",
+      "filePath": "landing/styles.css",
+      "lineRange": [
+        1,
+        836
+      ],
+      "summary": "Archivo de la landing page del proyecto usado para presentar el juego y su arquitectura.",
+      "tags": [
+        "web",
+        "presentacion"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "config:project.godot",
+      "type": "config",
+      "name": "project.godot",
+      "filePath": "project.godot",
+      "lineRange": [
+        1,
+        96
+      ],
+      "summary": "Archivo principal de configuración de Godot; define arranque, autoloads y ajustes globales del proyecto.",
+      "tags": [
+        "archivo"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:Scripts/altar_gafas.gd",
+      "type": "file",
+      "name": "altar_gafas.gd",
+      "filePath": "Scripts/altar_gafas.gd",
+      "lineRange": [
+        1,
+        86
+      ],
+      "summary": "Script GDScript asociado a altar_gafas; encapsula lógica de juego, comportamiento o soporte del sistema.",
+      "tags": [
+        "gdscript",
+        "gameplay",
+        "gafas",
+        "habilidad"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:Scripts/altar_gafas.gd:AltarGafas",
+      "type": "class",
+      "name": "AltarGafas",
+      "filePath": "Scripts/altar_gafas.gd",
+      "lineRange": [
+        1,
+        86
+      ],
+      "summary": "Clase principal del script altar_gafas.gd; concentra el comportamiento central definido en este archivo.",
+      "tags": [
+        "gdscript",
+        "gameplay",
+        "gafas",
+        "habilidad",
+        "clase"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:Scripts/altar_gafas.gd:_ready",
+      "type": "function",
+      "name": "_ready",
+      "filePath": "Scripts/altar_gafas.gd",
+      "lineRange": [
+        24,
+        30
+      ],
+      "summary": "Función _ready definida en altar_gafas.gd; participa en la lógica específica de este módulo.",
+      "tags": [
+        "gdscript",
+        "gameplay",
+        "gafas",
+        "habilidad",
+        "funcion"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Scripts/altar_gafas.gd:_process",
+      "type": "function",
+      "name": "_process",
+      "filePath": "Scripts/altar_gafas.gd",
+      "lineRange": [
+        31,
+        43
+      ],
+      "summary": "Función _process definida en altar_gafas.gd; participa en la lógica específica de este módulo.",
+      "tags": [
+        "gdscript",
+        "gameplay",
+        "gafas",
+        "habilidad",
+        "funcion"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Scripts/altar_gafas.gd:_actualizar_visual",
+      "type": "function",
+      "name": "_actualizar_visual",
+      "filePath": "Scripts/altar_gafas.gd",
+      "lineRange": [
+        58,
+        69
+      ],
+      "summary": "Función _actualizar_visual definida en altar_gafas.gd; participa en la lógica específica de este módulo.",
+      "tags": [
+        "gdscript",
+        "gameplay",
+        "gafas",
+        "habilidad",
+        "funcion"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Scripts/altar_gafas.gd:_cargar_icono_gafas",
+      "type": "function",
+      "name": "_cargar_icono_gafas",
+      "filePath": "Scripts/altar_gafas.gd",
+      "lineRange": [
+        70,
+        80
+      ],
+      "summary": "Función _cargar_icono_gafas definida en altar_gafas.gd; participa en la lógica específica de este módulo.",
+      "tags": [
+        "gdscript",
+        "gameplay",
+        "gafas",
+        "habilidad",
+        "funcion"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Scripts/altar_gafas.gd:_cargar_textura_png",
+      "type": "function",
+      "name": "_cargar_textura_png",
+      "filePath": "Scripts/altar_gafas.gd",
+      "lineRange": [
+        81,
+        91
+      ],
+      "summary": "Función _cargar_textura_png definida en altar_gafas.gd; participa en la lógica específica de este módulo.",
+      "tags": [
+        "gdscript",
+        "gameplay",
+        "gafas",
+        "habilidad",
+        "funcion"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:Scripts/ambiente_mundo_1.gd",
+      "type": "file",
+      "name": "ambiente_mundo_1.gd",
+      "filePath": "Scripts/ambiente_mundo_1.gd",
+      "lineRange": [
+        1,
+        125
+      ],
+      "summary": "Script GDScript asociado a ambiente_mundo_1; encapsula lógica de juego, comportamiento o soporte del sistema.",
+      "tags": [
+        "gdscript",
+        "gameplay",
+        "mundo",
+        "controlador"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:Scripts/ambiente_mundo_1.gd:AmbienteMundo1",
+      "type": "class",
+      "name": "AmbienteMundo1",
+      "filePath": "Scripts/ambiente_mundo_1.gd",
+      "lineRange": [
+        1,
+        125
+      ],
+      "summary": "Clase principal del script ambiente_mundo_1.gd; concentra el comportamiento central definido en este archivo.",
+      "tags": [
+        "gdscript",
+        "gameplay",
+        "mundo",
+        "controlador",
+        "clase"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:Scripts/ambiente_mundo_1.gd:_ready",
+      "type": "function",
+      "name": "_ready",
+      "filePath": "Scripts/ambiente_mundo_1.gd",
+      "lineRange": [
+        24,
+        41
+      ],
+      "summary": "Función _ready definida en ambiente_mundo_1.gd; participa en la lógica específica de este módulo.",
+      "tags": [
+        "gdscript",
+        "gameplay",
+        "mundo",
+        "controlador",
+        "funcion"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:Scripts/ambiente_mundo_1.gd:_process",
+      "type": "function",
+      "name": "_process",
+      "filePath": "Scripts/ambiente_mundo_1.gd",
+      "lineRange": [
+        42,
+        55
+      ],
+      "summary": "Función _process definida en ambiente_mundo_1.gd; participa en la lógica específica de este módulo.",
+      "tags": [
+        "gdscript",
+        "gameplay",
+        "mundo",
+        "controlador",
+        "funcion"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Scripts/ambiente_mundo_1.gd:establecer_modo_jefe",
+      "type": "function",
+      "name": "establecer_modo_jefe",
+      "filePath": "Scripts/ambiente_mundo_1.gd",
+      "lineRange": [
+        56,
+        66
+      ],
+      "summary": "Función establecer_modo_jefe definida en ambiente_mundo_1.gd; participa en la lógica específica de este módulo.",
+      "tags": [
+        "gdscript",
+        "gameplay",
+        "mundo",
+        "controlador",
+        "funcion"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Scripts/ambiente_mundo_1.gd:_llenar_buffer",
+      "type": "function",
+      "name": "_llenar_buffer",
+      "filePath": "Scripts/ambiente_mundo_1.gd",
+      "lineRange": [
+        67,
+        99
+      ],
+      "summary": "Función _llenar_buffer definida en ambiente_mundo_1.gd; participa en la lógica específica de este módulo.",
+      "tags": [
+        "gdscript",
+        "gameplay",
+        "mundo",
+        "controlador",
+        "funcion"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:Scripts/ambiente_mundo_1.gd:_obtener_stream_transicion_jefe",
+      "type": "function",
+      "name": "_obtener_stream_transicion_jefe",
+      "filePath": "Scripts/ambiente_mundo_1.gd",
+      "lineRange": [
+        100,
+        126
+      ],
+      "summary": "Función _obtener_stream_transicion_jefe definida en ambiente_mundo_1.gd; participa en la lógica específica de este módulo.",
+      "tags": [
+        "gdscript",
+        "gameplay",
+        "mundo",
+        "controlador",
+        "funcion"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:Scripts/ambiente_mundo_2.gd",
+      "type": "file",
+      "name": "ambiente_mundo_2.gd",
+      "filePath": "Scripts/ambiente_mundo_2.gd",
+      "lineRange": [
+        1,
+        85
+      ],
+      "summary": "Script GDScript asociado a ambiente_mundo_2; encapsula lógica de juego, comportamiento o soporte del sistema.",
+      "tags": [
+        "gdscript",
+        "gameplay",
+        "mundo",
+        "controlador"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:Scripts/ambiente_mundo_2.gd:AmbienteMundo2",
+      "type": "class",
+      "name": "AmbienteMundo2",
+      "filePath": "Scripts/ambiente_mundo_2.gd",
+      "lineRange": [
+        1,
+        85
+      ],
+      "summary": "Clase principal del script ambiente_mundo_2.gd; concentra el comportamiento central definido en este archivo.",
+      "tags": [
+        "gdscript",
+        "gameplay",
+        "mundo",
+        "controlador",
+        "clase"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:Scripts/ambiente_mundo_2.gd:_ready",
+      "type": "function",
+      "name": "_ready",
+      "filePath": "Scripts/ambiente_mundo_2.gd",
+      "lineRange": [
+        22,
+        35
+      ],
+      "summary": "Función _ready definida en ambiente_mundo_2.gd; participa en la lógica específica de este módulo.",
+      "tags": [
+        "gdscript",
+        "gameplay",
+        "mundo",
+        "controlador",
+        "funcion"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Scripts/ambiente_mundo_2.gd:_process",
+      "type": "function",
+      "name": "_process",
+      "filePath": "Scripts/ambiente_mundo_2.gd",
+      "lineRange": [
+        36,
+        47
+      ],
+      "summary": "Función _process definida en ambiente_mundo_2.gd; participa en la lógica específica de este módulo.",
+      "tags": [
+        "gdscript",
+        "gameplay",
+        "mundo",
+        "controlador",
+        "funcion"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Scripts/ambiente_mundo_2.gd:_llenar_buffer",
+      "type": "function",
+      "name": "_llenar_buffer",
+      "filePath": "Scripts/ambiente_mundo_2.gd",
+      "lineRange": [
+        56,
+        86
+      ],
+      "summary": "Función _llenar_buffer definida en ambiente_mundo_2.gd; participa en la lógica específica de este módulo.",
+      "tags": [
+        "gdscript",
+        "gameplay",
+        "mundo",
+        "controlador",
+        "funcion"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:Scripts/checkpoint_activador.gd",
+      "type": "file",
+      "name": "checkpoint_activador.gd",
+      "filePath": "Scripts/checkpoint_activador.gd",
+      "lineRange": [
+        1,
+        189
+      ],
+      "summary": "Script GDScript asociado a checkpoint_activador; encapsula lógica de juego, comportamiento o soporte del sistema.",
+      "tags": [
+        "gdscript",
+        "gameplay"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:Scripts/checkpoint_activador.gd:CheckpointActivador",
+      "type": "class",
+      "name": "CheckpointActivador",
+      "filePath": "Scripts/checkpoint_activador.gd",
+      "lineRange": [
+        1,
+        189
+      ],
+      "summary": "Clase principal del script checkpoint_activador.gd; concentra el comportamiento central definido en este archivo.",
+      "tags": [
+        "gdscript",
+        "gameplay",
+        "clase"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:Scripts/checkpoint_activador.gd:_ready",
+      "type": "function",
+      "name": "_ready",
+      "filePath": "Scripts/checkpoint_activador.gd",
+      "lineRange": [
+        30,
+        55
+      ],
+      "summary": "Función _ready definida en checkpoint_activador.gd; participa en la lógica específica de este módulo.",
+      "tags": [
+        "gdscript",
+        "gameplay",
+        "funcion"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:Scripts/checkpoint_activador.gd:_process",
+      "type": "function",
+      "name": "_process",
+      "filePath": "Scripts/checkpoint_activador.gd",
+      "lineRange": [
+        60,
+        74
+      ],
+      "summary": "Función _process definida en checkpoint_activador.gd; participa en la lógica específica de este módulo.",
+      "tags": [
+        "gdscript",
+        "gameplay",
+        "funcion"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:Scripts/checkpoint_activador.gd:_on_body_entered",
+      "type": "function",
+      "name": "_on_body_entered",
+      "filePath": "Scripts/checkpoint_activador.gd",
+      "lineRange": [
+        75,
+        88
+      ],
+      "summary": "Función _on_body_entered definida en checkpoint_activador.gd; participa en la lógica específica de este módulo.",
+      "tags": [
+        "gdscript",
+        "gameplay",
+        "funcion"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Scripts/checkpoint_activador.gd:_actualizar_visual",
+      "type": "function",
+      "name": "_actualizar_visual",
+      "filePath": "Scripts/checkpoint_activador.gd",
+      "lineRange": [
+        89,
+        99
+      ],
+      "summary": "Función _actualizar_visual definida en checkpoint_activador.gd; participa en la lógica específica de este módulo.",
+      "tags": [
+        "gdscript",
+        "gameplay",
+        "funcion"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Scripts/checkpoint_activador.gd:_animar_activacion",
+      "type": "function",
+      "name": "_animar_activacion",
+      "filePath": "Scripts/checkpoint_activador.gd",
+      "lineRange": [
+        100,
+        119
+      ],
+      "summary": "Función _animar_activacion definida en checkpoint_activador.gd; participa en la lógica específica de este módulo.",
+      "tags": [
+        "gdscript",
+        "gameplay",
+        "funcion"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:Scripts/checkpoint_activador.gd:_obtener_textura_cartel",
+      "type": "function",
+      "name": "_obtener_textura_cartel",
+      "filePath": "Scripts/checkpoint_activador.gd",
+      "lineRange": [
+        128,
+        144
+      ],
+      "summary": "Función _obtener_textura_cartel definida en checkpoint_activador.gd; participa en la lógica específica de este módulo.",
+      "tags": [
+        "gdscript",
+        "gameplay",
+        "funcion"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:Scripts/checkpoint_activador.gd:_obtener_stream_checkpoint",
+      "type": "function",
+      "name": "_obtener_stream_checkpoint",
+      "filePath": "Scripts/checkpoint_activador.gd",
+      "lineRange": [
+        153,
+        181
+      ],
+      "summary": "Función _obtener_stream_checkpoint definida en checkpoint_activador.gd; participa en la lógica específica de este módulo.",
+      "tags": [
+        "gdscript",
+        "gameplay",
+        "funcion"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:Scripts/checkpoint_activador.gd:_crear_textura_radial",
+      "type": "function",
+      "name": "_crear_textura_radial",
+      "filePath": "Scripts/checkpoint_activador.gd",
+      "lineRange": [
+        182,
+        195
+      ],
+      "summary": "Función _crear_textura_radial definida en checkpoint_activador.gd; participa en la lógica específica de este módulo.",
+      "tags": [
+        "gdscript",
+        "gameplay",
+        "funcion"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:Scripts/correr.gd",
+      "type": "file",
+      "name": "correr.gd",
+      "filePath": "Scripts/correr.gd",
+      "lineRange": [
+        1,
+        12
+      ],
+      "summary": "Script GDScript asociado a correr; encapsula lógica de juego, comportamiento o soporte del sistema.",
+      "tags": [
+        "gdscript",
+        "gameplay"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Scripts/correr.gd:_ready",
+      "type": "function",
+      "name": "_ready",
+      "filePath": "Scripts/correr.gd",
+      "lineRange": [
+        6,
+        10
+      ],
+      "summary": "Función _ready definida en correr.gd; participa en la lógica específica de este módulo.",
+      "tags": [
+        "gdscript",
+        "gameplay",
+        "funcion"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Scripts/correr.gd:_process",
+      "type": "function",
+      "name": "_process",
+      "filePath": "Scripts/correr.gd",
+      "lineRange": [
+        11,
+        13
+      ],
+      "summary": "Función _process definida en correr.gd; participa en la lógica específica de este módulo.",
+      "tags": [
+        "gdscript",
+        "gameplay",
+        "funcion"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:Scripts/cutscene_base.gd",
+      "type": "file",
+      "name": "cutscene_base.gd",
+      "filePath": "Scripts/cutscene_base.gd",
+      "lineRange": [
+        1,
+        797
+      ],
+      "summary": "Script GDScript asociado a cutscene_base; encapsula lógica de juego, comportamiento o soporte del sistema.",
+      "tags": [
+        "gdscript",
+        "gameplay"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "class:Scripts/cutscene_base.gd:CutsceneBase",
+      "type": "class",
+      "name": "CutsceneBase",
+      "filePath": "Scripts/cutscene_base.gd",
+      "lineRange": [
+        1,
+        797
+      ],
+      "summary": "Clase principal del script cutscene_base.gd; concentra el comportamiento central definido en este archivo.",
+      "tags": [
+        "gdscript",
+        "gameplay",
+        "clase"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:Scripts/cutscene_base.gd:_ready",
+      "type": "function",
+      "name": "_ready",
+      "filePath": "Scripts/cutscene_base.gd",
+      "lineRange": [
+        66,
+        71
+      ],
+      "summary": "Función _ready definida en cutscene_base.gd; participa en la lógica específica de este módulo.",
+      "tags": [
+        "gdscript",
+        "gameplay",
+        "funcion"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Scripts/cutscene_base.gd:_process",
+      "type": "function",
+      "name": "_process",
+      "filePath": "Scripts/cutscene_base.gd",
+      "lineRange": [
+        72,
+        92
+      ],
+      "summary": "Función _process definida en cutscene_base.gd; participa en la lógica específica de este módulo.",
+      "tags": [
+        "gdscript",
+        "gameplay",
+        "funcion"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:Scripts/cutscene_base.gd:reproducir_intro_inicio",
+      "type": "function",
+      "name": "reproducir_intro_inicio",
+      "filePath": "Scripts/cutscene_base.gd",
+      "lineRange": [
+        93,
+        111
+      ],
+      "summary": "Función reproducir_intro_inicio definida en cutscene_base.gd; participa en la lógica específica de este módulo.",
+      "tags": [
+        "gdscript",
+        "gameplay",
+        "funcion"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:Scripts/cutscene_base.gd:reproducir_objetivos_mundo_1",
+      "type": "function",
+      "name": "reproducir_objetivos_mundo_1",
+      "filePath": "Scripts/cutscene_base.gd",
+      "lineRange": [
+        112,
+        122
+      ],
+      "summary": "Función reproducir_objetivos_mundo_1 definida en cutscene_base.gd; participa en la lógica específica de este módulo.",
+      "tags": [
+        "gdscript",
+        "gameplay",
+        "funcion"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Scripts/cutscene_base.gd:reproducir_controles",
+      "type": "function",
+      "name": "reproducir_controles",
+      "filePath": "Scripts/cutscene_base.gd",
+      "lineRange": [
+        123,
+        133
+      ],
+      "summary": "Función reproducir_controles definida en cutscene_base.gd; participa en la lógica específica de este módulo.",
+      "tags": [
+        "gdscript",
+        "gameplay",
+        "funcion"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Scripts/cutscene_base.gd:reproducir_ayuda_jefe_1",
+      "type": "function",
+      "name": "reproducir_ayuda_jefe_1",
+      "filePath": "Scripts/cutscene_base.gd",
+      "lineRange": [
+        134,
+        144
+      ],
+      "summary": "Función reproducir_ayuda_jefe_1 definida en cutscene_base.gd; participa en la lógica específica de este módulo.",
+      "tags": [
+        "gdscript",
+        "gameplay",
+        "funcion"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Scripts/cutscene_base.gd:reproducir_transicion_mundo_2",
+      "type": "function",
+      "name": "reproducir_transicion_mundo_2",
+      "filePath": "Scripts/cutscene_base.gd",
+      "lineRange": [
+        145,
+        155
+      ],
+      "summary": "Función reproducir_transicion_mundo_2 definida en cutscene_base.gd; participa en la lógica específica de este módulo.",
+      "tags": [
+        "gdscript",
+        "gameplay",
+        "funcion"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Scripts/cutscene_base.gd:reproducir_final_provisional",
+      "type": "function",
+      "name": "reproducir_final_provisional",
+      "filePath": "Scripts/cutscene_base.gd",
+      "lineRange": [
+        156,
+        166
+      ],
+      "summary": "Función reproducir_final_provisional definida en cutscene_base.gd; participa en la lógica específica de este módulo.",
+      "tags": [
+        "gdscript",
+        "gameplay",
+        "funcion"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Scripts/cutscene_base.gd:reproducir_pantalla_final_creditos",
+      "type": "function",
+      "name": "reproducir_pantalla_final_creditos",
+      "filePath": "Scripts/cutscene_base.gd",
+      "lineRange": [
+        167,
+        185
+      ],
+      "summary": "Función reproducir_pantalla_final_creditos definida en cutscene_base.gd; participa en la lógica específica de este módulo.",
+      "tags": [
+        "gdscript",
+        "gameplay",
+        "funcion"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:Scripts/cutscene_base.gd:reproducir_creditos_menu",
+      "type": "function",
+      "name": "reproducir_creditos_menu",
+      "filePath": "Scripts/cutscene_base.gd",
+      "lineRange": [
+        186,
+        196
+      ],
+      "summary": "Función reproducir_creditos_menu definida en cutscene_base.gd; participa en la lógica específica de este módulo.",
+      "tags": [
+        "gdscript",
+        "gameplay",
+        "funcion"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Scripts/cutscene_base.gd:_construir_ui",
+      "type": "function",
+      "name": "_construir_ui",
+      "filePath": "Scripts/cutscene_base.gd",
+      "lineRange": [
+        197,
+        273
+      ],
+      "summary": "Función _construir_ui definida en cutscene_base.gd; participa en la lógica específica de este módulo.",
+      "tags": [
+        "gdscript",
+        "gameplay",
+        "funcion"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:Scripts/cutscene_base.gd:_crear_estilo_panel",
+      "type": "function",
+      "name": "_crear_estilo_panel",
+      "filePath": "Scripts/cutscene_base.gd",
+      "lineRange": [
+        274,
+        290
+      ],
+      "summary": "Función _crear_estilo_panel definida en cutscene_base.gd; participa en la lógica específica de este módulo.",
+      "tags": [
+        "gdscript",
+        "gameplay",
+        "funcion"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:Scripts/cutscene_base.gd:_crear_estilo_boton_cerrar",
+      "type": "function",
+      "name": "_crear_estilo_boton_cerrar",
+      "filePath": "Scripts/cutscene_base.gd",
+      "lineRange": [
+        291,
+        305
+      ],
+      "summary": "Función _crear_estilo_boton_cerrar definida en cutscene_base.gd; participa en la lógica específica de este módulo.",
+      "tags": [
+        "gdscript",
+        "gameplay",
+        "funcion"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:Scripts/cutscene_base.gd:_mostrar_cinematica",
+      "type": "function",
+      "name": "_mostrar_cinematica",
+      "filePath": "Scripts/cutscene_base.gd",
+      "lineRange": [
+        306,
+        357
+      ],
+      "summary": "Función _mostrar_cinematica definida en cutscene_base.gd; participa en la lógica específica de este módulo.",
+      "tags": [
+        "gdscript",
+        "gameplay",
+        "funcion"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:Scripts/cutscene_base.gd:_montar_intro_escuela",
+      "type": "function",
+      "name": "_montar_intro_escuela",
+      "filePath": "Scripts/cutscene_base.gd",
+      "lineRange": [
+        362,
+        396
+      ],
+      "summary": "Función _montar_intro_escuela definida en cutscene_base.gd; participa en la lógica específica de este módulo.",
+      "tags": [
+        "gdscript",
+        "gameplay",
+        "funcion"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:Scripts/cutscene_base.gd:_montar_controles",
+      "type": "function",
+      "name": "_montar_controles",
+      "filePath": "Scripts/cutscene_base.gd",
+      "lineRange": [
+        397,
+        415
+      ],
+      "summary": "Función _montar_controles definida en cutscene_base.gd; participa en la lógica específica de este módulo.",
+      "tags": [
+        "gdscript",
+        "gameplay",
+        "funcion"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:Scripts/cutscene_base.gd:_montar_objetivos_mundo_1",
+      "type": "function",
+      "name": "_montar_objetivos_mundo_1",
+      "filePath": "Scripts/cutscene_base.gd",
+      "lineRange": [
+        416,
+        439
+      ],
+      "summary": "Función _montar_objetivos_mundo_1 definida en cutscene_base.gd; participa en la lógica específica de este módulo.",
+      "tags": [
+        "gdscript",
+        "gameplay",
+        "funcion"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:Scripts/cutscene_base.gd:_montar_ayuda_jefe_1",
+      "type": "function",
+      "name": "_montar_ayuda_jefe_1",
+      "filePath": "Scripts/cutscene_base.gd",
+      "lineRange": [
+        440,
+        461
+      ],
+      "summary": "Función _montar_ayuda_jefe_1 definida en cutscene_base.gd; participa en la lógica específica de este módulo.",
+      "tags": [
+        "gdscript",
+        "gameplay",
+        "funcion"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:Scripts/cutscene_base.gd:_montar_transicion_mundo_2",
+      "type": "function",
+      "name": "_montar_transicion_mundo_2",
+      "filePath": "Scripts/cutscene_base.gd",
+      "lineRange": [
+        462,
+        486
+      ],
+      "summary": "Función _montar_transicion_mundo_2 definida en cutscene_base.gd; participa en la lógica específica de este módulo.",
+      "tags": [
+        "gdscript",
+        "gameplay",
+        "funcion"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:Scripts/cutscene_base.gd:_montar_final_casa",
+      "type": "function",
+      "name": "_montar_final_casa",
+      "filePath": "Scripts/cutscene_base.gd",
+      "lineRange": [
+        487,
+        507
+      ],
+      "summary": "Función _montar_final_casa definida en cutscene_base.gd; participa en la lógica específica de este módulo.",
+      "tags": [
+        "gdscript",
+        "gameplay",
+        "funcion"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:Scripts/cutscene_base.gd:_montar_enhorabuena",
+      "type": "function",
+      "name": "_montar_enhorabuena",
+      "filePath": "Scripts/cutscene_base.gd",
+      "lineRange": [
+        508,
+        533
+      ],
+      "summary": "Función _montar_enhorabuena definida en cutscene_base.gd; participa en la lógica específica de este módulo.",
+      "tags": [
+        "gdscript",
+        "gameplay",
+        "funcion"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:Scripts/cutscene_base.gd:_montar_creditos",
+      "type": "function",
+      "name": "_montar_creditos",
+      "filePath": "Scripts/cutscene_base.gd",
+      "lineRange": [
+        534,
+        547
+      ],
+      "summary": "Función _montar_creditos definida en cutscene_base.gd; participa en la lógica específica de este módulo.",
+      "tags": [
+        "gdscript",
+        "gameplay",
+        "funcion"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Scripts/cutscene_base.gd:_crear_creditos_tda",
+      "type": "function",
+      "name": "_crear_creditos_tda",
+      "filePath": "Scripts/cutscene_base.gd",
+      "lineRange": [
+        548,
+        557
+      ],
+      "summary": "Función _crear_creditos_tda definida en cutscene_base.gd; participa en la lógica específica de este módulo.",
+      "tags": [
+        "gdscript",
+        "gameplay",
+        "funcion"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Scripts/cutscene_base.gd:_agregar_credito_visual",
+      "type": "function",
+      "name": "_agregar_credito_visual",
+      "filePath": "Scripts/cutscene_base.gd",
+      "lineRange": [
+        558,
+        570
+      ],
+      "summary": "Función _agregar_credito_visual definida en cutscene_base.gd; participa en la lógica específica de este módulo.",
+      "tags": [
+        "gdscript",
+        "gameplay",
+        "funcion"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Scripts/cutscene_base.gd:_crear_tarjeta_control",
+      "type": "function",
+      "name": "_crear_tarjeta_control",
+      "filePath": "Scripts/cutscene_base.gd",
+      "lineRange": [
+        571,
+        614
+      ],
+      "summary": "Función _crear_tarjeta_control definida en cutscene_base.gd; participa en la lógica específica de este módulo.",
+      "tags": [
+        "gdscript",
+        "gameplay",
+        "funcion"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:Scripts/cutscene_base.gd:_crear_estilo_tarjeta",
+      "type": "function",
+      "name": "_crear_estilo_tarjeta",
+      "filePath": "Scripts/cutscene_base.gd",
+      "lineRange": [
+        623,
+        637
+      ],
+      "summary": "Función _crear_estilo_tarjeta definida en cutscene_base.gd; participa en la lógica específica de este módulo.",
+      "tags": [
+        "gdscript",
+        "gameplay",
+        "funcion"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:Scripts/cutscene_base.gd:_agregar_burbuja",
+      "type": "function",
+      "name": "_agregar_burbuja",
+      "filePath": "Scripts/cutscene_base.gd",
+      "lineRange": [
+        659,
+        674
+      ],
+      "summary": "Función _agregar_burbuja definida en cutscene_base.gd; participa en la lógica específica de este módulo.",
+      "tags": [
+        "gdscript",
+        "gameplay",
+        "funcion"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:Scripts/cutscene_base.gd:_crear_estilo_burbuja",
+      "type": "function",
+      "name": "_crear_estilo_burbuja",
+      "filePath": "Scripts/cutscene_base.gd",
+      "lineRange": [
+        675,
+        689
+      ],
+      "summary": "Función _crear_estilo_burbuja definida en cutscene_base.gd; participa en la lógica específica de este módulo.",
+      "tags": [
+        "gdscript",
+        "gameplay",
+        "funcion"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:Scripts/cutscene_base.gd:_crear_sprite_animado",
+      "type": "function",
+      "name": "_crear_sprite_animado",
+      "filePath": "Scripts/cutscene_base.gd",
+      "lineRange": [
+        690,
+        703
+      ],
+      "summary": "Función _crear_sprite_animado definida en cutscene_base.gd; participa en la lógica específica de este módulo.",
+      "tags": [
+        "gdscript",
+        "gameplay",
+        "funcion"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Scripts/cutscene_base.gd:_crear_texture_rect",
+      "type": "function",
+      "name": "_crear_texture_rect",
+      "filePath": "Scripts/cutscene_base.gd",
+      "lineRange": [
+        708,
+        723
+      ],
+      "summary": "Función _crear_texture_rect definida en cutscene_base.gd; participa en la lógica específica de este módulo.",
+      "tags": [
+        "gdscript",
+        "gameplay",
+        "funcion"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:Scripts/cutscene_base.gd:_animar_pulso",
+      "type": "function",
+      "name": "_animar_pulso",
+      "filePath": "Scripts/cutscene_base.gd",
+      "lineRange": [
+        733,
+        744
+      ],
+      "summary": "Función _animar_pulso definida en cutscene_base.gd; participa en la lógica específica de este módulo.",
+      "tags": [
+        "gdscript",
+        "gameplay",
+        "funcion"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Scripts/cutscene_base.gd:_animar_salto",
+      "type": "function",
+      "name": "_animar_salto",
+      "filePath": "Scripts/cutscene_base.gd",
+      "lineRange": [
+        745,
+        756
+      ],
+      "summary": "Función _animar_salto definida en cutscene_base.gd; participa en la lógica específica de este módulo.",
+      "tags": [
+        "gdscript",
+        "gameplay",
+        "funcion"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Scripts/cutscene_base.gd:_agregar_label",
+      "type": "function",
+      "name": "_agregar_label",
+      "filePath": "Scripts/cutscene_base.gd",
+      "lineRange": [
+        757,
+        773
+      ],
+      "summary": "Función _agregar_label definida en cutscene_base.gd; participa en la lógica específica de este módulo.",
+      "tags": [
+        "gdscript",
+        "gameplay",
+        "funcion"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:Scripts/cutscene_base.gd:_agregar_rect",
+      "type": "function",
+      "name": "_agregar_rect",
+      "filePath": "Scripts/cutscene_base.gd",
+      "lineRange": [
+        774,
+        784
+      ],
+      "summary": "Función _agregar_rect definida en cutscene_base.gd; participa en la lógica específica de este módulo.",
+      "tags": [
+        "gdscript",
+        "gameplay",
+        "funcion"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:Scripts/dialogo_ui.gd",
+      "type": "file",
+      "name": "dialogo_ui.gd",
+      "filePath": "Scripts/dialogo_ui.gd",
+      "lineRange": [
+        1,
+        127
+      ],
+      "summary": "Script GDScript asociado a dialogo_ui; encapsula lógica de juego, comportamiento o soporte del sistema.",
+      "tags": [
+        "gdscript",
+        "gameplay",
+        "dialogo",
+        "npc"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:Scripts/dialogo_ui.gd:DialogoUI",
+      "type": "class",
+      "name": "DialogoUI",
+      "filePath": "Scripts/dialogo_ui.gd",
+      "lineRange": [
+        1,
+        127
+      ],
+      "summary": "Clase principal del script dialogo_ui.gd; concentra el comportamiento central definido en este archivo.",
+      "tags": [
+        "gdscript",
+        "gameplay",
+        "dialogo",
+        "npc",
+        "clase"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:Scripts/dialogo_ui.gd:_ready",
+      "type": "function",
+      "name": "_ready",
+      "filePath": "Scripts/dialogo_ui.gd",
+      "lineRange": [
+        23,
+        29
+      ],
+      "summary": "Función _ready definida en dialogo_ui.gd; participa en la lógica específica de este módulo.",
+      "tags": [
+        "gdscript",
+        "gameplay",
+        "dialogo",
+        "npc",
+        "funcion"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Scripts/dialogo_ui.gd:avanzar",
+      "type": "function",
+      "name": "avanzar",
+      "filePath": "Scripts/dialogo_ui.gd",
+      "lineRange": [
+        55,
+        66
+      ],
+      "summary": "Función avanzar definida en dialogo_ui.gd; participa en la lógica específica de este módulo.",
+      "tags": [
+        "gdscript",
+        "gameplay",
+        "dialogo",
+        "npc",
+        "funcion"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Scripts/dialogo_ui.gd:cerrar",
+      "type": "function",
+      "name": "cerrar",
+      "filePath": "Scripts/dialogo_ui.gd",
+      "lineRange": [
+        67,
+        77
+      ],
+      "summary": "Función cerrar definida en dialogo_ui.gd; participa en la lógica específica de este módulo.",
+      "tags": [
+        "gdscript",
+        "gameplay",
+        "dialogo",
+        "npc",
+        "funcion"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Scripts/dialogo_ui.gd:_unhandled_input",
+      "type": "function",
+      "name": "_unhandled_input",
+      "filePath": "Scripts/dialogo_ui.gd",
+      "lineRange": [
+        78,
+        91
+      ],
+      "summary": "Función _unhandled_input definida en dialogo_ui.gd; participa en la lógica específica de este módulo.",
+      "tags": [
+        "gdscript",
+        "gameplay",
+        "dialogo",
+        "npc",
+        "funcion"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Scripts/dialogo_ui.gd:_configurar_retrato",
+      "type": "function",
+      "name": "_configurar_retrato",
+      "filePath": "Scripts/dialogo_ui.gd",
+      "lineRange": [
+        100,
+        117
+      ],
+      "summary": "Función _configurar_retrato definida en dialogo_ui.gd; participa en la lógica específica de este módulo.",
+      "tags": [
+        "gdscript",
+        "gameplay",
+        "dialogo",
+        "npc",
+        "funcion"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:Scripts/enemigo_base.gd",
+      "type": "file",
+      "name": "enemigo_base.gd",
+      "filePath": "Scripts/enemigo_base.gd",
+      "lineRange": [
+        1,
+        340
+      ],
+      "summary": "Script GDScript asociado a enemigo_base; encapsula lógica de juego, comportamiento o soporte del sistema.",
+      "tags": [
+        "gdscript",
+        "gameplay",
+        "enemigo",
+        "ia"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "class:Scripts/enemigo_base.gd:EnemigoBase",
+      "type": "class",
+      "name": "EnemigoBase",
+      "filePath": "Scripts/enemigo_base.gd",
+      "lineRange": [
+        1,
+        340
+      ],
+      "summary": "Clase principal del script enemigo_base.gd; concentra el comportamiento central definido en este archivo.",
+      "tags": [
+        "gdscript",
+        "gameplay",
+        "enemigo",
+        "ia",
+        "clase"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:Scripts/enemigo_base.gd:_ready",
+      "type": "function",
+      "name": "_ready",
+      "filePath": "Scripts/enemigo_base.gd",
+      "lineRange": [
+        48,
+        60
+      ],
+      "summary": "Función _ready definida en enemigo_base.gd; participa en la lógica específica de este módulo.",
+      "tags": [
+        "gdscript",
+        "gameplay",
+        "enemigo",
+        "ia",
+        "funcion"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Scripts/enemigo_base.gd:_physics_process",
+      "type": "function",
+      "name": "_physics_process",
+      "filePath": "Scripts/enemigo_base.gd",
+      "lineRange": [
+        61,
+        85
+      ],
+      "summary": "Función _physics_process definida en enemigo_base.gd; participa en la lógica específica de este módulo.",
+      "tags": [
+        "gdscript",
+        "gameplay",
+        "enemigo",
+        "ia",
+        "funcion"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:Scripts/enemigo_base.gd:reiniciar_enemigo",
+      "type": "function",
+      "name": "reiniciar_enemigo",
+      "filePath": "Scripts/enemigo_base.gd",
+      "lineRange": [
+        128,
+        145
+      ],
+      "summary": "Función reiniciar_enemigo definida en enemigo_base.gd; participa en la lógica específica de este módulo.",
+      "tags": [
+        "gdscript",
+        "gameplay",
+        "enemigo",
+        "ia",
+        "funcion"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:Scripts/enemigo_base.gd:_atacar_objetivo",
+      "type": "function",
+      "name": "_atacar_objetivo",
+      "filePath": "Scripts/enemigo_base.gd",
+      "lineRange": [
+        162,
+        172
+      ],
+      "summary": "Función _atacar_objetivo definida en enemigo_base.gd; participa en la lógica específica de este módulo.",
+      "tags": [
+        "gdscript",
+        "gameplay",
+        "enemigo",
+        "ia",
+        "funcion"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Scripts/enemigo_base.gd:_intentar_atacar_cuerpos_superpuestos",
+      "type": "function",
+      "name": "_intentar_atacar_cuerpos_superpuestos",
+      "filePath": "Scripts/enemigo_base.gd",
+      "lineRange": [
+        182,
+        191
+      ],
+      "summary": "Función _intentar_atacar_cuerpos_superpuestos definida en enemigo_base.gd; participa en la lógica específica de este módulo.",
+      "tags": [
+        "gdscript",
+        "gameplay",
+        "enemigo",
+        "ia",
+        "funcion"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Scripts/enemigo_base.gd:_intentar_atacar_colisiones_directas",
+      "type": "function",
+      "name": "_intentar_atacar_colisiones_directas",
+      "filePath": "Scripts/enemigo_base.gd",
+      "lineRange": [
+        192,
+        204
+      ],
+      "summary": "Función _intentar_atacar_colisiones_directas definida en enemigo_base.gd; participa en la lógica específica de este módulo.",
+      "tags": [
+        "gdscript",
+        "gameplay",
+        "enemigo",
+        "ia",
+        "funcion"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Scripts/enemigo_base.gd:_aplicar_retroceso_post_ataque",
+      "type": "function",
+      "name": "_aplicar_retroceso_post_ataque",
+      "filePath": "Scripts/enemigo_base.gd",
+      "lineRange": [
+        205,
+        219
+      ],
+      "summary": "Función _aplicar_retroceso_post_ataque definida en enemigo_base.gd; participa en la lógica específica de este módulo.",
+      "tags": [
+        "gdscript",
+        "gameplay",
+        "enemigo",
+        "ia",
+        "funcion"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:Scripts/enemigo_base.gd:_configurar_audio",
+      "type": "function",
+      "name": "_configurar_audio",
+      "filePath": "Scripts/enemigo_base.gd",
+      "lineRange": [
+        220,
+        241
+      ],
+      "summary": "Función _configurar_audio definida en enemigo_base.gd; participa en la lógica específica de este módulo.",
+      "tags": [
+        "gdscript",
+        "gameplay",
+        "enemigo",
+        "ia",
+        "funcion"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:Scripts/enemigo_base.gd:_actualizar_audio",
+      "type": "function",
+      "name": "_actualizar_audio",
+      "filePath": "Scripts/enemigo_base.gd",
+      "lineRange": [
+        242,
+        264
+      ],
+      "summary": "Función _actualizar_audio definida en enemigo_base.gd; participa en la lógica específica de este módulo.",
+      "tags": [
+        "gdscript",
+        "gameplay",
+        "enemigo",
+        "ia",
+        "funcion"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:Scripts/enemigo_base.gd:_obtener_jugador_audio",
+      "type": "function",
+      "name": "_obtener_jugador_audio",
+      "filePath": "Scripts/enemigo_base.gd",
+      "lineRange": [
+        274,
+        285
+      ],
+      "summary": "Función _obtener_jugador_audio definida en enemigo_base.gd; participa en la lógica específica de este módulo.",
+      "tags": [
+        "gdscript",
+        "gameplay",
+        "enemigo",
+        "ia",
+        "funcion"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Scripts/enemigo_base.gd:_obtener_stream_audio_base",
+      "type": "function",
+      "name": "_obtener_stream_audio_base",
+      "filePath": "Scripts/enemigo_base.gd",
+      "lineRange": [
+        286,
+        314
+      ],
+      "summary": "Función _obtener_stream_audio_base definida en enemigo_base.gd; participa en la lógica específica de este módulo.",
+      "tags": [
+        "gdscript",
+        "gameplay",
+        "enemigo",
+        "ia",
+        "funcion"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:Scripts/enemigo_base.gd:_obtener_stream_audio_ataque",
+      "type": "function",
+      "name": "_obtener_stream_audio_ataque",
+      "filePath": "Scripts/enemigo_base.gd",
+      "lineRange": [
+        315,
+        341
+      ],
+      "summary": "Función _obtener_stream_audio_ataque definida en enemigo_base.gd; participa en la lógica específica de este módulo.",
+      "tags": [
+        "gdscript",
+        "gameplay",
+        "enemigo",
+        "ia",
+        "funcion"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:Scripts/enemigo_flotante_base.gd",
+      "type": "file",
+      "name": "enemigo_flotante_base.gd",
+      "filePath": "Scripts/enemigo_flotante_base.gd",
+      "lineRange": [
+        1,
+        36
+      ],
+      "summary": "Script GDScript asociado a enemigo_flotante_base; encapsula lógica de juego, comportamiento o soporte del sistema.",
+      "tags": [
+        "gdscript",
+        "gameplay",
+        "enemigo",
+        "ia"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:Scripts/enemigo_flotante_base.gd:EnemigoFlotanteBase",
+      "type": "class",
+      "name": "EnemigoFlotanteBase",
+      "filePath": "Scripts/enemigo_flotante_base.gd",
+      "lineRange": [
+        1,
+        36
+      ],
+      "summary": "Clase principal del script enemigo_flotante_base.gd; concentra el comportamiento central definido en este archivo.",
+      "tags": [
+        "gdscript",
+        "gameplay",
+        "enemigo",
+        "ia",
+        "clase"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Scripts/enemigo_flotante_base.gd:_procesar_comportamiento",
+      "type": "function",
+      "name": "_procesar_comportamiento",
+      "filePath": "Scripts/enemigo_flotante_base.gd",
+      "lineRange": [
+        17,
+        29
+      ],
+      "summary": "Función _procesar_comportamiento definida en enemigo_flotante_base.gd; participa en la lógica específica de este módulo.",
+      "tags": [
+        "gdscript",
+        "gameplay",
+        "enemigo",
+        "ia",
+        "funcion"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:Scripts/enemigo_flotante_horizontal.gd",
+      "type": "file",
+      "name": "enemigo_flotante_horizontal.gd",
+      "filePath": "Scripts/enemigo_flotante_horizontal.gd",
+      "lineRange": [
+        1,
+        6
+      ],
+      "summary": "Script GDScript asociado a enemigo_flotante_horizontal; encapsula lógica de juego, comportamiento o soporte del sistema.",
+      "tags": [
+        "gdscript",
+        "gameplay",
+        "enemigo",
+        "ia"
+      ],
+      "complexity": "simple"
+    }
+  ],
+  "edges": [
+    {
+      "source": "file:Escenas/Personaje.tscn",
+      "target": "file:Scripts/jugador.gd",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "description": "Referencia interna mediante ruta res://."
+    },
+    {
+      "source": "file:Escenas/plataforma_gafas.tscn",
+      "target": "file:Scripts/plataforma_gafas.gd",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "description": "Referencia interna mediante ruta res://."
+    },
+    {
+      "source": "file:Escenas/Plataforma.tscn",
+      "target": "file:Scripts/Platform.gd",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "description": "Referencia interna mediante ruta res://."
+    },
+    {
+      "source": "file:Escenas/Puerta.tscn",
+      "target": "file:Scripts/puerta_bloqueada.gd",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "description": "Referencia interna mediante ruta res://."
+    },
+    {
+      "source": "file:Escenas/PuertaTeletransporte.tscn",
+      "target": "file:Scripts/puerta_teletransporte.gd",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "description": "Referencia interna mediante ruta res://."
+    },
+    {
+      "source": "file:Escenas/PuzzleGafas.tscn",
+      "target": "file:Scripts/puzzle_gafas.gd",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "description": "Referencia interna mediante ruta res://."
+    },
+    {
+      "source": "file:Escenas/PuzzleMatematicas.tscn",
+      "target": "file:Scripts/puzzle_matematicas.gd",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "description": "Referencia interna mediante ruta res://."
+    },
+    {
+      "source": "file:Escenas/PuzzleSecuencia.tscn",
+      "target": "file:Scripts/puzzle_secuencia.gd",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "description": "Referencia interna mediante ruta res://."
+    },
+    {
+      "source": "file:Escenas/TotemJefe.tscn",
+      "target": "file:Scripts/totem_jefe.gd",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "description": "Referencia interna mediante ruta res://."
+    },
+    {
+      "source": "config:project.godot",
+      "target": "file:Escenas/MenuOpciones.tscn",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "description": "Referencia interna mediante ruta res://."
+    },
+    {
+      "source": "config:project.godot",
+      "target": "file:Scripts/musica_global.gd",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "description": "Referencia interna mediante ruta res://."
+    },
+    {
+      "source": "file:Scripts/altar_gafas.gd",
+      "target": "file:Scripts/interactivo_base.gd",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "description": "Referencia interna mediante ruta res://."
+    },
+    {
+      "source": "file:Scripts/altar_gafas.gd",
+      "target": "class:Scripts/altar_gafas.gd:AltarGafas",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1,
+      "description": "El archivo contiene esta clase principal."
+    },
+    {
+      "source": "file:Scripts/altar_gafas.gd",
+      "target": "function:Scripts/altar_gafas.gd:_ready",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1,
+      "description": "El archivo contiene esta función."
+    },
+    {
+      "source": "file:Scripts/altar_gafas.gd",
+      "target": "function:Scripts/altar_gafas.gd:_process",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1,
+      "description": "El archivo contiene esta función."
+    },
+    {
+      "source": "file:Scripts/altar_gafas.gd",
+      "target": "function:Scripts/altar_gafas.gd:_actualizar_visual",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1,
+      "description": "El archivo contiene esta función."
+    },
+    {
+      "source": "file:Scripts/altar_gafas.gd",
+      "target": "function:Scripts/altar_gafas.gd:_cargar_icono_gafas",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1,
+      "description": "El archivo contiene esta función."
+    },
+    {
+      "source": "file:Scripts/altar_gafas.gd",
+      "target": "function:Scripts/altar_gafas.gd:_cargar_textura_png",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1,
+      "description": "El archivo contiene esta función."
+    },
+    {
+      "source": "file:Scripts/ambiente_mundo_1.gd",
+      "target": "class:Scripts/ambiente_mundo_1.gd:AmbienteMundo1",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1,
+      "description": "El archivo contiene esta clase principal."
+    },
+    {
+      "source": "file:Scripts/ambiente_mundo_1.gd",
+      "target": "function:Scripts/ambiente_mundo_1.gd:_ready",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1,
+      "description": "El archivo contiene esta función."
+    },
+    {
+      "source": "file:Scripts/ambiente_mundo_1.gd",
+      "target": "function:Scripts/ambiente_mundo_1.gd:_process",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1,
+      "description": "El archivo contiene esta función."
+    },
+    {
+      "source": "file:Scripts/ambiente_mundo_1.gd",
+      "target": "function:Scripts/ambiente_mundo_1.gd:establecer_modo_jefe",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1,
+      "description": "El archivo contiene esta función."
+    },
+    {
+      "source": "file:Scripts/ambiente_mundo_1.gd",
+      "target": "function:Scripts/ambiente_mundo_1.gd:_llenar_buffer",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1,
+      "description": "El archivo contiene esta función."
+    },
+    {
+      "source": "file:Scripts/ambiente_mundo_1.gd",
+      "target": "function:Scripts/ambiente_mundo_1.gd:_obtener_stream_transicion_jefe",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1,
+      "description": "El archivo contiene esta función."
+    },
+    {
+      "source": "file:Scripts/ambiente_mundo_2.gd",
+      "target": "class:Scripts/ambiente_mundo_2.gd:AmbienteMundo2",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1,
+      "description": "El archivo contiene esta clase principal."
+    },
+    {
+      "source": "file:Scripts/ambiente_mundo_2.gd",
+      "target": "function:Scripts/ambiente_mundo_2.gd:_ready",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1,
+      "description": "El archivo contiene esta función."
+    },
+    {
+      "source": "file:Scripts/ambiente_mundo_2.gd",
+      "target": "function:Scripts/ambiente_mundo_2.gd:_process",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1,
+      "description": "El archivo contiene esta función."
+    },
+    {
+      "source": "file:Scripts/ambiente_mundo_2.gd",
+      "target": "function:Scripts/ambiente_mundo_2.gd:_llenar_buffer",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1,
+      "description": "El archivo contiene esta función."
+    },
+    {
+      "source": "file:Scripts/checkpoint_activador.gd",
+      "target": "class:Scripts/checkpoint_activador.gd:CheckpointActivador",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1,
+      "description": "El archivo contiene esta clase principal."
+    },
+    {
+      "source": "file:Scripts/checkpoint_activador.gd",
+      "target": "function:Scripts/checkpoint_activador.gd:_ready",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1,
+      "description": "El archivo contiene esta función."
+    },
+    {
+      "source": "file:Scripts/checkpoint_activador.gd",
+      "target": "function:Scripts/checkpoint_activador.gd:_process",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1,
+      "description": "El archivo contiene esta función."
+    },
+    {
+      "source": "file:Scripts/checkpoint_activador.gd",
+      "target": "function:Scripts/checkpoint_activador.gd:_on_body_entered",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1,
+      "description": "El archivo contiene esta función."
+    },
+    {
+      "source": "file:Scripts/checkpoint_activador.gd",
+      "target": "function:Scripts/checkpoint_activador.gd:_actualizar_visual",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1,
+      "description": "El archivo contiene esta función."
+    },
+    {
+      "source": "file:Scripts/checkpoint_activador.gd",
+      "target": "function:Scripts/checkpoint_activador.gd:_animar_activacion",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1,
+      "description": "El archivo contiene esta función."
+    },
+    {
+      "source": "file:Scripts/checkpoint_activador.gd",
+      "target": "function:Scripts/checkpoint_activador.gd:_obtener_textura_cartel",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1,
+      "description": "El archivo contiene esta función."
+    },
+    {
+      "source": "file:Scripts/checkpoint_activador.gd",
+      "target": "function:Scripts/checkpoint_activador.gd:_obtener_stream_checkpoint",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1,
+      "description": "El archivo contiene esta función."
+    },
+    {
+      "source": "file:Scripts/checkpoint_activador.gd",
+      "target": "function:Scripts/checkpoint_activador.gd:_crear_textura_radial",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1,
+      "description": "El archivo contiene esta función."
+    },
+    {
+      "source": "file:Scripts/correr.gd",
+      "target": "function:Scripts/correr.gd:_ready",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1,
+      "description": "El archivo contiene esta función."
+    },
+    {
+      "source": "file:Scripts/correr.gd",
+      "target": "function:Scripts/correr.gd:_process",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1,
+      "description": "El archivo contiene esta función."
+    },
+    {
+      "source": "file:Scripts/cutscene_base.gd",
+      "target": "file:Scripts/tda_lista_simple.gd",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "description": "Referencia interna mediante ruta res://."
+    },
+    {
+      "source": "file:Scripts/cutscene_base.gd",
+      "target": "class:Scripts/cutscene_base.gd:CutsceneBase",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1,
+      "description": "El archivo contiene esta clase principal."
+    },
+    {
+      "source": "file:Scripts/cutscene_base.gd",
+      "target": "function:Scripts/cutscene_base.gd:_ready",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1,
+      "description": "El archivo contiene esta función."
+    },
+    {
+      "source": "file:Scripts/cutscene_base.gd",
+      "target": "function:Scripts/cutscene_base.gd:_process",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1,
+      "description": "El archivo contiene esta función."
+    },
+    {
+      "source": "file:Scripts/cutscene_base.gd",
+      "target": "function:Scripts/cutscene_base.gd:reproducir_intro_inicio",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1,
+      "description": "El archivo contiene esta función."
+    },
+    {
+      "source": "file:Scripts/cutscene_base.gd",
+      "target": "function:Scripts/cutscene_base.gd:reproducir_objetivos_mundo_1",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1,
+      "description": "El archivo contiene esta función."
+    },
+    {
+      "source": "file:Scripts/cutscene_base.gd",
+      "target": "function:Scripts/cutscene_base.gd:reproducir_controles",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1,
+      "description": "El archivo contiene esta función."
+    },
+    {
+      "source": "file:Scripts/cutscene_base.gd",
+      "target": "function:Scripts/cutscene_base.gd:reproducir_ayuda_jefe_1",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1,
+      "description": "El archivo contiene esta función."
+    },
+    {
+      "source": "file:Scripts/cutscene_base.gd",
+      "target": "function:Scripts/cutscene_base.gd:reproducir_transicion_mundo_2",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1,
+      "description": "El archivo contiene esta función."
+    },
+    {
+      "source": "file:Scripts/cutscene_base.gd",
+      "target": "function:Scripts/cutscene_base.gd:reproducir_final_provisional",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1,
+      "description": "El archivo contiene esta función."
+    },
+    {
+      "source": "file:Scripts/cutscene_base.gd",
+      "target": "function:Scripts/cutscene_base.gd:reproducir_pantalla_final_creditos",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1,
+      "description": "El archivo contiene esta función."
+    },
+    {
+      "source": "file:Scripts/cutscene_base.gd",
+      "target": "function:Scripts/cutscene_base.gd:reproducir_creditos_menu",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1,
+      "description": "El archivo contiene esta función."
+    },
+    {
+      "source": "file:Scripts/cutscene_base.gd",
+      "target": "function:Scripts/cutscene_base.gd:_construir_ui",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1,
+      "description": "El archivo contiene esta función."
+    },
+    {
+      "source": "file:Scripts/cutscene_base.gd",
+      "target": "function:Scripts/cutscene_base.gd:_crear_estilo_panel",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1,
+      "description": "El archivo contiene esta función."
+    },
+    {
+      "source": "file:Scripts/cutscene_base.gd",
+      "target": "function:Scripts/cutscene_base.gd:_crear_estilo_boton_cerrar",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1,
+      "description": "El archivo contiene esta función."
+    },
+    {
+      "source": "file:Scripts/cutscene_base.gd",
+      "target": "function:Scripts/cutscene_base.gd:_mostrar_cinematica",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1,
+      "description": "El archivo contiene esta función."
+    },
+    {
+      "source": "file:Scripts/cutscene_base.gd",
+      "target": "function:Scripts/cutscene_base.gd:_montar_intro_escuela",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1,
+      "description": "El archivo contiene esta función."
+    },
+    {
+      "source": "file:Scripts/cutscene_base.gd",
+      "target": "function:Scripts/cutscene_base.gd:_montar_controles",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1,
+      "description": "El archivo contiene esta función."
+    },
+    {
+      "source": "file:Scripts/cutscene_base.gd",
+      "target": "function:Scripts/cutscene_base.gd:_montar_objetivos_mundo_1",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1,
+      "description": "El archivo contiene esta función."
+    },
+    {
+      "source": "file:Scripts/cutscene_base.gd",
+      "target": "function:Scripts/cutscene_base.gd:_montar_ayuda_jefe_1",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1,
+      "description": "El archivo contiene esta función."
+    },
+    {
+      "source": "file:Scripts/cutscene_base.gd",
+      "target": "function:Scripts/cutscene_base.gd:_montar_transicion_mundo_2",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1,
+      "description": "El archivo contiene esta función."
+    },
+    {
+      "source": "file:Scripts/cutscene_base.gd",
+      "target": "function:Scripts/cutscene_base.gd:_montar_final_casa",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1,
+      "description": "El archivo contiene esta función."
+    },
+    {
+      "source": "file:Scripts/cutscene_base.gd",
+      "target": "function:Scripts/cutscene_base.gd:_montar_enhorabuena",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1,
+      "description": "El archivo contiene esta función."
+    },
+    {
+      "source": "file:Scripts/cutscene_base.gd",
+      "target": "function:Scripts/cutscene_base.gd:_montar_creditos",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1,
+      "description": "El archivo contiene esta función."
+    },
+    {
+      "source": "file:Scripts/cutscene_base.gd",
+      "target": "function:Scripts/cutscene_base.gd:_crear_creditos_tda",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1,
+      "description": "El archivo contiene esta función."
+    },
+    {
+      "source": "file:Scripts/cutscene_base.gd",
+      "target": "function:Scripts/cutscene_base.gd:_agregar_credito_visual",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1,
+      "description": "El archivo contiene esta función."
+    },
+    {
+      "source": "file:Scripts/cutscene_base.gd",
+      "target": "function:Scripts/cutscene_base.gd:_crear_tarjeta_control",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1,
+      "description": "El archivo contiene esta función."
+    },
+    {
+      "source": "file:Scripts/cutscene_base.gd",
+      "target": "function:Scripts/cutscene_base.gd:_crear_estilo_tarjeta",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1,
+      "description": "El archivo contiene esta función."
+    },
+    {
+      "source": "file:Scripts/cutscene_base.gd",
+      "target": "function:Scripts/cutscene_base.gd:_agregar_burbuja",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1,
+      "description": "El archivo contiene esta función."
+    },
+    {
+      "source": "file:Scripts/cutscene_base.gd",
+      "target": "function:Scripts/cutscene_base.gd:_crear_estilo_burbuja",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1,
+      "description": "El archivo contiene esta función."
+    },
+    {
+      "source": "file:Scripts/cutscene_base.gd",
+      "target": "function:Scripts/cutscene_base.gd:_crear_sprite_animado",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1,
+      "description": "El archivo contiene esta función."
+    },
+    {
+      "source": "file:Scripts/cutscene_base.gd",
+      "target": "function:Scripts/cutscene_base.gd:_crear_texture_rect",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1,
+      "description": "El archivo contiene esta función."
+    },
+    {
+      "source": "file:Scripts/cutscene_base.gd",
+      "target": "function:Scripts/cutscene_base.gd:_animar_pulso",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1,
+      "description": "El archivo contiene esta función."
+    },
+    {
+      "source": "file:Scripts/cutscene_base.gd",
+      "target": "function:Scripts/cutscene_base.gd:_animar_salto",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1,
+      "description": "El archivo contiene esta función."
+    },
+    {
+      "source": "file:Scripts/cutscene_base.gd",
+      "target": "function:Scripts/cutscene_base.gd:_agregar_label",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1,
+      "description": "El archivo contiene esta función."
+    },
+    {
+      "source": "file:Scripts/cutscene_base.gd",
+      "target": "function:Scripts/cutscene_base.gd:_agregar_rect",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1,
+      "description": "El archivo contiene esta función."
+    },
+    {
+      "source": "file:Scripts/dialogo_ui.gd",
+      "target": "class:Scripts/dialogo_ui.gd:DialogoUI",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1,
+      "description": "El archivo contiene esta clase principal."
+    },
+    {
+      "source": "file:Scripts/dialogo_ui.gd",
+      "target": "function:Scripts/dialogo_ui.gd:_ready",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1,
+      "description": "El archivo contiene esta función."
+    },
+    {
+      "source": "file:Scripts/dialogo_ui.gd",
+      "target": "function:Scripts/dialogo_ui.gd:avanzar",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1,
+      "description": "El archivo contiene esta función."
+    },
+    {
+      "source": "file:Scripts/dialogo_ui.gd",
+      "target": "function:Scripts/dialogo_ui.gd:cerrar",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1,
+      "description": "El archivo contiene esta función."
+    },
+    {
+      "source": "file:Scripts/dialogo_ui.gd",
+      "target": "function:Scripts/dialogo_ui.gd:_unhandled_input",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1,
+      "description": "El archivo contiene esta función."
+    },
+    {
+      "source": "file:Scripts/dialogo_ui.gd",
+      "target": "function:Scripts/dialogo_ui.gd:_configurar_retrato",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1,
+      "description": "El archivo contiene esta función."
+    },
+    {
+      "source": "file:Scripts/enemigo_base.gd",
+      "target": "class:Scripts/enemigo_base.gd:EnemigoBase",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1,
+      "description": "El archivo contiene esta clase principal."
+    },
+    {
+      "source": "file:Scripts/enemigo_base.gd",
+      "target": "function:Scripts/enemigo_base.gd:_ready",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1,
+      "description": "El archivo contiene esta función."
+    },
+    {
+      "source": "file:Scripts/enemigo_base.gd",
+      "target": "function:Scripts/enemigo_base.gd:_physics_process",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1,
+      "description": "El archivo contiene esta función."
+    },
+    {
+      "source": "file:Scripts/enemigo_base.gd",
+      "target": "function:Scripts/enemigo_base.gd:reiniciar_enemigo",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1,
+      "description": "El archivo contiene esta función."
+    },
+    {
+      "source": "file:Scripts/enemigo_base.gd",
+      "target": "function:Scripts/enemigo_base.gd:_atacar_objetivo",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1,
+      "description": "El archivo contiene esta función."
+    },
+    {
+      "source": "file:Scripts/enemigo_base.gd",
+      "target": "function:Scripts/enemigo_base.gd:_intentar_atacar_cuerpos_superpuestos",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1,
+      "description": "El archivo contiene esta función."
+    },
+    {
+      "source": "file:Scripts/enemigo_base.gd",
+      "target": "function:Scripts/enemigo_base.gd:_intentar_atacar_colisiones_directas",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1,
+      "description": "El archivo contiene esta función."
+    },
+    {
+      "source": "file:Scripts/enemigo_base.gd",
+      "target": "function:Scripts/enemigo_base.gd:_aplicar_retroceso_post_ataque",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1,
+      "description": "El archivo contiene esta función."
+    },
+    {
+      "source": "file:Scripts/enemigo_base.gd",
+      "target": "function:Scripts/enemigo_base.gd:_configurar_audio",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1,
+      "description": "El archivo contiene esta función."
+    },
+    {
+      "source": "file:Scripts/enemigo_base.gd",
+      "target": "function:Scripts/enemigo_base.gd:_actualizar_audio",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1,
+      "description": "El archivo contiene esta función."
+    },
+    {
+      "source": "file:Scripts/enemigo_base.gd",
+      "target": "function:Scripts/enemigo_base.gd:_obtener_jugador_audio",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1,
+      "description": "El archivo contiene esta función."
+    },
+    {
+      "source": "file:Scripts/enemigo_base.gd",
+      "target": "function:Scripts/enemigo_base.gd:_obtener_stream_audio_base",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1,
+      "description": "El archivo contiene esta función."
+    },
+    {
+      "source": "file:Scripts/enemigo_base.gd",
+      "target": "function:Scripts/enemigo_base.gd:_obtener_stream_audio_ataque",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1,
+      "description": "El archivo contiene esta función."
+    },
+    {
+      "source": "file:Scripts/enemigo_flotante_base.gd",
+      "target": "file:Scripts/enemigo_base.gd",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "description": "Referencia interna mediante ruta res://."
+    },
+    {
+      "source": "file:Scripts/enemigo_flotante_base.gd",
+      "target": "class:Scripts/enemigo_flotante_base.gd:EnemigoFlotanteBase",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1,
+      "description": "El archivo contiene esta clase principal."
+    },
+    {
+      "source": "file:Scripts/enemigo_flotante_base.gd",
+      "target": "function:Scripts/enemigo_flotante_base.gd:_procesar_comportamiento",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1,
+      "description": "El archivo contiene esta función."
+    },
+    {
+      "source": "file:Scripts/enemigo_flotante_horizontal.gd",
+      "target": "file:Scripts/enemigo_flotante_base.gd",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "description": "Referencia interna mediante ruta res://."
+    }
+  ]
+}

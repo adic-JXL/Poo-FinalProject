@@ -129,6 +129,11 @@ func _obtener_textura_cartel() -> Texture2D:
 	if _textura_cartel_cache != null:
 		return _textura_cartel_cache
 
+	var textura_importada := load(ruta_textura_cartel) as Texture2D
+	if textura_importada != null:
+		_textura_cartel_cache = textura_importada
+		return _textura_cartel_cache
+
 	var imagen := Image.load_from_file(ProjectSettings.globalize_path(ruta_textura_cartel))
 	if imagen == null or imagen.is_empty():
 		return null

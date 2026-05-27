@@ -3,6 +3,7 @@ extends CanvasLayer
 const SETTINGS_PATH := "user://deep_shadow_settings.cfg"
 const SHADER_ACCESIBILIDAD := preload("res://Shaders/filtro_accesibilidad.gdshader")
 const FUENTE_PIXEL := preload("res://Fuentes/joystix monospace.otf")
+const RESOLUCION_INTERNA_BASE := Vector2i(1280, 720)
 const RESOLUCIONES_PREDETERMINADAS := [
 	{"label": "960 x 540", "size": Vector2i(960, 540)},
 	{"label": "1280 x 720", "size": Vector2i(1280, 720)},
@@ -389,16 +390,35 @@ func _aplicar_ventana_y_resolucion() -> void:
 	var resolucion := Vector2i(RESOLUCIONES_PREDETERMINADAS[int(_configuracion["resolution_index"])]["size"])
 	ventana.content_scale_mode = Window.CONTENT_SCALE_MODE_VIEWPORT
 	ventana.content_scale_aspect = Window.CONTENT_SCALE_ASPECT_KEEP
-	ventana.content_scale_size = resolucion
+	ventana.content_scale_factor = 1.0
+	ventana.content_scale_size = RESOLUCION_INTERNA_BASE
+	ventana.min_size = Vector2i(RESOLUCIONES_PREDETERMINADAS[0]["size"])
 
 	match int(_configuracion["window_mode"]):
 		ModoPantalla.VENTANA:
 			ventana.mode = Window.MODE_WINDOWED
 			ventana.size = resolucion
 		ModoPantalla.MAXIMIZADA:
+			ventana.mode = Window.MODE_WINDOWED
+			ventana.size = resolucion
 			ventana.mode = Window.MODE_MAXIMIZED
 		ModoPantalla.PANTALLA_COMPLETA:
 			ventana.mode = Window.MODE_FULLSCREEN
+
+	call_deferred("_normalizar_layout_opciones")
+	call_deferred("_notificar_cambio_visual_escena_actual")
+
+
+func _notificar_cambio_visual_escena_actual() -> void:
+	var tree := get_tree()
+	if tree == null:
+		return
+
+	var escena_actual := tree.current_scene
+	if escena_actual == null or not escena_actual.has_method("recalibrar_tras_cambio_resolucion"):
+		return
+
+	escena_actual.call_deferred("recalibrar_tras_cambio_resolucion")
 
 
 func _aplicar_filtro_accesibilidad() -> void:

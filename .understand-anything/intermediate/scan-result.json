@@ -1,0 +1,746 @@
+{
+  "name": "Poo-FinalProject",
+  "description": "No description available Note: this project has over 100 source files; consider scoping analysis to a subdirectory for faster results.",
+  "languages": [
+    "css",
+    "gd",
+    "gdshader",
+    "godot",
+    "html",
+    "javascript",
+    "markdown",
+    "tex",
+    "tres",
+    "tscn",
+    "unknown"
+  ],
+  "frameworks": [],
+  "files": [
+    {
+      "path": ".gitattributes",
+      "language": "unknown",
+      "sizeLines": 2,
+      "fileCategory": "code"
+    },
+    {
+      "path": ".understand-anything/.understandignore",
+      "language": "unknown",
+      "sizeLines": 44,
+      "fileCategory": "code"
+    },
+    {
+      "path": "docs/EXPLICACION_COMPLETA_PROYECTO.md",
+      "language": "markdown",
+      "sizeLines": 891,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "docs/informe_deep_shadows.tex",
+      "language": "tex",
+      "sizeLines": 421,
+      "fileCategory": "code"
+    },
+    {
+      "path": "docs/pendientes_informe_deep_shadows.md",
+      "language": "markdown",
+      "sizeLines": 8,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "docs/PREGUNTAS_Y_RESPUESTAS_DEFENSA.md",
+      "language": "markdown",
+      "sizeLines": 470,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "docs/SIMULACRO_DEFENSA_PREGUNTAS_DIFICILES.md",
+      "language": "markdown",
+      "sizeLines": 274,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "docs/UML_PROYECTO.md",
+      "language": "markdown",
+      "sizeLines": 329,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "Escenas/AltarGafas.tscn",
+      "language": "tscn",
+      "sizeLines": 26,
+      "fileCategory": "code"
+    },
+    {
+      "path": "Escenas/AmbienteMundo1.tscn",
+      "language": "tscn",
+      "sizeLines": 6,
+      "fileCategory": "code"
+    },
+    {
+      "path": "Escenas/camara_2.gd",
+      "language": "gd",
+      "sizeLines": 55,
+      "fileCategory": "code"
+    },
+    {
+      "path": "Escenas/DialogoUI.tscn",
+      "language": "tscn",
+      "sizeLines": 95,
+      "fileCategory": "code"
+    },
+    {
+      "path": "Escenas/EnemigoFlotanteHorizontal.tscn",
+      "language": "tscn",
+      "sizeLines": 38,
+      "fileCategory": "code"
+    },
+    {
+      "path": "Escenas/EnemigoFlotanteVertical.tscn",
+      "language": "tscn",
+      "sizeLines": 38,
+      "fileCategory": "code"
+    },
+    {
+      "path": "Escenas/EnemigoPatrulla.tscn",
+      "language": "tscn",
+      "sizeLines": 37,
+      "fileCategory": "code"
+    },
+    {
+      "path": "Escenas/EnemigoPerseguidor.tscn",
+      "language": "tscn",
+      "sizeLines": 44,
+      "fileCategory": "code"
+    },
+    {
+      "path": "Escenas/FarolDecorativo.tscn",
+      "language": "tscn",
+      "sizeLines": 84,
+      "fileCategory": "code"
+    },
+    {
+      "path": "Escenas/HUD.tscn",
+      "language": "tscn",
+      "sizeLines": 170,
+      "fileCategory": "code"
+    },
+    {
+      "path": "Escenas/JefeSombras.tscn",
+      "language": "tscn",
+      "sizeLines": 45,
+      "fileCategory": "code"
+    },
+    {
+      "path": "Escenas/Llave.tscn",
+      "language": "tscn",
+      "sizeLines": 25,
+      "fileCategory": "code"
+    },
+    {
+      "path": "Escenas/LlaveJefe.tscn",
+      "language": "tscn",
+      "sizeLines": 25,
+      "fileCategory": "code"
+    },
+    {
+      "path": "Escenas/MainGame.tscn",
+      "language": "tscn",
+      "sizeLines": 1070,
+      "fileCategory": "code"
+    },
+    {
+      "path": "Escenas/Manuel de usuario.tscn",
+      "language": "tscn",
+      "sizeLines": 502,
+      "fileCategory": "code"
+    },
+    {
+      "path": "Escenas/Menu.tscn",
+      "language": "tscn",
+      "sizeLines": 183,
+      "fileCategory": "code"
+    },
+    {
+      "path": "Escenas/MenuOpciones.tscn",
+      "language": "tscn",
+      "sizeLines": 154,
+      "fileCategory": "code"
+    },
+    {
+      "path": "Escenas/MenuPausa.tscn",
+      "language": "tscn",
+      "sizeLines": 185,
+      "fileCategory": "code"
+    },
+    {
+      "path": "Escenas/Mundo2.tscn",
+      "language": "tscn",
+      "sizeLines": 700,
+      "fileCategory": "code"
+    },
+    {
+      "path": "Escenas/MuroCarne.tscn",
+      "language": "tscn",
+      "sizeLines": 32,
+      "fileCategory": "code"
+    },
+    {
+      "path": "Escenas/NPC.tscn",
+      "language": "tscn",
+      "sizeLines": 51,
+      "fileCategory": "code"
+    },
+    {
+      "path": "Escenas/NPCInmediato.tscn",
+      "language": "tscn",
+      "sizeLines": 47,
+      "fileCategory": "code"
+    },
+    {
+      "path": "Escenas/opciones.tscn",
+      "language": "tscn",
+      "sizeLines": 80,
+      "fileCategory": "code"
+    },
+    {
+      "path": "Escenas/Personaje.tscn",
+      "language": "tscn",
+      "sizeLines": 28,
+      "fileCategory": "code"
+    },
+    {
+      "path": "Escenas/plataforma_gafas.tscn",
+      "language": "tscn",
+      "sizeLines": 18,
+      "fileCategory": "code"
+    },
+    {
+      "path": "Escenas/Plataforma.tscn",
+      "language": "tscn",
+      "sizeLines": 59,
+      "fileCategory": "code"
+    },
+    {
+      "path": "Escenas/PlataformaSolida.tscn",
+      "language": "tscn",
+      "sizeLines": 16,
+      "fileCategory": "code"
+    },
+    {
+      "path": "Escenas/Puerta.tscn",
+      "language": "tscn",
+      "sizeLines": 30,
+      "fileCategory": "code"
+    },
+    {
+      "path": "Escenas/PuertaTeletransporte.tscn",
+      "language": "tscn",
+      "sizeLines": 33,
+      "fileCategory": "code"
+    },
+    {
+      "path": "Escenas/PuzzleGafas.tscn",
+      "language": "tscn",
+      "sizeLines": 112,
+      "fileCategory": "code"
+    },
+    {
+      "path": "Escenas/PuzzleMatematicas.tscn",
+      "language": "tscn",
+      "sizeLines": 130,
+      "fileCategory": "code"
+    },
+    {
+      "path": "Escenas/PuzzleSecuencia.tscn",
+      "language": "tscn",
+      "sizeLines": 134,
+      "fileCategory": "code"
+    },
+    {
+      "path": "Escenas/TotemJefe.tscn",
+      "language": "tscn",
+      "sizeLines": 20,
+      "fileCategory": "code"
+    },
+    {
+      "path": "landing/index.html",
+      "language": "html",
+      "sizeLines": 243,
+      "fileCategory": "markup"
+    },
+    {
+      "path": "landing/script.js",
+      "language": "javascript",
+      "sizeLines": 143,
+      "fileCategory": "code"
+    },
+    {
+      "path": "landing/styles.css",
+      "language": "css",
+      "sizeLines": 836,
+      "fileCategory": "markup"
+    },
+    {
+      "path": "project.godot",
+      "language": "godot",
+      "sizeLines": 96,
+      "fileCategory": "code"
+    },
+    {
+      "path": "Scripts/altar_gafas.gd",
+      "language": "gd",
+      "sizeLines": 86,
+      "fileCategory": "code"
+    },
+    {
+      "path": "Scripts/ambiente_mundo_1.gd",
+      "language": "gd",
+      "sizeLines": 125,
+      "fileCategory": "code"
+    },
+    {
+      "path": "Scripts/ambiente_mundo_2.gd",
+      "language": "gd",
+      "sizeLines": 85,
+      "fileCategory": "code"
+    },
+    {
+      "path": "Scripts/checkpoint_activador.gd",
+      "language": "gd",
+      "sizeLines": 189,
+      "fileCategory": "code"
+    },
+    {
+      "path": "Scripts/correr.gd",
+      "language": "gd",
+      "sizeLines": 12,
+      "fileCategory": "code"
+    },
+    {
+      "path": "Scripts/cutscene_base.gd",
+      "language": "gd",
+      "sizeLines": 797,
+      "fileCategory": "code"
+    },
+    {
+      "path": "Scripts/dialogo_ui.gd",
+      "language": "gd",
+      "sizeLines": 127,
+      "fileCategory": "code"
+    },
+    {
+      "path": "Scripts/enemigo_base.gd",
+      "language": "gd",
+      "sizeLines": 340,
+      "fileCategory": "code"
+    },
+    {
+      "path": "Scripts/enemigo_flotante_base.gd",
+      "language": "gd",
+      "sizeLines": 36,
+      "fileCategory": "code"
+    },
+    {
+      "path": "Scripts/enemigo_flotante_horizontal.gd",
+      "language": "gd",
+      "sizeLines": 6,
+      "fileCategory": "code"
+    },
+    {
+      "path": "Scripts/enemigo_flotante_vertical.gd",
+      "language": "gd",
+      "sizeLines": 10,
+      "fileCategory": "code"
+    },
+    {
+      "path": "Scripts/enemigo_patrulla.gd",
+      "language": "gd",
+      "sizeLines": 47,
+      "fileCategory": "code"
+    },
+    {
+      "path": "Scripts/enemigo_perseguidor.gd",
+      "language": "gd",
+      "sizeLines": 105,
+      "fileCategory": "code"
+    },
+    {
+      "path": "Scripts/estado_jugador_aturdido.gd",
+      "language": "gd",
+      "sizeLines": 14,
+      "fileCategory": "code"
+    },
+    {
+      "path": "Scripts/estado_jugador_base.gd",
+      "language": "gd",
+      "sizeLines": 27,
+      "fileCategory": "code"
+    },
+    {
+      "path": "Scripts/estado_jugador_bloqueado.gd",
+      "language": "gd",
+      "sizeLines": 15,
+      "fileCategory": "code"
+    },
+    {
+      "path": "Scripts/estado_jugador_normal.gd",
+      "language": "gd",
+      "sizeLines": 24,
+      "fileCategory": "code"
+    },
+    {
+      "path": "Scripts/estado_jugador_sprint.gd",
+      "language": "gd",
+      "sizeLines": 32,
+      "fileCategory": "code"
+    },
+    {
+      "path": "Scripts/farol_decorativo.gd",
+      "language": "gd",
+      "sizeLines": 230,
+      "fileCategory": "code"
+    },
+    {
+      "path": "Scripts/fondo_mundo_1.gd",
+      "language": "gd",
+      "sizeLines": 131,
+      "fileCategory": "code"
+    },
+    {
+      "path": "Scripts/fondo_mundo_final.gd",
+      "language": "gd",
+      "sizeLines": 145,
+      "fileCategory": "code"
+    },
+    {
+      "path": "Scripts/habilidad_gafas.gd",
+      "language": "gd",
+      "sizeLines": 89,
+      "fileCategory": "code"
+    },
+    {
+      "path": "Scripts/hud.gd",
+      "language": "gd",
+      "sizeLines": 787,
+      "fileCategory": "code"
+    },
+    {
+      "path": "Scripts/interactivo_base.gd",
+      "language": "gd",
+      "sizeLines": 51,
+      "fileCategory": "code"
+    },
+    {
+      "path": "Scripts/jefe_sombras.gd",
+      "language": "gd",
+      "sizeLines": 309,
+      "fileCategory": "code"
+    },
+    {
+      "path": "Scripts/jugador.gd",
+      "language": "gd",
+      "sizeLines": 1008,
+      "fileCategory": "code"
+    },
+    {
+      "path": "Scripts/llave_interactiva.gd",
+      "language": "gd",
+      "sizeLines": 84,
+      "fileCategory": "code"
+    },
+    {
+      "path": "Scripts/main_game.gd",
+      "language": "gd",
+      "sizeLines": 1977,
+      "fileCategory": "code"
+    },
+    {
+      "path": "Scripts/mensaje_automatico.gd",
+      "language": "gd",
+      "sizeLines": 69,
+      "fileCategory": "code"
+    },
+    {
+      "path": "Scripts/menu_pausa.gd",
+      "language": "gd",
+      "sizeLines": 143,
+      "fileCategory": "code"
+    },
+    {
+      "path": "Scripts/menu.gd",
+      "language": "gd",
+      "sizeLines": 526,
+      "fileCategory": "code"
+    },
+    {
+      "path": "Scripts/menuOpciones.gd",
+      "language": "gd",
+      "sizeLines": 466,
+      "fileCategory": "code"
+    },
+    {
+      "path": "Scripts/mundo_2.gd",
+      "language": "gd",
+      "sizeLines": 1813,
+      "fileCategory": "code"
+    },
+    {
+      "path": "Scripts/muro_carne.gd",
+      "language": "gd",
+      "sizeLines": 303,
+      "fileCategory": "code"
+    },
+    {
+      "path": "Scripts/musica_global.gd",
+      "language": "gd",
+      "sizeLines": 78,
+      "fileCategory": "code"
+    },
+    {
+      "path": "Scripts/npc_dialogo.gd",
+      "language": "gd",
+      "sizeLines": 155,
+      "fileCategory": "code"
+    },
+    {
+      "path": "Scripts/perso_der.gd",
+      "language": "gd",
+      "sizeLines": 12,
+      "fileCategory": "code"
+    },
+    {
+      "path": "Scripts/perso_izq.gd",
+      "language": "gd",
+      "sizeLines": 12,
+      "fileCategory": "code"
+    },
+    {
+      "path": "Scripts/perso.gd",
+      "language": "gd",
+      "sizeLines": 12,
+      "fileCategory": "code"
+    },
+    {
+      "path": "Scripts/plataforma_gafas.gd",
+      "language": "gd",
+      "sizeLines": 40,
+      "fileCategory": "code"
+    },
+    {
+      "path": "Scripts/Platform.gd",
+      "language": "gd",
+      "sizeLines": 69,
+      "fileCategory": "code"
+    },
+    {
+      "path": "Scripts/puerta_bloqueada.gd",
+      "language": "gd",
+      "sizeLines": 36,
+      "fileCategory": "code"
+    },
+    {
+      "path": "Scripts/puerta_teletransporte.gd",
+      "language": "gd",
+      "sizeLines": 268,
+      "fileCategory": "code"
+    },
+    {
+      "path": "Scripts/puzzle_base.gd",
+      "language": "gd",
+      "sizeLines": 117,
+      "fileCategory": "code"
+    },
+    {
+      "path": "Scripts/puzzle_gafas.gd",
+      "language": "gd",
+      "sizeLines": 151,
+      "fileCategory": "code"
+    },
+    {
+      "path": "Scripts/puzzle_matematicas.gd",
+      "language": "gd",
+      "sizeLines": 146,
+      "fileCategory": "code"
+    },
+    {
+      "path": "Scripts/puzzle_secuencia.gd",
+      "language": "gd",
+      "sizeLines": 156,
+      "fileCategory": "code"
+    },
+    {
+      "path": "Scripts/salto.gd",
+      "language": "gd",
+      "sizeLines": 12,
+      "fileCategory": "code"
+    },
+    {
+      "path": "Scripts/Seguir-Camara.gd",
+      "language": "gd",
+      "sizeLines": 37,
+      "fileCategory": "code"
+    },
+    {
+      "path": "Scripts/sistema_estamina.gd",
+      "language": "gd",
+      "sizeLines": 38,
+      "fileCategory": "code"
+    },
+    {
+      "path": "Scripts/sistema_guardado.gd",
+      "language": "gd",
+      "sizeLines": 171,
+      "fileCategory": "code"
+    },
+    {
+      "path": "Scripts/sombras_plataformas.gd",
+      "language": "gd",
+      "sizeLines": 38,
+      "fileCategory": "code"
+    },
+    {
+      "path": "Scripts/sprite_animado_frames.gd",
+      "language": "gd",
+      "sizeLines": 49,
+      "fileCategory": "code"
+    },
+    {
+      "path": "Scripts/tda_lista_simple.gd",
+      "language": "gd",
+      "sizeLines": 42,
+      "fileCategory": "code"
+    },
+    {
+      "path": "Scripts/totem_jefe.gd",
+      "language": "gd",
+      "sizeLines": 53,
+      "fileCategory": "code"
+    },
+    {
+      "path": "Shaders/filtro_accesibilidad.gdshader",
+      "language": "gdshader",
+      "sizeLines": 75,
+      "fileCategory": "code"
+    },
+    {
+      "path": "Shaders/vigneta_distorsion.gdshader",
+      "language": "gdshader",
+      "sizeLines": 58,
+      "fileCategory": "code"
+    },
+    {
+      "path": "tile_set.tres",
+      "language": "tres",
+      "sizeLines": 423,
+      "fileCategory": "code"
+    }
+  ],
+  "totalFiles": 103,
+  "filteredByIgnore": 1339,
+  "estimatedComplexity": "moderate",
+  "importMap": {
+    ".gitattributes": [],
+    ".understand-anything/.understandignore": [],
+    "docs/EXPLICACION_COMPLETA_PROYECTO.md": [],
+    "docs/informe_deep_shadows.tex": [],
+    "docs/pendientes_informe_deep_shadows.md": [],
+    "docs/PREGUNTAS_Y_RESPUESTAS_DEFENSA.md": [],
+    "docs/SIMULACRO_DEFENSA_PREGUNTAS_DIFICILES.md": [],
+    "docs/UML_PROYECTO.md": [],
+    "Escenas/AltarGafas.tscn": [],
+    "Escenas/AmbienteMundo1.tscn": [],
+    "Escenas/camara_2.gd": [],
+    "Escenas/DialogoUI.tscn": [],
+    "Escenas/EnemigoFlotanteHorizontal.tscn": [],
+    "Escenas/EnemigoFlotanteVertical.tscn": [],
+    "Escenas/EnemigoPatrulla.tscn": [],
+    "Escenas/EnemigoPerseguidor.tscn": [],
+    "Escenas/FarolDecorativo.tscn": [],
+    "Escenas/HUD.tscn": [],
+    "Escenas/JefeSombras.tscn": [],
+    "Escenas/Llave.tscn": [],
+    "Escenas/LlaveJefe.tscn": [],
+    "Escenas/MainGame.tscn": [],
+    "Escenas/Manuel de usuario.tscn": [],
+    "Escenas/Menu.tscn": [],
+    "Escenas/MenuOpciones.tscn": [],
+    "Escenas/MenuPausa.tscn": [],
+    "Escenas/Mundo2.tscn": [],
+    "Escenas/MuroCarne.tscn": [],
+    "Escenas/NPC.tscn": [],
+    "Escenas/NPCInmediato.tscn": [],
+    "Escenas/opciones.tscn": [],
+    "Escenas/Personaje.tscn": [],
+    "Escenas/plataforma_gafas.tscn": [],
+    "Escenas/Plataforma.tscn": [],
+    "Escenas/PlataformaSolida.tscn": [],
+    "Escenas/Puerta.tscn": [],
+    "Escenas/PuertaTeletransporte.tscn": [],
+    "Escenas/PuzzleGafas.tscn": [],
+    "Escenas/PuzzleMatematicas.tscn": [],
+    "Escenas/PuzzleSecuencia.tscn": [],
+    "Escenas/TotemJefe.tscn": [],
+    "landing/index.html": [],
+    "landing/script.js": [],
+    "landing/styles.css": [],
+    "project.godot": [],
+    "Scripts/altar_gafas.gd": [],
+    "Scripts/ambiente_mundo_1.gd": [],
+    "Scripts/ambiente_mundo_2.gd": [],
+    "Scripts/checkpoint_activador.gd": [],
+    "Scripts/correr.gd": [],
+    "Scripts/cutscene_base.gd": [],
+    "Scripts/dialogo_ui.gd": [],
+    "Scripts/enemigo_base.gd": [],
+    "Scripts/enemigo_flotante_base.gd": [],
+    "Scripts/enemigo_flotante_horizontal.gd": [],
+    "Scripts/enemigo_flotante_vertical.gd": [],
+    "Scripts/enemigo_patrulla.gd": [],
+    "Scripts/enemigo_perseguidor.gd": [],
+    "Scripts/estado_jugador_aturdido.gd": [],
+    "Scripts/estado_jugador_base.gd": [],
+    "Scripts/estado_jugador_bloqueado.gd": [],
+    "Scripts/estado_jugador_normal.gd": [],
+    "Scripts/estado_jugador_sprint.gd": [],
+    "Scripts/farol_decorativo.gd": [],
+    "Scripts/fondo_mundo_1.gd": [],
+    "Scripts/fondo_mundo_final.gd": [],
+    "Scripts/habilidad_gafas.gd": [],
+    "Scripts/hud.gd": [],
+    "Scripts/interactivo_base.gd": [],
+    "Scripts/jefe_sombras.gd": [],
+    "Scripts/jugador.gd": [],
+    "Scripts/llave_interactiva.gd": [],
+    "Scripts/main_game.gd": [],
+    "Scripts/mensaje_automatico.gd": [],
+    "Scripts/menu_pausa.gd": [],
+    "Scripts/menu.gd": [],
+    "Scripts/menuOpciones.gd": [],
+    "Scripts/mundo_2.gd": [],
+    "Scripts/muro_carne.gd": [],
+    "Scripts/musica_global.gd": [],
+    "Scripts/npc_dialogo.gd": [],
+    "Scripts/perso_der.gd": [],
+    "Scripts/perso_izq.gd": [],
+    "Scripts/perso.gd": [],
+    "Scripts/plataforma_gafas.gd": [],
+    "Scripts/Platform.gd": [],
+    "Scripts/puerta_bloqueada.gd": [],
+    "Scripts/puerta_teletransporte.gd": [],
+    "Scripts/puzzle_base.gd": [],
+    "Scripts/puzzle_gafas.gd": [],
+    "Scripts/puzzle_matematicas.gd": [],
+    "Scripts/puzzle_secuencia.gd": [],
+    "Scripts/salto.gd": [],
+    "Scripts/Seguir-Camara.gd": [],
+    "Scripts/sistema_estamina.gd": [],
+    "Scripts/sistema_guardado.gd": [],
+    "Scripts/sombras_plataformas.gd": [],
+    "Scripts/sprite_animado_frames.gd": [],
+    "Scripts/tda_lista_simple.gd": [],
+    "Scripts/totem_jefe.gd": [],
+    "Shaders/filtro_accesibilidad.gdshader": [],
+    "Shaders/vigneta_distorsion.gdshader": [],
+    "tile_set.tres": []
+  }
+}

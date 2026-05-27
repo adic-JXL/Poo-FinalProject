@@ -42,6 +42,10 @@ func _cargar_frames() -> void:
 
 
 func _cargar_textura_png(ruta: String) -> Texture2D:
+	var textura_importada := load(ruta) as Texture2D
+	if textura_importada != null:
+		return textura_importada
+
 	var imagen := Image.load_from_file(ProjectSettings.globalize_path(ruta))
 	if imagen == null or imagen.is_empty():
 		return null

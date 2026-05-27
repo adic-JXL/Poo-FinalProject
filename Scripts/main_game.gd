@@ -230,6 +230,7 @@ var puzzle_matematicas: PuzzleBase = null
 var _overlay_indicadores_pilares: Control = null
 var _indicadores_pilares: Dictionary = {}
 var _ayuda_jefe_1_mostrada: bool = false
+var _cambio_menu_en_curso: bool = false
 
 
 func _ready() -> void:
@@ -345,9 +346,16 @@ func reiniciar_nivel() -> void:
 
 
 func volver_al_menu() -> void:
+	if _cambio_menu_en_curso:
+		return
+
+	_cambio_menu_en_curso = true
 	cerrar_menu_pausa()
 	_restaurar_tiempo_normal()
-	get_tree().change_scene_to_file(MENU_SCENE)
+	var menu_opciones := get_node_or_null("/root/MenuOpciones")
+	if menu_opciones != null and menu_opciones.has_method("cerrar"):
+		menu_opciones.call("cerrar")
+	call_deferred("_cambiar_a_menu_principal")
 
 
 func obtener_jugador() -> CharacterBody2D:
@@ -541,10 +549,18 @@ func _configurar_gafas() -> void:
 
 
 func _configurar_menu_pausa() -> void:
-	menu_pausa.continuar_solicitado.connect(cerrar_menu_pausa)
-	menu_pausa.controles_solicitados.connect(_on_menu_pausa_controles_solicitados)
-	menu_pausa.reiniciar_solicitado.connect(reiniciar_nivel)
-	menu_pausa.volver_menu_solicitado.connect(volver_al_menu)
+	if menu_pausa == null:
+		return
+
+	menu_pausa.hide()
+	if not menu_pausa.continuar_solicitado.is_connected(cerrar_menu_pausa):
+		menu_pausa.continuar_solicitado.connect(cerrar_menu_pausa)
+	if not menu_pausa.controles_solicitados.is_connected(_on_menu_pausa_controles_solicitados):
+		menu_pausa.controles_solicitados.connect(_on_menu_pausa_controles_solicitados)
+	if not menu_pausa.reiniciar_solicitado.is_connected(reiniciar_nivel):
+		menu_pausa.reiniciar_solicitado.connect(reiniciar_nivel)
+	if not menu_pausa.volver_menu_solicitado.is_connected(volver_al_menu):
+		menu_pausa.volver_menu_solicitado.connect(volver_al_menu)
 
 
 func _on_menu_pausa_controles_solicitados() -> void:
@@ -1936,6 +1952,25 @@ func _cerrar_overlay_puzzle_activo() -> void:
 func _preparar_canvas_runtime() -> void:
 	if menu_pausa != null:
 		menu_pausa.hide()
+
+
+func _cambiar_a_menu_principal() -> void:
+	var error := get_tree().change_scene_to_file(MENU_SCENE)
+	if error == OK:
+		return
+
+	push_error("No se pudo volver al menu principal desde MainGame.")
+	_cambio_menu_en_curso = false
+
+
+func recalibrar_tras_cambio_resolucion() -> void:
+	_sincronizar_camara_con_jugador()
+	_actualizar_estado_zona_jefe(true)
+	_aplicar_alpha_distorsion_actual(true)
+	_aplicar_perfil_distorsion(true)
+	_restaurar_mensaje_hud()
+	if _pausa_activa and menu_pausa != null:
+		menu_pausa.actualizar_contexto(_checkpoint_activo, _obtener_descripcion_checkpoint())
 
 
 func _crear_puzzle_matematicas() -> void:
