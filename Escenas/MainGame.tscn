@@ -806,14 +806,14 @@ shape = SubResource("RectangleShape2D_yhne7")
 
 [node name="NPC_1" parent="NPC" unique_id=1782356265 instance=ExtResource("23_npc")]
 position = Vector2(259, -1952)
-nombre_npc = "Meles"
-lineas_dialogo = ["Buenos dias, no es un poco tarde para ir a la escuela?", "Si ves algo imposible, tal vez las gafas tengan la respuesta."]
+nombre_npc = "Fabian"
+lineas_dialogo = ["Buenos dias, no es un poco tarde para ir a la escuela? ", "Si ves algo imposible, tal vez las gafas tengan la respuesta."]
 
 [node name="NPC_2" parent="NPC" unique_id=1478854778 instance=ExtResource("23_npc")]
 position = Vector2(1392, -1534)
 nombre_npc = "Profesor"
 activar_automaticamente = true
-lineas_dialogo = ["Señorita que son estas horas de llegar", "Vaya ensiguida a su salon que hoy hay examen"]
+lineas_dialogo = ["Estimado que son estas horas de llegar", "Vaya ensiguida a su salon que hoy hay examen"]
 
 [node name="NPC_3" parent="NPC" unique_id=1001253544 instance=ExtResource("23_npc")]
 visible = false
@@ -822,7 +822,7 @@ monitoring = false
 monitorable = false
 nombre_npc = "Rossa"
 activar_automaticamente = true
-lineas_dialogo = ["Ey que pusiste en la pregunta 12?", "no te dio tiempo a terminarlo, que idiota", "Como se nota que no eres bueno para estas cosas"]
+lineas_dialogo = ["Ey que pusiste en la pregunta 12?", "no te dio tiempo a terminarlo, mas ve un ciego", "Como se nota que no eres bueno para estas cosas"]
 
 [node name="NPC_4" parent="NPC" unique_id=1341191089 instance=ExtResource("23_npc")]
 visible = false
@@ -831,7 +831,7 @@ monitoring = false
 monitorable = false
 nombre_npc = "Carlos"
 activar_automaticamente = true
-lineas_dialogo = ["de verdad que tus papas pierden plata contigo"]
+lineas_dialogo = ["de verdad que tus papas pierden plata contigo cuatro ojos"]
 
 [node name="NPC_5" parent="NPC" unique_id=1352114328 instance=ExtResource("23_npc")]
 visible = false
@@ -840,12 +840,12 @@ monitoring = false
 monitorable = false
 nombre_npc = "Esteban"
 activar_automaticamente = true
-lineas_dialogo = ["JAJAJA cule hueva"]
+lineas_dialogo = ["JAJAJA cule gafufo"]
 
 [node name="NPC_6" parent="NPC" unique_id=1114308193 instance=ExtResource("23_npc")]
 position = Vector2(1272, -1707)
 nombre_npc = "Profesor"
-lineas_dialogo = ["Rapido a su cupitre"]
+lineas_dialogo = ["Rapido a su mesa"]
 
 [node name="Cesped" type="Sprite2D" parent="." unique_id=1079359732]
 texture_filter = 1
