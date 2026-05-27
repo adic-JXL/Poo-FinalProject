@@ -1,0 +1,12 @@
+{
+  "fixedSectionOk": true,
+  "nodesRecovered": 0,
+  "edgesRestored": 0,
+  "crossBatchEdgesAdded": 0,
+  "typesRemapped": 0,
+  "complexityRemapped": 0,
+  "notes": [
+    "El merge oficial no report? nodos hu?rfanos ni aristas colgantes.",
+    "El importMap del proyecto no produjo imports recuperables; las relaciones principales provienen de funciones y referencias internas de Godot."
+  ]
+}

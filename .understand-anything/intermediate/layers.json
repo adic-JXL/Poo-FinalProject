@@ -1,0 +1,175 @@
+[
+  {
+    "id": "layer:documentacion",
+    "name": "Documentacion",
+    "description": "Material de apoyo, UML, informe y guias de defensa del proyecto.",
+    "nodeIds": [
+      "document:docs/EXPLICACION_COMPLETA_PROYECTO.md",
+      "document:docs/PREGUNTAS_Y_RESPUESTAS_DEFENSA.md",
+      "document:docs/SIMULACRO_DEFENSA_PREGUNTAS_DIFICILES.md",
+      "document:docs/UML_PROYECTO.md",
+      "document:docs/pendientes_informe_deep_shadows.md",
+      "document:docs/informe_deep_shadows.tex"
+    ]
+  },
+  {
+    "id": "layer:configuracion",
+    "name": "Configuracion",
+    "description": "Archivos globales de configuracion del proyecto, recursos base y reglas del analisis.",
+    "nodeIds": [
+      "config:.gitattributes",
+      "config:.understand-anything/.understandignore",
+      "config:project.godot",
+      "config:tile_set.tres"
+    ]
+  },
+  {
+    "id": "layer:presentacion-web",
+    "name": "Presentacion Web",
+    "description": "Landing page y recursos web usados para presentar el proyecto fuera del juego.",
+    "nodeIds": [
+      "file:landing/index.html",
+      "file:landing/script.js",
+      "file:landing/styles.css"
+    ]
+  },
+  {
+    "id": "layer:escenas-ui",
+    "name": "Escenas UI",
+    "description": "Escenas de interfaz, menus, dialogos y prefabs visuales de apoyo.",
+    "nodeIds": [
+      "file:Escenas/DialogoUI.tscn",
+      "file:Escenas/HUD.tscn",
+      "file:Escenas/Menu.tscn",
+      "file:Escenas/MenuOpciones.tscn",
+      "file:Escenas/MenuPausa.tscn",
+      "file:Escenas/NPC.tscn",
+      "file:Escenas/NPCInmediato.tscn",
+      "file:Escenas/opciones.tscn"
+    ]
+  },
+  {
+    "id": "layer:escenas-gameplay",
+    "name": "Escenas Gameplay",
+    "description": "Escenas principales de mundo, jugador, puertas, plataformas, puzzles y contenido jugable.",
+    "nodeIds": [
+      "file:Escenas/AltarGafas.tscn",
+      "file:Escenas/AmbienteMundo1.tscn",
+      "file:Escenas/camara_2.gd",
+      "file:Escenas/EnemigoFlotanteHorizontal.tscn",
+      "file:Escenas/EnemigoFlotanteVertical.tscn",
+      "file:Escenas/EnemigoPatrulla.tscn",
+      "file:Escenas/EnemigoPerseguidor.tscn",
+      "file:Escenas/FarolDecorativo.tscn",
+      "file:Escenas/JefeSombras.tscn",
+      "file:Escenas/Llave.tscn",
+      "file:Escenas/LlaveJefe.tscn",
+      "file:Escenas/MainGame.tscn",
+      "file:Escenas/Manuel de usuario.tscn",
+      "file:Escenas/Mundo2.tscn",
+      "file:Escenas/MuroCarne.tscn",
+      "file:Escenas/Personaje.tscn",
+      "file:Escenas/plataforma_gafas.tscn",
+      "file:Escenas/Plataforma.tscn",
+      "file:Escenas/PlataformaSolida.tscn",
+      "file:Escenas/Puerta.tscn",
+      "file:Escenas/PuertaTeletransporte.tscn",
+      "file:Escenas/PuzzleGafas.tscn",
+      "file:Escenas/PuzzleMatematicas.tscn",
+      "file:Escenas/PuzzleSecuencia.tscn",
+      "file:Escenas/TotemJefe.tscn"
+    ]
+  },
+  {
+    "id": "layer:control-global",
+    "name": "Control Global",
+    "description": "Controladores de mundo, HUD, menus, guardado, audio, fondos y sistemas transversales.",
+    "nodeIds": [
+      "file:Scripts/ambiente_mundo_1.gd",
+      "file:Scripts/ambiente_mundo_2.gd",
+      "file:Scripts/cutscene_base.gd",
+      "file:Scripts/dialogo_ui.gd",
+      "file:Scripts/fondo_mundo_1.gd",
+      "file:Scripts/fondo_mundo_final.gd",
+      "file:Scripts/hud.gd",
+      "file:Scripts/main_game.gd",
+      "file:Scripts/mensaje_automatico.gd",
+      "file:Scripts/menu_pausa.gd",
+      "file:Scripts/menu.gd",
+      "file:Scripts/menuOpciones.gd",
+      "file:Scripts/mundo_2.gd",
+      "file:Scripts/musica_global.gd",
+      "file:Scripts/Platform.gd",
+      "file:Scripts/Seguir-Camara.gd",
+      "file:Scripts/sistema_estamina.gd",
+      "file:Scripts/sistema_guardado.gd",
+      "file:Scripts/tda_lista_simple.gd"
+    ]
+  },
+  {
+    "id": "layer:jugador-estados",
+    "name": "Jugador y Estados",
+    "description": "Scripts centrados en el personaje jugable, sus estados, movimiento y habilidades.",
+    "nodeIds": [
+      "file:Scripts/correr.gd",
+      "file:Scripts/estado_jugador_aturdido.gd",
+      "file:Scripts/estado_jugador_base.gd",
+      "file:Scripts/estado_jugador_bloqueado.gd",
+      "file:Scripts/estado_jugador_normal.gd",
+      "file:Scripts/estado_jugador_sprint.gd",
+      "file:Scripts/habilidad_gafas.gd",
+      "file:Scripts/jugador.gd",
+      "file:Scripts/perso_der.gd",
+      "file:Scripts/perso_izq.gd",
+      "file:Scripts/perso.gd",
+      "file:Scripts/salto.gd"
+    ]
+  },
+  {
+    "id": "layer:enemigos-jefes",
+    "name": "Enemigos y Jefes",
+    "description": "Scripts de IA, enemigos comunes y jefes de ambos mundos.",
+    "nodeIds": [
+      "file:Scripts/enemigo_base.gd",
+      "file:Scripts/enemigo_flotante_base.gd",
+      "file:Scripts/enemigo_flotante_horizontal.gd",
+      "file:Scripts/enemigo_flotante_vertical.gd",
+      "file:Scripts/enemigo_patrulla.gd",
+      "file:Scripts/enemigo_perseguidor.gd",
+      "file:Scripts/jefe_sombras.gd",
+      "file:Scripts/muro_carne.gd"
+    ]
+  },
+  {
+    "id": "layer:interactivos-puzzles",
+    "name": "Interactivos y Puzzles",
+    "description": "Objetos interactivos, checkpoints, llaves, puertas, totems y logica de puzzles.",
+    "nodeIds": [
+      "file:Scripts/altar_gafas.gd",
+      "file:Scripts/checkpoint_activador.gd",
+      "file:Scripts/farol_decorativo.gd",
+      "file:Scripts/interactivo_base.gd",
+      "file:Scripts/llave_interactiva.gd",
+      "file:Scripts/npc_dialogo.gd",
+      "file:Scripts/plataforma_gafas.gd",
+      "file:Scripts/puerta_bloqueada.gd",
+      "file:Scripts/puerta_teletransporte.gd",
+      "file:Scripts/puzzle_base.gd",
+      "file:Scripts/puzzle_gafas.gd",
+      "file:Scripts/puzzle_matematicas.gd",
+      "file:Scripts/puzzle_secuencia.gd",
+      "file:Scripts/sombras_plataformas.gd",
+      "file:Scripts/totem_jefe.gd"
+    ]
+  },
+  {
+    "id": "layer:render-visual",
+    "name": "Render y Visual",
+    "description": "Shaders y scripts visuales o de ambientacion aplicados a la presentacion del juego.",
+    "nodeIds": [
+      "file:Scripts/sprite_animado_frames.gd",
+      "file:Shaders/filtro_accesibilidad.gdshader",
+      "file:Shaders/vigneta_distorsion.gdshader"
+    ]
+  }
+]
