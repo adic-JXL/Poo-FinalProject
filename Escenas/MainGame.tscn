@@ -505,7 +505,7 @@ position = Vector2(1406.0001, 282.99997)
 scale = Vector2(0.82, 0.82)
 
 [node name="CheckpointInicio" type="Marker2D" parent="Objetos" unique_id=202605261]
-position = Vector2(1112, 314)
+position = Vector2(84, 323)
 
 [node name="AuraCheckpoint" type="Sprite2D" parent="Objetos/CheckpointInicio" unique_id=202605262]
 modulate = Color(0.62, 0.84, 1, 0.08)
@@ -843,7 +843,7 @@ activar_automaticamente = true
 lineas_dialogo = ["JAJAJA cule gafufo"]
 
 [node name="NPC_6" parent="NPC" unique_id=1114308193 instance=ExtResource("23_npc")]
-position = Vector2(1272, -1707)
+position = Vector2(2391, -1481)
 nombre_npc = "Profesor"
 lineas_dialogo = ["Rapido a su mesa"]
 
