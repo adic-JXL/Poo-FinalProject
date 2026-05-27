@@ -153,6 +153,7 @@ var _popup_pista_puzzle: PanelContainer = null
 var _tween_popup_pista: Tween = null
 var _cierre_final_mostrado: bool = false
 var _rng: RandomNumberGenerator = RandomNumberGenerator.new()
+var _cambio_menu_en_curso: bool = false
 
 
 func _ready() -> void:
@@ -267,9 +268,16 @@ func reiniciar_nivel() -> void:
 
 
 func volver_al_menu() -> void:
+	if _cambio_menu_en_curso:
+		return
+
+	_cambio_menu_en_curso = true
 	cerrar_menu_pausa()
 	_restaurar_tiempo_normal()
-	get_tree().change_scene_to_file(MENU_SCENE)
+	var menu_opciones := get_node_or_null("/root/MenuOpciones")
+	if menu_opciones != null and menu_opciones.has_method("cerrar"):
+		menu_opciones.call("cerrar")
+	call_deferred("_cambiar_a_menu_principal")
 
 
 func _asegurar_estructura_base() -> void:
@@ -1709,6 +1717,25 @@ func _actualizar_escala_tiempo() -> void:
 
 func _restaurar_tiempo_normal() -> void:
 	Engine.time_scale = 1.0
+
+
+func _cambiar_a_menu_principal() -> void:
+	var error := get_tree().change_scene_to_file(MENU_SCENE)
+	if error == OK:
+		return
+
+	push_error("No se pudo volver al menu principal desde Mundo2.")
+	_cambio_menu_en_curso = false
+
+
+func recalibrar_tras_cambio_resolucion() -> void:
+	_actualizar_camara_por_posicion()
+	_sincronizar_camara_con_jugador(true, 0.0)
+	_aplicar_alpha_distorsion_actual(true)
+	_aplicar_perfil_distorsion(true)
+	_restaurar_mensaje_hud()
+	if _pausa_activa and menu_pausa != null:
+		menu_pausa.actualizar_contexto(_checkpoint_activo, _descripcion_checkpoint_actual)
 
 
 func _area_contiene_posicion(area: Area2D, posicion_global: Vector2) -> bool:

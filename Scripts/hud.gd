@@ -739,6 +739,10 @@ func _cargar_texturas_hud() -> void:
 
 
 func _cargar_textura_desde_archivo(ruta: String) -> Texture2D:
+	var textura_importada := load(ruta) as Texture2D
+	if textura_importada != null:
+		return textura_importada
+
 	var imagen := Image.load_from_file(ProjectSettings.globalize_path(ruta))
 	if imagen == null or imagen.is_empty():
 		return null
@@ -746,7 +750,12 @@ func _cargar_textura_desde_archivo(ruta: String) -> Texture2D:
 
 
 func _cargar_textura_recortada_desde_archivo(ruta: String, region: Rect2i) -> Texture2D:
-	var imagen := Image.load_from_file(ProjectSettings.globalize_path(ruta))
+	var imagen: Image = null
+	var textura_importada := load(ruta) as Texture2D
+	if textura_importada != null:
+		imagen = textura_importada.get_image()
+	if imagen == null or imagen.is_empty():
+		imagen = Image.load_from_file(ProjectSettings.globalize_path(ruta))
 	if imagen == null or imagen.is_empty():
 		return null
 

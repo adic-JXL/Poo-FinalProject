@@ -274,6 +274,10 @@ func _actualizar_layout_selector_slots() -> void:
 		_scroll_slots.custom_minimum_size = Vector2(maxf(ancho_panel - 36.0, 320.0), maxf(alto_panel - 154.0, 170.0))
 
 
+func recalibrar_tras_cambio_resolucion() -> void:
+	_actualizar_layout_selector_slots()
+
+
 func _actualizar_selector_slots() -> void:
 	for fila in _filas_slots:
 		var slot := int(fila["slot"])
