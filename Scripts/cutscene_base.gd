@@ -107,6 +107,14 @@ func reproducir_intro_inicio() -> void:
 		Color(0.45, 0.82, 0.93, 1.0),
 		Callable(self, "_montar_controles")
 	)
+	await _mostrar_cinematica(
+		"CONTROLES CON MANDO",
+		"Si juegas con mando, las mismas acciones estan disponibles con stick, botones principales y gatillos.",
+		"Guia rapida",
+		9.0,
+		Color(0.45, 0.82, 0.93, 1.0),
+		Callable(self, "_montar_controles_mando")
+	)
 
 
 func reproducir_objetivos_mundo_1() -> void:
@@ -128,6 +136,14 @@ func reproducir_controles() -> void:
 		9.0,
 		Color(0.45, 0.82, 0.93, 1.0),
 		Callable(self, "_montar_controles")
+	)
+	await _mostrar_cinematica(
+		"CONTROLES CON MANDO",
+		"Si juegas con mando, las mismas acciones estan disponibles con stick, botones principales y gatillos.",
+		"Guia rapida",
+		9.0,
+		Color(0.45, 0.82, 0.93, 1.0),
+		Callable(self, "_montar_controles_mando")
 	)
 
 
@@ -411,6 +427,25 @@ func _montar_controles() -> void:
 		var fila := int(i / 3)
 		_crear_tarjeta_control(Vector2(36 + columna * 236, 54 + fila * 92), Dictionary(cartas[i]), i)
 	_agregar_caption("Tip: con las gafas activas aparecen rutas ocultas y el mundo se vuelve mas claro.")
+
+
+func _montar_controles_mando() -> void:
+	_agregar_fondo_degradado(Color(0.06, 0.09, 0.11, 1.0), Color(0.12, 0.17, 0.17, 1.0))
+	var titulo := _agregar_label(_stage, "GUIA RAPIDA CON MANDO", Vector2(0, 14), Vector2(760, 28), 14, Color(0.86, 0.94, 0.43, 1.0))
+	titulo.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	var cartas := [
+		{"tecla": "STICK IZQ", "texto": "Moverte", "ayuda": "Tambien sirve la cruceta.", "tipo": "walk"},
+		{"tecla": "BTN SUR", "texto": "Saltar", "ayuda": "Supera huecos y plataformas.", "tipo": "jump"},
+		{"tecla": "RT", "texto": "Sprint", "ayuda": "Corre en tramos largos.", "tipo": "run"},
+		{"tecla": "BTN NORTE", "texto": "Gafas", "ayuda": "Revela rutas ocultas.", "tipo": "gafas"},
+		{"tecla": "BTN ESTE", "texto": "Interactuar", "ayuda": "Puertas, pistas y totems.", "tipo": "door"},
+		{"tecla": "START", "texto": "Pausa", "ayuda": "Menu, opciones y reinicio.", "tipo": "pause"},
+	]
+	for i in range(cartas.size()):
+		var columna := i % 3
+		var fila := int(i / 3)
+		_crear_tarjeta_control(Vector2(36 + columna * 236, 54 + fila * 92), Dictionary(cartas[i]), i)
+	_agregar_caption("Tip: stick izquierdo y cruceta mueven al personaje; el gatillo derecho activa el sprint.")
 
 
 func _montar_objetivos_mundo_1() -> void:
