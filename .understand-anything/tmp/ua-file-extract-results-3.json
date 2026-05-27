@@ -1,0 +1,255 @@
+{
+  "scriptCompleted": true,
+  "filesAnalyzed": 25,
+  "filesSkipped": [],
+  "results": [
+    {
+      "path": "Escenas/opciones.tscn",
+      "language": "tscn",
+      "fileCategory": "code",
+      "totalLines": 80,
+      "nonEmptyLines": 69,
+      "metrics": {}
+    },
+    {
+      "path": "Escenas/Personaje.tscn",
+      "language": "tscn",
+      "fileCategory": "code",
+      "totalLines": 28,
+      "nonEmptyLines": 18,
+      "metrics": {}
+    },
+    {
+      "path": "Escenas/plataforma_gafas.tscn",
+      "language": "tscn",
+      "fileCategory": "code",
+      "totalLines": 18,
+      "nonEmptyLines": 13,
+      "metrics": {}
+    },
+    {
+      "path": "Escenas/Plataforma.tscn",
+      "language": "tscn",
+      "fileCategory": "code",
+      "totalLines": 59,
+      "nonEmptyLines": 50,
+      "metrics": {}
+    },
+    {
+      "path": "Escenas/PlataformaSolida.tscn",
+      "language": "tscn",
+      "fileCategory": "code",
+      "totalLines": 16,
+      "nonEmptyLines": 11,
+      "metrics": {}
+    },
+    {
+      "path": "Escenas/Puerta.tscn",
+      "language": "tscn",
+      "fileCategory": "code",
+      "totalLines": 30,
+      "nonEmptyLines": 23,
+      "metrics": {}
+    },
+    {
+      "path": "Escenas/PuertaTeletransporte.tscn",
+      "language": "tscn",
+      "fileCategory": "code",
+      "totalLines": 33,
+      "nonEmptyLines": 26,
+      "metrics": {}
+    },
+    {
+      "path": "Escenas/PuzzleGafas.tscn",
+      "language": "tscn",
+      "fileCategory": "code",
+      "totalLines": 112,
+      "nonEmptyLines": 92,
+      "metrics": {}
+    },
+    {
+      "path": "Escenas/PuzzleMatematicas.tscn",
+      "language": "tscn",
+      "fileCategory": "code",
+      "totalLines": 130,
+      "nonEmptyLines": 111,
+      "metrics": {}
+    },
+    {
+      "path": "Escenas/PuzzleSecuencia.tscn",
+      "language": "tscn",
+      "fileCategory": "code",
+      "totalLines": 134,
+      "nonEmptyLines": 114,
+      "metrics": {}
+    },
+    {
+      "path": "Escenas/TotemJefe.tscn",
+      "language": "tscn",
+      "fileCategory": "code",
+      "totalLines": 20,
+      "nonEmptyLines": 14,
+      "metrics": {}
+    },
+    {
+      "path": "landing/index.html",
+      "language": "html",
+      "fileCategory": "markup",
+      "totalLines": 243,
+      "nonEmptyLines": 225,
+      "metrics": {}
+    },
+    {
+      "path": "landing/script.js",
+      "language": "javascript",
+      "fileCategory": "code",
+      "totalLines": 143,
+      "nonEmptyLines": 123,
+      "functions": [
+        {
+          "name": "animateSprite",
+          "startLine": 32,
+          "endLine": 41,
+          "params": [
+            "selector",
+            "frames"
+          ]
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "animateSprite",
+          "callee": "document.querySelector",
+          "lineNumber": 33
+        },
+        {
+          "caller": "animateSprite",
+          "callee": "window.setInterval",
+          "lineNumber": 37
+        },
+        {
+          "caller": "tick",
+          "callee": "Math.min",
+          "lineNumber": 73
+        },
+        {
+          "caller": "tick",
+          "callee": "Math.pow",
+          "lineNumber": 74
+        },
+        {
+          "caller": "tick",
+          "callee": "Math.round",
+          "lineNumber": 75
+        },
+        {
+          "caller": "tick",
+          "callee": "requestAnimationFrame",
+          "lineNumber": 76
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 1,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "landing/styles.css",
+      "language": "css",
+      "fileCategory": "markup",
+      "totalLines": 836,
+      "nonEmptyLines": 723,
+      "metrics": {}
+    },
+    {
+      "path": "project.godot",
+      "language": "godot",
+      "fileCategory": "code",
+      "totalLines": 96,
+      "nonEmptyLines": 85,
+      "metrics": {}
+    },
+    {
+      "path": "Scripts/altar_gafas.gd",
+      "language": "gd",
+      "fileCategory": "code",
+      "totalLines": 86,
+      "nonEmptyLines": 60,
+      "metrics": {}
+    },
+    {
+      "path": "Scripts/ambiente_mundo_1.gd",
+      "language": "gd",
+      "fileCategory": "code",
+      "totalLines": 125,
+      "nonEmptyLines": 108,
+      "metrics": {}
+    },
+    {
+      "path": "Scripts/ambiente_mundo_2.gd",
+      "language": "gd",
+      "fileCategory": "code",
+      "totalLines": 85,
+      "nonEmptyLines": 72,
+      "metrics": {}
+    },
+    {
+      "path": "Scripts/checkpoint_activador.gd",
+      "language": "gd",
+      "fileCategory": "code",
+      "totalLines": 189,
+      "nonEmptyLines": 147,
+      "metrics": {}
+    },
+    {
+      "path": "Scripts/correr.gd",
+      "language": "gd",
+      "fileCategory": "code",
+      "totalLines": 12,
+      "nonEmptyLines": 8,
+      "metrics": {}
+    },
+    {
+      "path": "Scripts/cutscene_base.gd",
+      "language": "gd",
+      "fileCategory": "code",
+      "totalLines": 797,
+      "nonEmptyLines": 671,
+      "metrics": {}
+    },
+    {
+      "path": "Scripts/dialogo_ui.gd",
+      "language": "gd",
+      "fileCategory": "code",
+      "totalLines": 127,
+      "nonEmptyLines": 93,
+      "metrics": {}
+    },
+    {
+      "path": "Scripts/enemigo_base.gd",
+      "language": "gd",
+      "fileCategory": "code",
+      "totalLines": 340,
+      "nonEmptyLines": 254,
+      "metrics": {}
+    },
+    {
+      "path": "Scripts/enemigo_flotante_base.gd",
+      "language": "gd",
+      "fileCategory": "code",
+      "totalLines": 36,
+      "nonEmptyLines": 24,
+      "metrics": {}
+    },
+    {
+      "path": "Scripts/enemigo_flotante_horizontal.gd",
+      "language": "gd",
+      "fileCategory": "code",
+      "totalLines": 6,
+      "nonEmptyLines": 4,
+      "metrics": {}
+    }
+  ]
+}

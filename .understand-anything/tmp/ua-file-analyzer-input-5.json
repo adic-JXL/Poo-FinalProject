@@ -1,0 +1,168 @@
+{
+  "projectRoot": "C:\\Users\\HP\\Documents\\GitHub\\Poo-FinalProject",
+  "batchFiles": [
+    {
+      "path": "Scripts/npc_dialogo.gd",
+      "language": "gd",
+      "sizeLines": 155,
+      "fileCategory": "code"
+    },
+    {
+      "path": "Scripts/perso_der.gd",
+      "language": "gd",
+      "sizeLines": 12,
+      "fileCategory": "code"
+    },
+    {
+      "path": "Scripts/perso_izq.gd",
+      "language": "gd",
+      "sizeLines": 12,
+      "fileCategory": "code"
+    },
+    {
+      "path": "Scripts/perso.gd",
+      "language": "gd",
+      "sizeLines": 12,
+      "fileCategory": "code"
+    },
+    {
+      "path": "Scripts/plataforma_gafas.gd",
+      "language": "gd",
+      "sizeLines": 40,
+      "fileCategory": "code"
+    },
+    {
+      "path": "Scripts/Platform.gd",
+      "language": "gd",
+      "sizeLines": 69,
+      "fileCategory": "code"
+    },
+    {
+      "path": "Scripts/puerta_bloqueada.gd",
+      "language": "gd",
+      "sizeLines": 36,
+      "fileCategory": "code"
+    },
+    {
+      "path": "Scripts/puerta_teletransporte.gd",
+      "language": "gd",
+      "sizeLines": 268,
+      "fileCategory": "code"
+    },
+    {
+      "path": "Scripts/puzzle_base.gd",
+      "language": "gd",
+      "sizeLines": 117,
+      "fileCategory": "code"
+    },
+    {
+      "path": "Scripts/puzzle_gafas.gd",
+      "language": "gd",
+      "sizeLines": 151,
+      "fileCategory": "code"
+    },
+    {
+      "path": "Scripts/puzzle_matematicas.gd",
+      "language": "gd",
+      "sizeLines": 146,
+      "fileCategory": "code"
+    },
+    {
+      "path": "Scripts/puzzle_secuencia.gd",
+      "language": "gd",
+      "sizeLines": 156,
+      "fileCategory": "code"
+    },
+    {
+      "path": "Scripts/salto.gd",
+      "language": "gd",
+      "sizeLines": 12,
+      "fileCategory": "code"
+    },
+    {
+      "path": "Scripts/Seguir-Camara.gd",
+      "language": "gd",
+      "sizeLines": 37,
+      "fileCategory": "code"
+    },
+    {
+      "path": "Scripts/sistema_estamina.gd",
+      "language": "gd",
+      "sizeLines": 38,
+      "fileCategory": "code"
+    },
+    {
+      "path": "Scripts/sistema_guardado.gd",
+      "language": "gd",
+      "sizeLines": 171,
+      "fileCategory": "code"
+    },
+    {
+      "path": "Scripts/sombras_plataformas.gd",
+      "language": "gd",
+      "sizeLines": 38,
+      "fileCategory": "code"
+    },
+    {
+      "path": "Scripts/sprite_animado_frames.gd",
+      "language": "gd",
+      "sizeLines": 49,
+      "fileCategory": "code"
+    },
+    {
+      "path": "Scripts/tda_lista_simple.gd",
+      "language": "gd",
+      "sizeLines": 42,
+      "fileCategory": "code"
+    },
+    {
+      "path": "Scripts/totem_jefe.gd",
+      "language": "gd",
+      "sizeLines": 53,
+      "fileCategory": "code"
+    },
+    {
+      "path": "Shaders/filtro_accesibilidad.gdshader",
+      "language": "gdshader",
+      "sizeLines": 75,
+      "fileCategory": "code"
+    },
+    {
+      "path": "Shaders/vigneta_distorsion.gdshader",
+      "language": "gdshader",
+      "sizeLines": 58,
+      "fileCategory": "code"
+    },
+    {
+      "path": "tile_set.tres",
+      "language": "tres",
+      "sizeLines": 423,
+      "fileCategory": "code"
+    }
+  ],
+  "batchImportData": {
+    "Scripts/npc_dialogo.gd": [],
+    "Scripts/perso_der.gd": [],
+    "Scripts/perso_izq.gd": [],
+    "Scripts/perso.gd": [],
+    "Scripts/plataforma_gafas.gd": [],
+    "Scripts/Platform.gd": [],
+    "Scripts/puerta_bloqueada.gd": [],
+    "Scripts/puerta_teletransporte.gd": [],
+    "Scripts/puzzle_base.gd": [],
+    "Scripts/puzzle_gafas.gd": [],
+    "Scripts/puzzle_matematicas.gd": [],
+    "Scripts/puzzle_secuencia.gd": [],
+    "Scripts/salto.gd": [],
+    "Scripts/Seguir-Camara.gd": [],
+    "Scripts/sistema_estamina.gd": [],
+    "Scripts/sistema_guardado.gd": [],
+    "Scripts/sombras_plataformas.gd": [],
+    "Scripts/sprite_animado_frames.gd": [],
+    "Scripts/tda_lista_simple.gd": [],
+    "Scripts/totem_jefe.gd": [],
+    "Shaders/filtro_accesibilidad.gdshader": [],
+    "Shaders/vigneta_distorsion.gdshader": [],
+    "tile_set.tres": []
+  }
+}

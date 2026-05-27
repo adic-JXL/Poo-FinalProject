@@ -1,0 +1,207 @@
+{
+  "scriptCompleted": true,
+  "filesAnalyzed": 25,
+  "filesSkipped": [],
+  "results": [
+    {
+      "path": "Scripts/enemigo_flotante_vertical.gd",
+      "language": "gd",
+      "fileCategory": "code",
+      "totalLines": 10,
+      "nonEmptyLines": 6,
+      "metrics": {}
+    },
+    {
+      "path": "Scripts/enemigo_patrulla.gd",
+      "language": "gd",
+      "fileCategory": "code",
+      "totalLines": 47,
+      "nonEmptyLines": 35,
+      "metrics": {}
+    },
+    {
+      "path": "Scripts/enemigo_perseguidor.gd",
+      "language": "gd",
+      "fileCategory": "code",
+      "totalLines": 105,
+      "nonEmptyLines": 75,
+      "metrics": {}
+    },
+    {
+      "path": "Scripts/estado_jugador_aturdido.gd",
+      "language": "gd",
+      "fileCategory": "code",
+      "totalLines": 14,
+      "nonEmptyLines": 8,
+      "metrics": {}
+    },
+    {
+      "path": "Scripts/estado_jugador_base.gd",
+      "language": "gd",
+      "fileCategory": "code",
+      "totalLines": 27,
+      "nonEmptyLines": 15,
+      "metrics": {}
+    },
+    {
+      "path": "Scripts/estado_jugador_bloqueado.gd",
+      "language": "gd",
+      "fileCategory": "code",
+      "totalLines": 15,
+      "nonEmptyLines": 9,
+      "metrics": {}
+    },
+    {
+      "path": "Scripts/estado_jugador_normal.gd",
+      "language": "gd",
+      "fileCategory": "code",
+      "totalLines": 24,
+      "nonEmptyLines": 16,
+      "metrics": {}
+    },
+    {
+      "path": "Scripts/estado_jugador_sprint.gd",
+      "language": "gd",
+      "fileCategory": "code",
+      "totalLines": 32,
+      "nonEmptyLines": 21,
+      "metrics": {}
+    },
+    {
+      "path": "Scripts/farol_decorativo.gd",
+      "language": "gd",
+      "fileCategory": "code",
+      "totalLines": 230,
+      "nonEmptyLines": 186,
+      "metrics": {}
+    },
+    {
+      "path": "Scripts/fondo_mundo_1.gd",
+      "language": "gd",
+      "fileCategory": "code",
+      "totalLines": 131,
+      "nonEmptyLines": 111,
+      "metrics": {}
+    },
+    {
+      "path": "Scripts/fondo_mundo_final.gd",
+      "language": "gd",
+      "fileCategory": "code",
+      "totalLines": 145,
+      "nonEmptyLines": 125,
+      "metrics": {}
+    },
+    {
+      "path": "Scripts/habilidad_gafas.gd",
+      "language": "gd",
+      "fileCategory": "code",
+      "totalLines": 89,
+      "nonEmptyLines": 61,
+      "metrics": {}
+    },
+    {
+      "path": "Scripts/hud.gd",
+      "language": "gd",
+      "fileCategory": "code",
+      "totalLines": 787,
+      "nonEmptyLines": 645,
+      "metrics": {}
+    },
+    {
+      "path": "Scripts/interactivo_base.gd",
+      "language": "gd",
+      "fileCategory": "code",
+      "totalLines": 51,
+      "nonEmptyLines": 31,
+      "metrics": {}
+    },
+    {
+      "path": "Scripts/jefe_sombras.gd",
+      "language": "gd",
+      "fileCategory": "code",
+      "totalLines": 309,
+      "nonEmptyLines": 234,
+      "metrics": {}
+    },
+    {
+      "path": "Scripts/jugador.gd",
+      "language": "gd",
+      "fileCategory": "code",
+      "totalLines": 1008,
+      "nonEmptyLines": 778,
+      "metrics": {}
+    },
+    {
+      "path": "Scripts/llave_interactiva.gd",
+      "language": "gd",
+      "fileCategory": "code",
+      "totalLines": 84,
+      "nonEmptyLines": 61,
+      "metrics": {}
+    },
+    {
+      "path": "Scripts/main_game.gd",
+      "language": "gd",
+      "fileCategory": "code",
+      "totalLines": 1977,
+      "nonEmptyLines": 1515,
+      "metrics": {}
+    },
+    {
+      "path": "Scripts/mensaje_automatico.gd",
+      "language": "gd",
+      "fileCategory": "code",
+      "totalLines": 69,
+      "nonEmptyLines": 46,
+      "metrics": {}
+    },
+    {
+      "path": "Scripts/menu_pausa.gd",
+      "language": "gd",
+      "fileCategory": "code",
+      "totalLines": 143,
+      "nonEmptyLines": 105,
+      "metrics": {}
+    },
+    {
+      "path": "Scripts/menu.gd",
+      "language": "gd",
+      "fileCategory": "code",
+      "totalLines": 526,
+      "nonEmptyLines": 422,
+      "metrics": {}
+    },
+    {
+      "path": "Scripts/menuOpciones.gd",
+      "language": "gd",
+      "fileCategory": "code",
+      "totalLines": 466,
+      "nonEmptyLines": 369,
+      "metrics": {}
+    },
+    {
+      "path": "Scripts/mundo_2.gd",
+      "language": "gd",
+      "fileCategory": "code",
+      "totalLines": 1813,
+      "nonEmptyLines": 1450,
+      "metrics": {}
+    },
+    {
+      "path": "Scripts/muro_carne.gd",
+      "language": "gd",
+      "fileCategory": "code",
+      "totalLines": 303,
+      "nonEmptyLines": 236,
+      "metrics": {}
+    },
+    {
+      "path": "Scripts/musica_global.gd",
+      "language": "gd",
+      "fileCategory": "code",
+      "totalLines": 78,
+      "nonEmptyLines": 62,
+      "metrics": {}
+    }
+  ]
+}
