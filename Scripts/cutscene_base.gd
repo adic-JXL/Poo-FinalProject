@@ -434,11 +434,11 @@ func _montar_controles_mando() -> void:
 	var titulo := _agregar_label(_stage, "GUIA RAPIDA CON MANDO", Vector2(0, 14), Vector2(760, 28), 14, Color(0.86, 0.94, 0.43, 1.0))
 	titulo.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	var cartas := [
-		{"tecla": "STICK IZQ", "texto": "Moverte", "ayuda": "Tambien sirve la cruceta.", "tipo": "walk"},
-		{"tecla": "BTN SUR", "texto": "Saltar", "ayuda": "Supera huecos y plataformas.", "tipo": "jump"},
+		{"tecla": "CRUZ IZQ - DER", "texto": "Moverte", "ayuda": "Tambien sirve la cruceta.", "tipo": "walk"},
+		{"tecla": "A", "texto": "Saltar", "ayuda": "Supera huecos y plataformas.", "tipo": "jump"},
 		{"tecla": "RT", "texto": "Sprint", "ayuda": "Corre en tramos largos.", "tipo": "run"},
-		{"tecla": "BTN NORTE", "texto": "Gafas", "ayuda": "Revela rutas ocultas.", "tipo": "gafas"},
-		{"tecla": "BTN ESTE", "texto": "Interactuar", "ayuda": "Puertas, pistas y totems.", "tipo": "door"},
+		{"tecla": "Y", "texto": "Gafas", "ayuda": "Revela rutas ocultas.", "tipo": "gafas"},
+		{"tecla": "B", "texto": "Interactuar", "ayuda": "Puertas, pistas y totems.", "tipo": "door"},
 		{"tecla": "START", "texto": "Pausa", "ayuda": "Menu, opciones y reinicio.", "tipo": "pause"},
 	]
 	for i in range(cartas.size()):
