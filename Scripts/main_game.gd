@@ -854,6 +854,8 @@ func _on_llave_interaccion_solicitada() -> void:
 	_tipo_puzzle_activo = &"llave"
 	jugador.establecer_control_habilitado(false)
 	_establecer_enemigos_congelados(true)
+	if hud != null:
+		hud.ocultar_pensamiento_activo()
 	hud.mostrar_mensaje("La llave te arrastra a un ritual. Resuelve la secuencia para reclamarla.")
 	puzzle.iniciar_puzzle()
 
@@ -866,6 +868,8 @@ func _on_puzzle_salon_npc_2_interaccion_solicitada() -> void:
 	_tipo_puzzle_activo = &"salon_npc_2"
 	jugador.establecer_control_habilitado(false)
 	_establecer_enemigos_congelados(true)
+	if hud != null:
+		hud.ocultar_pensamiento_activo()
 	hud.mostrar_mensaje("El cubo del salon responde. Resuelve las sumas para volver.")
 	if puzzle_matematicas != null:
 		puzzle_matematicas.iniciar_puzzle()
@@ -914,6 +918,8 @@ func _on_altar_gafas_interaccion_solicitada() -> void:
 	_tipo_puzzle_activo = &"gafas"
 	jugador.establecer_control_habilitado(false)
 	_establecer_enemigos_congelados(true)
+	if hud != null:
+		hud.ocultar_pensamiento_activo()
 	hud.mostrar_mensaje("Los glifos aparecen en el altar. Memoriza el patron antes de que se desvanezca.")
 	puzzle_gafas.iniciar_puzzle()
 

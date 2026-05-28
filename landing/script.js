@@ -1,9 +1,15 @@
 const spriteSets = {
-  player: [
-    "./assets/img/personaje/idle_00.png",
-    "./assets/img/personaje/idle_01.png",
-    "./assets/img/personaje/idle_02.png",
-    "./assets/img/personaje/idle_03.png",
+  mary: [
+    "../Imagenes/Personaje_Girl/sin_gafas/idle/idle_00.png",
+    "../Imagenes/Personaje_Girl/sin_gafas/idle/idle_01.png",
+    "../Imagenes/Personaje_Girl/sin_gafas/idle/idle_02.png",
+    "../Imagenes/Personaje_Girl/sin_gafas/idle/idle_03.png",
+  ],
+  fabian: [
+    "../Imagenes/Personaje_Boy/sin_gafas/idle/idle_00.png",
+    "../Imagenes/Personaje_Boy/sin_gafas/idle/idle_01.png",
+    "../Imagenes/Personaje_Boy/sin_gafas/idle/idle_02.png",
+    "../Imagenes/Personaje_Boy/sin_gafas/idle/idle_03.png",
   ],
   glasses: [
     "./assets/img/objetos/gafas_00.png",
@@ -40,7 +46,8 @@ const animateSprite = (selector, frames, speed = 180) => {
   }, speed);
 };
 
-animateSprite("#playerSprite", spriteSets.player, 190);
+animateSprite("#marySprite", spriteSets.mary, 190);
+animateSprite("#fabianSprite", spriteSets.fabian, 205);
 animateSprite("#glassesSprite", spriteSets.glasses, 150);
 animateSprite("#slimeSprite", spriteSets.slime, 160);
 animateSprite("#wallSprite", spriteSets.wall, 130);

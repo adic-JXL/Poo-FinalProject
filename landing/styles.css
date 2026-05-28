@@ -393,15 +393,42 @@ p {
 }
 
 .player {
-  width: 88px;
-  left: 45%;
+  width: 86px;
   bottom: 23%;
+}
+
+.player-mary {
+  left: 28%;
+}
+
+.player-fabian {
+  left: 56%;
+}
+
+.duo-badge {
+  position: absolute;
+  top: 22%;
+  z-index: 7;
+  padding: 0.45rem 0.65rem;
+  border: 2px solid rgba(213, 238, 65, 0.42);
+  background: rgba(9, 13, 16, 0.76);
+  color: var(--lime);
+  font-size: 0.55rem;
+  box-shadow: 5px 5px 0 rgba(0, 0, 0, 0.28);
+}
+
+.duo-badge.mary {
+  left: 22%;
+}
+
+.duo-badge.fabian {
+  left: 55%;
 }
 
 .glasses {
   width: 74px;
-  left: 26%;
-  bottom: 44%;
+  left: 43%;
+  bottom: 45%;
   animation: sparkle 1.6s steps(3) infinite;
 }
 
@@ -443,6 +470,7 @@ p {
 
 .panel-section,
 .architecture-section,
+.story-section,
 .timeline-section {
   background: linear-gradient(180deg, rgba(7, 9, 16, 0), rgba(7, 9, 16, 0.84));
 }
@@ -454,6 +482,7 @@ p {
 
 .feature-grid,
 .architecture-grid,
+.story-grid,
 .world-showcase,
 .result-list,
 .metrics {
@@ -463,6 +492,17 @@ p {
 
 .feature-grid {
   grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.story-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.story-card {
+  padding: 1.35rem;
+  border: 2px solid rgba(94, 215, 239, 0.22);
+  background: var(--panel-soft);
+  box-shadow: 8px 8px 0 rgba(0, 0, 0, 0.28);
 }
 
 .feature-card,
@@ -772,6 +812,7 @@ code {
 
   .hero-grid,
   .feature-grid,
+  .story-grid,
   .result-list,
   .architecture-grid,
   .world-showcase,

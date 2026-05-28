@@ -1,6 +1,27 @@
 extends Node2D
 class_name SpriteAnimadoFrames
 
+const TEXTURAS_PRECARGADAS := {
+	"res://Imagenes/Enemigos/esqueleto/esqueleto_00.png": preload("res://Imagenes/Enemigos/esqueleto/esqueleto_00.png"),
+	"res://Imagenes/Enemigos/esqueleto/esqueleto_01.png": preload("res://Imagenes/Enemigos/esqueleto/esqueleto_01.png"),
+	"res://Imagenes/Enemigos/esqueleto/esqueleto_02.png": preload("res://Imagenes/Enemigos/esqueleto/esqueleto_02.png"),
+	"res://Imagenes/Enemigos/esqueleto/esqueleto_03.png": preload("res://Imagenes/Enemigos/esqueleto/esqueleto_03.png"),
+	"res://Imagenes/Enemigos/murcielago/murcielago_00.png": preload("res://Imagenes/Enemigos/murcielago/murcielago_00.png"),
+	"res://Imagenes/Enemigos/murcielago/murcielago_01.png": preload("res://Imagenes/Enemigos/murcielago/murcielago_01.png"),
+	"res://Imagenes/Enemigos/murcielago/murcielago_02.png": preload("res://Imagenes/Enemigos/murcielago/murcielago_02.png"),
+	"res://Imagenes/Enemigos/murcielago/murcielago_03.png": preload("res://Imagenes/Enemigos/murcielago/murcielago_03.png"),
+	"res://Imagenes/Enemigos/rey_slime/rey_slime_00.png": preload("res://Imagenes/Enemigos/rey_slime/rey_slime_00.png"),
+	"res://Imagenes/Enemigos/rey_slime/rey_slime_01.png": preload("res://Imagenes/Enemigos/rey_slime/rey_slime_01.png"),
+	"res://Imagenes/Enemigos/rey_slime/rey_slime_02.png": preload("res://Imagenes/Enemigos/rey_slime/rey_slime_02.png"),
+	"res://Imagenes/Enemigos/rey_slime/rey_slime_03.png": preload("res://Imagenes/Enemigos/rey_slime/rey_slime_03.png"),
+	"res://Imagenes/Enemigos/rey_slime/rey_slime_04.png": preload("res://Imagenes/Enemigos/rey_slime/rey_slime_04.png"),
+	"res://Imagenes/Enemigos/slime/slime_00.png": preload("res://Imagenes/Enemigos/slime/slime_00.png"),
+	"res://Imagenes/Enemigos/slime/slime_01.png": preload("res://Imagenes/Enemigos/slime/slime_01.png"),
+	"res://Imagenes/Enemigos/slime/slime_02.png": preload("res://Imagenes/Enemigos/slime/slime_02.png"),
+	"res://Imagenes/Enemigos/slime/slime_03.png": preload("res://Imagenes/Enemigos/slime/slime_03.png"),
+	"res://Imagenes/Enemigos/slime/slime_04.png": preload("res://Imagenes/Enemigos/slime/slime_04.png"),
+}
+
 @export var rutas_frames: PackedStringArray = []
 @export var fps: float = 7.0
 @export var reproducir: bool = true
@@ -42,7 +63,11 @@ func _cargar_frames() -> void:
 
 
 func _cargar_textura_png(ruta: String) -> Texture2D:
-	var textura_importada := load(ruta) as Texture2D
+	var textura_importada := TEXTURAS_PRECARGADAS.get(ruta) as Texture2D
+	if textura_importada != null:
+		return textura_importada
+
+	textura_importada = load(ruta) as Texture2D
 	if textura_importada != null:
 		return textura_importada
 

@@ -19,42 +19,6 @@ const SKINS_JUGADOR := {
 		"con_gafas": "res://Imagenes/Personaje_Boy/con_gafas/",
 	},
 }
-const RUTAS_TEXTURAS_IDLE := [
-	"res://Imagenes/Personaje/idle_00.png",
-	"res://Imagenes/Personaje/idle_01.png",
-	"res://Imagenes/Personaje/idle_02.png",
-	"res://Imagenes/Personaje/idle_03.png",
-]
-const RUTAS_TEXTURAS_CAMINAR := [
-	"res://Imagenes/Personaje/walk_00.png",
-	"res://Imagenes/Personaje/walk_01.png",
-	"res://Imagenes/Personaje/walk_02.png",
-	"res://Imagenes/Personaje/walk_03.png",
-]
-const RUTAS_TEXTURAS_CORRER := [
-	"res://Imagenes/Personaje/run_00.png",
-	"res://Imagenes/Personaje/run_01.png",
-	"res://Imagenes/Personaje/run_02.png",
-	"res://Imagenes/Personaje/run_03.png",
-]
-const RUTAS_TEXTURAS_SALTAR := [
-	"res://Imagenes/Personaje/jump_00.png",
-	"res://Imagenes/Personaje/jump_01.png",
-	"res://Imagenes/Personaje/jump_02.png",
-	"res://Imagenes/Personaje/jump_03.png",
-	"res://Imagenes/Personaje/jump_04.png",
-]
-const RUTAS_TEXTURAS_DANIO := [
-	"res://Imagenes/Personaje/hurt_00.png",
-	"res://Imagenes/Personaje/hurt_01.png",
-	"res://Imagenes/Personaje/hurt_02.png",
-]
-const RUTAS_TEXTURAS_MUERTE := [
-	"res://Imagenes/Personaje/death_00.png",
-	"res://Imagenes/Personaje/death_01.png",
-	"res://Imagenes/Personaje/death_02.png",
-	"res://Imagenes/Personaje/death_03.png",
-]
 static var _stream_pisada_cache: AudioStreamWAV
 static var _stream_gafas_cache: AudioStreamWAV
 static var _stream_danio_cache: AudioStreamWAV
@@ -871,7 +835,7 @@ func _cargar_texturas_jugador() -> void:
 			_frames_muerte.append(tex)
 
 	if _frames_idle.is_empty():
-		_frames_idle.append(_cargar_textura_png("res://Imagenes/Personaje/player_idle.png"))
+		_frames_idle.append(_cargar_textura_png(prefijo + "idle/idle_00.png"))
 	if _frames_caminar.is_empty():
 		_frames_caminar = _frames_idle.duplicate()
 	if _frames_correr.is_empty():

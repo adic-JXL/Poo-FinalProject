@@ -3,25 +3,7 @@ class_name CutsceneBase
 
 const FUENTE_PIXEL := preload("res://Fuentes/joystix monospace.otf")
 const LISTA_SIMPLE_SCRIPT := preload("res://Scripts/tda_lista_simple.gd")
-
-const FRAMES_IDLE := [
-	"res://Imagenes/Personaje/idle_00.png",
-	"res://Imagenes/Personaje/idle_01.png",
-	"res://Imagenes/Personaje/idle_02.png",
-	"res://Imagenes/Personaje/idle_03.png",
-]
-const FRAMES_WALK := [
-	"res://Imagenes/Personaje/walk_00.png",
-	"res://Imagenes/Personaje/walk_01.png",
-	"res://Imagenes/Personaje/walk_02.png",
-	"res://Imagenes/Personaje/walk_03.png",
-]
-const FRAMES_RUN := [
-	"res://Imagenes/Personaje/run_00.png",
-	"res://Imagenes/Personaje/run_01.png",
-	"res://Imagenes/Personaje/run_02.png",
-	"res://Imagenes/Personaje/run_03.png",
-]
+const SistemaGuardadoClass = preload("res://Scripts/sistema_guardado.gd")
 const FRAMES_GAFAS := [
 	"res://Imagenes/Objetos/gafas_00.png",
 	"res://Imagenes/Objetos/gafas_01.png",
@@ -61,11 +43,13 @@ var _animaciones_frame: Array[Dictionary] = []
 var _tweens_loop: Array[Tween] = []
 var _cerrar_cinematica_solicitado: bool = false
 var _escala_tiempo_previa: float = 1.0
+var _skin_jugador_activa: String = "girl"
 
 
 func _ready() -> void:
 	layer = 90
 	process_mode = Node.PROCESS_MODE_ALWAYS
+	_skin_jugador_activa = _obtener_skin_jugador_activa()
 	_construir_ui()
 
 
@@ -384,7 +368,7 @@ func _montar_intro_escuela() -> void:
 		_agregar_rect(_stage, Vector2(x + 8, 70), Vector2(38, 5), Color(0.35, 0.50, 0.60, 1.0), "Rejilla")
 		_agregar_rect(_stage, Vector2(x + 8, 112), Vector2(38, 5), Color(0.35, 0.50, 0.60, 0.75), "Rejilla2")
 
-	var player := _crear_sprite_animado(_stage, FRAMES_WALK, Vector2(72, 144), Vector2(96, 120), 7.0, "JugadorWalk")
+	var player := _crear_sprite_animado(_stage, _obtener_frames_jugador("walk"), Vector2(72, 144), Vector2(96, 120), 7.0, "JugadorWalk")
 	player.modulate = Color(1, 1, 1, 1)
 	var tween_player := create_tween()
 	tween_player.set_ignore_time_scale(true)
@@ -451,7 +435,7 @@ func _montar_controles_mando() -> void:
 func _montar_objetivos_mundo_1() -> void:
 	_agregar_fondo_textura(TEXTURA_FONDO_MUNDO_1, Color(0.34, 0.48, 0.54, 0.82))
 	_agregar_rect(_stage, Vector2(0, 220), Vector2(760, 65), Color(0.08, 0.10, 0.10, 0.90), "SueloObjetivos")
-	var player := _crear_sprite_animado(_stage, FRAMES_IDLE, Vector2(52, 154), Vector2(86, 104), 5.0, "JugadorObjetivos")
+	var player := _crear_sprite_animado(_stage, _obtener_frames_jugador("idle"), Vector2(52, 154), Vector2(86, 104), 5.0, "JugadorObjetivos")
 	_animar_pulso(player, Vector2.ONE, Vector2(1.04, 1.04), 0.9)
 
 	var objetivos := [
@@ -501,7 +485,7 @@ func _montar_transicion_mundo_2() -> void:
 	var puerta_abierta := _crear_sprite_estatico(_stage, TEXTURA_PUERTA_ABIERTA, Vector2(514, 62), Vector2(120, 174), "PuertaAbierta")
 	puerta_abierta.modulate.a = 0.0
 
-	var player := _crear_sprite_animado(_stage, FRAMES_RUN, Vector2(52, 150), Vector2(88, 108), 10.0, "JugadorRun")
+	var player := _crear_sprite_animado(_stage, _obtener_frames_jugador("run"), Vector2(52, 150), Vector2(88, 108), 10.0, "JugadorRun")
 	var muro := _crear_sprite_animado(_stage, FRAMES_MURO, Vector2(-125, 42), Vector2(185, 222), 8.0, "MuroVerde")
 	muro.modulate = Color(1, 1, 1, 0.92)
 	muro.flip_h = true
@@ -530,7 +514,7 @@ func _montar_final_casa() -> void:
 	var ventana := _agregar_rect(_stage, Vector2(605, 128), Vector2(28, 30), Color(1.0, 0.80, 0.42, 0.92), "Ventana")
 	_animar_pulso(ventana, Vector2(1.0, 1.0), Vector2(1.08, 1.08), 0.9)
 
-	var player := _crear_sprite_animado(_stage, FRAMES_WALK, Vector2(52, 152), Vector2(92, 112), 7.0, "JugadorCasa")
+	var player := _crear_sprite_animado(_stage, _obtener_frames_jugador("walk"), Vector2(52, 152), Vector2(92, 112), 7.0, "JugadorCasa")
 	var tween := create_tween()
 	tween.set_ignore_time_scale(true)
 	tween.set_trans(Tween.TRANS_SINE)
@@ -562,7 +546,7 @@ func _montar_enhorabuena() -> void:
 	subtexto.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	subtexto.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 
-	var player := _crear_sprite_animado(_stage, FRAMES_IDLE, Vector2(332, 186), Vector2(96, 94), 5.0, "JugadorFinal")
+	var player := _crear_sprite_animado(_stage, _obtener_frames_jugador("idle"), Vector2(332, 186), Vector2(96, 94), 5.0, "JugadorFinal")
 	_animar_pulso(player, Vector2.ONE, Vector2(1.04, 1.04), 0.9)
 
 
@@ -624,12 +608,12 @@ func _crear_tarjeta_control(posicion: Vector2, datos: Dictionary, indice: int) -
 
 	match String(datos.get("tipo", "")):
 		"walk":
-			_crear_sprite_animado(tarjeta, FRAMES_WALK, Vector2(22, 35), Vector2(44, 42), 6.0, "IconWalk")
+			_crear_sprite_animado(tarjeta, _obtener_frames_jugador("walk"), Vector2(22, 35), Vector2(44, 42), 6.0, "IconWalk")
 		"jump":
-			var saltar := _crear_sprite_animado(tarjeta, FRAMES_IDLE, Vector2(24, 36), Vector2(40, 40), 4.0, "IconJump")
+			var saltar := _crear_sprite_animado(tarjeta, _obtener_frames_jugador("jump"), Vector2(24, 36), Vector2(40, 40), 4.0, "IconJump")
 			_animar_salto(saltar)
 		"run":
-			_crear_sprite_animado(tarjeta, FRAMES_RUN, Vector2(20, 36), Vector2(48, 40), 10.0, "IconRun")
+			_crear_sprite_animado(tarjeta, _obtener_frames_jugador("run"), Vector2(20, 36), Vector2(48, 40), 10.0, "IconRun")
 		"gafas":
 			var gafas := _crear_sprite_animado(tarjeta, FRAMES_GAFAS, Vector2(18, 48), Vector2(52, 28), 7.0, "IconGafas")
 			_animar_pulso(gafas, Vector2.ONE, Vector2(1.12, 1.12), 0.65)
@@ -763,6 +747,53 @@ func _cargar_frames(rutas: Array) -> Array[Texture2D]:
 		if textura != null:
 			frames.append(textura)
 	return frames
+
+
+func _obtener_skin_jugador_activa() -> String:
+	if SistemaGuardadoClass != null and SistemaGuardadoClass.has_method("obtener_skin_jugador"):
+		return String(SistemaGuardadoClass.obtener_skin_jugador())
+	return "girl"
+
+
+func _obtener_prefijo_skin_jugador() -> String:
+	var skin := _skin_jugador_activa.to_lower()
+	if skin == "boy":
+		return "res://Imagenes/Personaje_Boy/sin_gafas/"
+	return "res://Imagenes/Personaje_Girl/sin_gafas/"
+
+
+func _obtener_frames_jugador(tipo: String) -> Array[String]:
+	var prefijo := _obtener_prefijo_skin_jugador()
+	match tipo:
+		"walk":
+			return [
+				prefijo + "walk/walk_00.png",
+				prefijo + "walk/walk_01.png",
+				prefijo + "walk/walk_02.png",
+				prefijo + "walk/walk_03.png",
+			]
+		"run":
+			return [
+				prefijo + "run/run_00.png",
+				prefijo + "run/run_01.png",
+				prefijo + "run/run_02.png",
+				prefijo + "run/run_03.png",
+			]
+		"jump":
+			return [
+				prefijo + "jump/jump_00.png",
+				prefijo + "jump/jump_01.png",
+				prefijo + "jump/jump_02.png",
+				prefijo + "jump/jump_03.png",
+				prefijo + "jump/jump_04.png",
+			]
+		_:
+			return [
+				prefijo + "idle/idle_00.png",
+				prefijo + "idle/idle_01.png",
+				prefijo + "idle/idle_02.png",
+				prefijo + "idle/idle_03.png",
+			]
 
 
 func _animar_pulso(nodo: Control, escala_base: Vector2, escala_objetivo: Vector2, duracion: float) -> void:

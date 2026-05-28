@@ -21,6 +21,7 @@
     </a>
     <nav class="nav-links" aria-label="Navegacion principal">
       <a href="#concepto">Concepto</a>
+      <a href="#historia">Historia</a>
       <a href="#resultados">Resultados</a>
       <a href="#arquitectura">POO</a>
       <a href="#mundos">Mundos</a>
@@ -42,7 +43,8 @@
           <h1>Deep Shadow</h1>
           <p class="hero-lead">
             Un juego pixel art en Godot sobre avanzar entre sombras, bullying y claridad.
-            Las gafas no son una debilidad: son la mecanica central para revelar caminos.
+            Fabian y Mary atraviesan una escuela rota por el miedo, pero el juego siempre deja
+            una salida: mirar distinto.
           </p>
           <div class="hero-actions">
             <a class="button primary" href="#resultados">Ver resultados</a>
@@ -63,11 +65,14 @@
               </span>
             </div>
             <div class="stage-floor"></div>
-            <img id="playerSprite" class="sprite player" src="./assets/img/personaje/idle_00.png" alt="Jugador" />
+            <div class="duo-badge mary">Mary</div>
+            <div class="duo-badge fabian">Fabian</div>
+            <img id="marySprite" class="sprite player player-mary" src="../Imagenes/Personaje_Girl/sin_gafas/idle/idle_00.png" alt="Mary" />
+            <img id="fabianSprite" class="sprite player player-fabian" src="../Imagenes/Personaje_Boy/sin_gafas/idle/idle_00.png" alt="Fabian" />
             <img id="glassesSprite" class="sprite glasses" src="./assets/img/objetos/gafas_00.png" alt="Gafas" />
             <img id="slimeSprite" class="sprite slime" src="./assets/img/enemigos/slime/slime_00.png" alt="Slime" />
             <div class="thought-bubble">
-              <span>Al final el mundo no se ve tan mal.</span>
+              <span>Con las gafas, el pasillo ya no me gana.</span>
             </div>
           </div>
         </div>
@@ -94,12 +99,50 @@
         <article class="feature-card reveal delay-1">
           <span class="card-number">02</span>
           <h3>Bullying como sistema</h3>
-          <p>Los pensamientos aparecen como burbujas cercanas al personaje para reforzar el tono psicologico.</p>
+          <p>Los pensamientos aparecen como burbujas cercanas al personaje para reforzar el tono psicológico.</p>
         </article>
         <article class="feature-card reveal delay-2">
           <span class="card-number">03</span>
           <h3>Progreso jugable</h3>
           <p>Puertas, checkpoints, puzzles, jefe slime y persecucion final forman una ruta completa.</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="historia" class="section story-section">
+      <div class="section-heading reveal">
+        <p class="eyebrow">Historia</p>
+        <h2>Fabian y Mary en la misma escuela, pero no en la misma realidad</h2>
+        <p>
+          Deep Shadow parte de una idea simple: el bullying no solo empuja al personaje,
+            también distorsiona lo que cree ver. Fabian y Mary representan dos formas de
+            atravesar la misma presión, pero ambos tienen algo en común: el mundo cambia
+          cuando se atreven a mirarlo con claridad.
+        </p>
+      </div>
+
+      <div class="story-grid">
+        <article class="story-card reveal">
+          <h3>Fabian</h3>
+          <p>
+            El chico del recorrido inicial. Aprende a moverse entre pasillos, sombras y
+            soluciones invisibles hasta descubrir que la claridad no llega de golpe.
+          </p>
+        </article>
+        <article class="story-card reveal delay-1">
+          <h3>Mary</h3>
+          <p>
+            La versión que acompaña la identidad del proyecto en la web y en la skin girl.
+            Su presencia refuerza que la historia no trata de un solo protagonista, sino de
+            una experiencia compartida frente al miedo.
+          </p>
+        </article>
+        <article class="story-card reveal delay-2">
+          <h3>Escuela y mundo 2</h3>
+          <p>
+            El primer mundo enseña a observar; el segundo convierte la presión en persecución
+            directa. Ahí el muro verde deja de ser metáfora y se vuelve urgencia.
+          </p>
         </article>
       </div>
     </section>
@@ -150,8 +193,8 @@
         <p class="eyebrow">Programacion Orientada a Objetos</p>
         <h2>Arquitectura</h2>
         <p>
-          La logica se divide en controladores de mundo, entidades, sistemas de apoyo, vistas y jerarquias
-          reutilizables. Esto deja claro el uso de herencia, composicion, encapsulamiento y señales.
+          La lógica se divide en controladores de mundo, entidades, sistemas de apoyo, vistas y jerarquías
+          reutilizables. Esto deja claro el uso de herencia, composición, encapsulamiento y señales.
         </p>
       </div>
 
@@ -185,7 +228,7 @@
         <article class="world-card reveal">
           <div class="world-art forest">
             <img src="./assets/img/objetos/puerta_cerrada_final.png" alt="Puerta del mundo 1" />
-            <img class="mini-player" src="./assets/img/personaje/walk_00.png" alt="Jugador caminando" />
+            <img class="mini-player" src="../Imagenes/Personaje_Girl/sin_gafas/walk/walk_00.png" alt="Mary caminando" />
           </div>
           <h3>Mundo 1: claridad oculta</h3>
           <p>El jugador explora, activa las gafas, revela plataformas y derrota al jefe sin atacar directamente.</p>
@@ -194,7 +237,7 @@
         <article class="world-card reveal delay-1">
           <div class="world-art final">
             <img id="wallSprite" class="wall" src="./assets/img/enemigos/muro_verde/muro_verde_00.png" alt="Muro verde" />
-            <img class="mini-player running" src="./assets/img/personaje/run_00.png" alt="Jugador corriendo" />
+            <img class="mini-player running" src="../Imagenes/Personaje_Boy/sin_gafas/run/run_00.png" alt="Fabian corriendo" />
           </div>
           <h3>Mundo 2: persecucion</h3>
           <p>Un muro gigante representa insultos y presion. Si alcanza al jugador, la carrera reinicia.</p>
@@ -229,7 +272,7 @@
     </section>
   </main>
 
-  <footer id="creditos" class="site-footer">
+    <footer id="creditos" class="site-footer">
     <div>
       <p class="eyebrow">Equipo</p>
       <h2>Pinneapple Engine</h2>

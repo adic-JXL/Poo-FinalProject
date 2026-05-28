@@ -6,12 +6,12 @@ const CUTSCENE_BASE_SCRIPT := preload("res://Scripts/cutscene_base.gd")
 const FUENTE_PIXEL := preload("res://Fuentes/joystix monospace.otf")
 const SKINS := {
 	"girl": {
-		"titulo": "GIRL",
+		"titulo": "MARY",
 		"preview": "res://Imagenes/Personaje_Girl/sin_gafas/idle/idle_00.png",
 		"borde": Color(0.98, 0.63, 0.76, 1.0),
 	},
 	"boy": {
-		"titulo": "BOY",
+		"titulo": "FABIAN",
 		"preview": "res://Imagenes/Personaje_Boy/sin_gafas/idle/idle_00.png",
 		"borde": Color(0.55, 0.82, 0.98, 1.0),
 	},
@@ -139,7 +139,7 @@ func _crear_selector_slots() -> void:
 	vbox.add_child(titulo)
 
 	var subtitulo := Label.new()
-	subtitulo.text = "Elige un espacio, mira la preview y decide si quieres entrar con GIRL o BOY."
+	subtitulo.text = "Elige un espacio, mira la preview y decide si quieres entrar con Mary o Fabian."
 	subtitulo.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	subtitulo.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	subtitulo.add_theme_font_override("font", FUENTE_PIXEL)

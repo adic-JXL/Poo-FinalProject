@@ -12,6 +12,17 @@ const RUTAS_FRAMES_MURO_VERDE := [
 	"res://Imagenes/Enemigos/muro_verde/muro_verde_07.png",
 ]
 
+const TEXTURAS_MURO_VERDE := {
+	"res://Imagenes/Enemigos/muro_verde/muro_verde_00.png": preload("res://Imagenes/Enemigos/muro_verde/muro_verde_00.png"),
+	"res://Imagenes/Enemigos/muro_verde/muro_verde_01.png": preload("res://Imagenes/Enemigos/muro_verde/muro_verde_01.png"),
+	"res://Imagenes/Enemigos/muro_verde/muro_verde_02.png": preload("res://Imagenes/Enemigos/muro_verde/muro_verde_02.png"),
+	"res://Imagenes/Enemigos/muro_verde/muro_verde_03.png": preload("res://Imagenes/Enemigos/muro_verde/muro_verde_03.png"),
+	"res://Imagenes/Enemigos/muro_verde/muro_verde_04.png": preload("res://Imagenes/Enemigos/muro_verde/muro_verde_04.png"),
+	"res://Imagenes/Enemigos/muro_verde/muro_verde_05.png": preload("res://Imagenes/Enemigos/muro_verde/muro_verde_05.png"),
+	"res://Imagenes/Enemigos/muro_verde/muro_verde_06.png": preload("res://Imagenes/Enemigos/muro_verde/muro_verde_06.png"),
+	"res://Imagenes/Enemigos/muro_verde/muro_verde_07.png": preload("res://Imagenes/Enemigos/muro_verde/muro_verde_07.png"),
+}
+
 signal jugador_alcanzado
 
 @export var velocidad_base: float = 72.0
@@ -67,8 +78,8 @@ func configurar_objetivo(jugador: Node2D) -> void:
 
 func establecer_activo(activo: bool) -> void:
 	_activo = activo
-	monitoring = activo
-	monitorable = activo
+	set_deferred("monitoring", activo)
+	set_deferred("monitorable", activo)
 
 
 func establecer_congelado(congelado: bool) -> void:
@@ -295,9 +306,11 @@ func _cargar_frames_muro_verde() -> Array[Texture2D]:
 
 	var frames: Array[Texture2D] = []
 	for ruta in RUTAS_FRAMES_MURO_VERDE:
-		if not ResourceLoader.exists(ruta):
+		var textura := TEXTURAS_MURO_VERDE.get(ruta) as Texture2D
+		if textura == null:
+			textura = load(ruta) as Texture2D
+		if textura == null and not ResourceLoader.exists(ruta):
 			continue
-		var textura := load(ruta) as Texture2D
 		if textura != null:
 			frames.append(textura)
 	return frames
