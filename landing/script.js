@@ -1,15 +1,15 @@
 const spriteSets = {
   mary: [
-    "../Imagenes/Personaje_Girl/sin_gafas/idle/idle_00.png",
-    "../Imagenes/Personaje_Girl/sin_gafas/idle/idle_01.png",
-    "../Imagenes/Personaje_Girl/sin_gafas/idle/idle_02.png",
-    "../Imagenes/Personaje_Girl/sin_gafas/idle/idle_03.png",
+    "./assets/img/personajes/girl/sin_gafas/idle/idle_00.png",
+    "./assets/img/personajes/girl/sin_gafas/idle/idle_01.png",
+    "./assets/img/personajes/girl/sin_gafas/idle/idle_02.png",
+    "./assets/img/personajes/girl/sin_gafas/idle/idle_03.png",
   ],
   fabian: [
-    "../Imagenes/Personaje_Boy/sin_gafas/idle/idle_00.png",
-    "../Imagenes/Personaje_Boy/sin_gafas/idle/idle_01.png",
-    "../Imagenes/Personaje_Boy/sin_gafas/idle/idle_02.png",
-    "../Imagenes/Personaje_Boy/sin_gafas/idle/idle_03.png",
+    "./assets/img/personajes/boy/sin_gafas/idle/idle_00.png",
+    "./assets/img/personajes/boy/sin_gafas/idle/idle_01.png",
+    "./assets/img/personajes/boy/sin_gafas/idle/idle_02.png",
+    "./assets/img/personajes/boy/sin_gafas/idle/idle_03.png",
   ],
   glasses: [
     "./assets/img/objetos/gafas_00.png",
