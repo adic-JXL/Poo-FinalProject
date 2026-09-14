@@ -1,0 +1,1317 @@
+{
+  "scriptCompleted": true,
+  "filesAnalyzed": 5,
+  "filesSkipped": [],
+  "results": [
+    {
+      "path": "docs/EXPLICACION_COMPLETA_PROYECTO.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 891,
+      "nonEmptyLines": 584,
+      "sections": [
+        {
+          "heading": "Explicacion completa del proyecto Deep Shadow",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "1. Vision general del proyecto",
+          "level": 2,
+          "line": 5
+        },
+        {
+          "heading": "2. Estructura general del proyecto",
+          "level": 2,
+          "line": 23
+        },
+        {
+          "heading": "3. Como pensar la arquitectura del juego",
+          "level": 2,
+          "line": 35
+        },
+        {
+          "heading": "4. Controladores principales de mundo",
+          "level": 2,
+          "line": 50
+        },
+        {
+          "heading": "4.1 `MainGame`",
+          "level": 3,
+          "line": 52
+        },
+        {
+          "heading": "4.2 `Mundo2`",
+          "level": 3,
+          "line": 74
+        },
+        {
+          "heading": "5. Entidad principal: el jugador",
+          "level": 2,
+          "line": 96
+        },
+        {
+          "heading": "5.1 Responsabilidades del jugador",
+          "level": 3,
+          "line": 102
+        },
+        {
+          "heading": "5.2 Encapsulamiento aplicado",
+          "level": 3,
+          "line": 116
+        },
+        {
+          "heading": "5.3 Composicion dentro del jugador",
+          "level": 3,
+          "line": 128
+        },
+        {
+          "heading": "6. Patron State en el jugador",
+          "level": 2,
+          "line": 141
+        },
+        {
+          "heading": "6.1 Que problema resuelve",
+          "level": 3,
+          "line": 153
+        },
+        {
+          "heading": "6.2 Como funciona",
+          "level": 3,
+          "line": 164
+        },
+        {
+          "heading": "6.3 Ventaja academica",
+          "level": 3,
+          "line": 181
+        },
+        {
+          "heading": "7. Sistema de estamina",
+          "level": 2,
+          "line": 190
+        },
+        {
+          "heading": "7.1 Que hace",
+          "level": 3,
+          "line": 196
+        },
+        {
+          "heading": "7.2 Por que esta separado",
+          "level": 3,
+          "line": 203
+        },
+        {
+          "heading": "8. Sistema de gafas",
+          "level": 2,
+          "line": 213
+        },
+        {
+          "heading": "8.1 Funcionalidad",
+          "level": 3,
+          "line": 219
+        },
+        {
+          "heading": "8.2 Valor conceptual",
+          "level": 3,
+          "line": 231
+        },
+        {
+          "heading": "9. Enemigos y jerarquia de herencia",
+          "level": 2,
+          "line": 240
+        },
+        {
+          "heading": "9.1 Que se comparte desde la base",
+          "level": 3,
+          "line": 253
+        },
+        {
+          "heading": "9.2 Por que es un buen ejemplo de POO",
+          "level": 3,
+          "line": 268
+        },
+        {
+          "heading": "10. Jefes",
+          "level": 2,
+          "line": 286
+        },
+        {
+          "heading": "10.1 `JefeSombras`",
+          "level": 3,
+          "line": 288
+        },
+        {
+          "heading": "10.2 `MuroCarne`",
+          "level": 3,
+          "line": 303
+        },
+        {
+          "heading": "11. Interactivos y reutilizacion",
+          "level": 2,
+          "line": 315
+        },
+        {
+          "heading": "11.1 Idea de diseno",
+          "level": 3,
+          "line": 329
+        },
+        {
+          "heading": "11.2 Ventaja",
+          "level": 3,
+          "line": 339
+        },
+        {
+          "heading": "12. Puzzles",
+          "level": 2,
+          "line": 351
+        },
+        {
+          "heading": "12.1 Funcion",
+          "level": 3,
+          "line": 361
+        },
+        {
+          "heading": "12.2 Por que es importante",
+          "level": 3,
+          "line": 373
+        },
+        {
+          "heading": "13. HUD e interfaz",
+          "level": 2,
+          "line": 383
+        },
+        {
+          "heading": "13.1 Que muestra",
+          "level": 3,
+          "line": 389
+        },
+        {
+          "heading": "13.2 Patron Observer con senales",
+          "level": 3,
+          "line": 400
+        },
+        {
+          "heading": "14. Menu de pausa, menu principal y opciones",
+          "level": 2,
+          "line": 420
+        },
+        {
+          "heading": "14.1 Menu principal",
+          "level": 3,
+          "line": 428
+        },
+        {
+          "heading": "14.2 Menu pausa",
+          "level": 3,
+          "line": 438
+        },
+        {
+          "heading": "14.3 Menu de opciones",
+          "level": 3,
+          "line": 447
+        },
+        {
+          "heading": "15. Sistema de guardado",
+          "level": 2,
+          "line": 459
+        },
+        {
+          "heading": "15.1 Que hace",
+          "level": 3,
+          "line": 463
+        },
+        {
+          "heading": "15.2 Como funciona",
+          "level": 3,
+          "line": 476
+        },
+        {
+          "heading": "15.3 Por que esta bien disenado",
+          "level": 3,
+          "line": 496
+        },
+        {
+          "heading": "16. TDA implementado: lista enlazada simple",
+          "level": 2,
+          "line": 500
+        },
+        {
+          "heading": "16.1 Estructura",
+          "level": 3,
+          "line": 506
+        },
+        {
+          "heading": "16.2 Donde se usa",
+          "level": 3,
+          "line": 521
+        },
+        {
+          "heading": "16.3 Por que vale la pena defenderlo",
+          "level": 3,
+          "line": 527
+        },
+        {
+          "heading": "17. Cinematicas y presentacion narrativa",
+          "level": 2,
+          "line": 538
+        },
+        {
+          "heading": "17.1 Que hace",
+          "level": 3,
+          "line": 542
+        },
+        {
+          "heading": "17.2 Por que es interesante",
+          "level": 3,
+          "line": 553
+        },
+        {
+          "heading": "18. Parte grafica y visual",
+          "level": 2,
+          "line": 565
+        },
+        {
+          "heading": "18.1 Animacion del personaje",
+          "level": 3,
+          "line": 569
+        },
+        {
+          "heading": "18.2 Distorsion visual y vigneta",
+          "level": 3,
+          "line": 577
+        },
+        {
+          "heading": "18.3 Fondos y parallax",
+          "level": 3,
+          "line": 597
+        },
+        {
+          "heading": "18.4 Sombras y profundidad",
+          "level": 3,
+          "line": 610
+        },
+        {
+          "heading": "19. Parte sonora",
+          "level": 2,
+          "line": 616
+        },
+        {
+          "heading": "20. Camaras",
+          "level": 2,
+          "line": 635
+        },
+        {
+          "heading": "20.1 Mundo 1",
+          "level": 3,
+          "line": 639
+        },
+        {
+          "heading": "20.2 Mundo 2",
+          "level": 3,
+          "line": 646
+        },
+        {
+          "heading": "21. Checkpoints y progresion",
+          "level": 2,
+          "line": 655
+        },
+        {
+          "heading": "22. Puertas y transiciones",
+          "level": 2,
+          "line": 668
+        },
+        {
+          "heading": "23. NPCs, dialogos y pensamientos",
+          "level": 2,
+          "line": 685
+        },
+        {
+          "heading": "24. Que patrones de diseno hay realmente",
+          "level": 2,
+          "line": 700
+        },
+        {
+          "heading": "24.1 State",
+          "level": 3,
+          "line": 702
+        },
+        {
+          "heading": "24.2 Observer",
+          "level": 3,
+          "line": 706
+        },
+        {
+          "heading": "24.3 Template Method o base reutilizable",
+          "level": 3,
+          "line": 715
+        },
+        {
+          "heading": "24.4 Herencia y polimorfismo",
+          "level": 3,
+          "line": 725
+        },
+        {
+          "heading": "24.5 Composicion",
+          "level": 3,
+          "line": 729
+        },
+        {
+          "heading": "25. Que estructuras y conceptos OO se usaron",
+          "level": 2,
+          "line": 739
+        },
+        {
+          "heading": "25.1 Clases",
+          "level": 3,
+          "line": 741
+        },
+        {
+          "heading": "25.2 Objetos",
+          "level": 3,
+          "line": 745
+        },
+        {
+          "heading": "25.3 Herencia",
+          "level": 3,
+          "line": 749
+        },
+        {
+          "heading": "25.4 Encapsulamiento",
+          "level": 3,
+          "line": 753
+        },
+        {
+          "heading": "25.5 Abstraccion",
+          "level": 3,
+          "line": 757
+        },
+        {
+          "heading": "25.6 Polimorfismo",
+          "level": 3,
+          "line": 761
+        },
+        {
+          "heading": "26. Que cosas se hicieron que probablemente van mas alla de lo visto en clase",
+          "level": 2,
+          "line": 765
+        },
+        {
+          "heading": "26.1 Shaders",
+          "level": 3,
+          "line": 769
+        },
+        {
+          "heading": "26.2 Sistemas de postprocesado",
+          "level": 3,
+          "line": 773
+        },
+        {
+          "heading": "26.3 Sistema de guardado por slots",
+          "level": 3,
+          "line": 777
+        },
+        {
+          "heading": "26.4 Cinematicas programadas",
+          "level": 3,
+          "line": 781
+        },
+        {
+          "heading": "26.5 Generacion de audio por codigo",
+          "level": 3,
+          "line": 785
+        },
+        {
+          "heading": "26.6 Camaras dinamicas con logica por mundo",
+          "level": 3,
+          "line": 789
+        },
+        {
+          "heading": "26.7 Parallax y profundidad visual",
+          "level": 3,
+          "line": 793
+        },
+        {
+          "heading": "27. Que es estrictamente defendible como contenido de POO",
+          "level": 2,
+          "line": 797
+        },
+        {
+          "heading": "28. Como pueden repartir la exposicion",
+          "level": 2,
+          "line": 810
+        },
+        {
+          "heading": "Persona 1: idea y arquitectura general",
+          "level": 3,
+          "line": 812
+        },
+        {
+          "heading": "Persona 2: POO y patrones",
+          "level": 3,
+          "line": 819
+        },
+        {
+          "heading": "Persona 3: jugador y gameplay",
+          "level": 3,
+          "line": 828
+        },
+        {
+          "heading": "Persona 4: puzzles, enemigos y jefes",
+          "level": 3,
+          "line": 837
+        },
+        {
+          "heading": "Persona 5: UI, narrativa y extras",
+          "level": 3,
+          "line": 845
+        },
+        {
+          "heading": "29. Orden recomendado para estudiar el codigo",
+          "level": 2,
+          "line": 855
+        },
+        {
+          "heading": "30. Resumen final para defender el proyecto",
+          "level": 2,
+          "line": 876
+        },
+        {
+          "heading": "31. Siguiente paso recomendado",
+          "level": 2,
+          "line": 880
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 94
+      }
+    },
+    {
+      "path": "docs/PREGUNTAS_Y_RESPUESTAS_DEFENSA.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 470,
+      "nonEmptyLines": 292,
+      "sections": [
+        {
+          "heading": "Preguntas y respuestas para la defensa del proyecto",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "1. Preguntas generales del proyecto",
+          "level": 2,
+          "line": 11
+        },
+        {
+          "heading": "1.1 ¿De que trata el juego?",
+          "level": 3,
+          "line": 13
+        },
+        {
+          "heading": "1.2 ¿Que tipo de juego es tecnicamente?",
+          "level": 3,
+          "line": 21
+        },
+        {
+          "heading": "1.3 ¿En que motor lo hicieron?",
+          "level": 3,
+          "line": 29
+        },
+        {
+          "heading": "2. Preguntas de arquitectura",
+          "level": 2,
+          "line": 34
+        },
+        {
+          "heading": "2.1 ¿Como organizaron el proyecto?",
+          "level": 3,
+          "line": 36
+        },
+        {
+          "heading": "2.2 ¿Cuales son las clases mas importantes?",
+          "level": 3,
+          "line": 44
+        },
+        {
+          "heading": "2.3 ¿Por que separaron `MainGame` y `Mundo2`?",
+          "level": 3,
+          "line": 58
+        },
+        {
+          "heading": "3. Preguntas de Programacion Orientada a Objetos",
+          "level": 2,
+          "line": 66
+        },
+        {
+          "heading": "3.1 ¿Donde se ve la POO en el proyecto?",
+          "level": 3,
+          "line": 68
+        },
+        {
+          "heading": "3.2 ¿Que entienden por encapsulamiento en su proyecto?",
+          "level": 3,
+          "line": 81
+        },
+        {
+          "heading": "3.3 ¿Que ejemplos de herencia tienen?",
+          "level": 3,
+          "line": 89
+        },
+        {
+          "heading": "3.4 ¿Que ejemplos de composicion tienen?",
+          "level": 3,
+          "line": 98
+        },
+        {
+          "heading": "3.5 ¿Que ejemplos de polimorfismo tienen?",
+          "level": 3,
+          "line": 103
+        },
+        {
+          "heading": "4. Preguntas de patrones de diseno",
+          "level": 2,
+          "line": 108
+        },
+        {
+          "heading": "4.1 ¿Que patrones de diseno usaron?",
+          "level": 3,
+          "line": 110
+        },
+        {
+          "heading": "4.2 ¿Donde usaron el patron State?",
+          "level": 3,
+          "line": 115
+        },
+        {
+          "heading": "4.3 ¿Por que les sirvio usar State?",
+          "level": 3,
+          "line": 129
+        },
+        {
+          "heading": "4.4 ¿Donde usaron Observer?",
+          "level": 3,
+          "line": 134
+        },
+        {
+          "heading": "4.5 ¿Por que las senales sirven como Observer?",
+          "level": 3,
+          "line": 139
+        },
+        {
+          "heading": "5. Preguntas del jugador",
+          "level": 2,
+          "line": 144
+        },
+        {
+          "heading": "5.1 ¿Como funciona el movimiento del jugador?",
+          "level": 3,
+          "line": 146
+        },
+        {
+          "heading": "5.2 ¿Como funciona el sprint?",
+          "level": 3,
+          "line": 151
+        },
+        {
+          "heading": "5.3 ¿Como funciona el dano?",
+          "level": 3,
+          "line": 156
+        },
+        {
+          "heading": "5.4 ¿Como funciona el respawn?",
+          "level": 3,
+          "line": 161
+        },
+        {
+          "heading": "6. Preguntas sobre las gafas",
+          "level": 2,
+          "line": 166
+        },
+        {
+          "heading": "6.1 ¿Las gafas son un item o una habilidad?",
+          "level": 3,
+          "line": 168
+        },
+        {
+          "heading": "6.2 ¿Que hacen las gafas en gameplay?",
+          "level": 3,
+          "line": 173
+        },
+        {
+          "heading": "6.3 ¿Por que las gafas son importantes narrativamente?",
+          "level": 3,
+          "line": 178
+        },
+        {
+          "heading": "7. Preguntas sobre enemigos",
+          "level": 2,
+          "line": 183
+        },
+        {
+          "heading": "7.1 ¿Como organizaron los enemigos?",
+          "level": 3,
+          "line": 185
+        },
+        {
+          "heading": "7.2 ¿Que tipos de enemigos tienen?",
+          "level": 3,
+          "line": 190
+        },
+        {
+          "heading": "7.3 ¿Como hacen dano los enemigos?",
+          "level": 3,
+          "line": 195
+        },
+        {
+          "heading": "8. Preguntas sobre los jefes",
+          "level": 2,
+          "line": 200
+        },
+        {
+          "heading": "8.1 ¿Como se derrota el jefe del mundo 1 si el personaje no ataca?",
+          "level": 3,
+          "line": 202
+        },
+        {
+          "heading": "8.2 ¿Que representa el jefe del mundo 1?",
+          "level": 3,
+          "line": 207
+        },
+        {
+          "heading": "8.3 ¿Como funciona el jefe del mundo 2?",
+          "level": 3,
+          "line": 212
+        },
+        {
+          "heading": "9. Preguntas sobre interactivos",
+          "level": 2,
+          "line": 217
+        },
+        {
+          "heading": "9.1 ¿Para que hicieron `InteractivoBase`?",
+          "level": 3,
+          "line": 219
+        },
+        {
+          "heading": "9.2 ¿Que ganaron con eso?",
+          "level": 3,
+          "line": 224
+        },
+        {
+          "heading": "10. Preguntas sobre puzzles",
+          "level": 2,
+          "line": 229
+        },
+        {
+          "heading": "10.1 ¿Que tipos de puzzles tiene el juego?",
+          "level": 3,
+          "line": 231
+        },
+        {
+          "heading": "10.2 ¿Por que hicieron `PuzzleBase`?",
+          "level": 3,
+          "line": 236
+        },
+        {
+          "heading": "10.3 ¿Como conectaron los puzzles con la historia?",
+          "level": 3,
+          "line": 241
+        },
+        {
+          "heading": "11. Preguntas sobre HUD y UI",
+          "level": 2,
+          "line": 246
+        },
+        {
+          "heading": "11.1 ¿Como funciona el HUD?",
+          "level": 3,
+          "line": 248
+        },
+        {
+          "heading": "11.2 ¿Por que no hicieron el HUD leyendo variables todo el tiempo?",
+          "level": 3,
+          "line": 253
+        },
+        {
+          "heading": "11.3 ¿Que muestra el HUD?",
+          "level": 3,
+          "line": 258
+        },
+        {
+          "heading": "12. Preguntas sobre guardado",
+          "level": 2,
+          "line": 263
+        },
+        {
+          "heading": "12.1 ¿Como funciona el guardado?",
+          "level": 3,
+          "line": 265
+        },
+        {
+          "heading": "12.2 ¿Que guarda exactamente?",
+          "level": 3,
+          "line": 270
+        },
+        {
+          "heading": "12.3 ¿Por que no guardaron todo el arbol de nodos?",
+          "level": 3,
+          "line": 283
+        },
+        {
+          "heading": "12.4 ¿Quien maneja el guardado?",
+          "level": 3,
+          "line": 288
+        },
+        {
+          "heading": "13. Preguntas sobre el TDA",
+          "level": 2,
+          "line": 293
+        },
+        {
+          "heading": "13.1 ¿Que TDA implementaron?",
+          "level": 3,
+          "line": 295
+        },
+        {
+          "heading": "13.2 ¿Que tiene internamente esa lista?",
+          "level": 3,
+          "line": 300
+        },
+        {
+          "heading": "13.3 ¿Que operaciones implementaron?",
+          "level": 3,
+          "line": 305
+        },
+        {
+          "heading": "13.4 ¿Donde la usaron?",
+          "level": 3,
+          "line": 315
+        },
+        {
+          "heading": "13.5 ¿Por que decidieron usarla ahi?",
+          "level": 3,
+          "line": 320
+        },
+        {
+          "heading": "13.6 ¿Por que no usaron un array normal?",
+          "level": 3,
+          "line": 325
+        },
+        {
+          "heading": "14. Preguntas sobre shaders y accesibilidad",
+          "level": 2,
+          "line": 330
+        },
+        {
+          "heading": "14.1 ¿Que shaders usaron?",
+          "level": 3,
+          "line": 332
+        },
+        {
+          "heading": "14.2 ¿Como funciona la distorsion?",
+          "level": 3,
+          "line": 337
+        },
+        {
+          "heading": "14.3 ¿Como funciona la opcion de daltonismo?",
+          "level": 3,
+          "line": 342
+        },
+        {
+          "heading": "14.4 ¿Eso fue algo extra?",
+          "level": 3,
+          "line": 347
+        },
+        {
+          "heading": "15. Preguntas sobre la parte grafica",
+          "level": 2,
+          "line": 352
+        },
+        {
+          "heading": "15.1 ¿Como manejaron las animaciones del personaje?",
+          "level": 3,
+          "line": 354
+        },
+        {
+          "heading": "15.2 ¿Como manejaron la profundidad del escenario?",
+          "level": 3,
+          "line": 359
+        },
+        {
+          "heading": "15.3 ¿Como integraron la estetica pixel art?",
+          "level": 3,
+          "line": 364
+        },
+        {
+          "heading": "16. Preguntas sobre sonido",
+          "level": 2,
+          "line": 369
+        },
+        {
+          "heading": "16.1 ¿Que papel tiene el sonido?",
+          "level": 3,
+          "line": 371
+        },
+        {
+          "heading": "16.2 ¿Hicieron algo especial con el audio?",
+          "level": 3,
+          "line": 376
+        },
+        {
+          "heading": "17. Preguntas sobre camaras",
+          "level": 2,
+          "line": 381
+        },
+        {
+          "heading": "17.1 ¿La camara siempre sigue igual al jugador?",
+          "level": 3,
+          "line": 383
+        },
+        {
+          "heading": "17.2 ¿Por que la camara del mundo 2 es diferente?",
+          "level": 3,
+          "line": 388
+        },
+        {
+          "heading": "18. Preguntas sobre lo que hicieron extra",
+          "level": 2,
+          "line": 393
+        },
+        {
+          "heading": "18.1 ¿Que hicieron que fuera mas alla de lo visto en clase?",
+          "level": 3,
+          "line": 395
+        },
+        {
+          "heading": "18.2 ¿Eso sigue siendo valido para la materia?",
+          "level": 3,
+          "line": 408
+        },
+        {
+          "heading": "19. Preguntas de justificacion tecnica",
+          "level": 2,
+          "line": 413
+        },
+        {
+          "heading": "19.1 ¿Por que no hicieron todo en un solo script?",
+          "level": 3,
+          "line": 415
+        },
+        {
+          "heading": "19.2 ¿Por que usan clases base?",
+          "level": 3,
+          "line": 420
+        },
+        {
+          "heading": "19.3 ¿Por que usan senales en vez de llamadas directas en todo?",
+          "level": 3,
+          "line": 425
+        },
+        {
+          "heading": "20. Preguntas capciosas que si les podrian hacer",
+          "level": 2,
+          "line": 430
+        },
+        {
+          "heading": "20.1 ¿Como defenderian que esto si es orientado a objetos y no solo scripting?",
+          "level": 3,
+          "line": 432
+        },
+        {
+          "heading": "20.2 ¿Cual dirian que es la decision de diseno mas importante del proyecto?",
+          "level": 3,
+          "line": 437
+        },
+        {
+          "heading": "20.3 ¿Que mejorarian si tuvieran mas tiempo?",
+          "level": 3,
+          "line": 442
+        },
+        {
+          "heading": "21. Respuesta corta final si les piden resumir todo",
+          "level": 2,
+          "line": 453
+        },
+        {
+          "heading": "22. Recomendacion para ensayar",
+          "level": 2,
+          "line": 458
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 89
+      }
+    },
+    {
+      "path": "docs/SIMULACRO_DEFENSA_PREGUNTAS_DIFICILES.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 274,
+      "nonEmptyLines": 167,
+      "sections": [
+        {
+          "heading": "Simulacro de defensa: preguntas dificiles",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "1. Preguntas dificiles sobre la arquitectura",
+          "level": 2,
+          "line": 7
+        },
+        {
+          "heading": "1.1 Si el proyecto es orientado a objetos, por que `main_game.gd` y `mundo_2.gd` siguen siendo clases grandes?",
+          "level": 3,
+          "line": 9
+        },
+        {
+          "heading": "1.2 Por que no hicieron una sola clase `Mundo` y de ahi heredar `MainGame` y `Mundo2`?",
+          "level": 3,
+          "line": 17
+        },
+        {
+          "heading": "1.3 Como saben que su separacion de responsabilidades es correcta?",
+          "level": 3,
+          "line": 25
+        },
+        {
+          "heading": "2. Preguntas dificiles sobre POO",
+          "level": 2,
+          "line": 30
+        },
+        {
+          "heading": "2.1 Me pueden senalar un ejemplo real de encapsulamiento y no solo definirmelo?",
+          "level": 3,
+          "line": 32
+        },
+        {
+          "heading": "2.2 Donde exactamente esta el polimorfismo? Denme un ejemplo concreto.",
+          "level": 3,
+          "line": 37
+        },
+        {
+          "heading": "2.3 No estan usando Godot como excusa para decir que hay POO cuando en realidad solo estan conectando nodos?",
+          "level": 3,
+          "line": 42
+        },
+        {
+          "heading": "3. Preguntas dificiles sobre patrones de diseno",
+          "level": 2,
+          "line": 47
+        },
+        {
+          "heading": "3.1 Por que dicen que usan `State` y no simplemente muchos `if`?",
+          "level": 3,
+          "line": 49
+        },
+        {
+          "heading": "3.2 Las senales de Godot realmente cuentan como `Observer` o solo estan usando una herramienta del motor?",
+          "level": 3,
+          "line": 54
+        },
+        {
+          "heading": "3.3 Usaron algun patron que no este perfectamente formal?",
+          "level": 3,
+          "line": 59
+        },
+        {
+          "heading": "4. Preguntas dificiles sobre el TDA",
+          "level": 2,
+          "line": 64
+        },
+        {
+          "heading": "4.1 Por que usar una lista enlazada para los creditos no se siente un poco forzado?",
+          "level": 3,
+          "line": 66
+        },
+        {
+          "heading": "4.2 Entonces, dirian que el TDA fue una necesidad tecnica o academica?",
+          "level": 3,
+          "line": 71
+        },
+        {
+          "heading": "4.3 Si les pidieran un uso mas fuerte del TDA, donde lo pondrian?",
+          "level": 3,
+          "line": 76
+        },
+        {
+          "heading": "5. Preguntas dificiles sobre guardado",
+          "level": 2,
+          "line": 81
+        },
+        {
+          "heading": "5.1 Por que usaron `ConfigFile` y no una base de datos o un formato JSON manual?",
+          "level": 3,
+          "line": 83
+        },
+        {
+          "heading": "5.2 Que pasa si cambian la estructura interna del guardado?",
+          "level": 3,
+          "line": 88
+        },
+        {
+          "heading": "5.3 Su sistema de guardado esta realmente desacoplado?",
+          "level": 3,
+          "line": 93
+        },
+        {
+          "heading": "6. Preguntas dificiles sobre el jugador y gameplay",
+          "level": 2,
+          "line": 98
+        },
+        {
+          "heading": "6.1 Por que el jugador no ataca?",
+          "level": 3,
+          "line": 100
+        },
+        {
+          "heading": "6.2 No creen que eso limita la variedad jugable?",
+          "level": 3,
+          "line": 105
+        },
+        {
+          "heading": "6.3 Por que el sprint se vuelve infinito con gafas activas?",
+          "level": 3,
+          "line": 110
+        },
+        {
+          "heading": "7. Preguntas dificiles sobre narrativa y mecanicas",
+          "level": 2,
+          "line": 115
+        },
+        {
+          "heading": "7.1 Como conectan el bullying con el gameplay y no solo con el texto?",
+          "level": 3,
+          "line": 117
+        },
+        {
+          "heading": "7.2 Por que los puzzles representan bullying?",
+          "level": 3,
+          "line": 122
+        },
+        {
+          "heading": "7.3 No es demasiado abstracto?",
+          "level": 3,
+          "line": 127
+        },
+        {
+          "heading": "8. Preguntas dificiles sobre shaders y parte grafica",
+          "level": 2,
+          "line": 132
+        },
+        {
+          "heading": "8.1 Por que usan shaders si la materia es POO?",
+          "level": 3,
+          "line": 134
+        },
+        {
+          "heading": "8.2 Que parte del proyecto si consideran extra respecto a lo ensenado?",
+          "level": 3,
+          "line": 139
+        },
+        {
+          "heading": "8.3 Entonces hasta donde llega la responsabilidad del curso y hasta donde la iniciativa de ustedes?",
+          "level": 3,
+          "line": 152
+        },
+        {
+          "heading": "9. Preguntas dificiles sobre la accesibilidad",
+          "level": 2,
+          "line": 157
+        },
+        {
+          "heading": "9.1 Por que agregaron opcion para daltonismo?",
+          "level": 3,
+          "line": 159
+        },
+        {
+          "heading": "9.2 Como defenderian tecnicamente esa implementacion?",
+          "level": 3,
+          "line": 164
+        },
+        {
+          "heading": "9.3 Eso fue investigacion de ustedes o algo ya dado por Godot?",
+          "level": 3,
+          "line": 169
+        },
+        {
+          "heading": "10. Preguntas dificiles sobre la calidad del codigo",
+          "level": 2,
+          "line": 174
+        },
+        {
+          "heading": "10.1 Cual creen que es el punto mas fuerte del codigo?",
+          "level": 3,
+          "line": 176
+        },
+        {
+          "heading": "10.2 Cual creen que es la parte mas debil o mas mejorable?",
+          "level": 3,
+          "line": 181
+        },
+        {
+          "heading": "10.3 Que error de diseno evitarian si empezaran de cero?",
+          "level": 3,
+          "line": 186
+        },
+        {
+          "heading": "11. Preguntas dificiles sobre alcance",
+          "level": 2,
+          "line": 191
+        },
+        {
+          "heading": "11.1 No intentaron hacer demasiadas cosas para una materia?",
+          "level": 3,
+          "line": 193
+        },
+        {
+          "heading": "11.2 Si tuvieran que recortar el proyecto para quedarse con el nucleo, que dejaban?",
+          "level": 3,
+          "line": 198
+        },
+        {
+          "heading": "12. Preguntas dificiles sobre decisiones simbolicas",
+          "level": 2,
+          "line": 214
+        },
+        {
+          "heading": "12.1 Por que el mundo 2 es una persecucion?",
+          "level": 3,
+          "line": 216
+        },
+        {
+          "heading": "12.2 Por que el jefe final no es un personaje humano?",
+          "level": 3,
+          "line": 221
+        },
+        {
+          "heading": "13. Preguntas dificiles con trampa academica",
+          "level": 2,
+          "line": 226
+        },
+        {
+          "heading": "13.1 Entonces su juego es mas narrativo que orientado a objetos?",
+          "level": 3,
+          "line": 228
+        },
+        {
+          "heading": "13.2 No creen que usar tantas herramientas del motor les quita merito?",
+          "level": 3,
+          "line": 233
+        },
+        {
+          "heading": "13.3 Si no existieran las senales de Godot, como habrian implementado la comunicacion?",
+          "level": 3,
+          "line": 238
+        },
+        {
+          "heading": "14. Preguntas para cerrar con fuerza",
+          "level": 2,
+          "line": 243
+        },
+        {
+          "heading": "14.1 Que demuestra este proyecto sobre ustedes como equipo?",
+          "level": 3,
+          "line": 245
+        },
+        {
+          "heading": "14.2 Cual es la idea mas importante que quieren que quede del proyecto?",
+          "level": 3,
+          "line": 250
+        },
+        {
+          "heading": "15. Como practicar este simulacro",
+          "level": 2,
+          "line": 255
+        },
+        {
+          "heading": "16. Siguiente paso util",
+          "level": 2,
+          "line": 269
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 56
+      }
+    },
+    {
+      "path": "docs/UML_PROYECTO.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 329,
+      "nonEmptyLines": 275,
+      "sections": [
+        {
+          "heading": "UML actualizado para Deep Shadow",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "Diagrama de clases",
+          "level": 2,
+          "line": 5
+        },
+        {
+          "heading": "Patrones y enfoque POO",
+          "level": 2,
+          "line": 305
+        },
+        {
+          "heading": "Uso del TDA Lista Simple",
+          "level": 2,
+          "line": 312
+        },
+        {
+          "heading": "Sistema de guardado",
+          "level": 2,
+          "line": 316
+        },
+        {
+          "heading": "Clases principales por archivo",
+          "level": 2,
+          "line": 320
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 6
+      }
+    },
+    {
+      "path": "docs/pendientes_informe_deep_shadows.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 8,
+      "nonEmptyLines": 7,
+      "sections": [
+        {
+          "heading": "Pendientes del informe",
+          "level": 1,
+          "line": 1
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 1
+      }
+    }
+  ]
+}

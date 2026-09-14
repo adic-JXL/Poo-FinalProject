@@ -1,0 +1,207 @@
+{
+  "scriptCompleted": true,
+  "filesAnalyzed": 25,
+  "filesSkipped": [],
+  "results": [
+    {
+      "path": ".gitattributes",
+      "language": "unknown",
+      "fileCategory": "code",
+      "totalLines": 2,
+      "nonEmptyLines": 2,
+      "metrics": {}
+    },
+    {
+      "path": ".understand-anything/.understandignore",
+      "language": "unknown",
+      "fileCategory": "code",
+      "totalLines": 44,
+      "nonEmptyLines": 39,
+      "metrics": {}
+    },
+    {
+      "path": "docs/informe_deep_shadows.tex",
+      "language": "tex",
+      "fileCategory": "code",
+      "totalLines": 421,
+      "nonEmptyLines": 337,
+      "metrics": {}
+    },
+    {
+      "path": "Escenas/AltarGafas.tscn",
+      "language": "tscn",
+      "fileCategory": "code",
+      "totalLines": 26,
+      "nonEmptyLines": 19,
+      "metrics": {}
+    },
+    {
+      "path": "Escenas/AmbienteMundo1.tscn",
+      "language": "tscn",
+      "fileCategory": "code",
+      "totalLines": 6,
+      "nonEmptyLines": 4,
+      "metrics": {}
+    },
+    {
+      "path": "Escenas/camara_2.gd",
+      "language": "gd",
+      "fileCategory": "code",
+      "totalLines": 55,
+      "nonEmptyLines": 30,
+      "metrics": {}
+    },
+    {
+      "path": "Escenas/DialogoUI.tscn",
+      "language": "tscn",
+      "fileCategory": "code",
+      "totalLines": 95,
+      "nonEmptyLines": 78,
+      "metrics": {}
+    },
+    {
+      "path": "Escenas/EnemigoFlotanteHorizontal.tscn",
+      "language": "tscn",
+      "fileCategory": "code",
+      "totalLines": 38,
+      "nonEmptyLines": 28,
+      "metrics": {}
+    },
+    {
+      "path": "Escenas/EnemigoFlotanteVertical.tscn",
+      "language": "tscn",
+      "fileCategory": "code",
+      "totalLines": 38,
+      "nonEmptyLines": 28,
+      "metrics": {}
+    },
+    {
+      "path": "Escenas/EnemigoPatrulla.tscn",
+      "language": "tscn",
+      "fileCategory": "code",
+      "totalLines": 37,
+      "nonEmptyLines": 27,
+      "metrics": {}
+    },
+    {
+      "path": "Escenas/EnemigoPerseguidor.tscn",
+      "language": "tscn",
+      "fileCategory": "code",
+      "totalLines": 44,
+      "nonEmptyLines": 33,
+      "metrics": {}
+    },
+    {
+      "path": "Escenas/FarolDecorativo.tscn",
+      "language": "tscn",
+      "fileCategory": "code",
+      "totalLines": 84,
+      "nonEmptyLines": 66,
+      "metrics": {}
+    },
+    {
+      "path": "Escenas/HUD.tscn",
+      "language": "tscn",
+      "fileCategory": "code",
+      "totalLines": 170,
+      "nonEmptyLines": 142,
+      "metrics": {}
+    },
+    {
+      "path": "Escenas/JefeSombras.tscn",
+      "language": "tscn",
+      "fileCategory": "code",
+      "totalLines": 45,
+      "nonEmptyLines": 34,
+      "metrics": {}
+    },
+    {
+      "path": "Escenas/Llave.tscn",
+      "language": "tscn",
+      "fileCategory": "code",
+      "totalLines": 25,
+      "nonEmptyLines": 20,
+      "metrics": {}
+    },
+    {
+      "path": "Escenas/LlaveJefe.tscn",
+      "language": "tscn",
+      "fileCategory": "code",
+      "totalLines": 25,
+      "nonEmptyLines": 20,
+      "metrics": {}
+    },
+    {
+      "path": "Escenas/MainGame.tscn",
+      "language": "tscn",
+      "fileCategory": "code",
+      "totalLines": 1070,
+      "nonEmptyLines": 855,
+      "metrics": {}
+    },
+    {
+      "path": "Escenas/Manuel de usuario.tscn",
+      "language": "tscn",
+      "fileCategory": "code",
+      "totalLines": 502,
+      "nonEmptyLines": 452,
+      "metrics": {}
+    },
+    {
+      "path": "Escenas/Menu.tscn",
+      "language": "tscn",
+      "fileCategory": "code",
+      "totalLines": 183,
+      "nonEmptyLines": 151,
+      "metrics": {}
+    },
+    {
+      "path": "Escenas/MenuOpciones.tscn",
+      "language": "tscn",
+      "fileCategory": "code",
+      "totalLines": 154,
+      "nonEmptyLines": 125,
+      "metrics": {}
+    },
+    {
+      "path": "Escenas/MenuPausa.tscn",
+      "language": "tscn",
+      "fileCategory": "code",
+      "totalLines": 185,
+      "nonEmptyLines": 161,
+      "metrics": {}
+    },
+    {
+      "path": "Escenas/Mundo2.tscn",
+      "language": "tscn",
+      "fileCategory": "code",
+      "totalLines": 700,
+      "nonEmptyLines": 607,
+      "metrics": {}
+    },
+    {
+      "path": "Escenas/MuroCarne.tscn",
+      "language": "tscn",
+      "fileCategory": "code",
+      "totalLines": 32,
+      "nonEmptyLines": 23,
+      "metrics": {}
+    },
+    {
+      "path": "Escenas/NPC.tscn",
+      "language": "tscn",
+      "fileCategory": "code",
+      "totalLines": 51,
+      "nonEmptyLines": 40,
+      "metrics": {}
+    },
+    {
+      "path": "Escenas/NPCInmediato.tscn",
+      "language": "tscn",
+      "fileCategory": "code",
+      "totalLines": 47,
+      "nonEmptyLines": 36,
+      "metrics": {}
+    }
+  ]
+}

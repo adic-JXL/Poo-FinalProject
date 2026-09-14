@@ -1,0 +1,182 @@
+{
+  "projectRoot": "C:\\Users\\HP\\Documents\\GitHub\\Poo-FinalProject",
+  "batchFiles": [
+    {
+      "path": ".gitattributes",
+      "language": "unknown",
+      "sizeLines": 2,
+      "fileCategory": "code"
+    },
+    {
+      "path": ".understand-anything/.understandignore",
+      "language": "unknown",
+      "sizeLines": 44,
+      "fileCategory": "code"
+    },
+    {
+      "path": "docs/informe_deep_shadows.tex",
+      "language": "tex",
+      "sizeLines": 421,
+      "fileCategory": "code"
+    },
+    {
+      "path": "Escenas/AltarGafas.tscn",
+      "language": "tscn",
+      "sizeLines": 26,
+      "fileCategory": "code"
+    },
+    {
+      "path": "Escenas/AmbienteMundo1.tscn",
+      "language": "tscn",
+      "sizeLines": 6,
+      "fileCategory": "code"
+    },
+    {
+      "path": "Escenas/camara_2.gd",
+      "language": "gd",
+      "sizeLines": 55,
+      "fileCategory": "code"
+    },
+    {
+      "path": "Escenas/DialogoUI.tscn",
+      "language": "tscn",
+      "sizeLines": 95,
+      "fileCategory": "code"
+    },
+    {
+      "path": "Escenas/EnemigoFlotanteHorizontal.tscn",
+      "language": "tscn",
+      "sizeLines": 38,
+      "fileCategory": "code"
+    },
+    {
+      "path": "Escenas/EnemigoFlotanteVertical.tscn",
+      "language": "tscn",
+      "sizeLines": 38,
+      "fileCategory": "code"
+    },
+    {
+      "path": "Escenas/EnemigoPatrulla.tscn",
+      "language": "tscn",
+      "sizeLines": 37,
+      "fileCategory": "code"
+    },
+    {
+      "path": "Escenas/EnemigoPerseguidor.tscn",
+      "language": "tscn",
+      "sizeLines": 44,
+      "fileCategory": "code"
+    },
+    {
+      "path": "Escenas/FarolDecorativo.tscn",
+      "language": "tscn",
+      "sizeLines": 84,
+      "fileCategory": "code"
+    },
+    {
+      "path": "Escenas/HUD.tscn",
+      "language": "tscn",
+      "sizeLines": 170,
+      "fileCategory": "code"
+    },
+    {
+      "path": "Escenas/JefeSombras.tscn",
+      "language": "tscn",
+      "sizeLines": 45,
+      "fileCategory": "code"
+    },
+    {
+      "path": "Escenas/Llave.tscn",
+      "language": "tscn",
+      "sizeLines": 25,
+      "fileCategory": "code"
+    },
+    {
+      "path": "Escenas/LlaveJefe.tscn",
+      "language": "tscn",
+      "sizeLines": 25,
+      "fileCategory": "code"
+    },
+    {
+      "path": "Escenas/MainGame.tscn",
+      "language": "tscn",
+      "sizeLines": 1070,
+      "fileCategory": "code"
+    },
+    {
+      "path": "Escenas/Manuel de usuario.tscn",
+      "language": "tscn",
+      "sizeLines": 502,
+      "fileCategory": "code"
+    },
+    {
+      "path": "Escenas/Menu.tscn",
+      "language": "tscn",
+      "sizeLines": 183,
+      "fileCategory": "code"
+    },
+    {
+      "path": "Escenas/MenuOpciones.tscn",
+      "language": "tscn",
+      "sizeLines": 154,
+      "fileCategory": "code"
+    },
+    {
+      "path": "Escenas/MenuPausa.tscn",
+      "language": "tscn",
+      "sizeLines": 185,
+      "fileCategory": "code"
+    },
+    {
+      "path": "Escenas/Mundo2.tscn",
+      "language": "tscn",
+      "sizeLines": 700,
+      "fileCategory": "code"
+    },
+    {
+      "path": "Escenas/MuroCarne.tscn",
+      "language": "tscn",
+      "sizeLines": 32,
+      "fileCategory": "code"
+    },
+    {
+      "path": "Escenas/NPC.tscn",
+      "language": "tscn",
+      "sizeLines": 51,
+      "fileCategory": "code"
+    },
+    {
+      "path": "Escenas/NPCInmediato.tscn",
+      "language": "tscn",
+      "sizeLines": 47,
+      "fileCategory": "code"
+    }
+  ],
+  "batchImportData": {
+    ".gitattributes": [],
+    ".understand-anything/.understandignore": [],
+    "docs/informe_deep_shadows.tex": [],
+    "Escenas/AltarGafas.tscn": [],
+    "Escenas/AmbienteMundo1.tscn": [],
+    "Escenas/camara_2.gd": [],
+    "Escenas/DialogoUI.tscn": [],
+    "Escenas/EnemigoFlotanteHorizontal.tscn": [],
+    "Escenas/EnemigoFlotanteVertical.tscn": [],
+    "Escenas/EnemigoPatrulla.tscn": [],
+    "Escenas/EnemigoPerseguidor.tscn": [],
+    "Escenas/FarolDecorativo.tscn": [],
+    "Escenas/HUD.tscn": [],
+    "Escenas/JefeSombras.tscn": [],
+    "Escenas/Llave.tscn": [],
+    "Escenas/LlaveJefe.tscn": [],
+    "Escenas/MainGame.tscn": [],
+    "Escenas/Manuel de usuario.tscn": [],
+    "Escenas/Menu.tscn": [],
+    "Escenas/MenuOpciones.tscn": [],
+    "Escenas/MenuPausa.tscn": [],
+    "Escenas/Mundo2.tscn": [],
+    "Escenas/MuroCarne.tscn": [],
+    "Escenas/NPC.tscn": [],
+    "Escenas/NPCInmediato.tscn": []
+  }
+}

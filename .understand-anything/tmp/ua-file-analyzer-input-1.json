@@ -1,0 +1,42 @@
+{
+  "projectRoot": "C:\\Users\\HP\\Documents\\GitHub\\Poo-FinalProject",
+  "batchFiles": [
+    {
+      "path": "docs/EXPLICACION_COMPLETA_PROYECTO.md",
+      "language": "markdown",
+      "sizeLines": 891,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "docs/PREGUNTAS_Y_RESPUESTAS_DEFENSA.md",
+      "language": "markdown",
+      "sizeLines": 470,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "docs/SIMULACRO_DEFENSA_PREGUNTAS_DIFICILES.md",
+      "language": "markdown",
+      "sizeLines": 274,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "docs/UML_PROYECTO.md",
+      "language": "markdown",
+      "sizeLines": 329,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "docs/pendientes_informe_deep_shadows.md",
+      "language": "markdown",
+      "sizeLines": 8,
+      "fileCategory": "docs"
+    }
+  ],
+  "batchImportData": {
+    "docs/EXPLICACION_COMPLETA_PROYECTO.md": [],
+    "docs/PREGUNTAS_Y_RESPUESTAS_DEFENSA.md": [],
+    "docs/SIMULACRO_DEFENSA_PREGUNTAS_DIFICILES.md": [],
+    "docs/UML_PROYECTO.md": [],
+    "docs/pendientes_informe_deep_shadows.md": []
+  }
+}

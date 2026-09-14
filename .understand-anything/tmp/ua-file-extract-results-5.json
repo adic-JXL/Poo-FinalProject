@@ -1,0 +1,191 @@
+{
+  "scriptCompleted": true,
+  "filesAnalyzed": 23,
+  "filesSkipped": [],
+  "results": [
+    {
+      "path": "Scripts/npc_dialogo.gd",
+      "language": "gd",
+      "fileCategory": "code",
+      "totalLines": 155,
+      "nonEmptyLines": 113,
+      "metrics": {}
+    },
+    {
+      "path": "Scripts/perso_der.gd",
+      "language": "gd",
+      "fileCategory": "code",
+      "totalLines": 12,
+      "nonEmptyLines": 8,
+      "metrics": {}
+    },
+    {
+      "path": "Scripts/perso_izq.gd",
+      "language": "gd",
+      "fileCategory": "code",
+      "totalLines": 12,
+      "nonEmptyLines": 8,
+      "metrics": {}
+    },
+    {
+      "path": "Scripts/perso.gd",
+      "language": "gd",
+      "fileCategory": "code",
+      "totalLines": 12,
+      "nonEmptyLines": 8,
+      "metrics": {}
+    },
+    {
+      "path": "Scripts/plataforma_gafas.gd",
+      "language": "gd",
+      "fileCategory": "code",
+      "totalLines": 40,
+      "nonEmptyLines": 27,
+      "metrics": {}
+    },
+    {
+      "path": "Scripts/Platform.gd",
+      "language": "gd",
+      "fileCategory": "code",
+      "totalLines": 69,
+      "nonEmptyLines": 48,
+      "metrics": {}
+    },
+    {
+      "path": "Scripts/puerta_bloqueada.gd",
+      "language": "gd",
+      "fileCategory": "code",
+      "totalLines": 36,
+      "nonEmptyLines": 26,
+      "metrics": {}
+    },
+    {
+      "path": "Scripts/puerta_teletransporte.gd",
+      "language": "gd",
+      "fileCategory": "code",
+      "totalLines": 268,
+      "nonEmptyLines": 198,
+      "metrics": {}
+    },
+    {
+      "path": "Scripts/puzzle_base.gd",
+      "language": "gd",
+      "fileCategory": "code",
+      "totalLines": 117,
+      "nonEmptyLines": 86,
+      "metrics": {}
+    },
+    {
+      "path": "Scripts/puzzle_gafas.gd",
+      "language": "gd",
+      "fileCategory": "code",
+      "totalLines": 151,
+      "nonEmptyLines": 110,
+      "metrics": {}
+    },
+    {
+      "path": "Scripts/puzzle_matematicas.gd",
+      "language": "gd",
+      "fileCategory": "code",
+      "totalLines": 146,
+      "nonEmptyLines": 110,
+      "metrics": {}
+    },
+    {
+      "path": "Scripts/puzzle_secuencia.gd",
+      "language": "gd",
+      "fileCategory": "code",
+      "totalLines": 156,
+      "nonEmptyLines": 112,
+      "metrics": {}
+    },
+    {
+      "path": "Scripts/salto.gd",
+      "language": "gd",
+      "fileCategory": "code",
+      "totalLines": 12,
+      "nonEmptyLines": 8,
+      "metrics": {}
+    },
+    {
+      "path": "Scripts/Seguir-Camara.gd",
+      "language": "gd",
+      "fileCategory": "code",
+      "totalLines": 37,
+      "nonEmptyLines": 22,
+      "metrics": {}
+    },
+    {
+      "path": "Scripts/sistema_estamina.gd",
+      "language": "gd",
+      "fileCategory": "code",
+      "totalLines": 38,
+      "nonEmptyLines": 24,
+      "metrics": {}
+    },
+    {
+      "path": "Scripts/sistema_guardado.gd",
+      "language": "gd",
+      "fileCategory": "code",
+      "totalLines": 171,
+      "nonEmptyLines": 119,
+      "metrics": {}
+    },
+    {
+      "path": "Scripts/sombras_plataformas.gd",
+      "language": "gd",
+      "fileCategory": "code",
+      "totalLines": 38,
+      "nonEmptyLines": 28,
+      "metrics": {}
+    },
+    {
+      "path": "Scripts/sprite_animado_frames.gd",
+      "language": "gd",
+      "fileCategory": "code",
+      "totalLines": 49,
+      "nonEmptyLines": 34,
+      "metrics": {}
+    },
+    {
+      "path": "Scripts/tda_lista_simple.gd",
+      "language": "gd",
+      "fileCategory": "code",
+      "totalLines": 42,
+      "nonEmptyLines": 30,
+      "metrics": {}
+    },
+    {
+      "path": "Scripts/totem_jefe.gd",
+      "language": "gd",
+      "fileCategory": "code",
+      "totalLines": 53,
+      "nonEmptyLines": 35,
+      "metrics": {}
+    },
+    {
+      "path": "Shaders/filtro_accesibilidad.gdshader",
+      "language": "gdshader",
+      "fileCategory": "code",
+      "totalLines": 75,
+      "nonEmptyLines": 64,
+      "metrics": {}
+    },
+    {
+      "path": "Shaders/vigneta_distorsion.gdshader",
+      "language": "gdshader",
+      "fileCategory": "code",
+      "totalLines": 58,
+      "nonEmptyLines": 50,
+      "metrics": {}
+    },
+    {
+      "path": "tile_set.tres",
+      "language": "tres",
+      "fileCategory": "code",
+      "totalLines": 423,
+      "nonEmptyLines": 419,
+      "metrics": {}
+    }
+  ]
+}

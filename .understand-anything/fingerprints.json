@@ -1,0 +1,1047 @@
+{
+  "version": "1.0.0",
+  "gitCommitHash": "b3cbe047c2c49fef96761f176c0cbb984c19ab2b",
+  "generatedAt": "2026-05-27T15:57:06.407Z",
+  "files": {
+    ".gitattributes": {
+      "filePath": ".gitattributes",
+      "contentHash": "21b01a606c9f85f18bb9230245f00ab104df7409cbb2fe9423f6751ca72ba754",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 3,
+      "hasStructuralAnalysis": false
+    },
+    ".understand-anything/.understandignore": {
+      "filePath": ".understand-anything/.understandignore",
+      "contentHash": "a27fd3baa59b7cf0110dadcfca5fee7f2efe370883d82a264cbc4d79361cbce1",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 45,
+      "hasStructuralAnalysis": false
+    },
+    "docs/EXPLICACION_COMPLETA_PROYECTO.md": {
+      "filePath": "docs/EXPLICACION_COMPLETA_PROYECTO.md",
+      "contentHash": "77cb94cfcd50aa9fc53276bc408254bf6b7a019f78ddf3d38581799a593d069f",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 892,
+      "hasStructuralAnalysis": true
+    },
+    "docs/informe_deep_shadows.tex": {
+      "filePath": "docs/informe_deep_shadows.tex",
+      "contentHash": "1f3a2568daa3777025e2b4745c21cd5dfa1b511becd65e35c403aa58fc7967c1",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 422,
+      "hasStructuralAnalysis": false
+    },
+    "docs/pendientes_informe_deep_shadows.md": {
+      "filePath": "docs/pendientes_informe_deep_shadows.md",
+      "contentHash": "b6b57296bdb2fe153ae052f7672889922740793166e00d7c056e60c93ec00442",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 9,
+      "hasStructuralAnalysis": true
+    },
+    "docs/PREGUNTAS_Y_RESPUESTAS_DEFENSA.md": {
+      "filePath": "docs/PREGUNTAS_Y_RESPUESTAS_DEFENSA.md",
+      "contentHash": "f8a0925b61027e113303a43a2707c27c6ce83f68352d1fdc6ae2023ceec3dbda",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 471,
+      "hasStructuralAnalysis": true
+    },
+    "docs/SIMULACRO_DEFENSA_PREGUNTAS_DIFICILES.md": {
+      "filePath": "docs/SIMULACRO_DEFENSA_PREGUNTAS_DIFICILES.md",
+      "contentHash": "1c066abc07f30a37a8da604486ec6d4f5524d428f6ea82edddef808849793d54",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 275,
+      "hasStructuralAnalysis": true
+    },
+    "docs/UML_PROYECTO.md": {
+      "filePath": "docs/UML_PROYECTO.md",
+      "contentHash": "3f12e411f7ff80c63eb4a2e95080d878fa2b9d6da26c51986859327ccd8d1a23",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 330,
+      "hasStructuralAnalysis": true
+    },
+    "Escenas/AltarGafas.tscn": {
+      "filePath": "Escenas/AltarGafas.tscn",
+      "contentHash": "7ea0a386fe8e512c083b9a89500dad21472813adf50e20bce57bee5a53a13d11",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 27,
+      "hasStructuralAnalysis": false
+    },
+    "Escenas/AmbienteMundo1.tscn": {
+      "filePath": "Escenas/AmbienteMundo1.tscn",
+      "contentHash": "de6939698a541a4b85c485745493c6ceaf2921186d978c13d89ee8ea4af8b688",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 7,
+      "hasStructuralAnalysis": false
+    },
+    "Escenas/camara_2.gd": {
+      "filePath": "Escenas/camara_2.gd",
+      "contentHash": "804c2649f3ec5a6e4cde672b34a30069ae40e6332adc5748f71e9c039171acf5",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 56,
+      "hasStructuralAnalysis": false
+    },
+    "Escenas/DialogoUI.tscn": {
+      "filePath": "Escenas/DialogoUI.tscn",
+      "contentHash": "15e46c2d3ae9e12e69643e83906677c0e867938cf189aa4644e8b8f21525841b",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 96,
+      "hasStructuralAnalysis": false
+    },
+    "Escenas/EnemigoFlotanteHorizontal.tscn": {
+      "filePath": "Escenas/EnemigoFlotanteHorizontal.tscn",
+      "contentHash": "7f4cd4e9106cacb976cc8135de44f279fe1d5081037d4eea863a8f3d543211ca",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 39,
+      "hasStructuralAnalysis": false
+    },
+    "Escenas/EnemigoFlotanteVertical.tscn": {
+      "filePath": "Escenas/EnemigoFlotanteVertical.tscn",
+      "contentHash": "393bc4090408ab56d6da45f76ff07e571a3e1489249cf079dbb108ec838eef06",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 39,
+      "hasStructuralAnalysis": false
+    },
+    "Escenas/EnemigoPatrulla.tscn": {
+      "filePath": "Escenas/EnemigoPatrulla.tscn",
+      "contentHash": "43d7a3273ba7ed7694da2b2fca228e1d20468c634663736bbcf53a1596d5815d",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 38,
+      "hasStructuralAnalysis": false
+    },
+    "Escenas/EnemigoPerseguidor.tscn": {
+      "filePath": "Escenas/EnemigoPerseguidor.tscn",
+      "contentHash": "deb2c1617128306459cc9db342d101a6737e23c12a6d74589d459abdd56a3616",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 45,
+      "hasStructuralAnalysis": false
+    },
+    "Escenas/FarolDecorativo.tscn": {
+      "filePath": "Escenas/FarolDecorativo.tscn",
+      "contentHash": "3f5eda00221ee70dc3c3c03a03016d66a939608300bbe70bb3fd17652c887204",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 85,
+      "hasStructuralAnalysis": false
+    },
+    "Escenas/HUD.tscn": {
+      "filePath": "Escenas/HUD.tscn",
+      "contentHash": "94f5f481adfe6086fa846e87db337795720823d367ae55032e4e8154a287d52a",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 171,
+      "hasStructuralAnalysis": false
+    },
+    "Escenas/JefeSombras.tscn": {
+      "filePath": "Escenas/JefeSombras.tscn",
+      "contentHash": "67aff03a3cde75870c3bc4207a2c1939736cfcfcbcfdfc00f3cae42546f0f842",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 46,
+      "hasStructuralAnalysis": false
+    },
+    "Escenas/Llave.tscn": {
+      "filePath": "Escenas/Llave.tscn",
+      "contentHash": "31f1c1cfe81f3c74162bd4c664097993d36b46d43fe9782ab9d7394b13fb0d05",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 26,
+      "hasStructuralAnalysis": false
+    },
+    "Escenas/LlaveJefe.tscn": {
+      "filePath": "Escenas/LlaveJefe.tscn",
+      "contentHash": "6f6d0143172b8a8cb0ce6646c1e7ff82f691377ace61bba5cd2f4b29b0b4d472",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 26,
+      "hasStructuralAnalysis": false
+    },
+    "Escenas/MainGame.tscn": {
+      "filePath": "Escenas/MainGame.tscn",
+      "contentHash": "cf51d74c925476d7065a2147f35d8899c31d195eb898122c091fc94e65519074",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 1071,
+      "hasStructuralAnalysis": false
+    },
+    "Escenas/Manuel de usuario.tscn": {
+      "filePath": "Escenas/Manuel de usuario.tscn",
+      "contentHash": "710dfe8f2e634274e91b55489af278b8b94192d9ec757993b9e4f7b74f8bb194",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 503,
+      "hasStructuralAnalysis": false
+    },
+    "Escenas/Menu.tscn": {
+      "filePath": "Escenas/Menu.tscn",
+      "contentHash": "43267ff09703fbf910b1389638aae872b9c7ef185cdd28d73b2c72427a6a2416",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 184,
+      "hasStructuralAnalysis": false
+    },
+    "Escenas/MenuOpciones.tscn": {
+      "filePath": "Escenas/MenuOpciones.tscn",
+      "contentHash": "ae247c39130ac45af82d9e29d0c0896143d28f28872d2fbc299929996adbe664",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 155,
+      "hasStructuralAnalysis": false
+    },
+    "Escenas/MenuPausa.tscn": {
+      "filePath": "Escenas/MenuPausa.tscn",
+      "contentHash": "a98feb5d5845c57c33cf309790c4695cc740affe7aec06741f35a26481a9e795",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 186,
+      "hasStructuralAnalysis": false
+    },
+    "Escenas/Mundo2.tscn": {
+      "filePath": "Escenas/Mundo2.tscn",
+      "contentHash": "dbab31b271d15cebbab4206801584b9276077806a42a979861ee6e73099706ec",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 701,
+      "hasStructuralAnalysis": false
+    },
+    "Escenas/MuroCarne.tscn": {
+      "filePath": "Escenas/MuroCarne.tscn",
+      "contentHash": "962e932317e6e4db200d81d0512864ff109052d128c5fe2564b0bb60f41cd608",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 33,
+      "hasStructuralAnalysis": false
+    },
+    "Escenas/NPC.tscn": {
+      "filePath": "Escenas/NPC.tscn",
+      "contentHash": "124088d4d3b06ee78ebf8322bba8925afe0dbd0eda2b616f52fb0baa633eaa43",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 52,
+      "hasStructuralAnalysis": false
+    },
+    "Escenas/NPCInmediato.tscn": {
+      "filePath": "Escenas/NPCInmediato.tscn",
+      "contentHash": "a62fcd41d5a39d21dd05207d0bdda41f5bdfbf5b654c892fc07d0eb00130b96f",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 48,
+      "hasStructuralAnalysis": false
+    },
+    "Escenas/opciones.tscn": {
+      "filePath": "Escenas/opciones.tscn",
+      "contentHash": "2206653ff0ce510be31e2ad8ee676c8a4fa2eeebce9d0b6e1118a0e9cfa52a6a",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 50,
+      "hasStructuralAnalysis": false
+    },
+    "Escenas/Personaje.tscn": {
+      "filePath": "Escenas/Personaje.tscn",
+      "contentHash": "40a5f6cb7e1dbdc591a57eb2969ff41b77b4981d298e6a76b2692477b04057b5",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 29,
+      "hasStructuralAnalysis": false
+    },
+    "Escenas/plataforma_gafas.tscn": {
+      "filePath": "Escenas/plataforma_gafas.tscn",
+      "contentHash": "a7fdc560955fa29a2260a8dfd47fd3c78876be2221955e631d6310f471d7de42",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 19,
+      "hasStructuralAnalysis": false
+    },
+    "Escenas/Plataforma.tscn": {
+      "filePath": "Escenas/Plataforma.tscn",
+      "contentHash": "cf59f5134ec2961bf0bd7a726952be143b04d870399d804f797227f9855d3592",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 60,
+      "hasStructuralAnalysis": false
+    },
+    "Escenas/PlataformaSolida.tscn": {
+      "filePath": "Escenas/PlataformaSolida.tscn",
+      "contentHash": "6149a9d8b8a75112266eb7c0d3f81f044e2a1bf53e919df9e5f0f9337c6d5002",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 17,
+      "hasStructuralAnalysis": false
+    },
+    "Escenas/Puerta.tscn": {
+      "filePath": "Escenas/Puerta.tscn",
+      "contentHash": "cceb14475283213bb7845bdc54fe859e3b2880b10256f867ec4ef576f590ef74",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 31,
+      "hasStructuralAnalysis": false
+    },
+    "Escenas/PuertaTeletransporte.tscn": {
+      "filePath": "Escenas/PuertaTeletransporte.tscn",
+      "contentHash": "be18c508d53cfa83a42663b41046403c3953c8f40fdad2c8cd97d6fc636eb28b",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 34,
+      "hasStructuralAnalysis": false
+    },
+    "Escenas/PuzzleGafas.tscn": {
+      "filePath": "Escenas/PuzzleGafas.tscn",
+      "contentHash": "74c5ef4a784b022e40da3e442c7d19c89edb5b3d9f32dd29cf1d378047b7c60c",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 113,
+      "hasStructuralAnalysis": false
+    },
+    "Escenas/PuzzleMatematicas.tscn": {
+      "filePath": "Escenas/PuzzleMatematicas.tscn",
+      "contentHash": "1e96f4a24ae0750671046c5b52e290422537d719f51308c96e8c0e75e0430172",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 131,
+      "hasStructuralAnalysis": false
+    },
+    "Escenas/PuzzleSecuencia.tscn": {
+      "filePath": "Escenas/PuzzleSecuencia.tscn",
+      "contentHash": "0bb790e0b565d0237e222b969ad95c800fd802bf27fa4b4a38c0951324c2e457",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 135,
+      "hasStructuralAnalysis": false
+    },
+    "Escenas/TotemJefe.tscn": {
+      "filePath": "Escenas/TotemJefe.tscn",
+      "contentHash": "ed7daf21c876a20ba8afe135bb70cbd2a4bfa1d9939efc181f15c9179546f04d",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 21,
+      "hasStructuralAnalysis": false
+    },
+    "landing/index.html": {
+      "filePath": "landing/index.html",
+      "contentHash": "776678ea358c966caf39836175cf2515cb4ddcafb7de1c330e9bb9e2b667b944",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 244,
+      "hasStructuralAnalysis": false
+    },
+    "landing/script.js": {
+      "filePath": "landing/script.js",
+      "contentHash": "9086c00535976100e2f9d1f21f302b2024ab29fd5374efc1fec8df6d06134693",
+      "functions": [
+        {
+          "name": "animateSprite",
+          "params": [
+            "selector",
+            "frames"
+          ],
+          "exported": false,
+          "lineCount": 10
+        }
+      ],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 144,
+      "hasStructuralAnalysis": true
+    },
+    "landing/styles.css": {
+      "filePath": "landing/styles.css",
+      "contentHash": "c2ac5d3c76b80a0961900a39d77771eea5aac705a2f313d9fa0268cbe906dca2",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 837,
+      "hasStructuralAnalysis": false
+    },
+    "project.godot": {
+      "filePath": "project.godot",
+      "contentHash": "e88a112bec122c5b0bcc65957ba99d86a53005b902d6d2360dbd2a6446a80990",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 97,
+      "hasStructuralAnalysis": false
+    },
+    "Scripts/altar_gafas.gd": {
+      "filePath": "Scripts/altar_gafas.gd",
+      "contentHash": "dbd385eab41fcdd321560181207912f0add0085f0052a195c9a484c2b188823f",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 91,
+      "hasStructuralAnalysis": false
+    },
+    "Scripts/ambiente_mundo_1.gd": {
+      "filePath": "Scripts/ambiente_mundo_1.gd",
+      "contentHash": "f35221150fd8ea3534273b4b38068b6df281f6a33e177dd347b7df5440f5d987",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 126,
+      "hasStructuralAnalysis": false
+    },
+    "Scripts/ambiente_mundo_2.gd": {
+      "filePath": "Scripts/ambiente_mundo_2.gd",
+      "contentHash": "986b855d7f8f2e36ee631af9d464612f577ecb863691147829a5804875d0bca7",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 86,
+      "hasStructuralAnalysis": false
+    },
+    "Scripts/checkpoint_activador.gd": {
+      "filePath": "Scripts/checkpoint_activador.gd",
+      "contentHash": "2b0bce0956cda86f431be5c3ce691cb74c9f62f5f307e736af0dae6380265ad5",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 195,
+      "hasStructuralAnalysis": false
+    },
+    "Scripts/correr.gd": {
+      "filePath": "Scripts/correr.gd",
+      "contentHash": "6cd9f076744587dbd38d525f3e2e62defc163d2c9f7edc971bb70cb0c18ee9de",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 13,
+      "hasStructuralAnalysis": false
+    },
+    "Scripts/cutscene_base.gd": {
+      "filePath": "Scripts/cutscene_base.gd",
+      "contentHash": "3766b7dab4a6a639c1b4e7a75f9a65aba4032b8ea7276bf695025614181a63c3",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 833,
+      "hasStructuralAnalysis": false
+    },
+    "Scripts/dialogo_ui.gd": {
+      "filePath": "Scripts/dialogo_ui.gd",
+      "contentHash": "ee03822ec87a48ab47ad355c6b1d74feb83960d866833c8ffd8ef9263325fab1",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 128,
+      "hasStructuralAnalysis": false
+    },
+    "Scripts/enemigo_base.gd": {
+      "filePath": "Scripts/enemigo_base.gd",
+      "contentHash": "00395440ad36b5f3f9aa152d96a6f7b91497bdff20b0d2968b3bceb41c5360f5",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 341,
+      "hasStructuralAnalysis": false
+    },
+    "Scripts/enemigo_flotante_base.gd": {
+      "filePath": "Scripts/enemigo_flotante_base.gd",
+      "contentHash": "fff79717acf4af7efb57eaed0a468fff5bdfc797cfafdba7b1a2200a1fd8be10",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 37,
+      "hasStructuralAnalysis": false
+    },
+    "Scripts/enemigo_flotante_horizontal.gd": {
+      "filePath": "Scripts/enemigo_flotante_horizontal.gd",
+      "contentHash": "fac91c96ab9ae6f91cad9cf21777f834521f4b4e4fb374a0dbaf900af1aea85e",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 7,
+      "hasStructuralAnalysis": false
+    },
+    "Scripts/enemigo_flotante_vertical.gd": {
+      "filePath": "Scripts/enemigo_flotante_vertical.gd",
+      "contentHash": "79daa20d1488254dcc5c85c849b5e8f7f519f5e89feebb41f50146f16cbf334d",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 11,
+      "hasStructuralAnalysis": false
+    },
+    "Scripts/enemigo_patrulla.gd": {
+      "filePath": "Scripts/enemigo_patrulla.gd",
+      "contentHash": "66677e0de320ba56b62ea403a6eb39d65c2726de3fa33422e98aa275744458ba",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 48,
+      "hasStructuralAnalysis": false
+    },
+    "Scripts/enemigo_perseguidor.gd": {
+      "filePath": "Scripts/enemigo_perseguidor.gd",
+      "contentHash": "522c036510b7e940171d1ce15d46775d9824b08719aba5d8226fb70432f3d962",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 106,
+      "hasStructuralAnalysis": false
+    },
+    "Scripts/estado_jugador_aturdido.gd": {
+      "filePath": "Scripts/estado_jugador_aturdido.gd",
+      "contentHash": "8911f5979fb7ca1c63ebd635b30e4d543d43b63dc95d2a3194e52b0f79a8ffde",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 15,
+      "hasStructuralAnalysis": false
+    },
+    "Scripts/estado_jugador_base.gd": {
+      "filePath": "Scripts/estado_jugador_base.gd",
+      "contentHash": "a68cfd0a96af88216e146f080ed2b5c6806d7d5e9511a2636a2a8ebd75b71d07",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 28,
+      "hasStructuralAnalysis": false
+    },
+    "Scripts/estado_jugador_bloqueado.gd": {
+      "filePath": "Scripts/estado_jugador_bloqueado.gd",
+      "contentHash": "822bb60874df62a5e72963e71dc65bdb87fa852d714fd4bf6b4bf109a1d9046c",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 16,
+      "hasStructuralAnalysis": false
+    },
+    "Scripts/estado_jugador_normal.gd": {
+      "filePath": "Scripts/estado_jugador_normal.gd",
+      "contentHash": "f73da0c8a274b0c986fe1fd83f0f77ad5af3dc9aa8b23122e841a4ace7753577",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 25,
+      "hasStructuralAnalysis": false
+    },
+    "Scripts/estado_jugador_sprint.gd": {
+      "filePath": "Scripts/estado_jugador_sprint.gd",
+      "contentHash": "aa0266e35ed7ba2632e373191c44d30824da19a6ef9f4657db6058378812bf46",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 33,
+      "hasStructuralAnalysis": false
+    },
+    "Scripts/farol_decorativo.gd": {
+      "filePath": "Scripts/farol_decorativo.gd",
+      "contentHash": "08a7156bee6f6f38dbaad7693a8fc0c68b97bdb9ec7985aa4778bf4d6a193793",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 231,
+      "hasStructuralAnalysis": false
+    },
+    "Scripts/fondo_mundo_1.gd": {
+      "filePath": "Scripts/fondo_mundo_1.gd",
+      "contentHash": "3712d5127ea721b8ffef6cfb7b7fa50cbb03d14e13108a5ef7b96569e69645da",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 136,
+      "hasStructuralAnalysis": false
+    },
+    "Scripts/fondo_mundo_final.gd": {
+      "filePath": "Scripts/fondo_mundo_final.gd",
+      "contentHash": "48304947628e3ac4294a468ae129498f7a6199e45b7fdeca355b607f9e037c1b",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 150,
+      "hasStructuralAnalysis": false
+    },
+    "Scripts/habilidad_gafas.gd": {
+      "filePath": "Scripts/habilidad_gafas.gd",
+      "contentHash": "47a230a380caf0aad9453c4c18a93d7d73f04658f3c89eba346b8061e4b2fa7e",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 90,
+      "hasStructuralAnalysis": false
+    },
+    "Scripts/hud.gd": {
+      "filePath": "Scripts/hud.gd",
+      "contentHash": "7a78ca627d52828cb39a69964b7cbb425c848624ab74cf9b759ede435c688a1d",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 797,
+      "hasStructuralAnalysis": false
+    },
+    "Scripts/interactivo_base.gd": {
+      "filePath": "Scripts/interactivo_base.gd",
+      "contentHash": "b2f1f5302898ee42a00183a5c6c6894c7d04ff2d5abde9085ee0b94ddab7543a",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 52,
+      "hasStructuralAnalysis": false
+    },
+    "Scripts/jefe_sombras.gd": {
+      "filePath": "Scripts/jefe_sombras.gd",
+      "contentHash": "78c271e1a4b66448aaed1f5efcc8e0dd142333757d8e4fb083d12dc18090ac26",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 310,
+      "hasStructuralAnalysis": false
+    },
+    "Scripts/jugador.gd": {
+      "filePath": "Scripts/jugador.gd",
+      "contentHash": "558203bcb007d2b0be1470151a8e9b35855f98c610a7c5cf5067b6fccb31c449",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 1013,
+      "hasStructuralAnalysis": false
+    },
+    "Scripts/llave_interactiva.gd": {
+      "filePath": "Scripts/llave_interactiva.gd",
+      "contentHash": "485493b0e8bff0fe12d615af1c6fee6da8686559ebd334d881adf939d102125f",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 89,
+      "hasStructuralAnalysis": false
+    },
+    "Scripts/main_game.gd": {
+      "filePath": "Scripts/main_game.gd",
+      "contentHash": "5b98600545f49dd428f5e0a65495b6218a04a059e8d1092ffe8279a5ad00edb9",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 2013,
+      "hasStructuralAnalysis": false
+    },
+    "Scripts/mensaje_automatico.gd": {
+      "filePath": "Scripts/mensaje_automatico.gd",
+      "contentHash": "35e48a86dcb5e52b7f9ebbc5ed0e59a8cb83e08c4e0fb33609ca6a6abbef47cb",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 70,
+      "hasStructuralAnalysis": false
+    },
+    "Scripts/menu_pausa.gd": {
+      "filePath": "Scripts/menu_pausa.gd",
+      "contentHash": "7e766dcabf9d7b7107ca3222f4a9317add74daed0e5fa27f3857d6c0f2098b5e",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 144,
+      "hasStructuralAnalysis": false
+    },
+    "Scripts/menu.gd": {
+      "filePath": "Scripts/menu.gd",
+      "contentHash": "707e2a578790773b18864382cffc2b63fe2610b717726003421b0b172a95031c",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 531,
+      "hasStructuralAnalysis": false
+    },
+    "Scripts/menuOpciones.gd": {
+      "filePath": "Scripts/menuOpciones.gd",
+      "contentHash": "1d7c681a97a77570c9ab9b769ccaa3aa4f6b401b76ec4d4e64eaf518bee5ac24",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 487,
+      "hasStructuralAnalysis": false
+    },
+    "Scripts/mundo_2.gd": {
+      "filePath": "Scripts/mundo_2.gd",
+      "contentHash": "e476d371fa99a0eef214e497861befe2acf9e01b8207697b676086d2e8f15e29",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 1841,
+      "hasStructuralAnalysis": false
+    },
+    "Scripts/muro_carne.gd": {
+      "filePath": "Scripts/muro_carne.gd",
+      "contentHash": "d601235588c2569c03c1020027fafd29d986f7f232ac7098667a1b7d814d50fa",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 304,
+      "hasStructuralAnalysis": false
+    },
+    "Scripts/musica_global.gd": {
+      "filePath": "Scripts/musica_global.gd",
+      "contentHash": "e3e7749d3c357927c76b3f6ea57d0409154707ff2171a1d22760c9b20931994a",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 79,
+      "hasStructuralAnalysis": false
+    },
+    "Scripts/npc_dialogo.gd": {
+      "filePath": "Scripts/npc_dialogo.gd",
+      "contentHash": "c5defbbf0fcad6e8998a23ae05f9c4e58b7ecd06452ee345488a7063e07a5a0d",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 156,
+      "hasStructuralAnalysis": false
+    },
+    "Scripts/perso_der.gd": {
+      "filePath": "Scripts/perso_der.gd",
+      "contentHash": "f0b3701e0cb1fac861ea9156780e7e9ce39882f513a4d8b9b60355316d0f98e7",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 13,
+      "hasStructuralAnalysis": false
+    },
+    "Scripts/perso_izq.gd": {
+      "filePath": "Scripts/perso_izq.gd",
+      "contentHash": "5254c345f2ff8d91cf65a98b9cd2c8815bd639fcdfe51295049ccdfca8a7300d",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 13,
+      "hasStructuralAnalysis": false
+    },
+    "Scripts/perso.gd": {
+      "filePath": "Scripts/perso.gd",
+      "contentHash": "be403aeb26e22877a1bba914cd36f144addd3960ce0bd5fa689fb8a7afef4dcd",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 13,
+      "hasStructuralAnalysis": false
+    },
+    "Scripts/plataforma_gafas.gd": {
+      "filePath": "Scripts/plataforma_gafas.gd",
+      "contentHash": "58aaccffcabb206bc0b31d55d818f14bccaf53ce5f7526a1ac78edc975d3a6b9",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 41,
+      "hasStructuralAnalysis": false
+    },
+    "Scripts/Platform.gd": {
+      "filePath": "Scripts/Platform.gd",
+      "contentHash": "844bb03e5c52738ffc79856b3f48b2f14258f1537a22afe04aa742a167df0915",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 70,
+      "hasStructuralAnalysis": false
+    },
+    "Scripts/puerta_bloqueada.gd": {
+      "filePath": "Scripts/puerta_bloqueada.gd",
+      "contentHash": "2608ec19ba823538bae8d89cfe0c4ec6e57f6c8a4cef95a12798980ea841ee1f",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 37,
+      "hasStructuralAnalysis": false
+    },
+    "Scripts/puerta_teletransporte.gd": {
+      "filePath": "Scripts/puerta_teletransporte.gd",
+      "contentHash": "5e5abe197afd04bdac4bf46ee9d9a59bab1cec86ec3d331cf187d28304f2c7f9",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 269,
+      "hasStructuralAnalysis": false
+    },
+    "Scripts/puzzle_base.gd": {
+      "filePath": "Scripts/puzzle_base.gd",
+      "contentHash": "3a13b74fa73fd33265084c96bf9ae5929ed9b986f203c9bd9ae0b8b921fc80b3",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 118,
+      "hasStructuralAnalysis": false
+    },
+    "Scripts/puzzle_gafas.gd": {
+      "filePath": "Scripts/puzzle_gafas.gd",
+      "contentHash": "b8648d69dee05de02bad7630ebcc81b49db47fdf166b64022c430e825612e0e6",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 152,
+      "hasStructuralAnalysis": false
+    },
+    "Scripts/puzzle_matematicas.gd": {
+      "filePath": "Scripts/puzzle_matematicas.gd",
+      "contentHash": "060f9aac2718443980f7db6ce08d283f5314ca1552c17a52413c2e04c60434b2",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 147,
+      "hasStructuralAnalysis": false
+    },
+    "Scripts/puzzle_secuencia.gd": {
+      "filePath": "Scripts/puzzle_secuencia.gd",
+      "contentHash": "cb408b4fc05d4517d5657c026d8a8777847209bb2c37b76e807e80bbb73fd63e",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 157,
+      "hasStructuralAnalysis": false
+    },
+    "Scripts/salto.gd": {
+      "filePath": "Scripts/salto.gd",
+      "contentHash": "35c26b5cf96354706487205745d03cde9394ef857591a3502d7a2ace311fed35",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 13,
+      "hasStructuralAnalysis": false
+    },
+    "Scripts/Seguir-Camara.gd": {
+      "filePath": "Scripts/Seguir-Camara.gd",
+      "contentHash": "42e457532243a3859417b42db777f20b9dd3dfe9b1ef15360883c4e03e454b26",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 38,
+      "hasStructuralAnalysis": false
+    },
+    "Scripts/sistema_estamina.gd": {
+      "filePath": "Scripts/sistema_estamina.gd",
+      "contentHash": "f84999efda4ca1fd6b003f0db351753c323754c3eb0ae717433a07d41f24afcb",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 39,
+      "hasStructuralAnalysis": false
+    },
+    "Scripts/sistema_guardado.gd": {
+      "filePath": "Scripts/sistema_guardado.gd",
+      "contentHash": "ad9eb2344a4c97ee4a653b2146265796a66be53af4b0df3579996a445dbca205",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 172,
+      "hasStructuralAnalysis": false
+    },
+    "Scripts/sombras_plataformas.gd": {
+      "filePath": "Scripts/sombras_plataformas.gd",
+      "contentHash": "c263867ff56c72a6dbdf2c96a05afc510953267388476c5f752863ebd8152cf9",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 39,
+      "hasStructuralAnalysis": false
+    },
+    "Scripts/sprite_animado_frames.gd": {
+      "filePath": "Scripts/sprite_animado_frames.gd",
+      "contentHash": "232026cd601808e06c9321b1d0d9e9ad2d47a6d0724acdbaadbfe965eafc6768",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 54,
+      "hasStructuralAnalysis": false
+    },
+    "Scripts/tda_lista_simple.gd": {
+      "filePath": "Scripts/tda_lista_simple.gd",
+      "contentHash": "cc64f7b797f12f0312374c9aceb66ca3cc0ce02b7d011392a15ca2bdafcc9636",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 43,
+      "hasStructuralAnalysis": false
+    },
+    "Scripts/totem_jefe.gd": {
+      "filePath": "Scripts/totem_jefe.gd",
+      "contentHash": "4adc31ef05ab59e50e2d702c58106ff3904d0ad627231c0a36221b38a0c068c9",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 54,
+      "hasStructuralAnalysis": false
+    },
+    "Shaders/filtro_accesibilidad.gdshader": {
+      "filePath": "Shaders/filtro_accesibilidad.gdshader",
+      "contentHash": "077063cb5e5203f57985f5b00c2808e6d39d1ace043cd00acf36d6eea3fe6ebb",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 76,
+      "hasStructuralAnalysis": false
+    },
+    "Shaders/vigneta_distorsion.gdshader": {
+      "filePath": "Shaders/vigneta_distorsion.gdshader",
+      "contentHash": "4470eb4d730ba27d05414d55510a88c10f0d1ca186f217e8516e81f85621b894",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 59,
+      "hasStructuralAnalysis": false
+    },
+    "tile_set.tres": {
+      "filePath": "tile_set.tres",
+      "contentHash": "30de46eb4996f92fbc3c9cbfe91c1ee07ad773462d648e0a90fc76c01a5403f9",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 424,
+      "hasStructuralAnalysis": false
+    }
+  }
+}

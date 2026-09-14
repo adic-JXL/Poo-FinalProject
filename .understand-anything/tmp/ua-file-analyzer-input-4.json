@@ -1,0 +1,182 @@
+{
+  "projectRoot": "C:\\Users\\HP\\Documents\\GitHub\\Poo-FinalProject",
+  "batchFiles": [
+    {
+      "path": "Scripts/enemigo_flotante_vertical.gd",
+      "language": "gd",
+      "sizeLines": 10,
+      "fileCategory": "code"
+    },
+    {
+      "path": "Scripts/enemigo_patrulla.gd",
+      "language": "gd",
+      "sizeLines": 47,
+      "fileCategory": "code"
+    },
+    {
+      "path": "Scripts/enemigo_perseguidor.gd",
+      "language": "gd",
+      "sizeLines": 105,
+      "fileCategory": "code"
+    },
+    {
+      "path": "Scripts/estado_jugador_aturdido.gd",
+      "language": "gd",
+      "sizeLines": 14,
+      "fileCategory": "code"
+    },
+    {
+      "path": "Scripts/estado_jugador_base.gd",
+      "language": "gd",
+      "sizeLines": 27,
+      "fileCategory": "code"
+    },
+    {
+      "path": "Scripts/estado_jugador_bloqueado.gd",
+      "language": "gd",
+      "sizeLines": 15,
+      "fileCategory": "code"
+    },
+    {
+      "path": "Scripts/estado_jugador_normal.gd",
+      "language": "gd",
+      "sizeLines": 24,
+      "fileCategory": "code"
+    },
+    {
+      "path": "Scripts/estado_jugador_sprint.gd",
+      "language": "gd",
+      "sizeLines": 32,
+      "fileCategory": "code"
+    },
+    {
+      "path": "Scripts/farol_decorativo.gd",
+      "language": "gd",
+      "sizeLines": 230,
+      "fileCategory": "code"
+    },
+    {
+      "path": "Scripts/fondo_mundo_1.gd",
+      "language": "gd",
+      "sizeLines": 131,
+      "fileCategory": "code"
+    },
+    {
+      "path": "Scripts/fondo_mundo_final.gd",
+      "language": "gd",
+      "sizeLines": 145,
+      "fileCategory": "code"
+    },
+    {
+      "path": "Scripts/habilidad_gafas.gd",
+      "language": "gd",
+      "sizeLines": 89,
+      "fileCategory": "code"
+    },
+    {
+      "path": "Scripts/hud.gd",
+      "language": "gd",
+      "sizeLines": 787,
+      "fileCategory": "code"
+    },
+    {
+      "path": "Scripts/interactivo_base.gd",
+      "language": "gd",
+      "sizeLines": 51,
+      "fileCategory": "code"
+    },
+    {
+      "path": "Scripts/jefe_sombras.gd",
+      "language": "gd",
+      "sizeLines": 309,
+      "fileCategory": "code"
+    },
+    {
+      "path": "Scripts/jugador.gd",
+      "language": "gd",
+      "sizeLines": 1008,
+      "fileCategory": "code"
+    },
+    {
+      "path": "Scripts/llave_interactiva.gd",
+      "language": "gd",
+      "sizeLines": 84,
+      "fileCategory": "code"
+    },
+    {
+      "path": "Scripts/main_game.gd",
+      "language": "gd",
+      "sizeLines": 1977,
+      "fileCategory": "code"
+    },
+    {
+      "path": "Scripts/mensaje_automatico.gd",
+      "language": "gd",
+      "sizeLines": 69,
+      "fileCategory": "code"
+    },
+    {
+      "path": "Scripts/menu_pausa.gd",
+      "language": "gd",
+      "sizeLines": 143,
+      "fileCategory": "code"
+    },
+    {
+      "path": "Scripts/menu.gd",
+      "language": "gd",
+      "sizeLines": 526,
+      "fileCategory": "code"
+    },
+    {
+      "path": "Scripts/menuOpciones.gd",
+      "language": "gd",
+      "sizeLines": 466,
+      "fileCategory": "code"
+    },
+    {
+      "path": "Scripts/mundo_2.gd",
+      "language": "gd",
+      "sizeLines": 1813,
+      "fileCategory": "code"
+    },
+    {
+      "path": "Scripts/muro_carne.gd",
+      "language": "gd",
+      "sizeLines": 303,
+      "fileCategory": "code"
+    },
+    {
+      "path": "Scripts/musica_global.gd",
+      "language": "gd",
+      "sizeLines": 78,
+      "fileCategory": "code"
+    }
+  ],
+  "batchImportData": {
+    "Scripts/enemigo_flotante_vertical.gd": [],
+    "Scripts/enemigo_patrulla.gd": [],
+    "Scripts/enemigo_perseguidor.gd": [],
+    "Scripts/estado_jugador_aturdido.gd": [],
+    "Scripts/estado_jugador_base.gd": [],
+    "Scripts/estado_jugador_bloqueado.gd": [],
+    "Scripts/estado_jugador_normal.gd": [],
+    "Scripts/estado_jugador_sprint.gd": [],
+    "Scripts/farol_decorativo.gd": [],
+    "Scripts/fondo_mundo_1.gd": [],
+    "Scripts/fondo_mundo_final.gd": [],
+    "Scripts/habilidad_gafas.gd": [],
+    "Scripts/hud.gd": [],
+    "Scripts/interactivo_base.gd": [],
+    "Scripts/jefe_sombras.gd": [],
+    "Scripts/jugador.gd": [],
+    "Scripts/llave_interactiva.gd": [],
+    "Scripts/main_game.gd": [],
+    "Scripts/mensaje_automatico.gd": [],
+    "Scripts/menu_pausa.gd": [],
+    "Scripts/menu.gd": [],
+    "Scripts/menuOpciones.gd": [],
+    "Scripts/mundo_2.gd": [],
+    "Scripts/muro_carne.gd": [],
+    "Scripts/musica_global.gd": []
+  }
+}

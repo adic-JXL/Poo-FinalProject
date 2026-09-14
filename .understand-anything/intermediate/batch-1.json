@@ -1,0 +1,80 @@
+{
+  "nodes": [
+    {
+      "id": "document:docs/EXPLICACION_COMPLETA_PROYECTO.md",
+      "type": "document",
+      "name": "EXPLICACION_COMPLETA_PROYECTO.md",
+      "filePath": "docs/EXPLICACION_COMPLETA_PROYECTO.md",
+      "lineRange": [
+        1,
+        891
+      ],
+      "summary": "Documento del proyecto que desarrolla EXPLICACION_COMPLETA_PROYECTO para soporte técnico, defensa o entrega.",
+      "tags": [
+        "documentacion"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "document:docs/PREGUNTAS_Y_RESPUESTAS_DEFENSA.md",
+      "type": "document",
+      "name": "PREGUNTAS_Y_RESPUESTAS_DEFENSA.md",
+      "filePath": "docs/PREGUNTAS_Y_RESPUESTAS_DEFENSA.md",
+      "lineRange": [
+        1,
+        470
+      ],
+      "summary": "Documento del proyecto que desarrolla PREGUNTAS_Y_RESPUESTAS_DEFENSA para soporte técnico, defensa o entrega.",
+      "tags": [
+        "documentacion"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "document:docs/SIMULACRO_DEFENSA_PREGUNTAS_DIFICILES.md",
+      "type": "document",
+      "name": "SIMULACRO_DEFENSA_PREGUNTAS_DIFICILES.md",
+      "filePath": "docs/SIMULACRO_DEFENSA_PREGUNTAS_DIFICILES.md",
+      "lineRange": [
+        1,
+        274
+      ],
+      "summary": "Documento del proyecto que desarrolla SIMULACRO_DEFENSA_PREGUNTAS_DIFICILES para soporte técnico, defensa o entrega.",
+      "tags": [
+        "documentacion"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "document:docs/UML_PROYECTO.md",
+      "type": "document",
+      "name": "UML_PROYECTO.md",
+      "filePath": "docs/UML_PROYECTO.md",
+      "lineRange": [
+        1,
+        329
+      ],
+      "summary": "Documento del proyecto que desarrolla UML_PROYECTO para soporte técnico, defensa o entrega.",
+      "tags": [
+        "documentacion"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "document:docs/pendientes_informe_deep_shadows.md",
+      "type": "document",
+      "name": "pendientes_informe_deep_shadows.md",
+      "filePath": "docs/pendientes_informe_deep_shadows.md",
+      "lineRange": [
+        1,
+        8
+      ],
+      "summary": "Documento del proyecto que desarrolla pendientes_informe_deep_shadows para soporte técnico, defensa o entrega.",
+      "tags": [
+        "documentacion"
+      ],
+      "complexity": "simple"
+    }
+  ],
+  "edges": []
+}

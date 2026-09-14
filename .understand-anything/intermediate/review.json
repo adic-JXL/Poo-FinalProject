@@ -1,0 +1,35 @@
+{
+  "issues": [],
+  "warnings": [
+    "Node 'document:docs/EXPLICACION_COMPLETA_PROYECTO.md' has no edges (orphan)",
+    "Node 'document:docs/PREGUNTAS_Y_RESPUESTAS_DEFENSA.md' has no edges (orphan)",
+    "Node 'document:docs/SIMULACRO_DEFENSA_PREGUNTAS_DIFICILES.md' has no edges (orphan)",
+    "Node 'document:docs/UML_PROYECTO.md' has no edges (orphan)",
+    "Node 'document:docs/pendientes_informe_deep_shadows.md' has no edges (orphan)",
+    "Node 'config:.gitattributes' has no edges (orphan)",
+    "Node 'config:.understand-anything/.understandignore' has no edges (orphan)",
+    "Node 'document:docs/informe_deep_shadows.tex' has no edges (orphan)",
+    "Node 'file:Escenas/opciones.tscn' has no edges (orphan)",
+    "Node 'file:Escenas/PlataformaSolida.tscn' has no edges (orphan)",
+    "Node 'file:landing/index.html' has no edges (orphan)",
+    "Node 'file:landing/script.js' has no edges (orphan)",
+    "Node 'file:landing/styles.css' has no edges (orphan)"
+  ],
+  "stats": {
+    "totalNodes": 573,
+    "totalEdges": 603,
+    "totalLayers": 10,
+    "tourSteps": 8,
+    "nodeTypes": {
+      "document": 6,
+      "config": 4,
+      "file": 93,
+      "function": 432,
+      "class": 38
+    },
+    "edgeTypes": {
+      "imports": 133,
+      "contains": 470
+    }
+  }
+}

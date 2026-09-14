@@ -1,0 +1,2344 @@
+{
+  "nodes": [
+    {
+      "id": "file:Scripts/npc_dialogo.gd",
+      "type": "file",
+      "name": "npc_dialogo.gd",
+      "filePath": "Scripts/npc_dialogo.gd",
+      "lineRange": [
+        1,
+        155
+      ],
+      "summary": "Script GDScript asociado a npc_dialogo; encapsula lógica de juego, comportamiento o soporte del sistema.",
+      "tags": [
+        "gdscript",
+        "gameplay",
+        "dialogo",
+        "npc"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:Scripts/npc_dialogo.gd:NPCDialogo",
+      "type": "class",
+      "name": "NPCDialogo",
+      "filePath": "Scripts/npc_dialogo.gd",
+      "lineRange": [
+        1,
+        155
+      ],
+      "summary": "Clase principal del script npc_dialogo.gd; concentra el comportamiento central definido en este archivo.",
+      "tags": [
+        "gdscript",
+        "gameplay",
+        "dialogo",
+        "npc",
+        "clase"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:Scripts/npc_dialogo.gd:_ready",
+      "type": "function",
+      "name": "_ready",
+      "filePath": "Scripts/npc_dialogo.gd",
+      "lineRange": [
+        45,
+        59
+      ],
+      "summary": "Función _ready definida en npc_dialogo.gd; participa en la lógica específica de este módulo.",
+      "tags": [
+        "gdscript",
+        "gameplay",
+        "dialogo",
+        "npc",
+        "funcion"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:Scripts/npc_dialogo.gd:_on_body_entered",
+      "type": "function",
+      "name": "_on_body_entered",
+      "filePath": "Scripts/npc_dialogo.gd",
+      "lineRange": [
+        60,
+        75
+      ],
+      "summary": "Función _on_body_entered definida en npc_dialogo.gd; participa en la lógica específica de este módulo.",
+      "tags": [
+        "gdscript",
+        "gameplay",
+        "dialogo",
+        "npc",
+        "funcion"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:Scripts/npc_dialogo.gd:_process",
+      "type": "function",
+      "name": "_process",
+      "filePath": "Scripts/npc_dialogo.gd",
+      "lineRange": [
+        76,
+        89
+      ],
+      "summary": "Función _process definida en npc_dialogo.gd; participa en la lógica específica de este módulo.",
+      "tags": [
+        "gdscript",
+        "gameplay",
+        "dialogo",
+        "npc",
+        "funcion"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Scripts/npc_dialogo.gd:interactuar",
+      "type": "function",
+      "name": "interactuar",
+      "filePath": "Scripts/npc_dialogo.gd",
+      "lineRange": [
+        90,
+        109
+      ],
+      "summary": "Función interactuar definida en npc_dialogo.gd; participa en la lógica específica de este módulo.",
+      "tags": [
+        "gdscript",
+        "gameplay",
+        "dialogo",
+        "npc",
+        "funcion"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:Scripts/npc_dialogo.gd:_preparar_visual_npc",
+      "type": "function",
+      "name": "_preparar_visual_npc",
+      "filePath": "Scripts/npc_dialogo.gd",
+      "lineRange": [
+        123,
+        142
+      ],
+      "summary": "Función _preparar_visual_npc definida en npc_dialogo.gd; participa en la lógica específica de este módulo.",
+      "tags": [
+        "gdscript",
+        "gameplay",
+        "dialogo",
+        "npc",
+        "funcion"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:Scripts/perso_der.gd",
+      "type": "file",
+      "name": "perso_der.gd",
+      "filePath": "Scripts/perso_der.gd",
+      "lineRange": [
+        1,
+        12
+      ],
+      "summary": "Script GDScript asociado a perso_der; encapsula lógica de juego, comportamiento o soporte del sistema.",
+      "tags": [
+        "gdscript",
+        "gameplay"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Scripts/perso_der.gd:_ready",
+      "type": "function",
+      "name": "_ready",
+      "filePath": "Scripts/perso_der.gd",
+      "lineRange": [
+        6,
+        10
+      ],
+      "summary": "Función _ready definida en perso_der.gd; participa en la lógica específica de este módulo.",
+      "tags": [
+        "gdscript",
+        "gameplay",
+        "funcion"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Scripts/perso_der.gd:_process",
+      "type": "function",
+      "name": "_process",
+      "filePath": "Scripts/perso_der.gd",
+      "lineRange": [
+        11,
+        13
+      ],
+      "summary": "Función _process definida en perso_der.gd; participa en la lógica específica de este módulo.",
+      "tags": [
+        "gdscript",
+        "gameplay",
+        "funcion"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:Scripts/perso_izq.gd",
+      "type": "file",
+      "name": "perso_izq.gd",
+      "filePath": "Scripts/perso_izq.gd",
+      "lineRange": [
+        1,
+        12
+      ],
+      "summary": "Script GDScript asociado a perso_izq; encapsula lógica de juego, comportamiento o soporte del sistema.",
+      "tags": [
+        "gdscript",
+        "gameplay"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Scripts/perso_izq.gd:_ready",
+      "type": "function",
+      "name": "_ready",
+      "filePath": "Scripts/perso_izq.gd",
+      "lineRange": [
+        6,
+        10
+      ],
+      "summary": "Función _ready definida en perso_izq.gd; participa en la lógica específica de este módulo.",
+      "tags": [
+        "gdscript",
+        "gameplay",
+        "funcion"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Scripts/perso_izq.gd:_process",
+      "type": "function",
+      "name": "_process",
+      "filePath": "Scripts/perso_izq.gd",
+      "lineRange": [
+        11,
+        13
+      ],
+      "summary": "Función _process definida en perso_izq.gd; participa en la lógica específica de este módulo.",
+      "tags": [
+        "gdscript",
+        "gameplay",
+        "funcion"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:Scripts/perso.gd",
+      "type": "file",
+      "name": "perso.gd",
+      "filePath": "Scripts/perso.gd",
+      "lineRange": [
+        1,
+        12
+      ],
+      "summary": "Script GDScript asociado a perso; encapsula lógica de juego, comportamiento o soporte del sistema.",
+      "tags": [
+        "gdscript",
+        "gameplay"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Scripts/perso.gd:_ready",
+      "type": "function",
+      "name": "_ready",
+      "filePath": "Scripts/perso.gd",
+      "lineRange": [
+        6,
+        10
+      ],
+      "summary": "Función _ready definida en perso.gd; participa en la lógica específica de este módulo.",
+      "tags": [
+        "gdscript",
+        "gameplay",
+        "funcion"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Scripts/perso.gd:_process",
+      "type": "function",
+      "name": "_process",
+      "filePath": "Scripts/perso.gd",
+      "lineRange": [
+        11,
+        13
+      ],
+      "summary": "Función _process definida en perso.gd; participa en la lógica específica de este módulo.",
+      "tags": [
+        "gdscript",
+        "gameplay",
+        "funcion"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:Scripts/plataforma_gafas.gd",
+      "type": "file",
+      "name": "plataforma_gafas.gd",
+      "filePath": "Scripts/plataforma_gafas.gd",
+      "lineRange": [
+        1,
+        40
+      ],
+      "summary": "Script GDScript asociado a plataforma_gafas; encapsula lógica de juego, comportamiento o soporte del sistema.",
+      "tags": [
+        "gdscript",
+        "gameplay",
+        "gafas",
+        "habilidad"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:Scripts/plataforma_gafas.gd:PlataformaGafas",
+      "type": "class",
+      "name": "PlataformaGafas",
+      "filePath": "Scripts/plataforma_gafas.gd",
+      "lineRange": [
+        1,
+        40
+      ],
+      "summary": "Clase principal del script plataforma_gafas.gd; concentra el comportamiento central definido en este archivo.",
+      "tags": [
+        "gdscript",
+        "gameplay",
+        "gafas",
+        "habilidad",
+        "clase"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Scripts/plataforma_gafas.gd:_ready",
+      "type": "function",
+      "name": "_ready",
+      "filePath": "Scripts/plataforma_gafas.gd",
+      "lineRange": [
+        14,
+        18
+      ],
+      "summary": "Función _ready definida en plataforma_gafas.gd; participa en la lógica específica de este módulo.",
+      "tags": [
+        "gdscript",
+        "gameplay",
+        "gafas",
+        "habilidad",
+        "funcion"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Scripts/plataforma_gafas.gd:_animar_alpha",
+      "type": "function",
+      "name": "_animar_alpha",
+      "filePath": "Scripts/plataforma_gafas.gd",
+      "lineRange": [
+        29,
+        41
+      ],
+      "summary": "Función _animar_alpha definida en plataforma_gafas.gd; participa en la lógica específica de este módulo.",
+      "tags": [
+        "gdscript",
+        "gameplay",
+        "gafas",
+        "habilidad",
+        "funcion"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:Scripts/Platform.gd",
+      "type": "file",
+      "name": "Platform.gd",
+      "filePath": "Scripts/Platform.gd",
+      "lineRange": [
+        1,
+        69
+      ],
+      "summary": "Script GDScript asociado a Platform; encapsula lógica de juego, comportamiento o soporte del sistema.",
+      "tags": [
+        "gdscript",
+        "gameplay"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Scripts/Platform.gd:_ready",
+      "type": "function",
+      "name": "_ready",
+      "filePath": "Scripts/Platform.gd",
+      "lineRange": [
+        14,
+        19
+      ],
+      "summary": "Función _ready definida en Platform.gd; participa en la lógica específica de este módulo.",
+      "tags": [
+        "gdscript",
+        "gameplay",
+        "funcion"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Scripts/Platform.gd:_physics_process",
+      "type": "function",
+      "name": "_physics_process",
+      "filePath": "Scripts/Platform.gd",
+      "lineRange": [
+        20,
+        37
+      ],
+      "summary": "Función _physics_process definida en Platform.gd; participa en la lógica específica de este módulo.",
+      "tags": [
+        "gdscript",
+        "gameplay",
+        "funcion"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:Scripts/Platform.gd:_jugador_ocupa_volumen",
+      "type": "function",
+      "name": "_jugador_ocupa_volumen",
+      "filePath": "Scripts/Platform.gd",
+      "lineRange": [
+        38,
+        53
+      ],
+      "summary": "Función _jugador_ocupa_volumen definida en Platform.gd; participa en la lógica específica de este módulo.",
+      "tags": [
+        "gdscript",
+        "gameplay",
+        "funcion"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:Scripts/Platform.gd:_rectangulos_se_superponen",
+      "type": "function",
+      "name": "_rectangulos_se_superponen",
+      "filePath": "Scripts/Platform.gd",
+      "lineRange": [
+        54,
+        63
+      ],
+      "summary": "Función _rectangulos_se_superponen definida en Platform.gd; participa en la lógica específica de este módulo.",
+      "tags": [
+        "gdscript",
+        "gameplay",
+        "funcion"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:Scripts/puerta_bloqueada.gd",
+      "type": "file",
+      "name": "puerta_bloqueada.gd",
+      "filePath": "Scripts/puerta_bloqueada.gd",
+      "lineRange": [
+        1,
+        36
+      ],
+      "summary": "Script GDScript asociado a puerta_bloqueada; encapsula lógica de juego, comportamiento o soporte del sistema.",
+      "tags": [
+        "gdscript",
+        "gameplay"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:Scripts/puerta_bloqueada.gd:PuertaBloqueada",
+      "type": "class",
+      "name": "PuertaBloqueada",
+      "filePath": "Scripts/puerta_bloqueada.gd",
+      "lineRange": [
+        1,
+        36
+      ],
+      "summary": "Clase principal del script puerta_bloqueada.gd; concentra el comportamiento central definido en este archivo.",
+      "tags": [
+        "gdscript",
+        "gameplay",
+        "clase"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Scripts/puerta_bloqueada.gd:_ready",
+      "type": "function",
+      "name": "_ready",
+      "filePath": "Scripts/puerta_bloqueada.gd",
+      "lineRange": [
+        7,
+        11
+      ],
+      "summary": "Función _ready definida en puerta_bloqueada.gd; participa en la lógica específica de este módulo.",
+      "tags": [
+        "gdscript",
+        "gameplay",
+        "funcion"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Scripts/puerta_bloqueada.gd:abrir",
+      "type": "function",
+      "name": "abrir",
+      "filePath": "Scripts/puerta_bloqueada.gd",
+      "lineRange": [
+        16,
+        34
+      ],
+      "summary": "Función abrir definida en puerta_bloqueada.gd; participa en la lógica específica de este módulo.",
+      "tags": [
+        "gdscript",
+        "gameplay",
+        "funcion"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:Scripts/puerta_teletransporte.gd",
+      "type": "file",
+      "name": "puerta_teletransporte.gd",
+      "filePath": "Scripts/puerta_teletransporte.gd",
+      "lineRange": [
+        1,
+        268
+      ],
+      "summary": "Script GDScript asociado a puerta_teletransporte; encapsula lógica de juego, comportamiento o soporte del sistema.",
+      "tags": [
+        "gdscript",
+        "gameplay"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:Scripts/puerta_teletransporte.gd:PuertaTeletransporte",
+      "type": "class",
+      "name": "PuertaTeletransporte",
+      "filePath": "Scripts/puerta_teletransporte.gd",
+      "lineRange": [
+        1,
+        268
+      ],
+      "summary": "Clase principal del script puerta_teletransporte.gd; concentra el comportamiento central definido en este archivo.",
+      "tags": [
+        "gdscript",
+        "gameplay",
+        "clase"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:Scripts/puerta_teletransporte.gd:_ready",
+      "type": "function",
+      "name": "_ready",
+      "filePath": "Scripts/puerta_teletransporte.gd",
+      "lineRange": [
+        35,
+        43
+      ],
+      "summary": "Función _ready definida en puerta_teletransporte.gd; participa en la lógica específica de este módulo.",
+      "tags": [
+        "gdscript",
+        "gameplay",
+        "funcion"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Scripts/puerta_teletransporte.gd:obtener_puerta_destino",
+      "type": "function",
+      "name": "obtener_puerta_destino",
+      "filePath": "Scripts/puerta_teletransporte.gd",
+      "lineRange": [
+        44,
+        53
+      ],
+      "summary": "Función obtener_puerta_destino definida en puerta_teletransporte.gd; participa en la lógica específica de este módulo.",
+      "tags": [
+        "gdscript",
+        "gameplay",
+        "funcion"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Scripts/puerta_teletransporte.gd:reproducir_animacion_apertura",
+      "type": "function",
+      "name": "reproducir_animacion_apertura",
+      "filePath": "Scripts/puerta_teletransporte.gd",
+      "lineRange": [
+        73,
+        95
+      ],
+      "summary": "Función reproducir_animacion_apertura definida en puerta_teletransporte.gd; participa en la lógica específica de este módulo.",
+      "tags": [
+        "gdscript",
+        "gameplay",
+        "funcion"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:Scripts/puerta_teletransporte.gd:_on_body_entered_teletransporte",
+      "type": "function",
+      "name": "_on_body_entered_teletransporte",
+      "filePath": "Scripts/puerta_teletransporte.gd",
+      "lineRange": [
+        118,
+        136
+      ],
+      "summary": "Función _on_body_entered_teletransporte definida en puerta_teletransporte.gd; participa en la lógica específica de este módulo.",
+      "tags": [
+        "gdscript",
+        "gameplay",
+        "funcion"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:Scripts/puerta_teletransporte.gd:_teletransportar_jugador",
+      "type": "function",
+      "name": "_teletransportar_jugador",
+      "filePath": "Scripts/puerta_teletransporte.gd",
+      "lineRange": [
+        137,
+        176
+      ],
+      "summary": "Función _teletransportar_jugador definida en puerta_teletransporte.gd; participa en la lógica específica de este módulo.",
+      "tags": [
+        "gdscript",
+        "gameplay",
+        "funcion"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:Scripts/puerta_teletransporte.gd:_intentar_teletransportar_cuerpos_superpuestos",
+      "type": "function",
+      "name": "_intentar_teletransportar_cuerpos_superpuestos",
+      "filePath": "Scripts/puerta_teletransporte.gd",
+      "lineRange": [
+        184,
+        193
+      ],
+      "summary": "Función _intentar_teletransportar_cuerpos_superpuestos definida en puerta_teletransporte.gd; participa en la lógica específica de este módulo.",
+      "tags": [
+        "gdscript",
+        "gameplay",
+        "funcion"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Scripts/puerta_teletransporte.gd:_cambiar_a_escena_destino",
+      "type": "function",
+      "name": "_cambiar_a_escena_destino",
+      "filePath": "Scripts/puerta_teletransporte.gd",
+      "lineRange": [
+        198,
+        207
+      ],
+      "summary": "Función _cambiar_a_escena_destino definida en puerta_teletransporte.gd; participa en la lógica específica de este módulo.",
+      "tags": [
+        "gdscript",
+        "gameplay",
+        "funcion"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Scripts/puerta_teletransporte.gd:_actualizar_visual",
+      "type": "function",
+      "name": "_actualizar_visual",
+      "filePath": "Scripts/puerta_teletransporte.gd",
+      "lineRange": [
+        208,
+        221
+      ],
+      "summary": "Función _actualizar_visual definida en puerta_teletransporte.gd; participa en la lógica específica de este módulo.",
+      "tags": [
+        "gdscript",
+        "gameplay",
+        "funcion"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Scripts/puerta_teletransporte.gd:_configurar_audio",
+      "type": "function",
+      "name": "_configurar_audio",
+      "filePath": "Scripts/puerta_teletransporte.gd",
+      "lineRange": [
+        222,
+        232
+      ],
+      "summary": "Función _configurar_audio definida en puerta_teletransporte.gd; participa en la lógica específica de este módulo.",
+      "tags": [
+        "gdscript",
+        "gameplay",
+        "funcion"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Scripts/puerta_teletransporte.gd:_obtener_stream_apertura",
+      "type": "function",
+      "name": "_obtener_stream_apertura",
+      "filePath": "Scripts/puerta_teletransporte.gd",
+      "lineRange": [
+        242,
+        269
+      ],
+      "summary": "Función _obtener_stream_apertura definida en puerta_teletransporte.gd; participa en la lógica específica de este módulo.",
+      "tags": [
+        "gdscript",
+        "gameplay",
+        "funcion"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:Scripts/puzzle_base.gd",
+      "type": "file",
+      "name": "puzzle_base.gd",
+      "filePath": "Scripts/puzzle_base.gd",
+      "lineRange": [
+        1,
+        117
+      ],
+      "summary": "Script GDScript asociado a puzzle_base; encapsula lógica de juego, comportamiento o soporte del sistema.",
+      "tags": [
+        "gdscript",
+        "gameplay",
+        "puzzle",
+        "interaccion"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:Scripts/puzzle_base.gd:PuzzleBase",
+      "type": "class",
+      "name": "PuzzleBase",
+      "filePath": "Scripts/puzzle_base.gd",
+      "lineRange": [
+        1,
+        117
+      ],
+      "summary": "Clase principal del script puzzle_base.gd; concentra el comportamiento central definido en este archivo.",
+      "tags": [
+        "gdscript",
+        "gameplay",
+        "puzzle",
+        "interaccion",
+        "clase"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:Scripts/puzzle_base.gd:_ready",
+      "type": "function",
+      "name": "_ready",
+      "filePath": "Scripts/puzzle_base.gd",
+      "lineRange": [
+        14,
+        18
+      ],
+      "summary": "Función _ready definida en puzzle_base.gd; participa en la lógica específica de este módulo.",
+      "tags": [
+        "gdscript",
+        "gameplay",
+        "puzzle",
+        "interaccion",
+        "funcion"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Scripts/puzzle_base.gd:_crear_panel_principal",
+      "type": "function",
+      "name": "_crear_panel_principal",
+      "filePath": "Scripts/puzzle_base.gd",
+      "lineRange": [
+        83,
+        96
+      ],
+      "summary": "Función _crear_panel_principal definida en puzzle_base.gd; participa en la lógica específica de este módulo.",
+      "tags": [
+        "gdscript",
+        "gameplay",
+        "puzzle",
+        "interaccion",
+        "funcion"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Scripts/puzzle_base.gd:_estilizar_boton_pixel",
+      "type": "function",
+      "name": "_estilizar_boton_pixel",
+      "filePath": "Scripts/puzzle_base.gd",
+      "lineRange": [
+        97,
+        107
+      ],
+      "summary": "Función _estilizar_boton_pixel definida en puzzle_base.gd; participa en la lógica específica de este módulo.",
+      "tags": [
+        "gdscript",
+        "gameplay",
+        "puzzle",
+        "interaccion",
+        "funcion"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Scripts/puzzle_base.gd:_crear_estilo_boton",
+      "type": "function",
+      "name": "_crear_estilo_boton",
+      "filePath": "Scripts/puzzle_base.gd",
+      "lineRange": [
+        108,
+        118
+      ],
+      "summary": "Función _crear_estilo_boton definida en puzzle_base.gd; participa en la lógica específica de este módulo.",
+      "tags": [
+        "gdscript",
+        "gameplay",
+        "puzzle",
+        "interaccion",
+        "funcion"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:Scripts/puzzle_gafas.gd",
+      "type": "file",
+      "name": "puzzle_gafas.gd",
+      "filePath": "Scripts/puzzle_gafas.gd",
+      "lineRange": [
+        1,
+        151
+      ],
+      "summary": "Script GDScript asociado a puzzle_gafas; encapsula lógica de juego, comportamiento o soporte del sistema.",
+      "tags": [
+        "gdscript",
+        "gameplay",
+        "puzzle",
+        "interaccion",
+        "gafas"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:Scripts/puzzle_gafas.gd:PuzzleGafas",
+      "type": "class",
+      "name": "PuzzleGafas",
+      "filePath": "Scripts/puzzle_gafas.gd",
+      "lineRange": [
+        1,
+        151
+      ],
+      "summary": "Clase principal del script puzzle_gafas.gd; concentra el comportamiento central definido en este archivo.",
+      "tags": [
+        "gdscript",
+        "gameplay",
+        "puzzle",
+        "interaccion",
+        "gafas"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:Scripts/puzzle_gafas.gd:_ready",
+      "type": "function",
+      "name": "_ready",
+      "filePath": "Scripts/puzzle_gafas.gd",
+      "lineRange": [
+        29,
+        53
+      ],
+      "summary": "Función _ready definida en puzzle_gafas.gd; participa en la lógica específica de este módulo.",
+      "tags": [
+        "gdscript",
+        "gameplay",
+        "puzzle",
+        "interaccion",
+        "gafas"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:Scripts/puzzle_gafas.gd:resolver_automaticamente_para_prueba",
+      "type": "function",
+      "name": "resolver_automaticamente_para_prueba",
+      "filePath": "Scripts/puzzle_gafas.gd",
+      "lineRange": [
+        66,
+        76
+      ],
+      "summary": "Función resolver_automaticamente_para_prueba definida en puzzle_gafas.gd; participa en la lógica específica de este módulo.",
+      "tags": [
+        "gdscript",
+        "gameplay",
+        "puzzle",
+        "interaccion",
+        "gafas"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Scripts/puzzle_gafas.gd:_preparar_nuevo_patron",
+      "type": "function",
+      "name": "_preparar_nuevo_patron",
+      "filePath": "Scripts/puzzle_gafas.gd",
+      "lineRange": [
+        77,
+        91
+      ],
+      "summary": "Función _preparar_nuevo_patron definida en puzzle_gafas.gd; participa en la lógica específica de este módulo.",
+      "tags": [
+        "gdscript",
+        "gameplay",
+        "puzzle",
+        "interaccion",
+        "gafas"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:Scripts/puzzle_gafas.gd:_procesar_simbolo",
+      "type": "function",
+      "name": "_procesar_simbolo",
+      "filePath": "Scripts/puzzle_gafas.gd",
+      "lineRange": [
+        101,
+        122
+      ],
+      "summary": "Función _procesar_simbolo definida en puzzle_gafas.gd; participa en la lógica específica de este módulo.",
+      "tags": [
+        "gdscript",
+        "gameplay",
+        "puzzle",
+        "interaccion",
+        "gafas"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:Scripts/puzzle_matematicas.gd",
+      "type": "file",
+      "name": "puzzle_matematicas.gd",
+      "filePath": "Scripts/puzzle_matematicas.gd",
+      "lineRange": [
+        1,
+        146
+      ],
+      "summary": "Script GDScript asociado a puzzle_matematicas; encapsula lógica de juego, comportamiento o soporte del sistema.",
+      "tags": [
+        "gdscript",
+        "gameplay",
+        "puzzle",
+        "interaccion"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:Scripts/puzzle_matematicas.gd:PuzzleMatematicas",
+      "type": "class",
+      "name": "PuzzleMatematicas",
+      "filePath": "Scripts/puzzle_matematicas.gd",
+      "lineRange": [
+        1,
+        146
+      ],
+      "summary": "Clase principal del script puzzle_matematicas.gd; concentra el comportamiento central definido en este archivo.",
+      "tags": [
+        "gdscript",
+        "gameplay",
+        "puzzle",
+        "interaccion",
+        "clase"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:Scripts/puzzle_matematicas.gd:_ready",
+      "type": "function",
+      "name": "_ready",
+      "filePath": "Scripts/puzzle_matematicas.gd",
+      "lineRange": [
+        28,
+        50
+      ],
+      "summary": "Función _ready definida en puzzle_matematicas.gd; participa en la lógica específica de este módulo.",
+      "tags": [
+        "gdscript",
+        "gameplay",
+        "puzzle",
+        "interaccion",
+        "funcion"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:Scripts/puzzle_matematicas.gd:_preparar_pregunta",
+      "type": "function",
+      "name": "_preparar_pregunta",
+      "filePath": "Scripts/puzzle_matematicas.gd",
+      "lineRange": [
+        71,
+        88
+      ],
+      "summary": "Función _preparar_pregunta definida en puzzle_matematicas.gd; participa en la lógica específica de este módulo.",
+      "tags": [
+        "gdscript",
+        "gameplay",
+        "puzzle",
+        "interaccion",
+        "funcion"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:Scripts/puzzle_matematicas.gd:_colocar_opciones",
+      "type": "function",
+      "name": "_colocar_opciones",
+      "filePath": "Scripts/puzzle_matematicas.gd",
+      "lineRange": [
+        89,
+        108
+      ],
+      "summary": "Función _colocar_opciones definida en puzzle_matematicas.gd; participa en la lógica específica de este módulo.",
+      "tags": [
+        "gdscript",
+        "gameplay",
+        "puzzle",
+        "interaccion",
+        "funcion"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:Scripts/puzzle_matematicas.gd:_procesar_respuesta",
+      "type": "function",
+      "name": "_procesar_respuesta",
+      "filePath": "Scripts/puzzle_matematicas.gd",
+      "lineRange": [
+        109,
+        126
+      ],
+      "summary": "Función _procesar_respuesta definida en puzzle_matematicas.gd; participa en la lógica específica de este módulo.",
+      "tags": [
+        "gdscript",
+        "gameplay",
+        "puzzle",
+        "interaccion",
+        "funcion"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:Scripts/puzzle_secuencia.gd",
+      "type": "file",
+      "name": "puzzle_secuencia.gd",
+      "filePath": "Scripts/puzzle_secuencia.gd",
+      "lineRange": [
+        1,
+        156
+      ],
+      "summary": "Script GDScript asociado a puzzle_secuencia; encapsula lógica de juego, comportamiento o soporte del sistema.",
+      "tags": [
+        "gdscript",
+        "gameplay",
+        "puzzle",
+        "interaccion"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:Scripts/puzzle_secuencia.gd:PuzzleSecuencia",
+      "type": "class",
+      "name": "PuzzleSecuencia",
+      "filePath": "Scripts/puzzle_secuencia.gd",
+      "lineRange": [
+        1,
+        156
+      ],
+      "summary": "Clase principal del script puzzle_secuencia.gd; concentra el comportamiento central definido en este archivo.",
+      "tags": [
+        "gdscript",
+        "gameplay",
+        "puzzle",
+        "interaccion",
+        "clase"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:Scripts/puzzle_secuencia.gd:_ready",
+      "type": "function",
+      "name": "_ready",
+      "filePath": "Scripts/puzzle_secuencia.gd",
+      "lineRange": [
+        29,
+        53
+      ],
+      "summary": "Función _ready definida en puzzle_secuencia.gd; participa en la lógica específica de este módulo.",
+      "tags": [
+        "gdscript",
+        "gameplay",
+        "puzzle",
+        "interaccion",
+        "funcion"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:Scripts/puzzle_secuencia.gd:resolver_automaticamente_para_prueba",
+      "type": "function",
+      "name": "resolver_automaticamente_para_prueba",
+      "filePath": "Scripts/puzzle_secuencia.gd",
+      "lineRange": [
+        70,
+        80
+      ],
+      "summary": "Función resolver_automaticamente_para_prueba definida en puzzle_secuencia.gd; participa en la lógica específica de este módulo.",
+      "tags": [
+        "gdscript",
+        "gameplay",
+        "puzzle",
+        "interaccion",
+        "funcion"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Scripts/puzzle_secuencia.gd:_preparar_nueva_ronda",
+      "type": "function",
+      "name": "_preparar_nueva_ronda",
+      "filePath": "Scripts/puzzle_secuencia.gd",
+      "lineRange": [
+        81,
+        95
+      ],
+      "summary": "Función _preparar_nueva_ronda definida en puzzle_secuencia.gd; participa en la lógica específica de este módulo.",
+      "tags": [
+        "gdscript",
+        "gameplay",
+        "puzzle",
+        "interaccion",
+        "funcion"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:Scripts/puzzle_secuencia.gd:_habilitar_entrada",
+      "type": "function",
+      "name": "_habilitar_entrada",
+      "filePath": "Scripts/puzzle_secuencia.gd",
+      "lineRange": [
+        96,
+        105
+      ],
+      "summary": "Función _habilitar_entrada definida en puzzle_secuencia.gd; participa en la lógica específica de este módulo.",
+      "tags": [
+        "gdscript",
+        "gameplay",
+        "puzzle",
+        "interaccion",
+        "funcion"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Scripts/puzzle_secuencia.gd:_procesar_simbolo",
+      "type": "function",
+      "name": "_procesar_simbolo",
+      "filePath": "Scripts/puzzle_secuencia.gd",
+      "lineRange": [
+        106,
+        127
+      ],
+      "summary": "Función _procesar_simbolo definida en puzzle_secuencia.gd; participa en la lógica específica de este módulo.",
+      "tags": [
+        "gdscript",
+        "gameplay",
+        "puzzle",
+        "interaccion",
+        "funcion"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:Scripts/salto.gd",
+      "type": "file",
+      "name": "salto.gd",
+      "filePath": "Scripts/salto.gd",
+      "lineRange": [
+        1,
+        12
+      ],
+      "summary": "Script GDScript asociado a salto; encapsula lógica de juego, comportamiento o soporte del sistema.",
+      "tags": [
+        "gdscript",
+        "gameplay"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Scripts/salto.gd:_ready",
+      "type": "function",
+      "name": "_ready",
+      "filePath": "Scripts/salto.gd",
+      "lineRange": [
+        6,
+        10
+      ],
+      "summary": "Función _ready definida en salto.gd; participa en la lógica específica de este módulo.",
+      "tags": [
+        "gdscript",
+        "gameplay",
+        "funcion"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Scripts/salto.gd:_process",
+      "type": "function",
+      "name": "_process",
+      "filePath": "Scripts/salto.gd",
+      "lineRange": [
+        11,
+        13
+      ],
+      "summary": "Función _process definida en salto.gd; participa en la lógica específica de este módulo.",
+      "tags": [
+        "gdscript",
+        "gameplay",
+        "funcion"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:Scripts/Seguir-Camara.gd",
+      "type": "file",
+      "name": "Seguir-Camara.gd",
+      "filePath": "Scripts/Seguir-Camara.gd",
+      "lineRange": [
+        1,
+        37
+      ],
+      "summary": "Script GDScript asociado a Seguir-Camara; encapsula lógica de juego, comportamiento o soporte del sistema.",
+      "tags": [
+        "gdscript",
+        "gameplay"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Scripts/Seguir-Camara.gd:_process",
+      "type": "function",
+      "name": "_process",
+      "filePath": "Scripts/Seguir-Camara.gd",
+      "lineRange": [
+        12,
+        16
+      ],
+      "summary": "Función _process definida en Seguir-Camara.gd; participa en la lógica específica de este módulo.",
+      "tags": [
+        "gdscript",
+        "gameplay",
+        "funcion"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:Scripts/sistema_estamina.gd",
+      "type": "file",
+      "name": "sistema_estamina.gd",
+      "filePath": "Scripts/sistema_estamina.gd",
+      "lineRange": [
+        1,
+        38
+      ],
+      "summary": "Script GDScript asociado a sistema_estamina; encapsula lógica de juego, comportamiento o soporte del sistema.",
+      "tags": [
+        "gdscript",
+        "gameplay"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:Scripts/sistema_estamina.gd:SistemaEstamina",
+      "type": "class",
+      "name": "SistemaEstamina",
+      "filePath": "Scripts/sistema_estamina.gd",
+      "lineRange": [
+        1,
+        38
+      ],
+      "summary": "Clase principal del script sistema_estamina.gd; concentra el comportamiento central definido en este archivo.",
+      "tags": [
+        "gdscript",
+        "gameplay",
+        "clase"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:Scripts/sistema_guardado.gd",
+      "type": "file",
+      "name": "sistema_guardado.gd",
+      "filePath": "Scripts/sistema_guardado.gd",
+      "lineRange": [
+        1,
+        171
+      ],
+      "summary": "Administra slots de guardado, persistencia de progreso y restauración del estado del juego.",
+      "tags": [
+        "gdscript",
+        "gameplay",
+        "persistencia",
+        "sistema"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:Scripts/sistema_guardado.gd:SistemaGuardado",
+      "type": "class",
+      "name": "SistemaGuardado",
+      "filePath": "Scripts/sistema_guardado.gd",
+      "lineRange": [
+        1,
+        171
+      ],
+      "summary": "Clase principal del script sistema_guardado.gd; concentra el comportamiento central definido en este archivo.",
+      "tags": [
+        "gdscript",
+        "gameplay",
+        "persistencia",
+        "sistema",
+        "clase"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:Scripts/sombras_plataformas.gd",
+      "type": "file",
+      "name": "sombras_plataformas.gd",
+      "filePath": "Scripts/sombras_plataformas.gd",
+      "lineRange": [
+        1,
+        38
+      ],
+      "summary": "Script GDScript asociado a sombras_plataformas; encapsula lógica de juego, comportamiento o soporte del sistema.",
+      "tags": [
+        "gdscript",
+        "gameplay"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:Scripts/sombras_plataformas.gd:SombrasPlataformas",
+      "type": "class",
+      "name": "SombrasPlataformas",
+      "filePath": "Scripts/sombras_plataformas.gd",
+      "lineRange": [
+        1,
+        38
+      ],
+      "summary": "Clase principal del script sombras_plataformas.gd; concentra el comportamiento central definido en este archivo.",
+      "tags": [
+        "gdscript",
+        "gameplay",
+        "clase"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Scripts/sombras_plataformas.gd:_ready",
+      "type": "function",
+      "name": "_ready",
+      "filePath": "Scripts/sombras_plataformas.gd",
+      "lineRange": [
+        12,
+        17
+      ],
+      "summary": "Función _ready definida en sombras_plataformas.gd; participa en la lógica específica de este módulo.",
+      "tags": [
+        "gdscript",
+        "gameplay",
+        "funcion"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Scripts/sombras_plataformas.gd:_crear_sombras",
+      "type": "function",
+      "name": "_crear_sombras",
+      "filePath": "Scripts/sombras_plataformas.gd",
+      "lineRange": [
+        18,
+        33
+      ],
+      "summary": "Función _crear_sombras definida en sombras_plataformas.gd; participa en la lógica específica de este módulo.",
+      "tags": [
+        "gdscript",
+        "gameplay",
+        "funcion"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:Scripts/sprite_animado_frames.gd",
+      "type": "file",
+      "name": "sprite_animado_frames.gd",
+      "filePath": "Scripts/sprite_animado_frames.gd",
+      "lineRange": [
+        1,
+        49
+      ],
+      "summary": "Script GDScript asociado a sprite_animado_frames; encapsula lógica de juego, comportamiento o soporte del sistema.",
+      "tags": [
+        "gdscript",
+        "gameplay"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:Scripts/sprite_animado_frames.gd:SpriteAnimadoFrames",
+      "type": "class",
+      "name": "SpriteAnimadoFrames",
+      "filePath": "Scripts/sprite_animado_frames.gd",
+      "lineRange": [
+        1,
+        49
+      ],
+      "summary": "Clase principal del script sprite_animado_frames.gd; concentra el comportamiento central definido en este archivo.",
+      "tags": [
+        "gdscript",
+        "gameplay",
+        "clase"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Scripts/sprite_animado_frames.gd:_ready",
+      "type": "function",
+      "name": "_ready",
+      "filePath": "Scripts/sprite_animado_frames.gd",
+      "lineRange": [
+        15,
+        19
+      ],
+      "summary": "Función _ready definida en sprite_animado_frames.gd; participa en la lógica específica de este módulo.",
+      "tags": [
+        "gdscript",
+        "gameplay",
+        "funcion"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Scripts/sprite_animado_frames.gd:_process",
+      "type": "function",
+      "name": "_process",
+      "filePath": "Scripts/sprite_animado_frames.gd",
+      "lineRange": [
+        20,
+        32
+      ],
+      "summary": "Función _process definida en sprite_animado_frames.gd; participa en la lógica específica de este módulo.",
+      "tags": [
+        "gdscript",
+        "gameplay",
+        "funcion"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Scripts/sprite_animado_frames.gd:_cargar_frames",
+      "type": "function",
+      "name": "_cargar_frames",
+      "filePath": "Scripts/sprite_animado_frames.gd",
+      "lineRange": [
+        33,
+        43
+      ],
+      "summary": "Función _cargar_frames definida en sprite_animado_frames.gd; participa en la lógica específica de este módulo.",
+      "tags": [
+        "gdscript",
+        "gameplay",
+        "funcion"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Scripts/sprite_animado_frames.gd:_cargar_textura_png",
+      "type": "function",
+      "name": "_cargar_textura_png",
+      "filePath": "Scripts/sprite_animado_frames.gd",
+      "lineRange": [
+        44,
+        54
+      ],
+      "summary": "Función _cargar_textura_png definida en sprite_animado_frames.gd; participa en la lógica específica de este módulo.",
+      "tags": [
+        "gdscript",
+        "gameplay",
+        "funcion"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:Scripts/tda_lista_simple.gd",
+      "type": "file",
+      "name": "tda_lista_simple.gd",
+      "filePath": "Scripts/tda_lista_simple.gd",
+      "lineRange": [
+        1,
+        42
+      ],
+      "summary": "Implementa una lista simplemente enlazada usada como TDA propio dentro del proyecto.",
+      "tags": [
+        "gdscript",
+        "gameplay",
+        "tda",
+        "estructura-de-datos"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:Scripts/tda_lista_simple.gd:ListaSimple",
+      "type": "class",
+      "name": "ListaSimple",
+      "filePath": "Scripts/tda_lista_simple.gd",
+      "lineRange": [
+        1,
+        42
+      ],
+      "summary": "Clase principal del script tda_lista_simple.gd; concentra el comportamiento central definido en este archivo.",
+      "tags": [
+        "gdscript",
+        "gameplay",
+        "tda",
+        "estructura-de-datos",
+        "clase"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Scripts/tda_lista_simple.gd:insertar_final",
+      "type": "function",
+      "name": "insertar_final",
+      "filePath": "Scripts/tda_lista_simple.gd",
+      "lineRange": [
+        25,
+        35
+      ],
+      "summary": "Función insertar_final definida en tda_lista_simple.gd; participa en la lógica específica de este módulo.",
+      "tags": [
+        "gdscript",
+        "gameplay",
+        "tda",
+        "estructura-de-datos",
+        "funcion"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:Scripts/totem_jefe.gd",
+      "type": "file",
+      "name": "totem_jefe.gd",
+      "filePath": "Scripts/totem_jefe.gd",
+      "lineRange": [
+        1,
+        53
+      ],
+      "summary": "Script GDScript asociado a totem_jefe; encapsula lógica de juego, comportamiento o soporte del sistema.",
+      "tags": [
+        "gdscript",
+        "gameplay",
+        "enemigo",
+        "ia"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:Scripts/totem_jefe.gd:TotemJefe",
+      "type": "class",
+      "name": "TotemJefe",
+      "filePath": "Scripts/totem_jefe.gd",
+      "lineRange": [
+        1,
+        53
+      ],
+      "summary": "Clase principal del script totem_jefe.gd; concentra el comportamiento central definido en este archivo.",
+      "tags": [
+        "gdscript",
+        "gameplay",
+        "enemigo",
+        "ia",
+        "clase"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Scripts/totem_jefe.gd:_ready",
+      "type": "function",
+      "name": "_ready",
+      "filePath": "Scripts/totem_jefe.gd",
+      "lineRange": [
+        15,
+        21
+      ],
+      "summary": "Función _ready definida en totem_jefe.gd; participa en la lógica específica de este módulo.",
+      "tags": [
+        "gdscript",
+        "gameplay",
+        "enemigo",
+        "ia",
+        "funcion"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Scripts/totem_jefe.gd:activar",
+      "type": "function",
+      "name": "activar",
+      "filePath": "Scripts/totem_jefe.gd",
+      "lineRange": [
+        26,
+        36
+      ],
+      "summary": "Función activar definida en totem_jefe.gd; participa en la lógica específica de este módulo.",
+      "tags": [
+        "gdscript",
+        "gameplay",
+        "enemigo",
+        "ia",
+        "funcion"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:Shaders/filtro_accesibilidad.gdshader",
+      "type": "file",
+      "name": "filtro_accesibilidad.gdshader",
+      "filePath": "Shaders/filtro_accesibilidad.gdshader",
+      "lineRange": [
+        1,
+        75
+      ],
+      "summary": "Shader usado para efectos visuales o de accesibilidad dentro de la presentación del juego.",
+      "tags": [
+        "shader",
+        "visual"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:Shaders/vigneta_distorsion.gdshader",
+      "type": "file",
+      "name": "vigneta_distorsion.gdshader",
+      "filePath": "Shaders/vigneta_distorsion.gdshader",
+      "lineRange": [
+        1,
+        58
+      ],
+      "summary": "Shader usado para efectos visuales o de accesibilidad dentro de la presentación del juego.",
+      "tags": [
+        "shader",
+        "visual"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "config:tile_set.tres",
+      "type": "config",
+      "name": "tile_set.tres",
+      "filePath": "tile_set.tres",
+      "lineRange": [
+        1,
+        423
+      ],
+      "summary": "Archivo tile_set.tres integrado en la estructura del proyecto con 419 líneas no vacías.",
+      "tags": [
+        "archivo"
+      ],
+      "complexity": "complex"
+    }
+  ],
+  "edges": [
+    {
+      "source": "file:Scripts/npc_dialogo.gd",
+      "target": "file:Scripts/interactivo_base.gd",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "description": "Referencia interna mediante ruta res://."
+    },
+    {
+      "source": "file:Scripts/npc_dialogo.gd",
+      "target": "class:Scripts/npc_dialogo.gd:NPCDialogo",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1,
+      "description": "El archivo contiene esta clase principal."
+    },
+    {
+      "source": "file:Scripts/npc_dialogo.gd",
+      "target": "function:Scripts/npc_dialogo.gd:_ready",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1,
+      "description": "El archivo contiene esta función."
+    },
+    {
+      "source": "file:Scripts/npc_dialogo.gd",
+      "target": "function:Scripts/npc_dialogo.gd:_on_body_entered",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1,
+      "description": "El archivo contiene esta función."
+    },
+    {
+      "source": "file:Scripts/npc_dialogo.gd",
+      "target": "function:Scripts/npc_dialogo.gd:_process",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1,
+      "description": "El archivo contiene esta función."
+    },
+    {
+      "source": "file:Scripts/npc_dialogo.gd",
+      "target": "function:Scripts/npc_dialogo.gd:interactuar",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1,
+      "description": "El archivo contiene esta función."
+    },
+    {
+      "source": "file:Scripts/npc_dialogo.gd",
+      "target": "function:Scripts/npc_dialogo.gd:_preparar_visual_npc",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1,
+      "description": "El archivo contiene esta función."
+    },
+    {
+      "source": "file:Scripts/perso_der.gd",
+      "target": "function:Scripts/perso_der.gd:_ready",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1,
+      "description": "El archivo contiene esta función."
+    },
+    {
+      "source": "file:Scripts/perso_der.gd",
+      "target": "function:Scripts/perso_der.gd:_process",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1,
+      "description": "El archivo contiene esta función."
+    },
+    {
+      "source": "file:Scripts/perso_izq.gd",
+      "target": "function:Scripts/perso_izq.gd:_ready",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1,
+      "description": "El archivo contiene esta función."
+    },
+    {
+      "source": "file:Scripts/perso_izq.gd",
+      "target": "function:Scripts/perso_izq.gd:_process",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1,
+      "description": "El archivo contiene esta función."
+    },
+    {
+      "source": "file:Scripts/perso.gd",
+      "target": "function:Scripts/perso.gd:_ready",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1,
+      "description": "El archivo contiene esta función."
+    },
+    {
+      "source": "file:Scripts/perso.gd",
+      "target": "function:Scripts/perso.gd:_process",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1,
+      "description": "El archivo contiene esta función."
+    },
+    {
+      "source": "file:Scripts/plataforma_gafas.gd",
+      "target": "class:Scripts/plataforma_gafas.gd:PlataformaGafas",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1,
+      "description": "El archivo contiene esta clase principal."
+    },
+    {
+      "source": "file:Scripts/plataforma_gafas.gd",
+      "target": "function:Scripts/plataforma_gafas.gd:_ready",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1,
+      "description": "El archivo contiene esta función."
+    },
+    {
+      "source": "file:Scripts/plataforma_gafas.gd",
+      "target": "function:Scripts/plataforma_gafas.gd:_animar_alpha",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1,
+      "description": "El archivo contiene esta función."
+    },
+    {
+      "source": "file:Scripts/Platform.gd",
+      "target": "function:Scripts/Platform.gd:_ready",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1,
+      "description": "El archivo contiene esta función."
+    },
+    {
+      "source": "file:Scripts/Platform.gd",
+      "target": "function:Scripts/Platform.gd:_physics_process",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1,
+      "description": "El archivo contiene esta función."
+    },
+    {
+      "source": "file:Scripts/Platform.gd",
+      "target": "function:Scripts/Platform.gd:_jugador_ocupa_volumen",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1,
+      "description": "El archivo contiene esta función."
+    },
+    {
+      "source": "file:Scripts/Platform.gd",
+      "target": "function:Scripts/Platform.gd:_rectangulos_se_superponen",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1,
+      "description": "El archivo contiene esta función."
+    },
+    {
+      "source": "file:Scripts/puerta_bloqueada.gd",
+      "target": "file:Scripts/puerta_teletransporte.gd",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "description": "Referencia interna mediante ruta res://."
+    },
+    {
+      "source": "file:Scripts/puerta_bloqueada.gd",
+      "target": "class:Scripts/puerta_bloqueada.gd:PuertaBloqueada",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1,
+      "description": "El archivo contiene esta clase principal."
+    },
+    {
+      "source": "file:Scripts/puerta_bloqueada.gd",
+      "target": "function:Scripts/puerta_bloqueada.gd:_ready",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1,
+      "description": "El archivo contiene esta función."
+    },
+    {
+      "source": "file:Scripts/puerta_bloqueada.gd",
+      "target": "function:Scripts/puerta_bloqueada.gd:abrir",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1,
+      "description": "El archivo contiene esta función."
+    },
+    {
+      "source": "file:Scripts/puerta_teletransporte.gd",
+      "target": "file:Scripts/interactivo_base.gd",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "description": "Referencia interna mediante ruta res://."
+    },
+    {
+      "source": "file:Scripts/puerta_teletransporte.gd",
+      "target": "file:Scripts/sistema_guardado.gd",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "description": "Referencia interna mediante ruta res://."
+    },
+    {
+      "source": "file:Scripts/puerta_teletransporte.gd",
+      "target": "class:Scripts/puerta_teletransporte.gd:PuertaTeletransporte",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1,
+      "description": "El archivo contiene esta clase principal."
+    },
+    {
+      "source": "file:Scripts/puerta_teletransporte.gd",
+      "target": "function:Scripts/puerta_teletransporte.gd:_ready",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1,
+      "description": "El archivo contiene esta función."
+    },
+    {
+      "source": "file:Scripts/puerta_teletransporte.gd",
+      "target": "function:Scripts/puerta_teletransporte.gd:obtener_puerta_destino",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1,
+      "description": "El archivo contiene esta función."
+    },
+    {
+      "source": "file:Scripts/puerta_teletransporte.gd",
+      "target": "function:Scripts/puerta_teletransporte.gd:reproducir_animacion_apertura",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1,
+      "description": "El archivo contiene esta función."
+    },
+    {
+      "source": "file:Scripts/puerta_teletransporte.gd",
+      "target": "function:Scripts/puerta_teletransporte.gd:_on_body_entered_teletransporte",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1,
+      "description": "El archivo contiene esta función."
+    },
+    {
+      "source": "file:Scripts/puerta_teletransporte.gd",
+      "target": "function:Scripts/puerta_teletransporte.gd:_teletransportar_jugador",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1,
+      "description": "El archivo contiene esta función."
+    },
+    {
+      "source": "file:Scripts/puerta_teletransporte.gd",
+      "target": "function:Scripts/puerta_teletransporte.gd:_intentar_teletransportar_cuerpos_superpuestos",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1,
+      "description": "El archivo contiene esta función."
+    },
+    {
+      "source": "file:Scripts/puerta_teletransporte.gd",
+      "target": "function:Scripts/puerta_teletransporte.gd:_cambiar_a_escena_destino",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1,
+      "description": "El archivo contiene esta función."
+    },
+    {
+      "source": "file:Scripts/puerta_teletransporte.gd",
+      "target": "function:Scripts/puerta_teletransporte.gd:_actualizar_visual",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1,
+      "description": "El archivo contiene esta función."
+    },
+    {
+      "source": "file:Scripts/puerta_teletransporte.gd",
+      "target": "function:Scripts/puerta_teletransporte.gd:_configurar_audio",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1,
+      "description": "El archivo contiene esta función."
+    },
+    {
+      "source": "file:Scripts/puerta_teletransporte.gd",
+      "target": "function:Scripts/puerta_teletransporte.gd:_obtener_stream_apertura",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1,
+      "description": "El archivo contiene esta función."
+    },
+    {
+      "source": "file:Scripts/puzzle_base.gd",
+      "target": "class:Scripts/puzzle_base.gd:PuzzleBase",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1,
+      "description": "El archivo contiene esta clase principal."
+    },
+    {
+      "source": "file:Scripts/puzzle_base.gd",
+      "target": "function:Scripts/puzzle_base.gd:_ready",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1,
+      "description": "El archivo contiene esta función."
+    },
+    {
+      "source": "file:Scripts/puzzle_base.gd",
+      "target": "function:Scripts/puzzle_base.gd:_crear_panel_principal",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1,
+      "description": "El archivo contiene esta función."
+    },
+    {
+      "source": "file:Scripts/puzzle_base.gd",
+      "target": "function:Scripts/puzzle_base.gd:_estilizar_boton_pixel",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1,
+      "description": "El archivo contiene esta función."
+    },
+    {
+      "source": "file:Scripts/puzzle_base.gd",
+      "target": "function:Scripts/puzzle_base.gd:_crear_estilo_boton",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1,
+      "description": "El archivo contiene esta función."
+    },
+    {
+      "source": "file:Scripts/puzzle_gafas.gd",
+      "target": "file:Scripts/puzzle_base.gd",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "description": "Referencia interna mediante ruta res://."
+    },
+    {
+      "source": "file:Scripts/puzzle_gafas.gd",
+      "target": "class:Scripts/puzzle_gafas.gd:PuzzleGafas",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1,
+      "description": "El archivo contiene esta clase principal."
+    },
+    {
+      "source": "file:Scripts/puzzle_gafas.gd",
+      "target": "function:Scripts/puzzle_gafas.gd:_ready",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1,
+      "description": "El archivo contiene esta función."
+    },
+    {
+      "source": "file:Scripts/puzzle_gafas.gd",
+      "target": "function:Scripts/puzzle_gafas.gd:resolver_automaticamente_para_prueba",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1,
+      "description": "El archivo contiene esta función."
+    },
+    {
+      "source": "file:Scripts/puzzle_gafas.gd",
+      "target": "function:Scripts/puzzle_gafas.gd:_preparar_nuevo_patron",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1,
+      "description": "El archivo contiene esta función."
+    },
+    {
+      "source": "file:Scripts/puzzle_gafas.gd",
+      "target": "function:Scripts/puzzle_gafas.gd:_procesar_simbolo",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1,
+      "description": "El archivo contiene esta función."
+    },
+    {
+      "source": "file:Scripts/puzzle_matematicas.gd",
+      "target": "file:Scripts/puzzle_base.gd",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "description": "Referencia interna mediante ruta res://."
+    },
+    {
+      "source": "file:Scripts/puzzle_matematicas.gd",
+      "target": "class:Scripts/puzzle_matematicas.gd:PuzzleMatematicas",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1,
+      "description": "El archivo contiene esta clase principal."
+    },
+    {
+      "source": "file:Scripts/puzzle_matematicas.gd",
+      "target": "function:Scripts/puzzle_matematicas.gd:_ready",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1,
+      "description": "El archivo contiene esta función."
+    },
+    {
+      "source": "file:Scripts/puzzle_matematicas.gd",
+      "target": "function:Scripts/puzzle_matematicas.gd:_preparar_pregunta",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1,
+      "description": "El archivo contiene esta función."
+    },
+    {
+      "source": "file:Scripts/puzzle_matematicas.gd",
+      "target": "function:Scripts/puzzle_matematicas.gd:_colocar_opciones",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1,
+      "description": "El archivo contiene esta función."
+    },
+    {
+      "source": "file:Scripts/puzzle_matematicas.gd",
+      "target": "function:Scripts/puzzle_matematicas.gd:_procesar_respuesta",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1,
+      "description": "El archivo contiene esta función."
+    },
+    {
+      "source": "file:Scripts/puzzle_secuencia.gd",
+      "target": "file:Scripts/puzzle_base.gd",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "description": "Referencia interna mediante ruta res://."
+    },
+    {
+      "source": "file:Scripts/puzzle_secuencia.gd",
+      "target": "class:Scripts/puzzle_secuencia.gd:PuzzleSecuencia",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1,
+      "description": "El archivo contiene esta clase principal."
+    },
+    {
+      "source": "file:Scripts/puzzle_secuencia.gd",
+      "target": "function:Scripts/puzzle_secuencia.gd:_ready",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1,
+      "description": "El archivo contiene esta función."
+    },
+    {
+      "source": "file:Scripts/puzzle_secuencia.gd",
+      "target": "function:Scripts/puzzle_secuencia.gd:resolver_automaticamente_para_prueba",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1,
+      "description": "El archivo contiene esta función."
+    },
+    {
+      "source": "file:Scripts/puzzle_secuencia.gd",
+      "target": "function:Scripts/puzzle_secuencia.gd:_preparar_nueva_ronda",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1,
+      "description": "El archivo contiene esta función."
+    },
+    {
+      "source": "file:Scripts/puzzle_secuencia.gd",
+      "target": "function:Scripts/puzzle_secuencia.gd:_habilitar_entrada",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1,
+      "description": "El archivo contiene esta función."
+    },
+    {
+      "source": "file:Scripts/puzzle_secuencia.gd",
+      "target": "function:Scripts/puzzle_secuencia.gd:_procesar_simbolo",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1,
+      "description": "El archivo contiene esta función."
+    },
+    {
+      "source": "file:Scripts/salto.gd",
+      "target": "function:Scripts/salto.gd:_ready",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1,
+      "description": "El archivo contiene esta función."
+    },
+    {
+      "source": "file:Scripts/salto.gd",
+      "target": "function:Scripts/salto.gd:_process",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1,
+      "description": "El archivo contiene esta función."
+    },
+    {
+      "source": "file:Scripts/Seguir-Camara.gd",
+      "target": "function:Scripts/Seguir-Camara.gd:_process",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1,
+      "description": "El archivo contiene esta función."
+    },
+    {
+      "source": "file:Scripts/sistema_estamina.gd",
+      "target": "class:Scripts/sistema_estamina.gd:SistemaEstamina",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1,
+      "description": "El archivo contiene esta clase principal."
+    },
+    {
+      "source": "file:Scripts/sistema_guardado.gd",
+      "target": "file:Escenas/MainGame.tscn",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "description": "Referencia interna mediante ruta res://."
+    },
+    {
+      "source": "file:Scripts/sistema_guardado.gd",
+      "target": "file:Escenas/Mundo2.tscn",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "description": "Referencia interna mediante ruta res://."
+    },
+    {
+      "source": "file:Scripts/sistema_guardado.gd",
+      "target": "class:Scripts/sistema_guardado.gd:SistemaGuardado",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1,
+      "description": "El archivo contiene esta clase principal."
+    },
+    {
+      "source": "file:Scripts/sombras_plataformas.gd",
+      "target": "class:Scripts/sombras_plataformas.gd:SombrasPlataformas",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1,
+      "description": "El archivo contiene esta clase principal."
+    },
+    {
+      "source": "file:Scripts/sombras_plataformas.gd",
+      "target": "function:Scripts/sombras_plataformas.gd:_ready",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1,
+      "description": "El archivo contiene esta función."
+    },
+    {
+      "source": "file:Scripts/sombras_plataformas.gd",
+      "target": "function:Scripts/sombras_plataformas.gd:_crear_sombras",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1,
+      "description": "El archivo contiene esta función."
+    },
+    {
+      "source": "file:Scripts/sprite_animado_frames.gd",
+      "target": "class:Scripts/sprite_animado_frames.gd:SpriteAnimadoFrames",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1,
+      "description": "El archivo contiene esta clase principal."
+    },
+    {
+      "source": "file:Scripts/sprite_animado_frames.gd",
+      "target": "function:Scripts/sprite_animado_frames.gd:_ready",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1,
+      "description": "El archivo contiene esta función."
+    },
+    {
+      "source": "file:Scripts/sprite_animado_frames.gd",
+      "target": "function:Scripts/sprite_animado_frames.gd:_process",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1,
+      "description": "El archivo contiene esta función."
+    },
+    {
+      "source": "file:Scripts/sprite_animado_frames.gd",
+      "target": "function:Scripts/sprite_animado_frames.gd:_cargar_frames",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1,
+      "description": "El archivo contiene esta función."
+    },
+    {
+      "source": "file:Scripts/sprite_animado_frames.gd",
+      "target": "function:Scripts/sprite_animado_frames.gd:_cargar_textura_png",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1,
+      "description": "El archivo contiene esta función."
+    },
+    {
+      "source": "file:Scripts/tda_lista_simple.gd",
+      "target": "class:Scripts/tda_lista_simple.gd:ListaSimple",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1,
+      "description": "El archivo contiene esta clase principal."
+    },
+    {
+      "source": "file:Scripts/tda_lista_simple.gd",
+      "target": "function:Scripts/tda_lista_simple.gd:insertar_final",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1,
+      "description": "El archivo contiene esta función."
+    },
+    {
+      "source": "file:Scripts/totem_jefe.gd",
+      "target": "file:Scripts/interactivo_base.gd",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "description": "Referencia interna mediante ruta res://."
+    },
+    {
+      "source": "file:Scripts/totem_jefe.gd",
+      "target": "class:Scripts/totem_jefe.gd:TotemJefe",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1,
+      "description": "El archivo contiene esta clase principal."
+    },
+    {
+      "source": "file:Scripts/totem_jefe.gd",
+      "target": "function:Scripts/totem_jefe.gd:_ready",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1,
+      "description": "El archivo contiene esta función."
+    },
+    {
+      "source": "file:Scripts/totem_jefe.gd",
+      "target": "function:Scripts/totem_jefe.gd:activar",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1,
+      "description": "El archivo contiene esta función."
+    }
+  ]
+}

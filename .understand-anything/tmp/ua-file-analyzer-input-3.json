@@ -1,0 +1,182 @@
+{
+  "projectRoot": "C:\\Users\\HP\\Documents\\GitHub\\Poo-FinalProject",
+  "batchFiles": [
+    {
+      "path": "Escenas/opciones.tscn",
+      "language": "tscn",
+      "sizeLines": 80,
+      "fileCategory": "code"
+    },
+    {
+      "path": "Escenas/Personaje.tscn",
+      "language": "tscn",
+      "sizeLines": 28,
+      "fileCategory": "code"
+    },
+    {
+      "path": "Escenas/plataforma_gafas.tscn",
+      "language": "tscn",
+      "sizeLines": 18,
+      "fileCategory": "code"
+    },
+    {
+      "path": "Escenas/Plataforma.tscn",
+      "language": "tscn",
+      "sizeLines": 59,
+      "fileCategory": "code"
+    },
+    {
+      "path": "Escenas/PlataformaSolida.tscn",
+      "language": "tscn",
+      "sizeLines": 16,
+      "fileCategory": "code"
+    },
+    {
+      "path": "Escenas/Puerta.tscn",
+      "language": "tscn",
+      "sizeLines": 30,
+      "fileCategory": "code"
+    },
+    {
+      "path": "Escenas/PuertaTeletransporte.tscn",
+      "language": "tscn",
+      "sizeLines": 33,
+      "fileCategory": "code"
+    },
+    {
+      "path": "Escenas/PuzzleGafas.tscn",
+      "language": "tscn",
+      "sizeLines": 112,
+      "fileCategory": "code"
+    },
+    {
+      "path": "Escenas/PuzzleMatematicas.tscn",
+      "language": "tscn",
+      "sizeLines": 130,
+      "fileCategory": "code"
+    },
+    {
+      "path": "Escenas/PuzzleSecuencia.tscn",
+      "language": "tscn",
+      "sizeLines": 134,
+      "fileCategory": "code"
+    },
+    {
+      "path": "Escenas/TotemJefe.tscn",
+      "language": "tscn",
+      "sizeLines": 20,
+      "fileCategory": "code"
+    },
+    {
+      "path": "landing/index.html",
+      "language": "html",
+      "sizeLines": 243,
+      "fileCategory": "markup"
+    },
+    {
+      "path": "landing/script.js",
+      "language": "javascript",
+      "sizeLines": 143,
+      "fileCategory": "code"
+    },
+    {
+      "path": "landing/styles.css",
+      "language": "css",
+      "sizeLines": 836,
+      "fileCategory": "markup"
+    },
+    {
+      "path": "project.godot",
+      "language": "godot",
+      "sizeLines": 96,
+      "fileCategory": "code"
+    },
+    {
+      "path": "Scripts/altar_gafas.gd",
+      "language": "gd",
+      "sizeLines": 86,
+      "fileCategory": "code"
+    },
+    {
+      "path": "Scripts/ambiente_mundo_1.gd",
+      "language": "gd",
+      "sizeLines": 125,
+      "fileCategory": "code"
+    },
+    {
+      "path": "Scripts/ambiente_mundo_2.gd",
+      "language": "gd",
+      "sizeLines": 85,
+      "fileCategory": "code"
+    },
+    {
+      "path": "Scripts/checkpoint_activador.gd",
+      "language": "gd",
+      "sizeLines": 189,
+      "fileCategory": "code"
+    },
+    {
+      "path": "Scripts/correr.gd",
+      "language": "gd",
+      "sizeLines": 12,
+      "fileCategory": "code"
+    },
+    {
+      "path": "Scripts/cutscene_base.gd",
+      "language": "gd",
+      "sizeLines": 797,
+      "fileCategory": "code"
+    },
+    {
+      "path": "Scripts/dialogo_ui.gd",
+      "language": "gd",
+      "sizeLines": 127,
+      "fileCategory": "code"
+    },
+    {
+      "path": "Scripts/enemigo_base.gd",
+      "language": "gd",
+      "sizeLines": 340,
+      "fileCategory": "code"
+    },
+    {
+      "path": "Scripts/enemigo_flotante_base.gd",
+      "language": "gd",
+      "sizeLines": 36,
+      "fileCategory": "code"
+    },
+    {
+      "path": "Scripts/enemigo_flotante_horizontal.gd",
+      "language": "gd",
+      "sizeLines": 6,
+      "fileCategory": "code"
+    }
+  ],
+  "batchImportData": {
+    "Escenas/opciones.tscn": [],
+    "Escenas/Personaje.tscn": [],
+    "Escenas/plataforma_gafas.tscn": [],
+    "Escenas/Plataforma.tscn": [],
+    "Escenas/PlataformaSolida.tscn": [],
+    "Escenas/Puerta.tscn": [],
+    "Escenas/PuertaTeletransporte.tscn": [],
+    "Escenas/PuzzleGafas.tscn": [],
+    "Escenas/PuzzleMatematicas.tscn": [],
+    "Escenas/PuzzleSecuencia.tscn": [],
+    "Escenas/TotemJefe.tscn": [],
+    "landing/index.html": [],
+    "landing/script.js": [],
+    "landing/styles.css": [],
+    "project.godot": [],
+    "Scripts/altar_gafas.gd": [],
+    "Scripts/ambiente_mundo_1.gd": [],
+    "Scripts/ambiente_mundo_2.gd": [],
+    "Scripts/checkpoint_activador.gd": [],
+    "Scripts/correr.gd": [],
+    "Scripts/cutscene_base.gd": [],
+    "Scripts/dialogo_ui.gd": [],
+    "Scripts/enemigo_base.gd": [],
+    "Scripts/enemigo_flotante_base.gd": [],
+    "Scripts/enemigo_flotante_horizontal.gd": []
+  }
+}

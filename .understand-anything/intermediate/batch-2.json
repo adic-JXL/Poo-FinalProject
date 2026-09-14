@@ -1,0 +1,1023 @@
+{
+  "nodes": [
+    {
+      "id": "config:.gitattributes",
+      "type": "config",
+      "name": ".gitattributes",
+      "filePath": ".gitattributes",
+      "lineRange": [
+        1,
+        2
+      ],
+      "summary": "Archivo .gitattributes integrado en la estructura del proyecto con 2 líneas no vacías.",
+      "tags": [
+        "archivo"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "config:.understand-anything/.understandignore",
+      "type": "config",
+      "name": ".understandignore",
+      "filePath": ".understand-anything/.understandignore",
+      "lineRange": [
+        1,
+        44
+      ],
+      "summary": "Archivo .understandignore integrado en la estructura del proyecto con 39 líneas no vacías.",
+      "tags": [
+        "archivo"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "document:docs/informe_deep_shadows.tex",
+      "type": "document",
+      "name": "informe_deep_shadows.tex",
+      "filePath": "docs/informe_deep_shadows.tex",
+      "lineRange": [
+        1,
+        421
+      ],
+      "summary": "Documento del proyecto que desarrolla informe_deep_shadows para soporte técnico, defensa o entrega.",
+      "tags": [
+        "documentacion"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "file:Escenas/AltarGafas.tscn",
+      "type": "file",
+      "name": "AltarGafas.tscn",
+      "filePath": "Escenas/AltarGafas.tscn",
+      "lineRange": [
+        1,
+        26
+      ],
+      "summary": "Escena de Godot que define AltarGafas y la composición de nodos usada en el juego.",
+      "tags": [
+        "escena",
+        "godot",
+        "gafas",
+        "habilidad"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:Escenas/AmbienteMundo1.tscn",
+      "type": "file",
+      "name": "AmbienteMundo1.tscn",
+      "filePath": "Escenas/AmbienteMundo1.tscn",
+      "lineRange": [
+        1,
+        6
+      ],
+      "summary": "Escena de Godot que define AmbienteMundo1 y la composición de nodos usada en el juego.",
+      "tags": [
+        "escena",
+        "godot",
+        "mundo",
+        "controlador"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:Escenas/camara_2.gd",
+      "type": "file",
+      "name": "camara_2.gd",
+      "filePath": "Escenas/camara_2.gd",
+      "lineRange": [
+        1,
+        55
+      ],
+      "summary": "Archivo camara_2.gd integrado en la estructura del proyecto con 30 líneas no vacías.",
+      "tags": [
+        "escena",
+        "godot"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Escenas/camara_2.gd:_ready",
+      "type": "function",
+      "name": "_ready",
+      "filePath": "Escenas/camara_2.gd",
+      "lineRange": [
+        7,
+        13
+      ],
+      "summary": "Función _ready definida en camara_2.gd; participa en la lógica específica de este módulo.",
+      "tags": [
+        "escena",
+        "godot",
+        "funcion"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:Escenas/camara_2.gd:_process",
+      "type": "function",
+      "name": "_process",
+      "filePath": "Escenas/camara_2.gd",
+      "lineRange": [
+        14,
+        22
+      ],
+      "summary": "Función _process definida en camara_2.gd; participa en la lógica específica de este módulo.",
+      "tags": [
+        "escena",
+        "godot",
+        "funcion"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:Escenas/DialogoUI.tscn",
+      "type": "file",
+      "name": "DialogoUI.tscn",
+      "filePath": "Escenas/DialogoUI.tscn",
+      "lineRange": [
+        1,
+        95
+      ],
+      "summary": "Escena de Godot que define DialogoUI y la composición de nodos usada en el juego.",
+      "tags": [
+        "escena",
+        "godot",
+        "dialogo",
+        "npc"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:Escenas/EnemigoFlotanteHorizontal.tscn",
+      "type": "file",
+      "name": "EnemigoFlotanteHorizontal.tscn",
+      "filePath": "Escenas/EnemigoFlotanteHorizontal.tscn",
+      "lineRange": [
+        1,
+        38
+      ],
+      "summary": "Escena de Godot que define EnemigoFlotanteHorizontal y la composición de nodos usada en el juego.",
+      "tags": [
+        "escena",
+        "godot",
+        "enemigo",
+        "ia"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:Escenas/EnemigoFlotanteVertical.tscn",
+      "type": "file",
+      "name": "EnemigoFlotanteVertical.tscn",
+      "filePath": "Escenas/EnemigoFlotanteVertical.tscn",
+      "lineRange": [
+        1,
+        38
+      ],
+      "summary": "Escena de Godot que define EnemigoFlotanteVertical y la composición de nodos usada en el juego.",
+      "tags": [
+        "escena",
+        "godot",
+        "enemigo",
+        "ia"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:Escenas/EnemigoPatrulla.tscn",
+      "type": "file",
+      "name": "EnemigoPatrulla.tscn",
+      "filePath": "Escenas/EnemigoPatrulla.tscn",
+      "lineRange": [
+        1,
+        37
+      ],
+      "summary": "Escena de Godot que define EnemigoPatrulla y la composición de nodos usada en el juego.",
+      "tags": [
+        "escena",
+        "godot",
+        "enemigo",
+        "ia"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:Escenas/EnemigoPerseguidor.tscn",
+      "type": "file",
+      "name": "EnemigoPerseguidor.tscn",
+      "filePath": "Escenas/EnemigoPerseguidor.tscn",
+      "lineRange": [
+        1,
+        44
+      ],
+      "summary": "Escena de Godot que define EnemigoPerseguidor y la composición de nodos usada en el juego.",
+      "tags": [
+        "escena",
+        "godot",
+        "enemigo",
+        "ia"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:Escenas/FarolDecorativo.tscn",
+      "type": "file",
+      "name": "FarolDecorativo.tscn",
+      "filePath": "Escenas/FarolDecorativo.tscn",
+      "lineRange": [
+        1,
+        84
+      ],
+      "summary": "Escena de Godot que define FarolDecorativo y la composición de nodos usada en el juego.",
+      "tags": [
+        "escena",
+        "godot"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:Escenas/HUD.tscn",
+      "type": "file",
+      "name": "HUD.tscn",
+      "filePath": "Escenas/HUD.tscn",
+      "lineRange": [
+        1,
+        170
+      ],
+      "summary": "Escena de Godot que define HUD y la composición de nodos usada en el juego.",
+      "tags": [
+        "escena",
+        "godot",
+        "hud",
+        "ui"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:Escenas/JefeSombras.tscn",
+      "type": "file",
+      "name": "JefeSombras.tscn",
+      "filePath": "Escenas/JefeSombras.tscn",
+      "lineRange": [
+        1,
+        45
+      ],
+      "summary": "Escena de Godot que define JefeSombras y la composición de nodos usada en el juego.",
+      "tags": [
+        "escena",
+        "godot",
+        "enemigo",
+        "ia"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:Escenas/Llave.tscn",
+      "type": "file",
+      "name": "Llave.tscn",
+      "filePath": "Escenas/Llave.tscn",
+      "lineRange": [
+        1,
+        25
+      ],
+      "summary": "Escena de Godot que define Llave y la composición de nodos usada en el juego.",
+      "tags": [
+        "escena",
+        "godot"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:Escenas/LlaveJefe.tscn",
+      "type": "file",
+      "name": "LlaveJefe.tscn",
+      "filePath": "Escenas/LlaveJefe.tscn",
+      "lineRange": [
+        1,
+        25
+      ],
+      "summary": "Escena de Godot que define LlaveJefe y la composición de nodos usada en el juego.",
+      "tags": [
+        "escena",
+        "godot",
+        "enemigo",
+        "ia"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:Escenas/MainGame.tscn",
+      "type": "file",
+      "name": "MainGame.tscn",
+      "filePath": "Escenas/MainGame.tscn",
+      "lineRange": [
+        1,
+        1070
+      ],
+      "summary": "Escena de Godot que define MainGame y la composición de nodos usada en el juego.",
+      "tags": [
+        "escena",
+        "godot"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "file:Escenas/Manuel de usuario.tscn",
+      "type": "file",
+      "name": "Manuel de usuario.tscn",
+      "filePath": "Escenas/Manuel de usuario.tscn",
+      "lineRange": [
+        1,
+        502
+      ],
+      "summary": "Escena de Godot que define Manuel de usuario y la composición de nodos usada en el juego.",
+      "tags": [
+        "escena",
+        "godot"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "file:Escenas/Menu.tscn",
+      "type": "file",
+      "name": "Menu.tscn",
+      "filePath": "Escenas/Menu.tscn",
+      "lineRange": [
+        1,
+        183
+      ],
+      "summary": "Escena de Godot que define Menu y la composición de nodos usada en el juego.",
+      "tags": [
+        "escena",
+        "godot",
+        "menu",
+        "ui"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:Escenas/MenuOpciones.tscn",
+      "type": "file",
+      "name": "MenuOpciones.tscn",
+      "filePath": "Escenas/MenuOpciones.tscn",
+      "lineRange": [
+        1,
+        154
+      ],
+      "summary": "Escena de Godot que define MenuOpciones y la composición de nodos usada en el juego.",
+      "tags": [
+        "escena",
+        "godot",
+        "menu",
+        "ui"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:Escenas/MenuPausa.tscn",
+      "type": "file",
+      "name": "MenuPausa.tscn",
+      "filePath": "Escenas/MenuPausa.tscn",
+      "lineRange": [
+        1,
+        185
+      ],
+      "summary": "Escena de Godot que define MenuPausa y la composición de nodos usada en el juego.",
+      "tags": [
+        "escena",
+        "godot",
+        "menu",
+        "ui"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:Escenas/Mundo2.tscn",
+      "type": "file",
+      "name": "Mundo2.tscn",
+      "filePath": "Escenas/Mundo2.tscn",
+      "lineRange": [
+        1,
+        700
+      ],
+      "summary": "Escena de Godot que define Mundo2 y la composición de nodos usada en el juego.",
+      "tags": [
+        "escena",
+        "godot",
+        "mundo",
+        "controlador"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "file:Escenas/MuroCarne.tscn",
+      "type": "file",
+      "name": "MuroCarne.tscn",
+      "filePath": "Escenas/MuroCarne.tscn",
+      "lineRange": [
+        1,
+        32
+      ],
+      "summary": "Escena de Godot que define MuroCarne y la composición de nodos usada en el juego.",
+      "tags": [
+        "escena",
+        "godot",
+        "enemigo",
+        "ia"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:Escenas/NPC.tscn",
+      "type": "file",
+      "name": "NPC.tscn",
+      "filePath": "Escenas/NPC.tscn",
+      "lineRange": [
+        1,
+        51
+      ],
+      "summary": "Escena de Godot que define NPC y la composición de nodos usada en el juego.",
+      "tags": [
+        "escena",
+        "godot",
+        "dialogo",
+        "npc"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:Escenas/NPCInmediato.tscn",
+      "type": "file",
+      "name": "NPCInmediato.tscn",
+      "filePath": "Escenas/NPCInmediato.tscn",
+      "lineRange": [
+        1,
+        47
+      ],
+      "summary": "Escena de Godot que define NPCInmediato y la composición de nodos usada en el juego.",
+      "tags": [
+        "escena",
+        "godot",
+        "dialogo",
+        "npc"
+      ],
+      "complexity": "simple"
+    }
+  ],
+  "edges": [
+    {
+      "source": "file:Escenas/AltarGafas.tscn",
+      "target": "file:Scripts/altar_gafas.gd",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "description": "Referencia interna mediante ruta res://."
+    },
+    {
+      "source": "file:Escenas/AmbienteMundo1.tscn",
+      "target": "file:Scripts/ambiente_mundo_1.gd",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "description": "Referencia interna mediante ruta res://."
+    },
+    {
+      "source": "file:Escenas/camara_2.gd",
+      "target": "function:Escenas/camara_2.gd:_ready",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1,
+      "description": "El archivo contiene esta función."
+    },
+    {
+      "source": "file:Escenas/camara_2.gd",
+      "target": "function:Escenas/camara_2.gd:_process",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1,
+      "description": "El archivo contiene esta función."
+    },
+    {
+      "source": "file:Escenas/DialogoUI.tscn",
+      "target": "file:Scripts/dialogo_ui.gd",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "description": "Referencia interna mediante ruta res://."
+    },
+    {
+      "source": "file:Escenas/EnemigoFlotanteHorizontal.tscn",
+      "target": "file:Scripts/enemigo_flotante_horizontal.gd",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "description": "Referencia interna mediante ruta res://."
+    },
+    {
+      "source": "file:Escenas/EnemigoFlotanteHorizontal.tscn",
+      "target": "file:Scripts/sprite_animado_frames.gd",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "description": "Referencia interna mediante ruta res://."
+    },
+    {
+      "source": "file:Escenas/EnemigoFlotanteVertical.tscn",
+      "target": "file:Scripts/enemigo_flotante_vertical.gd",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "description": "Referencia interna mediante ruta res://."
+    },
+    {
+      "source": "file:Escenas/EnemigoFlotanteVertical.tscn",
+      "target": "file:Scripts/sprite_animado_frames.gd",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "description": "Referencia interna mediante ruta res://."
+    },
+    {
+      "source": "file:Escenas/EnemigoPatrulla.tscn",
+      "target": "file:Scripts/enemigo_patrulla.gd",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "description": "Referencia interna mediante ruta res://."
+    },
+    {
+      "source": "file:Escenas/EnemigoPatrulla.tscn",
+      "target": "file:Scripts/sprite_animado_frames.gd",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "description": "Referencia interna mediante ruta res://."
+    },
+    {
+      "source": "file:Escenas/EnemigoPerseguidor.tscn",
+      "target": "file:Scripts/enemigo_perseguidor.gd",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "description": "Referencia interna mediante ruta res://."
+    },
+    {
+      "source": "file:Escenas/EnemigoPerseguidor.tscn",
+      "target": "file:Scripts/sprite_animado_frames.gd",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "description": "Referencia interna mediante ruta res://."
+    },
+    {
+      "source": "file:Escenas/FarolDecorativo.tscn",
+      "target": "file:Scripts/farol_decorativo.gd",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "description": "Referencia interna mediante ruta res://."
+    },
+    {
+      "source": "file:Escenas/HUD.tscn",
+      "target": "file:Scripts/hud.gd",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "description": "Referencia interna mediante ruta res://."
+    },
+    {
+      "source": "file:Escenas/JefeSombras.tscn",
+      "target": "file:Scripts/jefe_sombras.gd",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "description": "Referencia interna mediante ruta res://."
+    },
+    {
+      "source": "file:Escenas/JefeSombras.tscn",
+      "target": "file:Scripts/sprite_animado_frames.gd",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "description": "Referencia interna mediante ruta res://."
+    },
+    {
+      "source": "file:Escenas/Llave.tscn",
+      "target": "file:Scripts/llave_interactiva.gd",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "description": "Referencia interna mediante ruta res://."
+    },
+    {
+      "source": "file:Escenas/LlaveJefe.tscn",
+      "target": "file:Scripts/llave_interactiva.gd",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "description": "Referencia interna mediante ruta res://."
+    },
+    {
+      "source": "file:Escenas/MainGame.tscn",
+      "target": "file:Scripts/main_game.gd",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "description": "Referencia interna mediante ruta res://."
+    },
+    {
+      "source": "file:Escenas/MainGame.tscn",
+      "target": "file:Escenas/Personaje.tscn",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "description": "Referencia interna mediante ruta res://."
+    },
+    {
+      "source": "file:Escenas/MainGame.tscn",
+      "target": "file:Scripts/Seguir-Camara.gd",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "description": "Referencia interna mediante ruta res://."
+    },
+    {
+      "source": "file:Escenas/MainGame.tscn",
+      "target": "config:tile_set.tres",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "description": "Referencia interna mediante ruta res://."
+    },
+    {
+      "source": "file:Escenas/MainGame.tscn",
+      "target": "file:Escenas/Puerta.tscn",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "description": "Referencia interna mediante ruta res://."
+    },
+    {
+      "source": "file:Escenas/MainGame.tscn",
+      "target": "file:Escenas/PuertaTeletransporte.tscn",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "description": "Referencia interna mediante ruta res://."
+    },
+    {
+      "source": "file:Escenas/MainGame.tscn",
+      "target": "file:Escenas/HUD.tscn",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "description": "Referencia interna mediante ruta res://."
+    },
+    {
+      "source": "file:Escenas/MainGame.tscn",
+      "target": "file:Escenas/Llave.tscn",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "description": "Referencia interna mediante ruta res://."
+    },
+    {
+      "source": "file:Escenas/MainGame.tscn",
+      "target": "file:Escenas/PuzzleSecuencia.tscn",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "description": "Referencia interna mediante ruta res://."
+    },
+    {
+      "source": "file:Escenas/MainGame.tscn",
+      "target": "file:Escenas/EnemigoPatrulla.tscn",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "description": "Referencia interna mediante ruta res://."
+    },
+    {
+      "source": "file:Escenas/MainGame.tscn",
+      "target": "file:Escenas/EnemigoPerseguidor.tscn",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "description": "Referencia interna mediante ruta res://."
+    },
+    {
+      "source": "file:Escenas/MainGame.tscn",
+      "target": "file:Escenas/EnemigoFlotanteHorizontal.tscn",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "description": "Referencia interna mediante ruta res://."
+    },
+    {
+      "source": "file:Escenas/MainGame.tscn",
+      "target": "file:Escenas/EnemigoFlotanteVertical.tscn",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "description": "Referencia interna mediante ruta res://."
+    },
+    {
+      "source": "file:Escenas/MainGame.tscn",
+      "target": "file:Escenas/Plataforma.tscn",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "description": "Referencia interna mediante ruta res://."
+    },
+    {
+      "source": "file:Escenas/MainGame.tscn",
+      "target": "file:Escenas/camara_2.gd",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "description": "Referencia interna mediante ruta res://."
+    },
+    {
+      "source": "file:Escenas/MainGame.tscn",
+      "target": "file:Escenas/MenuPausa.tscn",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "description": "Referencia interna mediante ruta res://."
+    },
+    {
+      "source": "file:Escenas/MainGame.tscn",
+      "target": "file:Escenas/plataforma_gafas.tscn",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "description": "Referencia interna mediante ruta res://."
+    },
+    {
+      "source": "file:Escenas/MainGame.tscn",
+      "target": "file:Escenas/AltarGafas.tscn",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "description": "Referencia interna mediante ruta res://."
+    },
+    {
+      "source": "file:Escenas/MainGame.tscn",
+      "target": "file:Escenas/PuzzleGafas.tscn",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "description": "Referencia interna mediante ruta res://."
+    },
+    {
+      "source": "file:Escenas/MainGame.tscn",
+      "target": "file:Scripts/checkpoint_activador.gd",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "description": "Referencia interna mediante ruta res://."
+    },
+    {
+      "source": "file:Escenas/MainGame.tscn",
+      "target": "file:Escenas/JefeSombras.tscn",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "description": "Referencia interna mediante ruta res://."
+    },
+    {
+      "source": "file:Escenas/MainGame.tscn",
+      "target": "file:Escenas/TotemJefe.tscn",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "description": "Referencia interna mediante ruta res://."
+    },
+    {
+      "source": "file:Escenas/MainGame.tscn",
+      "target": "file:Escenas/NPC.tscn",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "description": "Referencia interna mediante ruta res://."
+    },
+    {
+      "source": "file:Escenas/MainGame.tscn",
+      "target": "file:Shaders/vigneta_distorsion.gdshader",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "description": "Referencia interna mediante ruta res://."
+    },
+    {
+      "source": "file:Escenas/MainGame.tscn",
+      "target": "file:Scripts/fondo_mundo_1.gd",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "description": "Referencia interna mediante ruta res://."
+    },
+    {
+      "source": "file:Escenas/MainGame.tscn",
+      "target": "file:Scripts/sombras_plataformas.gd",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "description": "Referencia interna mediante ruta res://."
+    },
+    {
+      "source": "file:Escenas/MainGame.tscn",
+      "target": "file:Escenas/FarolDecorativo.tscn",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "description": "Referencia interna mediante ruta res://."
+    },
+    {
+      "source": "file:Escenas/MainGame.tscn",
+      "target": "file:Escenas/AmbienteMundo1.tscn",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "description": "Referencia interna mediante ruta res://."
+    },
+    {
+      "source": "file:Escenas/MainGame.tscn",
+      "target": "file:Scripts/interactivo_base.gd",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "description": "Referencia interna mediante ruta res://."
+    },
+    {
+      "source": "file:Escenas/MainGame.tscn",
+      "target": "file:Escenas/Mundo2.tscn",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "description": "Referencia interna mediante ruta res://."
+    },
+    {
+      "source": "file:Escenas/Manuel de usuario.tscn",
+      "target": "file:Scripts/perso_der.gd",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "description": "Referencia interna mediante ruta res://."
+    },
+    {
+      "source": "file:Escenas/Manuel de usuario.tscn",
+      "target": "file:Scripts/perso_izq.gd",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "description": "Referencia interna mediante ruta res://."
+    },
+    {
+      "source": "file:Escenas/Manuel de usuario.tscn",
+      "target": "file:Scripts/correr.gd",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "description": "Referencia interna mediante ruta res://."
+    },
+    {
+      "source": "file:Escenas/Manuel de usuario.tscn",
+      "target": "file:Scripts/salto.gd",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "description": "Referencia interna mediante ruta res://."
+    },
+    {
+      "source": "file:Escenas/Manuel de usuario.tscn",
+      "target": "file:Scripts/perso.gd",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "description": "Referencia interna mediante ruta res://."
+    },
+    {
+      "source": "file:Escenas/Manuel de usuario.tscn",
+      "target": "file:Escenas/Menu.tscn",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "description": "Referencia interna mediante ruta res://."
+    },
+    {
+      "source": "file:Escenas/Menu.tscn",
+      "target": "file:Scripts/menu.gd",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "description": "Referencia interna mediante ruta res://."
+    },
+    {
+      "source": "file:Escenas/MenuOpciones.tscn",
+      "target": "file:Scripts/menuOpciones.gd",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "description": "Referencia interna mediante ruta res://."
+    },
+    {
+      "source": "file:Escenas/MenuPausa.tscn",
+      "target": "file:Scripts/menu_pausa.gd",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "description": "Referencia interna mediante ruta res://."
+    },
+    {
+      "source": "file:Escenas/Mundo2.tscn",
+      "target": "file:Escenas/plataforma_gafas.tscn",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "description": "Referencia interna mediante ruta res://."
+    },
+    {
+      "source": "file:Escenas/Mundo2.tscn",
+      "target": "file:Escenas/Plataforma.tscn",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "description": "Referencia interna mediante ruta res://."
+    },
+    {
+      "source": "file:Escenas/Mundo2.tscn",
+      "target": "file:Escenas/Puerta.tscn",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "description": "Referencia interna mediante ruta res://."
+    },
+    {
+      "source": "file:Escenas/Mundo2.tscn",
+      "target": "file:Scripts/mundo_2.gd",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "description": "Referencia interna mediante ruta res://."
+    },
+    {
+      "source": "file:Escenas/Mundo2.tscn",
+      "target": "file:Escenas/Personaje.tscn",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "description": "Referencia interna mediante ruta res://."
+    },
+    {
+      "source": "file:Escenas/Mundo2.tscn",
+      "target": "file:Escenas/HUD.tscn",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "description": "Referencia interna mediante ruta res://."
+    },
+    {
+      "source": "file:Escenas/MuroCarne.tscn",
+      "target": "file:Scripts/muro_carne.gd",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "description": "Referencia interna mediante ruta res://."
+    },
+    {
+      "source": "file:Escenas/NPC.tscn",
+      "target": "file:Scripts/npc_dialogo.gd",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "description": "Referencia interna mediante ruta res://."
+    },
+    {
+      "source": "file:Escenas/NPC.tscn",
+      "target": "file:Escenas/DialogoUI.tscn",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "description": "Referencia interna mediante ruta res://."
+    },
+    {
+      "source": "file:Escenas/NPCInmediato.tscn",
+      "target": "file:Scripts/npc_dialogo.gd",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "description": "Referencia interna mediante ruta res://."
+    },
+    {
+      "source": "file:Escenas/NPCInmediato.tscn",
+      "target": "file:Escenas/DialogoUI.tscn",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7,
+      "description": "Referencia interna mediante ruta res://."
+    }
+  ]
+}

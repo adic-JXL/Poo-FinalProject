@@ -1,0 +1,44 @@
+# .understandignore - patterns for files/dirs to exclude from analysis
+# Syntax: same as .gitignore (globs, # comments, ! negation, trailing / for dirs)
+# Lines below are suggestions - uncomment to activate.
+# Use ! prefix to force-include something excluded by defaults.
+#
+# Built-in defaults (always excluded unless negated):
+#   node_modules/, .git/, dist/, build/, obj/, *.lock, *.min.js, etc.
+#
+# --- From .gitignore (uncomment to exclude) ---
+
+.godot/
+.godot_tmp*/
+.godot_user/
+.understand-anything/tmp/
+.understand-anything/intermediate/
+/android/
+.godot_tmp/
+.godot_tmp_check/
+.godot_tmp_check_menu/
+.godot_tmp_test_clean/
+.godot_tmp_test_clean2/
+.godot_user/
+.tmp_zip_test/
+.tmp_zip_wallgreen/
+.tmp_zip_worldfinal/
+_tmp_assets_zip3/
+tmp_npc_asset_pack/
+tmp_npc_asset_pack.zip
+
+# --- Detected directories (uncomment to exclude) ---
+
+Fuentes/
+Imagenes/
+videos/
+landing/assets/
+Debug/
+*.uid
+*.import
+
+# --- Test file patterns (uncomment to exclude) ---
+
+# *.test.*
+# *.spec.*
+# *.snap
